@@ -63,12 +63,16 @@
     </scenes>
     <resources>
 <<<<<<< HEAD
+<<<<<<< HEAD
 <<<<<<< Updated upstream
         <image name="Symptoms (1).png" width="61" height="56"/>
 =======
         <image name="Appointments.png" width="65" height="66"/>
         <image name="Medications.png" width="43" height="60"/>
 >>>>>>> Stashed changes
+=======
+        <image name="Medications.png" width="43" height="60"/>
+>>>>>>> parent of 23cf27d... changed icons
 =======
         <image name="Medications.png" width="43" height="60"/>
 >>>>>>> parent of 23cf27d... changed icons
