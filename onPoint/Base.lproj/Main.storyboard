@@ -32,7 +32,7 @@
                                         <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="19x-Rk-fad"/>
-                                    <barButtonItem title="Item" id="Gh8-kJ-TbE">
+                                    <barButtonItem image="Appointments.png" id="Gh8-kJ-TbE">
                                         <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                     </barButtonItem>
                                     <barButtonItem style="plain" systemItem="flexibleSpace" id="3V9-pt-n5X"/>
@@ -62,6 +62,11 @@
         </scene>
     </scenes>
     <resources>
+<<<<<<< Updated upstream
         <image name="Symptoms (1).png" width="61" height="56"/>
+=======
+        <image name="Appointments.png" width="65" height="66"/>
+        <image name="Medications.png" width="43" height="60"/>
+>>>>>>> Stashed changes
     </resources>
 </document>
