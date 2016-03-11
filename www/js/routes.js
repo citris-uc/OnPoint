@@ -13,12 +13,6 @@ angular.module('app.routes', [])
     abstract:true
   })
 
-  // .state('login', {
-  //   url: '/page7',
-  //   templateUrl: 'templates/login.html',
-  //   controller: 'loginCtrl'
-  // })
-
   .state('tabsController.measurements', {
     url: '/measurements',
     views: {
@@ -48,6 +42,13 @@ angular.module('app.routes', [])
       }
     }
   })
+
+  // .state('login', {
+  //   url: '/page7',
+  //   templateUrl: 'templates/login.html',
+  //   controller: 'loginCtrl'
+  // })
+
 
   .state('addGoal', {
     url: '/add-goal',
