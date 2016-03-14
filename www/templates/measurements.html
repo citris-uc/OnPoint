@@ -1,24 +1,31 @@
-<ion-view title="Measurements">
-  <ion-content overflow-scroll="true" padding="true" class="has-header">
-    <form class="list">
-      <ion-list>
-        <label class="item item-input">
-          <span class="input-label">Weight</span>
-          <input type="number" placeholder="incomplete">
-        </label>
-        <label class="item item-input">
-          <span class="input-label">Blood Pressure</span>
-          <input type="number" placeholder="incomplete">
-        </label>
-        <label class="item item-input">
-          <span class="input-label">Heart Rate</span>
-          <input type="number" placeholder="incomplete">
-        </label>
-      </ion-list>
-    </form>
 
-    Look into controllers.js and services.js to see how this object rendered:
-    <br></br>
-    {{measurements}}
-  </ion-content>
-</ion-view>
+  <ion-view title="Measurements"> <!-- header title -->
+    <ion-nav-buttons side="right">
+        <button class="button button-clear button-positive" >Done</button>
+    </ion-nav-buttons>
+    <ion-content has-header="true" overflow-scroll="true" padding="true" class="has-header">
+      <form class="list">
+        <ion-list class>
+          <label class="item item-input">
+            <span class="input-label"><strong>Weight</strong></span>
+            <input type="number" placeholder="incomplete"></input>
+          </label>
+          <label class="item item-input">
+            <span class="input-label"><strong>Blood Pressure</strong></span>
+            <input type="number" placeholder="incomplete"></input>
+          </label>
+          <label class="item item-input">
+            <span class="input-label"><strong>Heart Rate</strong></span>
+            <input type="number" placeholder="incomplete"></input>
+          </label>
+        </ion-list>
+      </form>
+      <button class="button button-clear button-positive"; text-align="center" >
+      View History
+      </button>
+       <br><br>
+      Look into controllers.js and services.js to see how this object rendered:
+      <br></br>
+      {{measurements}}
+    </ion-content>
+  </ion-view>
