@@ -10,73 +10,25 @@
 	      		<a class="button icon-right ion-chevron-right button-clear button-dark"></a>
 		   	</div>
 		      
-		    <table>
-		        <caption ng-bind="curMonth"></caption>
-		        <tr>
-		          <th>S</th>
-		          <th>M</th>   
-		          <th>T</th>
-		          <th>W</th>
-		          <th>T</th>   
-		          <th>F</th>
-		          <th>S</th>
-		        </tr>
-		       
-		        <tr>
-		          <td ng-bind="cell[1]" ng-click="onClickFunctions(cell[1])" />
-		          <td ng-bind="cell[2]" ng-click="onClickFunctions(cell[2])" />
-		          <td ng-bind="cell[3]" ng-click="onClickFunctions(cell[3])" />
-		          <td ng-bind="cell[4]" ng-click="onClickFunctions(cell[4])" />
-		          <td ng-bind="cell[5]" ng-click="onClickFunctions(cell[5])" />
-		          <td ng-bind="cell[6]" ng-click="onClickFunctions(cell[6])" />
-		          <td ng-bind="cell[7]" ng-click="onClickFunctions(cell[7])" />
-		        </tr>
-
-		        <tr>
-		          <td ng-bind="cell[8]" ng-click="onClickFunctions(cell[8])"/>
-		          <td ng-bind="cell[9]" ng-click="onClickFunctions(cell[9])"/>
-		          <td ng-bind="cell[10]" ng-click="onClickFunctions(cell[10])"/>
-		          <td ng-bind="cell[11]" ng-click="onClickFunctions(cell[11])"/>
-		          <td ng-bind="cell[12]" ng-click="onClickFunctions(cell[12])"/>
-		          <td ng-bind="cell[13]" ng-click="onClickFunctions(cell[13])"/>
-		          <td ng-bind="cell[14]" ng-click="onClickFunctions(cell[14])" />
-		        </tr>
-		       
-		        <tr>
-		          <td ng-bind="cell[15]" ng-click="onClickFunctions(cell[15])"/>
-		          <td ng-bind="cell[16]" ng-click="onClickFunctions(cell[16])"/>
-		          <td ng-bind="cell[17]" ng-click="onClickFunctions(cell[17])"/>
-		          <td ng-bind="cell[18]" ng-click="onClickFunctions(cell[18])"/>
-		          <td ng-bind="cell[19]" ng-click="onClickFunctions(cell[19])"/>
-		          <td ng-bind="cell[20]" ng-click="onClickFunctions(cell[20])"/>
-		          <td ng-bind="cell[21]" ng-click="onClickFunctions(cell[21])"/>
-		        </tr>
-		        
-		        <tr>
-		          <td ng-bind="cell[22]" ng-click="onClickFunctions(cell[22])" />
-		          <td ng-bind="cell[23]" ng-click="onClickFunctions(cell[23])"/>
-		          <td ng-bind="cell[24]" ng-click="onClickFunctions(cell[24])"/>
-		          <td ng-bind="cell[25]" ng-click="onClickFunctions(cell[25])"/>
-		          <td ng-bind="cell[26]" ng-click="onClickFunctions(cell[26])"/>
-		          <td ng-bind="cell[27]" ng-click="onClickFunctions(cell[27])"/>
-		          <td ng-bind="cell[28]" ng-click="onClickFunctions(cell[28])"/>
-		        </tr>
-
-		        <tr>
-		          <td ng-bind="cell[29]" ng-click="onClickFunctions(cell[29])"/>
-		          <td ng-bind="cell[30]" ng-click="onClickFunctions(cell[30])"/>
-		          <td ng-bind="cell[31]" ng-click="onClickFunctions(cell[31])"/>
-		          <td ng-bind="cell[32]" ng-click="onClickFunctions(cell[32])"/>
-		          <td ng-bind="cell[33]" ng-click="onClickFunctions(cell[33])"/>
-		          <td ng-bind="cell[34]" ng-click="onClickFunctions(cell[34])"/>
-		          <td ng-bind="cell[35]" ng-click="onClickFunctions(cell[35])"/>
-		        </tr>
-
-		        <tr>
-		          <td ng-bind="cell[36]" ng-click="onClickFunctions(cell[36])"/>
-		          <td ng-bind="cell[37]" ng-click="onClickFunctions(cell[37])"/>
-		        </tr>
-
+		    <table >
+		    	<thead>
+			        <tr>
+			          <th>S</th>
+			          <th>M</th>   
+			          <th>T</th>
+			          <th>W</th>
+			          <th>T</th>   
+			          <th>F</th>
+			          <th>S</th>
+			        </tr>
+		        </thead>
+		        <tbody>
+			        <tr ng:repeat="week in weeks">
+				        <td ng-repeat="day in week track by $index">
+			                 {{day}}
+			            </td>
+			        </tr>       
+			    </tbody>
 		    </table>
 		</div>
     </ion-content>
