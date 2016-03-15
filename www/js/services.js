@@ -49,15 +49,15 @@ angular.module('app.services', [])
     id: 1,
     timestamp: "2016-03-01T10:00",
     weight: "160",
-    bp_systolic: "120",
-    bp_diastolic: "112",
+    systolic: "120",
+    diastolic: "112",
     heart_rate: "60"
   }, {
     id: 2,
     timestamp: "2016-03-02T10:00",
     weight: "165",
-    bp_systolic: "150",
-    bp_diastolic: "130",
+    systolic: "150",
+    diastolic: "130",
     heart_rate: "75"
   }];
 
