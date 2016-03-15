@@ -54,17 +54,14 @@ angular.module('app.routes', [])
     }
   })
 
-  // .state('login', {
-  //   url: '/page7',
-  //   templateUrl: 'templates/login.html',
-  //   controller: 'loginCtrl'
-  // })
-
-
-  .state('addGoal', {
+  .state('tabsController.addGoal', {
     url: '/add-goal',
-    templateUrl: 'templates/addGoal.html',
-    controller: 'addGoalCtrl'
+    views: {
+      'goals-tab': {
+        templateUrl: 'templates/addGoal.html',
+        controller: 'addGoalCtrl'
+      }
+    }
   })
 
   .state('appointment', {
