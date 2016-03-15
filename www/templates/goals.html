@@ -1,14 +1,36 @@
-<ion-view title="Goals">
-    <ion-content overflow-scroll="true" padding="true" class="has-header">
-        <ion-list>
-            <ion-item>Hello Mr. A</ion-item>
-            <ion-item>Personal goals (4)</ion-item>
-            <ion-item>Clinic goals(6)</ion-item>
-        </ion-list>
-        <a ui-sref="addGoal" id="goals-button3" class="button button-stable button-block button-small icon-left ion-ios-plus">Add a new personal goal</a>
 
+<ion-view title="Goals">
+    <!-- Add Goals + button -->
+    <ion-nav-buttons side="right" class="button-clear">
+        <button id="goals-button3" class="button button-icon icon ion-plus" ui-sref="addGoal" ></button>
+    </ion-nav-buttons>
+
+    <ion-content overflow-scroll="true" padding="true" class="has-header">
+
+        <!-- Cards for each goal type -->
+        <div class="card">
+            <div class="item item-divider">Personal goals ({{personal_goals.length}})</div>
+            <ion-list>
+                <ion-item ng-repeat="g in personal_goals">{{g.id}}. {{g.body}}</ion-item>
+            </ion-list>
+        </div>
+
+        <div class="card">
+            <div class="item item-divider">Clinical goals (x)</div>
+
+            <ion-list>
+                <!-- <ion-item ng-repeat="g in personal_goals">{{g.id}}. {{g.body}}</ion-item> -->
+                <ion-item>Placeholder</ion-item>
+            </ion-list>
+        </div>
+        <!-- <a ui-sref="addGoal" id="goals-button3" class="button button-stable button-block button-small icon-left ion-ios-plus">Add a new personal goal</a>-->
+ 
+        <!--
         Look into controllers.js and services.js to see how this object rendered:
         <br></br>
-        {{personal_goals}}
+        {{personal_goals}}-->
     </ion-content>
+
+
 </ion-view>
+
