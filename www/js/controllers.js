@@ -34,6 +34,16 @@ angular.module('app.controllers', [])
 
   var appointmentRecord = Appointment.get();
 
+  $scope.eventDates = []
+
+  for(var i = 0; i < appointmentRecord.length; i++){
+    //appointmentRecord[i].timestamp
+    var oneEventDay = new Date(appointmentRecord[i].timestamp);
+    $scope.eventDates.push(oneEventDay.getDate());
+
+    // $scope.eventDates.push(oneAppointmentDay.getDate());
+  }
+
 	var oDate = new Date();
   $scope.curDate = oDate;
   $scope.today = oDate.getDate();
