@@ -23,6 +23,16 @@ angular.module('app.routes', [])
     }
   })
 
+  .state('tabsController.medications', {
+    url: '/medications',
+    views: {
+      'medications-tab': {
+        templateUrl: 'templates/medications.html',
+        controller: 'medicationsCtrl'
+      }
+    }
+  })
+
   .state('tabsController.measurements', {
     url: '/measurements',
     views: {
