@@ -12,6 +12,9 @@ angular.module('app.controllers', [])
   $scope.measurements = Measurement.get();
 })
 
+.controller('medicationsCtrl', function($scope) {
+})
+
 .controller('addMeasurementsCtrl', function($scope, Measurement) {
   // We inject the Measurement factory so that we can query for the measurement
   // history.
