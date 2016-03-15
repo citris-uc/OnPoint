@@ -15,11 +15,31 @@ angular.module('app.controllers', [])
 
 })
 
-.controller('addMeasurementsCtrl', function($scope, Measurement) {
+.controller('addMeasurementsCtrl', function($scope, Measurement,$ionicPopup) {
   // We inject the Measurement factory so that we can query for the measurement
   // history.
   $scope.measurements = Measurement.get();
+  
+   $scope.bpAlert = function() {
+   var bpAlert = $ionicPopup.confirm({
+     title: 'Blood Pressure',
+     template: 'yolo'
+   });
+
+   bpAlert.then(function(res) {
+     if(res) {
+       console.log('You are sure');
+     } else {
+       console.log('You are not sure');
+     }
+   });
+ };
 })
+
+
+
+
+
 
 .controller('appointmentsCtrl', function($scope) {
 
