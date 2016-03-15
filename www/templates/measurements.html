@@ -8,7 +8,7 @@
         <ion-item class="view-measurement" ng-repeat="m in measurements">
           <p>{{m.timestamp | date:'MMM d, y h:mm a'}}</p>
           <p>Weight: {{m.weight}} lbs</p>
-          <p>Blood Pressure: {{m.bp_systolic}}/{{m.bp_diastolic}} mmHg</p>
+          <p>Blood Pressure: {{m.systolic}}/{{m.diastolic}} mmHg</p>
           <p>Heart Rate: {{m.heart_rate}} bpm</p>
           <!--- SHOULD WE DELETE A MEASUREMENT?
           <ion-option-button class="button-assertive" ng-click="remove(chat)">
