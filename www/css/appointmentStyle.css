@@ -1,0 +1,28 @@
+.appointment table {
+    border-collapse: collapse;
+    border: 0px ;
+}
+.appointment td.CurrentDay {
+  background-color:#FFF;
+  border:2px solid blue;
+}
+
+.appointment td.EventDay{
+ background-color : #FFF2CC;
+}
+.appointment .center {
+   margin: auto;
+   width: 80%;  
+   text-align: center;
+   position: relative;
+}
+.appointment .absleft {
+  position: absolute; 
+  left: 0; 
+  top: 0
+}
+.appointment .absright {
+  position: absolute; 
+  right: 0; 
+  top: 0
+}
