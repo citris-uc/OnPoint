@@ -1,0 +1,28 @@
+table {
+    border-collapse: collapse;
+    border: 0px ;
+}
+td.CurrentDay {
+  background-color:#FFF;
+  border:2px solid blue;
+}
+
+td.EventDay{
+ background-color : #FFF2CC;
+}
+.center {
+   margin: auto;
+   width: 80%;  
+   text-align: center;
+   position: relative;
+}
+.absleft {
+  position: absolute; 
+  left: 0; 
+  top: 0
+}
+.absright {
+  position: absolute; 
+  right: 0; 
+  top: 0
+}

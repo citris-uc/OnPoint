@@ -1,15 +1,17 @@
+
 <ion-view title="Appointments">
     <ion-nav-buttons side="left">
         <button class="button button-icon icon ion-home" ui-sref="/tabs"></button>
     </ion-nav-buttons>
     <ion-content overflow-scroll="true" padding="true" class="has-header">
         <div ng-controller="appointmentCtrl">
-		    <div> 
-		  		<a class="button icon-left ion-chevron-left button-clear button-dark"></a>
-	      		<span ng-bind="curDate | date:'MM/yyyy' "></span>
-	      		<a class="button icon-right ion-chevron-right button-clear button-dark"></a>
+		    <div class = "center"> 
+		  		<a class="button, absleft"><</a>
+	      		<!-- <span ng-bind="curDate | date:'MM/yyyy' "> March/2016</span> -->
+	      		<span> March/2016</span>
+	      		<a class="button, absright">></a>
 		   	</div>
-		      
+
 		    <table >
 		    	<thead>
 			        <tr>
@@ -29,6 +31,7 @@
 			            </td>
 			        </tr>       
 			    </tbody>
+
 		    </table>
 		</div>
     </ion-content>
