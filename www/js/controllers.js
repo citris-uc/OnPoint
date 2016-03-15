@@ -10,6 +10,12 @@ angular.module('app.controllers', [])
   $scope.measurements = Measurement.get();
 })
 
+.controller('addMeasurementsCtrl', function($scope, Measurement) {
+  // We inject the Measurement factory so that we can query for the measurement
+  // history.
+  $scope.measurements = Measurement.get();
+})
+
 .controller('appointmentsCtrl', function($scope) {
 
 })
@@ -50,7 +56,7 @@ angular.module('app.controllers', [])
           day++;
        }
     }
-  } 
+  }
 })
 
 .controller('symptomsSliderCtrl', function($scope) {

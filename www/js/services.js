@@ -47,15 +47,17 @@ angular.module('app.services', [])
 .factory("Measurement", function() {
   var measurements = [{
     id: 1,
-    timestamp: "2016-03-01 10:00",
+    timestamp: "2016-03-01T10:00",
     weight: "160",
-    blood_pressure: "150/140",
+    systolic: "120",
+    diastolic: "112",
     heart_rate: "60"
   }, {
     id: 2,
-    timestamp: "2016-03-02 10:00",
+    timestamp: "2016-03-02T10:00",
     weight: "165",
-    blood_pressure: "150/140",
+    systolic: "150",
+    diastolic: "130",
     heart_rate: "75"
   }];
 
