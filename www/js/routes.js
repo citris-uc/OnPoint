@@ -16,7 +16,7 @@ angular.module('app.routes', [])
   .state('tabsController.measurements', {
     url: '/measurements',
     views: {
-      'tab2': {
+      'measurements-tab': {
         templateUrl: 'templates/measurements.html',
         controller: 'measurementsCtrl'
       }
@@ -26,26 +26,18 @@ angular.module('app.routes', [])
   .state('tabsController.measurementAdd', {
     url: '/measurement-add',
     views: {
-      'tab2': {
+      'measurements-tab': {
         templateUrl: 'templates/measurements-add.html',
         controller: 'addMeasurementsCtrl'
       }
     }
-    /*
-    views: {
-      'tab2': {
-        templateUrl: 'templates/measurements-add.html',
-        controller: 'addMeasurementsCtrl'
-      }
-    }
-    */
   })
 
 
   .state('tabsController.appointments', {
     url: '/appointments',
     views: {
-      'tab3': {
+      'appointments-tab': {
         templateUrl: 'templates/appointments.html',
         controller: 'appointmentsCtrl'
       }
@@ -55,24 +47,21 @@ angular.module('app.routes', [])
   .state('tabsController.goals', {
     url: '/goals',
     views: {
-      'tab8': {
+      'goals-tab': {
         templateUrl: 'templates/goals.html',
         controller: 'goalsCtrl'
       }
     }
   })
 
-  // .state('login', {
-  //   url: '/page7',
-  //   templateUrl: 'templates/login.html',
-  //   controller: 'loginCtrl'
-  // })
-
-
-  .state('addGoal', {
+  .state('tabsController.addGoal', {
     url: '/add-goal',
-    templateUrl: 'templates/addGoal.html',
-    controller: 'addGoalCtrl'
+    views: {
+      'goals-tab': {
+        templateUrl: 'templates/addGoal.html',
+        controller: 'addGoalCtrl'
+      }
+    }
   })
 
   .state('appointment', {
