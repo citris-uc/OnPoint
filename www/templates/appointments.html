@@ -1,9 +1,38 @@
+
 <ion-view title="Appointments">
+    <ion-nav-buttons side="left">
+        <button class="button button-icon icon ion-home" ui-sref="/tabs"></button>
+    </ion-nav-buttons>
     <ion-content overflow-scroll="true" padding="true" class="has-header">
-        <a style="display:inline-block;" ui-sref="appointment">
-            <div style="text-align:center;">
-                <img src="img/3H2i0CdSQDuZOr5zt1A1_Screen Shot 2016-03-07 at 4.07.32 PM.png" width="100%" height="auto">
-            </div>
-        </a>
+        <div ng-controller="appointmentCtrl">
+		    <div class = "center"> 
+		  		<a class="button, absleft"><</a>
+	      		<!-- <span ng-bind="curDate | date:'MM/yyyy' "> March/2016</span> -->
+	      		<span> March/2016</span>
+	      		<a class="button, absright">></a>
+		   	</div>
+
+		    <table class = "center">
+		    	<thead>
+			        <tr>
+			          <th>S</th>
+			          <th>M</th>   
+			          <th>T</th>
+			          <th>W</th>
+			          <th>T</th>   
+			          <th>F</th>
+			          <th>S</th>
+			        </tr>
+		        </thead>
+		        <tbody>
+			        <tr ng-repeat="week in weeks">
+				        <td ng-repeat="day in week track by $index"  ng-class="{ 'CurrentDay': day == {{today}} }">
+			                 {{day}}
+			            </td>
+			        </tr>       
+			    </tbody>
+
+		    </table>
+		</div>
     </ion-content>
 </ion-view>
