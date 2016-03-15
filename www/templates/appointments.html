@@ -12,7 +12,7 @@
 	      		<a class="button, absright">></a>
 		   	</div>
 
-		    <table >
+		    <table class = "center">
 		    	<thead>
 			        <tr>
 			          <th>S</th>
@@ -26,7 +26,7 @@
 		        </thead>
 		        <tbody>
 			        <tr ng-repeat="week in weeks">
-				        <td ng-repeat="day in week track by $index">
+				        <td ng-repeat="day in week track by $index"  ng-class="{ 'CurrentDay': day == {{today}} }">
 			                 {{day}}
 			            </td>
 			        </tr>       
