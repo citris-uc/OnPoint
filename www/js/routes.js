@@ -27,7 +27,7 @@ angular.module('app.routes', [])
     url: '/appointments',
     views: {
       'tab3': {
-        templateUrl: 'templates/appointment.html',
+        templateUrl: 'templates/appointments.html',
         controller: 'appointmentsCtrl'
       }
     }
