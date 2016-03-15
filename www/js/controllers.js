@@ -4,7 +4,18 @@ angular.module('app.controllers', [])
 
 })
 
-.controller('measurementsCtrl', function($scope, Measurement) {
+.controller('measurementsCtrl', function($scope,$location, $state, Measurement) {
+  // We inject the Measurement factory so that we can query for the measurement
+  // history.
+  $scope.add = function() {
+  	$state.go('tabsController.measurementAdd');
+  };
+ 
+  $scope.measurements = Measurement.get();
+
+})
+
+.controller('addMeasurementsCtrl', function($scope, Measurement) {
   // We inject the Measurement factory so that we can query for the measurement
   // history.
   $scope.measurements = Measurement.get();
