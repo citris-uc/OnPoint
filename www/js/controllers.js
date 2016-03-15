@@ -27,6 +27,7 @@ angular.module('app.controllers', [])
 .controller('appointmentCtrl', function($scope) {
 	var oDate = new Date();
   $scope.curDate = oDate;
+  $scope.today = oDate.getDate();
 
   var firstDate = new Date();
   firstDate.setDate(1);
