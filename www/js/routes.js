@@ -14,7 +14,7 @@ angular.module('app.routes', [])
   })
 
   .state('tabsController.timeline', {
-    url: '/',
+    url: '/timeline',
     views: {
       'timeline-tab': {
         templateUrl: 'templates/timeline.html',
@@ -104,5 +104,5 @@ angular.module('app.routes', [])
     controller: 'measurementTipsCtrl'
   })
 
-  $urlRouterProvider.otherwise('/tabs/')
+  $urlRouterProvider.otherwise('/tabs/timeline')
 });
