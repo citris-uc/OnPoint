@@ -23,6 +23,25 @@ angular.module('app.routes', [])
     }
   })
 
+  .state('tabsController.measurementAdd', {
+    url: '/measurement-add',
+    views: {
+      'tab2': {
+        templateUrl: 'templates/measurements-add.html',
+        controller: 'addMeasurementsCtrl'
+      }
+    }
+    /*
+    views: {
+      'tab2': {
+        templateUrl: 'templates/measurements-add.html',
+        controller: 'addMeasurementsCtrl'
+      }
+    }
+    */
+  })
+
+
   .state('tabsController.appointments', {
     url: '/appointments',
     views: {
