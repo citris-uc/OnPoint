@@ -1,0 +1,14 @@
+/* Empty. Add your own CSS if you like */
+.input-label {
+	color: #439BF9;
+	display: inline-block;
+    float: left;
+    clear: left;
+    width: 150px;
+    text-align: right;
+}
+
+#history {
+	margin: auto;
+	width: 95%;
+}
