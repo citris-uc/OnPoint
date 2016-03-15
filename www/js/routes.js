@@ -13,6 +13,16 @@ angular.module('app.routes', [])
     abstract:true
   })
 
+  .state('tabsController.timeline', {
+    url: '/',
+    views: {
+      'timeline-tab': {
+        templateUrl: 'templates/timeline.html',
+        controller: 'timelineCtrl'
+      }
+    }
+  })
+
   .state('tabsController.measurements', {
     url: '/measurements',
     views: {

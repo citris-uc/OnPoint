@@ -1,7 +1,9 @@
 angular.module('app.controllers', [])
 
 .controller('loginCtrl', function($scope) {
+})
 
+.controller('timelineCtrl', function($scope) {
 })
 
 .controller('measurementsCtrl', function($scope, Measurement) {
@@ -19,7 +21,6 @@ angular.module('app.controllers', [])
 .controller('appointmentsCtrl', function($scope) {
 
 })
-
 .controller('goalsCtrl', function($scope, Goal) {
   // We inject the Goal factory so that we can query for the personal
   // goals associated with the user.
