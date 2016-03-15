@@ -104,5 +104,5 @@ angular.module('app.routes', [])
     controller: 'measurementTipsCtrl'
   })
 
-  $urlRouterProvider.otherwise('/tabs/measurements')
+  $urlRouterProvider.otherwise('/tabs/')
 });
