@@ -30,7 +30,10 @@ angular.module('app.controllers', [])
 
 })
 
-.controller('appointmentCtrl', function($scope) {
+.controller('appointmentCtrl', function($scope, Appointment) {
+
+  var appointmentRecord = Appointment.get();
+
 	var oDate = new Date();
   $scope.curDate = oDate;
   $scope.today = oDate.getDate();
