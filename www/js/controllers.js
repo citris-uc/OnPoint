@@ -33,15 +33,15 @@ angular.module('app.controllers', [])
 .controller('appointmentCtrl', function($scope, Appointment) {
 
   var appointmentRecord = Appointment.get();
-
-  $scope.eventDates = []
+  var eventDates = []
 
   for(var i = 0; i < appointmentRecord.length; i++){
-    //appointmentRecord[i].timestamp
     var oneEventDay = new Date(appointmentRecord[i].timestamp);
-    $scope.eventDates.push(oneEventDay.getDate());
+    eventDates.push(oneEventDay.getDate());
+  }
 
-    // $scope.eventDates.push(oneAppointmentDay.getDate());
+  $scope.isEventDay = function(day){
+    return (eventDates.indexOf(parseInt(day)) > -1);
   }
 
 	var oDate = new Date();

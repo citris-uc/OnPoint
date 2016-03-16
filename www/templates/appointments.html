@@ -27,14 +27,12 @@
 		        </thead>
 		        <tbody>
 			        <tr ng-repeat="week in weeks">
-				        <td ng-repeat="day in week track by $index"  ng-class="{ 'CurrentDay': day == {{today}} }">
+				        <td ng-repeat="day in week track by $index" ng-class="{ 'EventDay': isEventDay(day), 'CurrentDay': day == {{today}} }" >
 			                 {{day}}
 			            </td>
 			        </tr>       
 			    </tbody>
 		    </table>
-		    {{eventDates}}	
-
 		</div>
     </ion-content>
 </ion-view>
