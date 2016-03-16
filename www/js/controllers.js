@@ -32,17 +32,18 @@ angular.module('app.controllers', [])
                     $scope.newMeasurement.systolic,
                     $scope.newMeasurement.diastolic,
                     $scope.newMeasurement.heartRate);
-    $ionicHistory.goBack(); //calling back button manually.
+    $state.go('tabsController.measurements');
+    //$ionicHistory.goBack(); //calling back button manually.
   };
-  $scope.enableDone = function() {
+  $scope.disableDone = function() {
     
     if ($scope.newMeasurement.weight!=null || $scope.newMeasurement.heartRate!=null
         || $scope.newMeasurement.systolic!=null || $scope.newMeasurement.diastolic!=null) {
        console.log("DONE");
-       return true;
+       return false;
     } else {
        console.log("NOT DONE");
-       return false;
+       return true;
     }
     
     

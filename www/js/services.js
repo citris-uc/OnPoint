@@ -46,19 +46,17 @@ angular.module('app.services', [])
 // Measurement.get() will return all measurements associated with a user.
 .factory("Measurement", function() {
   var measurements = [{
-    id: 1,
     timestamp: "2016-03-01T10:00",
     weight: "160",
     systolic: "120",
     diastolic: "112",
-    heart_rate: "60"
+    heartRate: "60"
   }, {
-    id: 2,
     timestamp: "2016-03-02T10:00",
     weight: "165",
     systolic: "150",
     diastolic: "130",
-    heart_rate: "75"
+    heartRate: "75"
   }];
 
   return {
@@ -68,12 +66,11 @@ angular.module('app.services', [])
 
     add: function(date,newWeight,newSystolic,newDiastolic,newHR) {
       console.log(measurements.length);
-      measurements.push({id:measurements.length+1+"",
-                         timestamp: date,
-                         weight: (newWeight==null ? "-": newWeight),
-                         systolic: (newSystolic==null ? "-": newSystolic),
-                         diastolic: (newDiastolic==null ? "-": newDiastolic),
-                         heart_rate: (newHR==null ? "-": newHR)});
+      measurements.push({timestamp: date,
+                         weight: (newWeight),
+                         systolic: (newSystolic),
+                         diastolic: (newDiastolic),
+                         heartRate: (newHR)});
     }
   };
 
