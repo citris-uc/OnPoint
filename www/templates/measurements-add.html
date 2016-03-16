@@ -12,23 +12,23 @@
          <!--Weight **NOTE CANT LABEL ng-model's WITH A '-'--> 
           <label class="item item-input">
             <span class="input-label"><strong>Weight</strong></span>
-            <input style="width: 50px" class="measurement-input" type="number" placeholder="lbs" ng-model="weight"></input>
+            <input style="width: 50px" class="measurement-input" type="number" placeholder="lbs" ng-model="newMeasurement.weight"></input>
           </label>
 
           <!--Blood Pressure-->
           <label class="item item-input">
             <span class="input-label"><strong>Systolic Blood Pressure</strong></span>
-            <input class="measurement-input" type="number" placeholder="mmHg" ng-style="{'color': input.bpcolor}" ng-model="input.systolic" ng-blur="checkBP()"></input>
+            <input class="measurement-input" type="number" placeholder="mmHg" ng-style="{'color': newMeasurement.bpcolor}" ng-model="newMeasurement.systolic" ng-blur="checkBP()"></input>
           </label>
           <label class="item item-input">
             <span class="input-label"><strong>Diastolic Blood Pressure</strong></span>
-            <input class="measurement-input" type="number" placeholder="mmHg" ng-style="{'color': input.bpcolor}" ng-model="input.diastolic" ng-blur="checkBP()"></input>
+            <input class="measurement-input" type="number" placeholder="mmHg" ng-style="{'color': newMeasurement.bpcolor}" ng-model="newMeasurement.diastolic" ng-blur="checkBP()"></input>
           </label>
 
           <!--Heart Rate-->
           <label class="item item-input">
             <span class="input-label"><strong>Heart Rate</strong></span>
-            <input class="measurement-input" type="number" placeholder="bpm" ng-model="heart_rate"></input>
+            <input class="measurement-input" type="number" placeholder="bpm" ng-model="newMeasurement.heart_rate"></input>
           </label>
         </ion-list>
       </form>

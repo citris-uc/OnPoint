@@ -18,18 +18,18 @@ angular.module('app.controllers', [])
   // history.
 
   //Need to bind the ng-model to an object, thats why i declare input={}
-  $scope.input = {};
-  $scope.input.systolic = null;
-  $scope.input.diastolic = null;
-  $scope.input.bpcolor = 'black';
+  $scope.newMeasurement = {};
+  $scope.newMeasurement.systolic = null;
+  $scope.newMeasurement.diastolic = null;
+  $scope.newMeasurement.bpcolor = 'black';
   $scope.measurements = Measurement.get();
   $scope.checkBP = function() {
-    if ($scope.input.systolic!=null && $scope.input.diastolic!=null) {
-      if ($scope.input.systolic >160) { //hardcoded limits for now
-        $scope.input.bpcolor = 'red';
+    if ($scope.newMeasurement.systolic!=null && $scope.newMeasurement.diastolic!=null) {
+      if ($scope.newMeasurement.systolic >160) { //hardcoded limits for now
+        $scope.newMeasurement.bpcolor = 'red';
         $scope.bpAlert('Blood Pressure High'); 
-      } else if ($scope.input.systolic < 90){
-        $scope.input.bpcolor = 'red';
+      } else if ($scope.newMeasurement.systolic < 90){
+        $scope.newMeasurement.bpcolor = 'red';
         $scope.bpAlert('Blood Pressure Low'); 
       }
     } 
