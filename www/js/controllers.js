@@ -12,17 +12,42 @@ angular.module('app.controllers', [])
   $scope.measurements = Measurement.get();
 })
 
-.controller('addMeasurementsCtrl', function($scope, $state, Measurement,$ionicPopup) {
+.controller('addMeasurementsCtrl', function($scope, $state, Measurement,$ionicPopup, $ionicHistory) {
 
   // We inject the Measurement factory so that we can query for the measurement
   // history.
 
   //Need to bind the ng-model to an object, thats why i declare input={}
   $scope.newMeasurement = {};
+  $scope.newMeasurement.weight = null;
   $scope.newMeasurement.systolic = null;
   $scope.newMeasurement.diastolic = null;
+  $scope.newMeasurement.heartRate = null;
   $scope.newMeasurement.bpcolor = 'black';
   $scope.measurements = Measurement.get();
+
+  $scope.addMeasurement = function() {
+    Measurement.add(new Date(),
+                    $scope.newMeasurement.weight,
+                    $scope.newMeasurement.systolic,
+                    $scope.newMeasurement.diastolic,
+                    $scope.newMeasurement.heartRate);
+    $ionicHistory.goBack(); //calling back button manually.
+  };
+  $scope.enableDone = function() {
+    
+    if ($scope.newMeasurement.weight!=null || $scope.newMeasurement.heartRate!=null
+        || $scope.newMeasurement.systolic!=null || $scope.newMeasurement.diastolic!=null) {
+       console.log("DONE");
+       return true;
+    } else {
+       console.log("NOT DONE");
+       return false;
+    }
+    
+    
+  };
+
   $scope.checkBP = function() {
     if ($scope.newMeasurement.systolic!=null && $scope.newMeasurement.diastolic!=null) {
       if ($scope.newMeasurement.systolic >160) { //hardcoded limits for now

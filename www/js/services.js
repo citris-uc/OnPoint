@@ -64,6 +64,16 @@ angular.module('app.services', [])
   return {
     get: function() {
       return measurements;
+    },
+
+    add: function(date,newWeight,newSystolic,newDiastolic,newHR) {
+      console.log(measurements.length);
+      measurements.push({id:measurements.length+1+"",
+                         timestamp: date,
+                         weight: (newWeight==null ? "-": newWeight),
+                         systolic: (newSystolic==null ? "-": newSystolic),
+                         diastolic: (newDiastolic==null ? "-": newDiastolic),
+                         heart_rate: (newHR==null ? "-": newHR)});
     }
   };
 
