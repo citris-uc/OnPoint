@@ -4,11 +4,7 @@
 	display: inline-block;
     float: left;
     clear: left;
-    width: 150px;
+    /*width: 150px;*/
+    margin: auto;
+    width: 100%;
     text-align: right;
-}
-
-#history {
-	margin: auto;
-	width: 95%;
-}

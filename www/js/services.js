@@ -79,3 +79,57 @@ angular.module('app.services', [])
   };
 
 })
+
+.factory('MeasurementTips', function() {
+  var measurementTips = [{
+    id: 1,
+    measurement: "Weight",
+    tips: []
+  }, {
+    id: 2,
+    measurement: "Blood Pressure",
+    tips: ["Be still.",
+           "Make sure you haven't had any caffeine, tobacco, or exercise in the last 30 minutes",
+           "Wait one minute before taking another measurement",
+           "Make sure you are sitting down, with your back supported by a chair and your feet on the floor"]
+  }, {
+    id: 3,
+    measurement: "Heart Rate",
+    tips: []
+  }];
+
+  return {
+    get: function() {
+      return measurementTips;
+    }
+  };
+})
+
+.factory("Appointment", function() {
+  var appointments = [{
+    id: 1,
+    timestamp: "2016-03-05T10:00:00",
+    title: "Appointment with cardiologist Dr.Hart",
+    location: "2020 Kittredge Str, Berkeley, 94704",
+    note: "Please bring your ID",
+  }, {
+    id: 2,
+    timestamp: "2016-03-10T10:00:00",
+    title: "Appointment with nurse Denise",
+    location: "517 Oxford Str, Oakaland, 06792",
+    note: "Please bring your medication history",
+  }, {
+    id: 3,
+    timestamp: "2016-03-15T10:00:00",
+    title: "Appointment with Pharmacist Ken",
+    location: "7814 Pingyang Str, SanFrancisco, 93501",
+    note: "Please don't eat any food before coming",
+  }];
+
+  return {
+    get: function() {
+      return appointments;
+    }
+  };
+
+})
