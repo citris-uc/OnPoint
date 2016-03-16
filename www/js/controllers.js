@@ -13,8 +13,55 @@ angular.module('app.controllers', [])
 .controller('addMeasurementsCtrl', function($scope, Measurement,$ionicPopup) {
   // We inject the Measurement factory so that we can query for the measurement
   // history.
+
+  //Need to bind the ng-model to an object, thats why i declare input={}
+  $scope.input = {};
+  $scope.input.systolic = null;
+  $scope.input.diastolic = null;
+  $scope.input.bpcolor = 'black';
   $scope.measurements = Measurement.get();
+  $scope.checkBP = function() {
+    if ($scope.input.systolic!=null && $scope.input.diastolic!=null) {
+      if ($scope.input.systolic >160) { //hardcoded limits for now
+        $scope.input.bpcolor = 'red';
+        $scope.bpAlert('Blood Pressure High'); 
+      } else if ($scope.input.systolic < 90){
+        $scope.input.bpcolor = 'red';
+        $scope.bpAlert('Blood Pressure Low'); 
+      }
+    } 
+  };
   
+$scope.bpAlert = function(value) {
+  $scope.data = {};
+
+  var myPopup = $ionicPopup.show({
+    title: value,
+    subTitle: 'Try taking another measurement in one minute. To ensure a good reading, please follow the tips.',
+    scope: $scope,
+    buttons: [
+      { text: 'View Tips' },
+      {
+        text: '<b>OK</b>',
+        //type: 'button-positive',
+        /*
+        onTap: function(e) {
+          if (!$scope.data.wifi) {
+            //don't allow the user to close unless he enters wifi password
+            e.preventDefault();
+          } else {
+            return $scope.data.wifi;
+          }
+        } */
+      }
+    ]
+  });
+
+  myPopup.then(function(res) {
+    console.log('Tapped!', res);
+  });
+ };
+/*
    $scope.bpAlert = function() {
    var bpAlert = $ionicPopup.confirm({
      title: 'Blood Pressure',
@@ -28,7 +75,7 @@ angular.module('app.controllers', [])
        console.log('You are not sure');
      }
    });
- };
+ }; */
 })
 
 
