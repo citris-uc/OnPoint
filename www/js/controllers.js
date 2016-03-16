@@ -23,7 +23,8 @@ angular.module('app.controllers', [])
 .controller('goalsCtrl', function($scope, Goal) {
   // We inject the Goal factory so that we can query for the personal
   // goals associated with the user.
-  $scope.personal_goals = Goal.get();
+  $scope.personal_goals = Goal.get()[0].goals_data;
+  $scope.clinical_goals = Goal.get()[1].goals_data;
 })
 
 .controller('addGoalCtrl', function($scope) {

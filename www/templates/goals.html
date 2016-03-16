@@ -16,11 +16,10 @@
         </div>
 
         <div class="card">
-            <div class="item item-divider">Clinical goals (x)</div>
+            <div class="item item-divider">Clinical goals ({{clinical_goals.length}})</div>
 
             <ion-list>
-                <!-- <ion-item ng-repeat="g in personal_goals">{{g.id}}. {{g.body}}</ion-item> -->
-                <ion-item>Placeholder</ion-item>
+                <ion-item ng-repeat="g in clinical_goals">{{g.id}}. {{g.body}}</ion-item>
             </ion-list>
         </div>
         <!-- <a ui-sref="addGoal" id="goals-button3" class="button button-stable button-block button-small icon-left ion-ios-plus">Add a new personal goal</a>-->
