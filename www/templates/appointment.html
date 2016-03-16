@@ -1,24 +1,21 @@
 <ion-view title="Appointment">
-    <ion-nav-buttons side="left">
-        <button class="button button-icon icon ion-arrow-left-c" >Back</button>
-    </ion-nav-buttons>
-    <ion-content overflow-scroll="true" padding="true" class="has-header">
-        <div class="list card">
-            <div class="item item-divider">Appointment with Dr. Hart</div>
+    
+    <ion-content has-header="true" overflow-scroll="true" padding="true" class="has-header">
+        <div class="list card"  ng-controller="appointmentCtrl">
+            <div class="item item-divider">{{eventTitle}}</div>
               <a href="#" class="item item-icon-left item-text-wrap">
                 <i class="icon ion-ios-clock-outline"></i>
-                <p class="item-text-wrap"> Monday, Mar 14, 2016 <br> 13:00 ~ 14:30</p>
+                <span class="item-text-wrap" ng-bind="eventDate | date:'MM/dd/yyyy' "></span>
               </a>
 
               <a href="#" class="item item-icon-left item-text-wrap">
                 <i class="icon ion-ios-location-outline"></i>
-                <p class="item-text-wrap"> 2020 Kittredge Street, <br> Apt 415, Berkeley, CA</p>
+                <p class="item-text-wrap"> {{eventLocation}}</p>
               </a>
 
               <a href="#" class="item item-icon-left item-text-wrap">
                 <i class="icon ion-clipboard"></i>
-                <p class="item-text-wrap">Please bring your ID\nPlease bring your ID\nPlease bring your ID\nPlease bring your ID\nPlease bring your ID\nPlease bring your ID\nPlease bring your ID\nPlease bring your ID\nPlease bring your ID\nPlease bring your ID\nPlease bring your ID\nPlease bring your ID\nPlease bring your ID\nPlease bring your ID\nPlease bring your ID\nPlease bring your ID\nPlease bring your ID\nPlease bring your ID\nPlease bring your ID\nPlease bring your ID\nPlease bring your ID\nPlease bring your ID\nPlease bring your ID\nPlease bring your ID\n Please bring your ID\nPlease bring your ID\nPlease bring your ID\nPlease bring your ID\nPlease bring your ID\nPlease bring your ID\nPlease bring your ID\nPlease bring your ID\nPlease bring your ID\nPlease bring your ID\nPlease bring your ID\nPlease bring your ID\nPlease bring your ID\nPlease bring your ID\nPlease bring your ID\nPlease bring your ID\nPlease bring your ID\nPlease bring your ID\nPlease bring your ID\nPlease bring your ID\nPlease bring your ID\nPlease bring your ID\nPlease bring your ID\nPlease bring your ID\n
-                </p>
+                <p class="item-text-wrap">{{notes}}</p>
               </a>
         </div>
     </ion-content>

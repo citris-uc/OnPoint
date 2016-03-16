@@ -21,21 +21,7 @@ angular.module('app.controllers', [])
   $scope.measurements = Measurement.get();
 })
 
-.controller('appointmentsCtrl', function($scope) {
-
-})
-.controller('goalsCtrl', function($scope, Goal) {
-  // We inject the Goal factory so that we can query for the personal
-  // goals associated with the user.
-  $scope.personal_goals = Goal.get();
-})
-
-.controller('addGoalCtrl', function($scope) {
-
-})
-
-.controller('appointmentCtrl', function($scope, Appointment) {
-
+.controller('appointmentsCtrl', function($scope, $rootScope, $location, $state, Appointment) {
   var appointmentRecord = Appointment.get();
   var eventDates = []
 
@@ -48,7 +34,18 @@ angular.module('app.controllers', [])
     return (eventDates.indexOf(parseInt(day)) > -1);
   }
 
-	var oDate = new Date();
+  $scope.eventDetail = function(day){
+    var index = eventDates.indexOf(parseInt(day));
+    if(index > -1){
+      $rootScope.eventTitle = appointmentRecord[index].title;
+      $rootScope.eventDate = appointmentRecord[index].timestamp;
+      $rootScope.eventLocation = appointmentRecord[index].location;
+      $rootScope.notes = appointmentRecord[index].note;
+      $state.go('tabsController.appointment');
+    }
+  }
+
+  var oDate = new Date();
   $scope.curDate = oDate;
   $scope.today = oDate.getDate();
 
@@ -74,6 +71,20 @@ angular.module('app.controllers', [])
        }
     }
   }
+})
+
+.controller('appointmentCtrl', function($scope) {
+  
+})
+
+.controller('goalsCtrl', function($scope, Goal) {
+  // We inject the Goal factory so that we can query for the personal
+  // goals associated with the user.
+  $scope.personal_goals = Goal.get();
+})
+
+.controller('addGoalCtrl', function($scope) {
+
 })
 
 .controller('symptomsSliderCtrl', function($scope) {
