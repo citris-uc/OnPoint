@@ -1,7 +1,9 @@
 angular.module('app.controllers', [])
 
 .controller('loginCtrl', function($scope) {
+})
 
+.controller('timelineCtrl', function($scope) {
 })
 
 .controller('measurementsCtrl', function($scope, Measurement) {
@@ -11,6 +13,7 @@ angular.module('app.controllers', [])
 })
 
 .controller('addMeasurementsCtrl', function($scope, Measurement,$ionicPopup) {
+
   // We inject the Measurement factory so that we can query for the measurement
   // history.
 
@@ -86,7 +89,6 @@ $scope.bpAlert = function(value) {
 .controller('appointmentsCtrl', function($scope) {
 
 })
-
 .controller('goalsCtrl', function($scope, Goal) {
   // We inject the Goal factory so that we can query for the personal
   // goals associated with the user.
@@ -97,7 +99,20 @@ $scope.bpAlert = function(value) {
 
 })
 
-.controller('appointmentCtrl', function($scope) {
+.controller('appointmentCtrl', function($scope, Appointment) {
+
+  var appointmentRecord = Appointment.get();
+  var eventDates = []
+
+  for(var i = 0; i < appointmentRecord.length; i++){
+    var oneEventDay = new Date(appointmentRecord[i].timestamp);
+    eventDates.push(oneEventDay.getDate());
+  }
+
+  $scope.isEventDay = function(day){
+    return (eventDates.indexOf(parseInt(day)) > -1);
+  }
+
 	var oDate = new Date();
   $scope.curDate = oDate;
   $scope.today = oDate.getDate();

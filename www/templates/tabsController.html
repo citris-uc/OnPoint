@@ -1,19 +1,19 @@
 <ion-view title="Tabs Controller">
   <ion-tabs class="tabs-stable tabs-icon-top tabs-color-active-positive">
-    <ion-tab title="Medications" icon="ion-ios-medkit-outline">
-      <ion-nav-view name="tab1"></ion-nav-view>
+    <ion-tab title="Home" icon="ion-ios-home-outline" href="#/tabs/timeline">
+      <ion-nav-view name="timeline-tab"></ion-nav-view>
+    </ion-tab>
+    <ion-tab title="Medications" icon="ion-ios-medkit-outline" href="#/tabs/medications">
+      <ion-nav-view name="medications-tab"></ion-nav-view>
     </ion-tab>
     <ion-tab title="Measurements" icon="ion-arrow-graph-up-right" href="#/tabs/measurements">
-      <ion-nav-view name="tab2"></ion-nav-view>
+      <ion-nav-view name="measurements-tab"></ion-nav-view>
     </ion-tab>
     <ion-tab title="Appointments" icon="ion-ios-time-outline" href="#/tabs/appointments">
-      <ion-nav-view name="tab3"></ion-nav-view>
-    </ion-tab>
-    <ion-tab title="Symptoms" icon="ion-ios-glasses-outline">
-      <ion-nav-view name="tab7"></ion-nav-view>
+      <ion-nav-view name="appointments-tab"></ion-nav-view>
     </ion-tab>
     <ion-tab title="Goals" icon="ion-ios-checkmark-outline" href="#/tabs/goals">
-      <ion-nav-view name="tab8"></ion-nav-view>
+      <ion-nav-view name="goals-tab"></ion-nav-view>
     </ion-tab>
   </ion-tabs>
 </ion-view>
