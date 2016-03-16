@@ -12,7 +12,7 @@ angular.module('app.controllers', [])
   $scope.measurements = Measurement.get();
 })
 
-.controller('addMeasurementsCtrl', function($scope, Measurement,$ionicPopup) {
+.controller('addMeasurementsCtrl', function($scope, $state, Measurement,$ionicPopup) {
 
   // We inject the Measurement factory so that we can query for the measurement
   // history.
@@ -43,19 +43,14 @@ $scope.bpAlert = function(value) {
     subTitle: 'Try taking another measurement in one minute. To ensure a good reading, please follow the tips.',
     scope: $scope,
     buttons: [
-      { text: 'View Tips' },
-      {
-        text: '<b>OK</b>',
-        //type: 'button-positive',
-        /*
+      { text: 'View Tips',
         onTap: function(e) {
-          if (!$scope.data.wifi) {
-            //don't allow the user to close unless he enters wifi password
-            e.preventDefault();
-          } else {
-            return $scope.data.wifi;
-          }
-        } */
+          $state.go('tabsController.measurementTips');
+        }  
+      },
+      {
+        text: '<b>OK</b>'
+        //,type: 'button-positive',
       }
     ]
   });
@@ -81,8 +76,10 @@ $scope.bpAlert = function(value) {
  }; */
 })
 
-
-
+.controller('measurementTipsCtrl', function($scope, MeasurementTips) {
+  // We inject the Measurement Tips factory so that we view tips
+  $scope.measurementsTips = MeasurementTips.get();
+})
 
 
 
@@ -153,6 +150,4 @@ $scope.bpAlert = function(value) {
 
 })
 
-.controller('measurementTipsCtrl', function($scope) {
 
-})
