@@ -1,9 +1,9 @@
   <!-- Measurements CSS File-->
   <link type="text/css" rel="stylesheet" href="css/measurementStyle.css"/>
- 
+  
   <ion-view title="Add Measurements"> <!-- header title -->
     <ion-nav-buttons side="right">
-       <button class="button button-clear button-positive">Done</button>
+       <button class="button button-clear button-positive" ng-click="addMeasurement()" ng-disabled="disableDone()">Done</button>
     </ion-nav-buttons>
 
     <ion-content has-header="true" overflow-scroll="true" padding="true" class="has-header">
@@ -12,7 +12,7 @@
          <!--Weight **NOTE CANT LABEL ng-model's WITH A '-'--> 
           <label class="item item-input">
             <span class="input-label"><strong>Weight</strong></span>
-            <input style="width: 50px" class="measurement-input" type="number" placeholder="lbs" ng-model="newMeasurement.weight"></input>
+            <input style="width: 50px" class="measurement-input" type="number" placeholder="lbs" ng-model="newMeasurement.weight" ng-blur="enableDone()"></input>
           </label>
 
           <!--Blood Pressure-->
@@ -28,7 +28,7 @@
           <!--Heart Rate-->
           <label class="item item-input">
             <span class="input-label"><strong>Heart Rate</strong></span>
-            <input class="measurement-input" type="number" placeholder="bpm" ng-model="newMeasurement.heart_rate"></input>
+            <input class="measurement-input" type="number" placeholder="bpm" ng-model="newMeasurement.heartRate" ng-blur="enableDone()"></input>
           </label>
         </ion-list>
       </form>
