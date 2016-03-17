@@ -53,6 +53,16 @@ angular.module('app.routes', [])
     }
   })
 
+  .state('tabsController.measurementTips', {
+    url: '/measurement-tips',
+    views: {
+      'measurements-tab': {
+        templateUrl: 'templates/measurementTips.html',
+        controller: 'measurementTipsCtrl'
+      }
+    }
+  })
+
 
   .state('tabsController.appointments', {
     url: '/appointments',
@@ -112,11 +122,7 @@ angular.module('app.routes', [])
     controller: 'symptomsListMultipleCtrl'
   })
 
-  .state('measurementTips', {
-    url: '/measurement-tips',
-    templateUrl: 'templates/measurementTips.html',
-    controller: 'measurementTipsCtrl'
-  })
+
 
   $urlRouterProvider.otherwise('/tabs/timeline')
 });

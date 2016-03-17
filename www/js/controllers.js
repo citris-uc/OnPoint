@@ -12,7 +12,7 @@ angular.module('app.controllers', [])
   $scope.measurements = Measurement.get();
 })
 
-.controller('addMeasurementsCtrl', function($scope, Measurement,$ionicPopup) {
+.controller('addMeasurementsCtrl', function($scope, $state, Measurement,$ionicPopup) {
 
   // We inject the Measurement factory so that we can query for the measurement
   // history.
@@ -27,14 +27,14 @@ angular.module('app.controllers', [])
     if ($scope.newMeasurement.systolic!=null && $scope.newMeasurement.diastolic!=null) {
       if ($scope.newMeasurement.systolic >160) { //hardcoded limits for now
         $scope.newMeasurement.bpcolor = 'red';
-        $scope.bpAlert('Blood Pressure High'); 
+        $scope.bpAlert('Blood Pressure High');
       } else if ($scope.newMeasurement.systolic < 90){
         $scope.newMeasurement.bpcolor = 'red';
-        $scope.bpAlert('Blood Pressure Low'); 
+        $scope.bpAlert('Blood Pressure Low');
       }
-    } 
+    }
   };
-  
+
 $scope.bpAlert = function(value) {
   $scope.data = {};
 
@@ -43,19 +43,14 @@ $scope.bpAlert = function(value) {
     subTitle: 'Try taking another measurement in one minute. To ensure a good reading, please follow the tips.',
     scope: $scope,
     buttons: [
-      { text: 'View Tips' },
-      {
-        text: '<b>OK</b>',
-        //type: 'button-positive',
-        /*
+      { text: 'View Tips',
         onTap: function(e) {
-          if (!$scope.data.wifi) {
-            //don't allow the user to close unless he enters wifi password
-            e.preventDefault();
-          } else {
-            return $scope.data.wifi;
-          }
-        } */
+          $state.go('tabsController.measurementTips');
+        }
+      },
+      {
+        text: '<b>OK</b>'
+        //,type: 'button-positive',
       }
     ]
   });
@@ -79,6 +74,26 @@ $scope.bpAlert = function(value) {
      }
    });
  }; */
+})
+
+.controller('measurementTipsCtrl', function($scope, MeasurementTips) {
+  // We inject the Measurement Tips factory so that we view tips
+  $scope.measurementsTips = MeasurementTips.get();
+})
+
+
+
+.controller('appointmentCtrl', function($scope) {
+
+})
+.controller('goalsCtrl', function($scope, Goal) {
+  // We inject the Goal factory so that we can query for the personal
+  // goals associated with the user.
+  $scope.personal_goals = Goal.get();
+})
+
+.controller('addGoalCtrl', function($scope) {
+
 })
 
 .controller('appointmentsCtrl', function($scope, $rootScope, $location, $state, Appointment) {
@@ -132,9 +147,14 @@ $scope.bpAlert = function(value) {
   }
 })
 
+<<<<<<< HEAD
 .controller('appointmentCtrl', function($scope,$stateParams, Appointment) {
   var appointmentRecord = Appointment.get();
   $scope.appointment = appointmentRecord[parseInt($stateParams.appointmentId)];
+=======
+.controller('appointmentCtrl', function($scope) {
+
+>>>>>>> bc06165a499487d90988b4aeb89d7ed20da0b8f6
 })
 
 .controller('goalsCtrl', function($scope, Goal) {
@@ -156,9 +176,5 @@ $scope.bpAlert = function(value) {
 })
 
 .controller('symptomsListMultipleCtrl', function($scope) {
-
-})
-
-.controller('measurementTipsCtrl', function($scope) {
 
 })
