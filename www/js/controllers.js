@@ -36,7 +36,7 @@ angular.module('app.controllers', [])
     //$ionicHistory.goBack(); //calling back button manually.
   };
   $scope.disableDone = function() {
-    
+
     if ($scope.newMeasurement.weight!=null || $scope.newMeasurement.heartRate!=null
         || $scope.newMeasurement.systolic!=null || $scope.newMeasurement.diastolic!=null) {
        console.log("DONE");
@@ -45,8 +45,8 @@ angular.module('app.controllers', [])
        console.log("NOT DONE");
        return true;
     }
-    
-    
+
+
   };
 
   $scope.checkBP = function() {
@@ -173,14 +173,9 @@ $scope.bpAlert = function(value) {
   }
 })
 
-<<<<<<< HEAD
 .controller('appointmentCtrl', function($scope,$stateParams, Appointment) {
   var appointmentRecord = Appointment.get();
   $scope.appointment = appointmentRecord[parseInt($stateParams.appointmentId)];
-=======
-.controller('appointmentCtrl', function($scope) {
-
->>>>>>> bc06165a499487d90988b4aeb89d7ed20da0b8f6
 })
 
 .controller('goalsCtrl', function($scope, Goal) {
