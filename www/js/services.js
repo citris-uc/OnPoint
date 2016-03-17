@@ -4,37 +4,49 @@ angular.module('app.services', [])
 // specific methods within the object literal to mimic API calls, e.g.
 // Goal.get() returns all goals.
 .factory('Goal', function() {
-  var goals = [{goals_name: "personal",
-                goals_data: [{ 
-                                id: 1,
+
+  // TODO create enums for personal vs clinical
+  var goals = [{type: 0, // personal
+                data: [{ 
+                                //id: 1,
                                 body: "Remain independent"
                               }, {
-                                id: 2,
+                                //id: 2,
                                 body: "Keep visiting with friends and doing my daily activities"
                               }, {
-                                id: 3,
+                                //id: 3,
                                 body: "Be able to visit out-of-town family by plane"
                               }, {
-                                id: 4,
+                                //id: 4,
                                 body: "Feel healthy"
                               }]
                 },
-                {goals_name: "clinical",
-                goals_data: [{ 
-                                id: 1,
+                {type: 1, // clinical
+                 data: [{ 
+                                //id: 1,
                                 body: "Control systolic blood pressure to lower than 130/80 mmHg but not less than 90 mmHg."
                               }, {
-                                id: 2,
+                                //id: 2,
                                 body: "Keep HbA1C levels at 7% or less."
                             }]
                 }];
 
+  goals.addGoal = function(GoalData) {
+     if (GoalData.type == 'personal') {
+        //goals[0].data.push({id: goals[0].data.length + 1, body: GoalData.body});
+        goals[0].data.push({body: GoalData.body});
+     } else if (GoalData.type == 'clinical') {
+        //goals[1].data.push({id: goals[1].data.length + 1, body: GoalData.body});
+        goals[1].data.push({body: GoalData.body});
+     }
+  }
 
-  return {
-    get: function() {
-      return goals;
-    }
-  };
+  return goals;
+  // return {
+  //   get: function() {
+  //     return goals;
+  //   }
+  // };
 })
 
 
