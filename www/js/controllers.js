@@ -96,13 +96,11 @@ $scope.bpAlert = function(value) {
   }
 
   $scope.eventDetail = function(day){
-    var index = eventDates.indexOf(parseInt(day));
+    var index = eventDates.indexOf(parseInt(day)).toString();
     if(index > -1){
-      $rootScope.eventTitle = appointmentRecord[index].title;
-      $rootScope.eventDate = appointmentRecord[index].timestamp;
-      $rootScope.eventLocation = appointmentRecord[index].location;
-      $rootScope.notes = appointmentRecord[index].note;
-      $state.go('tabsController.appointment');
+      var url = 'tabsController.appointment';
+      $scope.test = url;
+      $state.go(url, {appointmentId: index});
     }
   }
 
@@ -134,8 +132,9 @@ $scope.bpAlert = function(value) {
   }
 })
 
-.controller('appointmentCtrl', function($scope) {
-  
+.controller('appointmentCtrl', function($scope,$stateParams, Appointment) {
+  var appointmentRecord = Appointment.get();
+  $scope.appointment = appointmentRecord[parseInt($stateParams.appointmentId)];
 })
 
 .controller('goalsCtrl', function($scope, Goal) {

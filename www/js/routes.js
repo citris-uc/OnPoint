@@ -65,7 +65,7 @@ angular.module('app.routes', [])
   })
 
   .state('tabsController.appointment', {
-    url: '/appointment',
+    url: '/appointment/:appointmentId',
     views: {
       'appointments-tab': {
         templateUrl: 'templates/appointment.html',
