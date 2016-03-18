@@ -2,21 +2,24 @@
     
     <ion-content has-header="true" overflow-scroll="true" padding="true" class="has-header">
         <div class="list card"  ng-controller="appointmentCtrl">
+
           <div class="item item-divider">{{appointment.title}}</div>
-          <a href="#" class="item item-icon-left item-text-wrap">
+          
+          <ion-item class="item-icon-left item-text-wrap">
             <i class="icon ion-ios-clock-outline"></i>
             <span class="item-text-wrap" ng-bind="appointment.timestamp | date:'MM/dd/yyyy' "></span>
-          </a>
+          </ion-item>
 
-          <a href="#" class="item item-icon-left item-text-wrap">
+          <ion-item class="item-icon-left item-text-wrap">
             <i class="icon ion-ios-location-outline"></i>
             <p class="item-text-wrap"> {{appointment.location}}</p>
-          </a>
+          </ion-item>
 
-          <a href="#" class="item item-icon-left item-text-wrap">
+          <ion-item class="item-icon-left item-text-wrap">
             <i class="icon ion-clipboard"></i>
             <p class="item-text-wrap">{{appointment.note}}</p>
-          </a>
+          </ion-item>
+          
         </div>
     </ion-content>
 </ion-view>

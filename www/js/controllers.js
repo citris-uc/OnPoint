@@ -122,7 +122,7 @@ $scope.bpAlert = function(value) {
 
 })
 
-.controller('appointmentsCtrl', function($scope, $rootScope, $location, $state, Appointment) {
+.controller('appointmentsCtrl', function($scope, $location, $state, Appointment) {
 
   var appointmentRecord = Appointment.get();
   var eventDates = []
