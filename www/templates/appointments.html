@@ -8,7 +8,6 @@
 	      		<span ng-bind="curDate | date:'MM/yyyy' "></span>
 	      		<a class="button, absright">></a>
 		   	</div>
-
 		    <table class = "center">
 		    	<thead>
 			        <tr>
@@ -23,11 +22,21 @@
 		        </thead>
 		        <tbody>
 			        <tr ng-repeat="week in weeks">
-				        <td ng-repeat="day in week track by $index" ng-class="{ 'EventDay': isEventDay(day), 'CurrentDay': day == {{today}} }" ng-click = "eventDetail(day)">
+<!-- 				        <td ng-repeat="day in week track by $index" ng-class="{ 'EventDay': isEventDay(day), 'CurrentDay': day == {{today}} }" ng-click = "eventDetail(day)">
 			                 {{day}}
+			            </td> -->
+			            <td ng-repeat="day in week track by $index" 
+			                ng-class="{ 'EventDay': eventDates.indexOf({{day}}) > -1, 'CurrentDay': day == {{today}} }"
+			      			ui-sref="tabsController.appointment({appointmentId: eventDates.indexOf({{day}})})"         
+			                > 
+			                {{day}}
 			            </td>
 			        </tr>       
 			    </tbody>
+	 <!--  eat-click-if = "3 > 5"
+			                ui-sref = "tabsController.appointment({appointmentId: eventDates.indexOf({{day}})})" -->		              
+   <!-- ui-sref="{{ isEventDay(day) ? 'tabsController.appointment({appointmentId: {{day}}})' : ' '}}"      -->
+			                <!-- ui-sref-active="eventDates.indexOf({{day}}) > -1" -->
 		    </table>
 		</div>
     </ion-content>
