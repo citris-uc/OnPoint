@@ -9,25 +9,25 @@
 
         <!-- Cards for each goal type -->
         <div class="card">
-            <div class="item item-divider">Personal goals ({{personal_goals.length}})
-                <a href="#" class="item-icon-right" ng-click="pToggle=!pToggle">
-                    <i ng-class="{'icon ion-chevron-down': !pToggle, 'icon ion-chevron-up': pToggle}"></i>
-                </a>
+            <div class="item item-divider">Personal goals ({{ (goals | filter:{type:'personal'}).length }})
+              <a href="#" class="item-icon-right" ng-click="pToggle=!pToggle">
+                <i ng-class="{'icon ion-chevron-down': !pToggle, 'icon ion-chevron-up': pToggle}"></i>
+              </a>
             </div>
             <ion-list ng-show="pToggle">
-                <ion-item ng-repeat="g in personal_goals">{{$index+1}}. {{g.body}}</ion-item>
+              <ion-item ng-repeat="g in goals | filter:{type:'personal'}">{{$index+1}}. {{g.body}}</ion-item>
             </ion-list>
         </div>
 
         <div class="card">
-            <div class="item item-divider">Clinical goals ({{clinical_goals.length}})                
-                <a href="#" class="item-icon-right" ng-click="cToggle=!cToggle">
-                    <i ng-class="{'icon ion-chevron-down': !cToggle, 'icon ion-chevron-up': cToggle}"></i>
-                </a>
+            <div class="item item-divider">Clinical goals ( {{(goals | filter:{type:'clinical'}).length}} )
+              <a href="#" class="item-icon-right" ng-click="cToggle=!cToggle">
+                  <i ng-class="{'icon ion-chevron-down': !cToggle, 'icon ion-chevron-up': cToggle}"></i>
+              </a>
             </div>
 
             <ion-list ng-show="cToggle">
-                <ion-item ng-repeat="g in clinical_goals">{{$index+1}}. {{g.body}}</ion-item>
+                <ion-item ng-repeat="g in goals | filter:{type:'clinical'}">{{$index+1}}. {{g.body}}</ion-item>
             </ion-list>
         </div>
     </ion-content>

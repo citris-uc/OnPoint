@@ -6,47 +6,23 @@ angular.module('app.services', [])
 .factory('Goal', function() {
 
   // TODO create enums for personal vs clinical
-  var goals = [{type: 0, // personal
-                data: [{ 
-                                //id: 1,
-                                body: "Remain independent"
-                              }, {
-                                //id: 2,
-                                body: "Keep visiting with friends and doing my daily activities"
-                              }, {
-                                //id: 3,
-                                body: "Be able to visit out-of-town family by plane"
-                              }, {
-                                //id: 4,
-                                body: "Feel healthy"
-                              }]
-                },
-                {type: 1, // clinical
-                 data: [{ 
-                                //id: 1,
-                                body: "Control systolic blood pressure to lower than 130/80 mmHg but not less than 90 mmHg."
-                              }, {
-                                //id: 2,
-                                body: "Keep HbA1C levels at 7% or less."
-                            }]
-                }];
+  goals = [
+    { body: "Remain independent", type: "personal" },
+    { body: "Keep visiting with friends and doing my daily activities", type: "personal" },
+    { body: "Be able to visit out-of-town family by plane", type: "personal" },
+    { body: "Feel healthy", type: "personal" },
+    { body: "Control systolic blood pressure to lower than 130/80 mmHg but not less than 90 mmHg.", type: "clinical" },
+    { body: "Keep HbA1C levels at 7% or less.", type: "clinical" }
+  ];
 
-  goals.addGoal = function(GoalData) {
-     if (GoalData.type == 'personal') {
-        //goals[0].data.push({id: goals[0].data.length + 1, body: GoalData.body});
-        goals[0].data.push({body: GoalData.body});
-     } else if (GoalData.type == 'clinical') {
-        //goals[1].data.push({id: goals[1].data.length + 1, body: GoalData.body});
-        goals[1].data.push({body: GoalData.body});
-     }
-  }
-
-  return goals;
-  // return {
-  //   get: function() {
-  //     return goals;
-  //   }
-  // };
+  return {
+    get: function() {
+      return goals;
+    },
+    add: function(goal) {
+      goals.push(goal);
+    }
+  };
 })
 
 
@@ -69,24 +45,31 @@ angular.module('app.services', [])
 // Measurement.get() will return all measurements associated with a user.
 .factory("Measurement", function() {
   var measurements = [{
-    id: 1,
     timestamp: "2016-03-01T10:00",
     weight: "160",
     systolic: "120",
     diastolic: "112",
-    heart_rate: "60"
+    heartRate: "60"
   }, {
-    id: 2,
     timestamp: "2016-03-02T10:00",
     weight: "165",
     systolic: "150",
     diastolic: "130",
-    heart_rate: "75"
+    heartRate: "75"
   }];
 
   return {
     get: function() {
       return measurements;
+    },
+
+    add: function(date,newWeight,newSystolic,newDiastolic,newHR) {
+      console.log(measurements.length);
+      measurements.push({timestamp: date,
+                         weight: (newWeight),
+                         systolic: (newSystolic),
+                         diastolic: (newDiastolic),
+                         heartRate: (newHR)});
     }
   };
 

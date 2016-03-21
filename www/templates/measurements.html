@@ -1,13 +1,12 @@
   <!-- Measurements CSS File-->
   <link type="text/css" rel="stylesheet" href="css/measurementStyle.css"/>
-  
   <ion-view title="Measurements"> <!-- header title -->
     <ion-nav-buttons side="right">
         <button class="button icon-right ion-plus button-clear button-positive" ui-sref="tabsController.measurementAdd"></button>
     </ion-nav-buttons>
-    <ion-content has-header="true" overflow-scroll="true" padding="true" class="has-header">
+    <ion-content has-header="true" overflow-scroll="true" scroll="true" padding="true" class="has-header">
       <ion-list class = "measurement-list">
-        <ion-item class="view-measurement" ng-repeat="m in measurements">
+        <ion-item class="view-measurement" ng-repeat="m in measurements | orderBy:m.timestamp: 'true'">
           <p>{{m.timestamp | date:'MMM d, y h:mm a'}}</p>
           <p>Weight: {{m.weight}} lbs</p>
           <p>Blood Pressure: {{m.systolic}}/{{m.diastolic}} mmHg</p>

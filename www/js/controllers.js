@@ -12,29 +12,55 @@ angular.module('app.controllers', [])
   $scope.measurements = Measurement.get();
 })
 
-.controller('addMeasurementsCtrl', function($scope, $state, Measurement,$ionicPopup) {
+.controller('addMeasurementsCtrl', function($scope, $state, Measurement,$ionicPopup, $ionicHistory) {
 
   // We inject the Measurement factory so that we can query for the measurement
   // history.
 
   //Need to bind the ng-model to an object, thats why i declare input={}
   $scope.newMeasurement = {};
+  $scope.newMeasurement.weight = null;
   $scope.newMeasurement.systolic = null;
   $scope.newMeasurement.diastolic = null;
+  $scope.newMeasurement.heartRate = null;
   $scope.newMeasurement.bpcolor = 'black';
   $scope.measurements = Measurement.get();
+
+  $scope.addMeasurement = function() {
+    Measurement.add(new Date(),
+                    $scope.newMeasurement.weight,
+                    $scope.newMeasurement.systolic,
+                    $scope.newMeasurement.diastolic,
+                    $scope.newMeasurement.heartRate);
+    $state.go('tabsController.measurements');
+    //$ionicHistory.goBack(); //calling back button manually.
+  };
+  $scope.disableDone = function() {
+    
+    if ($scope.newMeasurement.weight!=null || $scope.newMeasurement.heartRate!=null
+        || $scope.newMeasurement.systolic!=null || $scope.newMeasurement.diastolic!=null) {
+       console.log("DONE");
+       return false;
+    } else {
+       console.log("NOT DONE");
+       return true;
+    }
+    
+    
+  };
+
   $scope.checkBP = function() {
     if ($scope.newMeasurement.systolic!=null && $scope.newMeasurement.diastolic!=null) {
       if ($scope.newMeasurement.systolic >160) { //hardcoded limits for now
         $scope.newMeasurement.bpcolor = 'red';
-        $scope.bpAlert('Blood Pressure High'); 
+        $scope.bpAlert('Blood Pressure High');
       } else if ($scope.newMeasurement.systolic < 90){
         $scope.newMeasurement.bpcolor = 'red';
-        $scope.bpAlert('Blood Pressure Low'); 
+        $scope.bpAlert('Blood Pressure Low');
       }
-    } 
+    }
   };
-  
+
 $scope.bpAlert = function(value) {
   $scope.data = {};
 
@@ -46,7 +72,7 @@ $scope.bpAlert = function(value) {
       { text: 'View Tips',
         onTap: function(e) {
           $state.go('tabsController.measurementTips');
-        }  
+        }
       },
       {
         text: '<b>OK</b>'
@@ -87,22 +113,12 @@ $scope.bpAlert = function(value) {
 
 })
 .controller('goalsCtrl', function($scope, Goal) {
-  // We inject the Goal factory so that we can query for the personal
-  // goals associated with the user.
-
   // TODO use enums for personal/clinical here
-  $scope.personal_goals = Goal[0].data;
-  $scope.clinical_goals = Goal[1].data;
+  $scope.goals = Goal.get(),
 
-})
-
-.controller('addGoalCtrl', function($scope, Goal) {
-
-  $scope.addNewGoal = function(goal) {
-    Goal.addGoal(goal);
+  $scope.addGoal = function(goal) {
+    Goal.add(goal);
   }
-
-
 })
 
 .controller('appointmentCtrl', function($scope, Appointment) {
@@ -158,5 +174,3 @@ $scope.bpAlert = function(value) {
 .controller('symptomsListMultipleCtrl', function($scope) {
 
 })
-
-
