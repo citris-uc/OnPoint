@@ -27,14 +27,14 @@ angular.module('app.controllers', [])
     if ($scope.newMeasurement.systolic!=null && $scope.newMeasurement.diastolic!=null) {
       if ($scope.newMeasurement.systolic >160) { //hardcoded limits for now
         $scope.newMeasurement.bpcolor = 'red';
-        $scope.bpAlert('Blood Pressure High'); 
+        $scope.bpAlert('Blood Pressure High');
       } else if ($scope.newMeasurement.systolic < 90){
         $scope.newMeasurement.bpcolor = 'red';
-        $scope.bpAlert('Blood Pressure Low'); 
+        $scope.bpAlert('Blood Pressure Low');
       }
-    } 
+    }
   };
-  
+
 $scope.bpAlert = function(value) {
   $scope.data = {};
 
@@ -46,7 +46,7 @@ $scope.bpAlert = function(value) {
       { text: 'View Tips',
         onTap: function(e) {
           $state.go('tabsController.measurementTips');
-        }  
+        }
       },
       {
         text: '<b>OK</b>'
@@ -148,5 +148,3 @@ $scope.bpAlert = function(value) {
 .controller('symptomsListMultipleCtrl', function($scope) {
 
 })
-
-
