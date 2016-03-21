@@ -12,6 +12,9 @@ angular.module('app.services')
   ]
 
   return {
+    get: function() {
+      return medications;
+    },
     getByName: function(name) {
       return medications.find( function(med){ return med.name == name } );
     },
@@ -21,9 +24,9 @@ angular.module('app.services')
   };
 })
 
-.factory('MedicationSchedule', ["Medication", function() {
+.factory('MedicationSchedule', ["Medication", function(Medication) {
   morning   = ["Lasix", "Toprol XL", "Zestril", "Coumadin", "Riomet"]
-  afternoon = ["Lasix", "Toprol XL", "Zestril", "Losartan", "Riomet"]
+  afternoon = ["Lasix", "Toprol XL", "Zestril", "Riomet"]
   evening   = ["Lipitor"]
 
   schedule = {
