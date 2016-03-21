@@ -129,3 +129,44 @@ angular.module('app.services', [])
   };
 
 })
+
+
+.factory("TimelineCards", function(cardType, cardState, cardCategory) {
+  var cards = [{
+    cardID: 0,
+    createdTimestamp: "2016-03-15T10:00:00",
+    presentedTimestamp: "2016-03-15T10:00:00",
+    updatedTimestamp: "2016-03-15T10:00:00", //should arrange timeline by this timestamp
+    cardType: cardType.action,
+    cardState: cardState.active,
+    cardCategory: cardCategory.medications,
+    cardTitle: "Take Medications",
+    cardContent: "Lasix, Toprol, Zestril, Coumadin, Losartan, Riomet"
+  }, {
+    cardID: 1,
+    createdTimestamp: "2016-03-15T11:00:00",
+    presentedTimestamp: "2016-03-15T11:00:00",
+    updatedTimestamp: "2016-03-15T11:00:00", //should arrange timeline by this timestamp
+    cardType: cardType.action,
+    cardState: cardState.active,
+    cardCategory: cardCategory.measurements,
+    cardTitle: "Take Measurement",
+    cardContent: "Weight, Blood Pressure and Heart Rate"
+  }, {
+    cardID: 2,
+    createdTimestamp: "2016-03-15T12:00:00",
+    presentedTimestamp: "2016-03-15T12:00:00",
+    updatedTimestamp: "2016-03-15T12:00:00", //should arrange timeline by this timestamp
+    cardType: cardType.reminder,
+    cardState: cardState.active,
+    cardCategory: cardCategory.appointments,
+    cardTitle: "Appointment Reminder",
+    cardContent: "Appointment with cardiologist Dr.Hart tomorrow at 9:00 AM"
+  }];
+
+  return {
+    get: function() {
+      return cards;
+    }
+  };
+})
