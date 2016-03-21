@@ -109,7 +109,7 @@ $scope.bpAlert = function(value) {
 
 
 
-.controller('appointmentsCtrl', function($scope) {
+.controller('appointmentCtrl', function($scope) {
 
 })
 .controller('goalsCtrl', function($scope, Goal) {
@@ -126,21 +126,29 @@ $scope.bpAlert = function(value) {
   }
 })
 
-.controller('appointmentCtrl', function($scope, Appointment) {
+.controller('appointmentsCtrl', function($scope, $location, $state, Appointment) {
 
   var appointmentRecord = Appointment.get();
-  var eventDates = []
+  $scope.eventDates = []
 
+  // TODO: Shouldn't this be moved into a convenience method of Appointment factory?
   for(var i = 0; i < appointmentRecord.length; i++){
     var oneEventDay = new Date(appointmentRecord[i].timestamp);
-    eventDates.push(oneEventDay.getDate());
+    $scope.eventDates.push(oneEventDay.getDate());
   }
 
-  $scope.isEventDay = function(day){
-    return (eventDates.indexOf(parseInt(day)) > -1);
+  $scope.hasAppointment = function(day) {
+    return ($scope.eventDates.indexOf(parseInt(day)) !== -1);
   }
 
-	var oDate = new Date();
+  $scope.transitionToAppointment = function(day){
+    var index = $scope.eventDates.indexOf(parseInt(day)).toString();
+    if(index > -1)
+      $state.go('tabsController.appointment', {appointmentId: index});
+  }
+
+  // TODO: This is way too verbose and should be moved into Appointment factory.
+  var oDate = new Date();
   $scope.curDate = oDate;
   $scope.today = oDate.getDate();
 
@@ -166,6 +174,21 @@ $scope.bpAlert = function(value) {
        }
     }
   }
+})
+
+.controller('appointmentCtrl', function($scope,$stateParams, Appointment) {
+  var appointmentRecord = Appointment.get();
+  $scope.appointment = appointmentRecord[parseInt($stateParams.appointmentId)];
+})
+
+.controller('goalsCtrl', function($scope, Goal) {
+  // We inject the Goal factory so that we can query for the personal
+  // goals associated with the user.
+  $scope.personal_goals = Goal.get();
+})
+
+.controller('addGoalCtrl', function($scope) {
+
 })
 
 .controller('symptomsSliderCtrl', function($scope) {
