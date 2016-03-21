@@ -129,27 +129,25 @@ $scope.bpAlert = function(value) {
 .controller('appointmentsCtrl', function($scope, $location, $state, Appointment) {
 
   var appointmentRecord = Appointment.get();
-  // var eventDates = []
   $scope.eventDates = []
 
+  // TODO: Shouldn't this be moved into a convenience method of Appointment factory?
   for(var i = 0; i < appointmentRecord.length; i++){
     var oneEventDay = new Date(appointmentRecord[i].timestamp);
     $scope.eventDates.push(oneEventDay.getDate());
   }
 
-  // $scope.isEventDay = function(day){
-  //   return ($scope.eventDates.indexOf(parseInt(day)) > -1);
-  // }
+  $scope.hasAppointment = function(day) {
+    return ($scope.eventDates.indexOf(parseInt(day)) !== -1);
+  }
 
-  // $scope.eventDetail = function(day){
-  //   var index = $scope.eventDates.indexOf(parseInt(day)).toString();
-  //   if(index > -1){
-  //     var url = 'tabsController.appointment';
-  //     $scope.test = url;
-  //     $state.go(url, {appointmentId: index});
-  //   }
-  // }
+  $scope.transitionToAppointment = function(day){
+    var index = $scope.eventDates.indexOf(parseInt(day)).toString();
+    if(index > -1)
+      $state.go('tabsController.appointment', {appointmentId: index});
+  }
 
+  // TODO: This is way too verbose and should be moved into Appointment factory.
   var oDate = new Date();
   $scope.curDate = oDate;
   $scope.today = oDate.getDate();
