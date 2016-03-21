@@ -129,36 +129,33 @@ angular.module('app.services', [])
 
 })
 
-.factory("TimelineCards", function(cardType, cardState, cardCategory) {
+.factory("Cards", function(card.type, card.state, card.category) {
   var cards = [{
-    cardID: 0,
-    createdTimestamp: "2016-03-15T10:00:00",
-    presentedTimestamp: "2016-03-15T10:00:00",
-    updatedTimestamp: "2016-03-15T10:00:00", //should arrange timeline by this timestamp
-    cardType: cardType.action,
-    cardState: cardState.active,
-    cardCategory: cardCategory.medications,
-    cardTitle: "Take Medications",
+    id: 0,
+    created_at: "2016-03-15T10:00:00",
+    presented_at: "2016-03-15T10:00:00",
+    updated_at: "2016-03-15T10:00:00", //should arrange timeline by this timestamp
+    cardType: card.type.action,
+    cardState: card.state.active,
+    cardCategory: card.category.medications,
     cardContent: "Lasix, Toprol, Zestril, Coumadin, Losartan, Riomet"
   }, {
     cardID: 1,
     createdTimestamp: "2016-03-15T11:00:00",
     presentedTimestamp: "2016-03-15T11:00:00",
     updatedTimestamp: "2016-03-15T11:00:00", //should arrange timeline by this timestamp
-    cardType: cardType.action,
-    cardState: cardState.active,
-    cardCategory: cardCategory.measurements,
-    cardTitle: "Take Measurement",
+    cardType: card.type.action,
+    cardState: card.state.active,
+    cardCategory: card.category.measurements,
     cardContent: "Weight, Blood Pressure and Heart Rate"
   }, {
     cardID: 2,
     createdTimestamp: "2016-03-15T12:00:00",
     presentedTimestamp: "2016-03-15T12:00:00",
     updatedTimestamp: "2016-03-15T12:00:00", //should arrange timeline by this timestamp
-    cardType: cardType.reminder,
-    cardState: cardState.active,
-    cardCategory: cardCategory.appointments,
-    cardTitle: "Appointment Reminder",
+    cardType: card.type.reminder,
+    cardState: card.state.active,
+    cardCategory: card.category.appointments,
     cardContent: "Appointment with cardiologist Dr.Hart tomorrow at 9:00 AM"
   }];
 

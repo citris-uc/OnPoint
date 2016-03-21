@@ -33,6 +33,17 @@ angular.module('app.routes', [])
     }
   })
 
+  // NOTE: We're using ISO8601 format for the date here.
+  .state('tabsController.medicationsSchedule', {
+    url: '/medications/:date/:schedule',
+    views: {
+      'medications-tab': {
+        templateUrl: 'templates/medications/schedule.html',
+        controller: 'medicationScheduleCtrl'
+      }
+    }
+  })
+
   .state('tabsController.measurements', {
     url: '/measurements',
     views: {

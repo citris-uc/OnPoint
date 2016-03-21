@@ -1,0 +1,9 @@
+<ion-view title="{{state.schedule | uppercase}}">
+  <ion-content overflow-scroll="true" padding="false" class="has-header">
+    <div class="list">
+      <a class="item" href="#" ng-repeat="med in schedule">
+        {{med.trade_name}}
+      </a>
+    </div>
+  </ion-content>
+</ion-view>
