@@ -6,47 +6,23 @@ angular.module('app.services', [])
 .factory('Goal', function() {
 
   // TODO create enums for personal vs clinical
-  var goals = [{type: 0, // personal
-                data: [{ 
-                                //id: 1,
-                                body: "Remain independent"
-                              }, {
-                                //id: 2,
-                                body: "Keep visiting with friends and doing my daily activities"
-                              }, {
-                                //id: 3,
-                                body: "Be able to visit out-of-town family by plane"
-                              }, {
-                                //id: 4,
-                                body: "Feel healthy"
-                              }]
-                },
-                {type: 1, // clinical
-                 data: [{ 
-                                //id: 1,
-                                body: "Control systolic blood pressure to lower than 130/80 mmHg but not less than 90 mmHg."
-                              }, {
-                                //id: 2,
-                                body: "Keep HbA1C levels at 7% or less."
-                            }]
-                }];
+  goals = [
+    { body: "Remain independent", type: "personal" },
+    { body: "Keep visiting with friends and doing my daily activities", type: "personal" },
+    { body: "Be able to visit out-of-town family by plane", type: "personal" },
+    { body: "Feel healthy", type: "personal" },
+    { body: "Control systolic blood pressure to lower than 130/80 mmHg but not less than 90 mmHg.", type: "clinical" },
+    { body: "Keep HbA1C levels at 7% or less.", type: "clinical" }
+  ];
 
-  goals.addGoal = function(GoalData) {
-     if (GoalData.type == 'personal') {
-        //goals[0].data.push({id: goals[0].data.length + 1, body: GoalData.body});
-        goals[0].data.push({body: GoalData.body});
-     } else if (GoalData.type == 'clinical') {
-        //goals[1].data.push({id: goals[1].data.length + 1, body: GoalData.body});
-        goals[1].data.push({body: GoalData.body});
-     }
-  }
-
-  return goals;
-  // return {
-  //   get: function() {
-  //     return goals;
-  //   }
-  // };
+  return {
+    get: function() {
+      return goals;
+    },
+    add: function(goal) {
+      goals.push(goal);
+    }
+  };
 })
 
 

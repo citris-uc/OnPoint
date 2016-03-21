@@ -9,17 +9,17 @@
 
         <!-- Cards for each goal type -->
         <div class="card">
-            <div class="item item-divider">Personal goals ({{personal_goals.length}})</div>
+            <div class="item item-divider">Personal goals ({{ (goals | filter:{type:'personal'}).length }})</div>
             <ion-list>
-                <ion-item ng-repeat="g in personal_goals">{{$index+1}}. {{g.body}}</ion-item>
+                <ion-item ng-repeat="g in goals | filter:{type:'personal'}">{{$index+1}}. {{g.body}}</ion-item>
             </ion-list>
         </div>
 
         <div class="card">
-            <div class="item item-divider">Clinical goals ({{clinical_goals.length}})</div>
+            <div class="item item-divider">Clinical goals ( {{(goals | filter:{type:'clinical'}).length}} )</div>
 
             <ion-list>
-                <ion-item ng-repeat="g in clinical_goals">{{$index+1}}. {{g.body}}</ion-item>
+                <ion-item ng-repeat="g in goals | filter:{type:'clinical'}">{{$index+1}}. {{g.body}}</ion-item>
             </ion-list>
         </div>
     </ion-content>

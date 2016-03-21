@@ -87,22 +87,12 @@ $scope.bpAlert = function(value) {
 
 })
 .controller('goalsCtrl', function($scope, Goal) {
-  // We inject the Goal factory so that we can query for the personal
-  // goals associated with the user.
-
   // TODO use enums for personal/clinical here
-  $scope.personal_goals = Goal[0].data;
-  $scope.clinical_goals = Goal[1].data;
+  $scope.goals = Goal.get(),
 
-})
-
-.controller('addGoalCtrl', function($scope, Goal) {
-
-  $scope.addNewGoal = function(goal) {
-    Goal.addGoal(goal);
+  $scope.addGoal = function(goal) {
+    Goal.add(goal);
   }
-
-
 })
 
 .controller('appointmentCtrl', function($scope, Appointment) {
