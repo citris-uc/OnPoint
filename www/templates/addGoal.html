@@ -1,19 +1,21 @@
 <ion-view title="Add Goal">
     <ion-content overflow-scroll="true" padding="true" class="has-header">
-        <h3 align="center">Add a new goal</h3>
-        <form class="list">
+        <form name="inputGoal" class="list">
+
+        	<!-- Text Input for Goal -->
             <label class="item item-input">
-                <input type="text" placeholder="Enter your goal here">
+                <input type="text" placeholder="Enter your goal here" ng-model="goal.body" required>
             </label>
             <br></br>
 
             <!-- Radio button choices for goal type -->
 			<div class="item item-divider">Select Goal Category</div>
             <ion-list>
-				<ion-radio ng-model="choice" ng-value="'goal_personal'">Personal</ion-radio>
-				<ion-radio ng-model="choice" ng-value="'goal_clinical'">Clinical</ion-radio>
+				<ion-radio ng-model="goal.type" ng-value="'personal'" required>Personal</ion-radio>
+				<ion-radio ng-model="goal.type" ng-value="'clinical'" required>Clinical</ion-radio>
 			</ion-list>
+			<!-- Save button -->
+        	<button ui-sref="tabsController.goals" id="addGoal-button4" class="button button-positive button-block button-big" ng-disabled="inputGoal.$invalid" ng-click="addGoal(goal)">Save</button>
         </form>
-        <button ui-sref="tabsController.goals" id="addGoal-button4" class="button button-positive button-block button-big" disabled>Save</button>
     </ion-content>
 </ion-view>

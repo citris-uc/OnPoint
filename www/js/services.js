@@ -4,24 +4,23 @@ angular.module('app.services', [])
 // specific methods within the object literal to mimic API calls, e.g.
 // Goal.get() returns all goals.
 .factory('Goal', function() {
-  var personal_goals = [{
-    id: 1,
-    body: "Remain independent"
-  }, {
-    id: 2,
-    body: "Keep visiting with friends and doing my daily activities"
-  }, {
-    id: 3,
-    body: "Be able to visit out-of-town family by plane"
-  }, {
-    id: 4,
-    body: "Feel healthy"
-  }];
 
+  // TODO create enums for personal vs clinical
+  goals = [
+    { body: "Remain independent", type: "personal" },
+    { body: "Keep visiting with friends and doing my daily activities", type: "personal" },
+    { body: "Be able to visit out-of-town family by plane", type: "personal" },
+    { body: "Feel healthy", type: "personal" },
+    { body: "Control systolic blood pressure to lower than 130/80 mmHg but not less than 90 mmHg.", type: "clinical" },
+    { body: "Keep HbA1C levels at 7% or less.", type: "clinical" }
+  ];
 
   return {
     get: function() {
-      return personal_goals
+      return goals;
+    },
+    add: function(goal) {
+      goals.push(goal);
     }
   };
 })
