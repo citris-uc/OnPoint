@@ -99,7 +99,7 @@ angular.module('app.routes', [])
     views: {
       'goals-tab': {
         templateUrl: 'templates/addGoal.html',
-        controller: 'addGoalCtrl'
+        controller: 'goalsCtrl'
       }
     }
   })

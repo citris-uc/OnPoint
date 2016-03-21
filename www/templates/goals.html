@@ -9,26 +9,27 @@
 
         <!-- Cards for each goal type -->
         <div class="card">
-            <div class="item item-divider">Personal goals ({{personal_goals.length}})</div>
-            <ion-list>
-                <ion-item ng-repeat="g in personal_goals">{{g.id}}. {{g.body}}</ion-item>
+            <div class="item item-divider">Personal goals ({{ (goals | filter:{type:'personal'}).length }})
+              <a href="#" class="item-icon-right" ng-click="visible.personal = !visible.personal">
+                <i class="icon" ng-class="visible.personal ? 'ion-chevron-up' : 'ion-chevron-down'"></i>
+              </a>
+            </div>
+            <ion-list ng-show="visible.personal">
+              <ion-item ng-repeat="g in goals | filter:{type:'personal'}">{{$index+1}}. {{g.body}}</ion-item>
             </ion-list>
         </div>
 
         <div class="card">
-            <div class="item item-divider">Clinical goals (x)</div>
+            <div class="item item-divider">Clinical goals ( {{(goals | filter:{type:'clinical'}).length}} )
+              <a href="#" class="item-icon-right" ng-click="visible.clinical = !visible.clinical">
+                  <i class="icon" ng-class="visible.personal ? 'ion-chevron-up' : 'ion-chevron-down'"></i>
+              </a>
+            </div>
 
-            <ion-list>
-                <!-- <ion-item ng-repeat="g in personal_goals">{{g.id}}. {{g.body}}</ion-item> -->
-                <ion-item>Placeholder</ion-item>
+            <ion-list ng-show="visible.clinical">
+                <ion-item ng-repeat="g in goals | filter:{type:'clinical'}">{{$index+1}}. {{g.body}}</ion-item>
             </ion-list>
         </div>
-        <!-- <a ui-sref="addGoal" id="goals-button3" class="button button-stable button-block button-small icon-left ion-ios-plus">Add a new personal goal</a>-->
-
-        <!--
-        Look into controllers.js and services.js to see how this object rendered:
-        <br></br>
-        {{personal_goals}}-->
     </ion-content>
 
 

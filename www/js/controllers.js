@@ -113,13 +113,17 @@ $scope.bpAlert = function(value) {
 
 })
 .controller('goalsCtrl', function($scope, Goal) {
-  // We inject the Goal factory so that we can query for the personal
-  // goals associated with the user.
-  $scope.personal_goals = Goal.get();
-})
+  // TODO use enums for personal/clinical here
+  $scope.goals = Goal.get(),
 
-.controller('addGoalCtrl', function($scope) {
+  // See https://github.com/angular/angular.js/wiki/Understanding-Scopes
+  // on why we're creating an Object here rather than assigning
+  // a scope variable to a primitive boolean.
+  $scope.visible = {personal: false, clinical: false}
 
+  $scope.addGoal = function(goal) {
+    Goal.add(goal);
+  }
 })
 
 .controller('appointmentsCtrl', function($scope, $location, $state, Appointment) {
