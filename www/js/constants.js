@@ -1,5 +1,20 @@
 angular.module('app.constants', [])
 
+//just using strings for clarity/testing purposes. feel free to change to integers. 
+.constant('CARD', {
+  TYPE: {
+    'ACTION':'action', 
+    'URGENT':'urgent', 
+    'REMINDER':'reminder'},
+  CATEGORY: {
+    'MEDICATIONS': 'medications',
+    'MEASURMENTS': 'measurements',
+    'APPOINTMENTS': 'appointments',
+    'GOALS': 'goals',
+    'SYMPTOMS': 'symptoms'}
+})
+
+/*
 .constant('cardType', {
   action: 0,
   urgent: 1,
@@ -19,3 +34,24 @@ angular.module('app.constants', [])
   goals: 'goals',
   symptoms: 'symptoms'
 })
+
+ardID: 1,
+    createdTimestamp: "2016-03-15T11:00:00",
+    presentedTimestamp: "2016-03-15T11:00:00",
+    updatedTimestamp: "2016-03-15T11:00:00", //should arrange timeline by this timestamp
+    cardType: cardType.action,
+    cardState: cardState.active,
+    cardCategory: cardCategory.measurements,
+    cardTitle: "Take Measurement",
+    cardContent: "Weight, Blood Pressure and Heart Rate"
+  }, {
+    cardID: 2,
+    createdTimestamp: "2016-03-15T12:00:00",
+    presentedTimestamp: "2016-03-15T12:00:00",
+    updatedTimestamp: "2016-03-15T12:00:00", //should arrange timeline by this timestamp
+    cardType: cardType.reminder,
+    cardState: cardState.active,
+    cardCategory: cardCategory.appointments,
+    cardTitle: "Appointment Reminder",
+    cardContent: "Appointment with cardiologist Dr.Hart tomorrow at 9:00 AM"
+  }*/

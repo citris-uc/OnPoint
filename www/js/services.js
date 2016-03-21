@@ -129,37 +129,34 @@ angular.module('app.services', [])
 
 })
 
-.factory("Cards", function(cardType, cardState, cardCategory) {
+.factory("Cards", function(CARD) {
   var cards = [{
     id: 0,
     created_at: "2016-03-15T10:00:00",
-    presented_at: "2016-03-15T10:00:00",
     updated_at: "2016-03-15T10:00:00", //should arrange timeline by this timestamp
-    cardType: cardType.action,
-    cardState: cardState.active,
-    cardCategory: cardCategory.medications,
-    cardTitle: "Take Medications",
-    cardContent: "Lasix, Toprol, Zestril, Coumadin, Losartan, Riomet"
+    completed_at: null, 
+    archived_at: null, 
+    type: CARD.TYPE.ACTION,
+    object_type: CARD.CATEGORY.MEDICATIONS,
+    object_id: 1
   }, {
-    cardID: 1,
-    createdTimestamp: "2016-03-15T11:00:00",
-    presentedTimestamp: "2016-03-15T11:00:00",
-    updatedTimestamp: "2016-03-15T11:00:00", //should arrange timeline by this timestamp
-    cardType: cardType.action,
-    cardState: cardState.active,
-    cardCategory: cardCategory.measurements,
-    cardTitle: "Take Measurement",
-    cardContent: "Weight, Blood Pressure and Heart Rate"
+    id: 1,
+    created_at: "2016-03-15T11:00:00",
+    updated_at: "2016-03-15T11:00:00", //should arrange timeline by this timestamp
+    completed_at: null, 
+    archived_at: null, 
+    type: CARD.TYPE.ACTION,
+    object_type: CARD.CATEGORY.MEASUREMENTS,
+    object_id: 1
   }, {
-    cardID: 2,
-    createdTimestamp: "2016-03-15T12:00:00",
-    presentedTimestamp: "2016-03-15T12:00:00",
-    updatedTimestamp: "2016-03-15T12:00:00", //should arrange timeline by this timestamp
-    cardType: cardType.reminder,
-    cardState: cardState.active,
-    cardCategory: cardCategory.appointments,
-    cardTitle: "Appointment Reminder",
-    cardContent: "Appointment with cardiologist Dr.Hart tomorrow at 9:00 AM"
+    id: 2,
+    created_at: "2016-03-15T11:30:00",
+    updated_at: "2016-03-15T11:30:00", //should arrange timeline by this timestamp
+    completed_at: null, 
+    archived_at: null, 
+    type: CARD.TYPE.REMINDER,
+    object_type: CARD.CATEGORY.APPOINTMENTS,
+    object_id: 1
   }];
 
   return {
