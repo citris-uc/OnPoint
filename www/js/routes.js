@@ -74,6 +74,16 @@ angular.module('app.routes', [])
     }
   })
 
+  .state('tabsController.appointment', {
+    url: '/appointment/:appointmentId',
+    views: {
+      'appointments-tab': {
+        templateUrl: 'templates/appointment.html',
+        controller: 'appointmentCtrl'
+      }
+    }
+  })
+
   .state('tabsController.goals', {
     url: '/goals',
     views: {
@@ -89,15 +99,9 @@ angular.module('app.routes', [])
     views: {
       'goals-tab': {
         templateUrl: 'templates/addGoal.html',
-        controller: 'addGoalCtrl'
+        controller: 'goalsCtrl'
       }
     }
-  })
-
-  .state('appointment', {
-    url: '/appointment',
-    templateUrl: 'templates/appointment.html',
-    controller: 'appointmentCtrl'
   })
 
   .state('symptomsSlider', {
