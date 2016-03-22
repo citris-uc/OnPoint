@@ -6,6 +6,14 @@ angular.module('app.controllers', [])
 .controller('timelineCtrl', function($scope, Card, CARD) {
   $scope.cards = Card.get();
   $scope.CARD = CARD;
+
+  $scope.getTime = function(timestamp) {
+    console.log(timestamp);
+    var time = new Date(timestamp);
+    console.log(time);
+    return time;
+  }
+
 })
 
 .controller('measurementsCtrl', function($scope, Measurement) {

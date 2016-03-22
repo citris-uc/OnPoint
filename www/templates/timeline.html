@@ -21,6 +21,7 @@
       <!-- Card Title -->
       <div ng-class="['item', cardClass]">
         <a href="#">{{c.type == CARD.TYPE.ACTION ? 'Take ': c.type == CARD.TYPE.URGENT ? 'TODO: ': ''}}{{c.object_type}}{{c.type == CARD.TYPE.REMINDER ? ' Reminder':''}}</a>
+        <a style="float:right">{{getTime(c.updated_at) | date: 'h:mm a'}}</a>
       </div>
 
       <!-- Card Body -->
