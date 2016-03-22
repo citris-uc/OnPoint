@@ -27,11 +27,8 @@ angular.module('app.controllers', [])
   $scope.measurements = Measurement.get();
 
   $scope.addMeasurement = function() {
-    Measurement.add(new Date(),
-                    $scope.newMeasurement.weight,
-                    $scope.newMeasurement.systolic,
-                    $scope.newMeasurement.diastolic,
-                    $scope.newMeasurement.heartRate);
+    measurement = Measurement.add($scope.newMeasurement);
+
     $state.go('tabsController.measurements');
     //$ionicHistory.goBack(); //calling back button manually.
   };
@@ -85,21 +82,6 @@ $scope.bpAlert = function(value) {
     console.log('Tapped!', res);
   });
  };
-/*
-   $scope.bpAlert = function() {
-   var bpAlert = $ionicPopup.confirm({
-     title: 'Blood Pressure',
-     template: 'yolo'
-   });
-
-   bpAlert.then(function(res) {
-     if(res) {
-       console.log('You are sure');
-     } else {
-       console.log('You are not sure');
-     }
-   });
- }; */
 })
 
 .controller('measurementTipsCtrl', function($scope, MeasurementTips) {
