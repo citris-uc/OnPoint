@@ -101,6 +101,11 @@ angular.module('app.services', [])
         card.completed_at = now
       }
 
+      // Finally, let's check if the blood pressure is out of range, and if so,
+      // change this card to urgent.
+      if (this.hasHighBP(m))
+        card.type = CARD.TYPE.URGENT
+
       return m;
     }
   };
