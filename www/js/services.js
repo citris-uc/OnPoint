@@ -67,6 +67,14 @@ angular.module('app.services', [])
       return measurements;
     },
 
+    hasHighBP: function(measurement) {
+      if ( !(measurement.systolic && measurement.diastolic) )
+        return false;
+
+      if (measurement.systolic > 160 || measurement.systolic < 90)
+        return true;
+    },
+
     add: function(measurement) {
       now = (new Date()).toISOString();
 
@@ -92,6 +100,11 @@ angular.module('app.services', [])
         card.updated_at   = now
         card.completed_at = now
       }
+
+      // Finally, let's check if the blood pressure is out of range, and if so,
+      // change this card to urgent.
+      if (this.hasHighBP(m))
+        card.type = CARD.TYPE.URGENT
 
       return m;
     }
