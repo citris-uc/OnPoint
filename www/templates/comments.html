@@ -1,0 +1,20 @@
+<ion-view title="Comments">
+  <ion-content overflow-scroll="true" padding="false" class="has-header">
+    <ion-list>
+
+      <ion-item ng-repeat="comment in comments">
+        {{comment.timestamp}} &nbsp {{comment.user_name}} said :  {{comment.content}}
+      </ion-item>
+
+      <br></br>
+      <form class="list">
+        <!-- Text Input for reply -->
+        <label class="item item-input">
+          <input type="text" placeholder="type to reply" ng-model="newComment.content" required>
+        </label>
+        <!-- Save button -->
+        <button class="button button-positive button-block" ng-click="reply()">reply</button>
+      </form>
+    </ion-list>
+  </ion-content>
+</ion-view>

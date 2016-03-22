@@ -164,4 +164,3 @@ angular.module('app.services', [])
   };
 
 })
-
