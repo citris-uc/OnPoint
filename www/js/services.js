@@ -43,37 +43,60 @@ angular.module('app.services', [])
 // Factories allows us to define objects within our app. We can expose
 // specific methods within the object literal to mimic API calls, e.g.
 // Measurement.get() will return all measurements associated with a user.
-.factory("Measurement", function() {
-  var measurements = [{
-    timestamp: "2016-03-01T10:00",
-    weight: "160",
-    systolic: "120",
-    diastolic: "112",
-    heartRate: "60"
-  }, {
-    timestamp: "2016-03-02T10:00",
-    weight: "165",
-    systolic: "150",
-    diastolic: "130",
-    heartRate: "75"
-  }];
+.factory("Measurement", ["CARD", "Card", function(CARD, Card) {
+  var measurements = [
+    {
+      id: 1,
+      weight: "160",
+      systolic: "120",
+      diastolic: "112",
+      heartRate: "60",
+      created_at: "2016-03-01T10:00",
+    }, {
+      id: 2,
+      weight: "165",
+      systolic: "150",
+      diastolic: "130",
+      heartRate: "75",
+      created_at: "2016-03-02T10:00"
+    }
+  ];
 
   return {
     get: function() {
       return measurements;
     },
 
-    add: function(date,newWeight,newSystolic,newDiastolic,newHR) {
-      console.log(measurements.length);
-      measurements.push({timestamp: date,
-                         weight: (newWeight),
-                         systolic: (newSystolic),
-                         diastolic: (newDiastolic),
-                         heartRate: (newHR)});
+    add: function(measurement) {
+      now = (new Date()).toISOString();
+
+      var m = {
+        id: measurements.length + 1,
+        weight: measurement.weight,
+        systolic: measurement.systolic,
+        diastolic: measurement.diastolic,
+        heartRate: measurement.heartDate,
+        created_at: now
+      }
+
+      measurements.push(m);
+
+      // At this point, let's find, or create an associated
+      // card.
+      var card = Card.find_by_object(m.id, CARD.CATEGORY.MEASUREMENTS);
+      if (!card)
+        card = Card.create_from_object(m, CARD.CATEGORY.MEASUREMENTS, CARD.TYPE.ACTION)
+
+      // Let's update the timestamps.
+      if (m.weight || (m.systolic && m.diastolic) || m.heartRate) {
+        card.updated_at   = now
+        card.completed_at = now
+      }
+
+      return m;
     }
   };
-
-})
+}] )
 
 .factory('MeasurementTips', function() {
   var measurementTips = [{
@@ -127,41 +150,4 @@ angular.module('app.services', [])
     }
   };
 
-})
-
-.factory("Card", function(CARD) {
-  var cards = [{
-    id: 0,
-    created_at: "2016-03-15T10:00:00",
-    updated_at: "2016-03-15T10:00:00", //should arrange timeline by this timestamp
-    completed_at: null, 
-    archived_at: null, 
-    type: CARD.TYPE.ACTION,
-    object_type: CARD.CATEGORY.MEDICATIONS,
-    object_id: 1
-  }, {
-    id: 1,
-    created_at: "2016-03-15T11:00:00",
-    updated_at: "2016-03-15T11:00:00", //should arrange timeline by this timestamp
-    completed_at: null, 
-    archived_at: null, 
-    type: CARD.TYPE.ACTION,
-    object_type: CARD.CATEGORY.MEASUREMENTS,
-    object_id: 1
-  }, {
-    id: 2,
-    created_at: "2016-03-15T11:30:00",
-    updated_at: "2016-03-15T11:30:00", //should arrange timeline by this timestamp
-    completed_at: null, 
-    archived_at: null, 
-    type: CARD.TYPE.REMINDER,
-    object_type: CARD.CATEGORY.APPOINTMENTS,
-    object_id: 1
-  }];
-
-  return {
-    get: function() {
-      return cards;
-    }
-  };
 })
