@@ -3,7 +3,9 @@ angular.module('app.controllers', [])
 .controller('loginCtrl', function($scope) {
 })
 
-.controller('timelineCtrl', function($scope) {
+.controller('timelineCtrl', function($scope, Card, CARD) {
+  $scope.cards = Card.get();
+  $scope.CARD = CARD;
 })
 
 .controller('measurementsCtrl', function($scope, Measurement) {
