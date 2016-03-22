@@ -145,7 +145,7 @@ angular.module('app.services', [])
     updated_at: "2016-03-15T11:00:00", //should arrange timeline by this timestamp
     completed_at: null, 
     archived_at: null, 
-    type: CARD.TYPE.ACTION,
+    type: CARD.TYPE.URGENT,
     object_type: CARD.CATEGORY.MEASUREMENTS,
     object_id: 1
   }, {
