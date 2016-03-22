@@ -160,33 +160,6 @@ angular.module('app.services')
         }
       }
       return match;
-    },
-
-    taken: function(id) {
-      return (history[id]['taken_at'] != null)
-    },
-
-    skipped: function(id) {
-      return (history[id]['skipped_at'] != null)
-    },
-
-    hasTaken: function(med_id, slot, date) {
-      var i = this.find(med_id, slot, date);
-        if (i != null) {
-          return this.taken(i);
-        }
-        return false;
-    },
-
-    setColor: function(med_id, slot, date) {
-      var i = this.find(med_id, slot, date);
-      if (i != null) {
-        if (this.skipped(i)) {
-          return 'grey';
-        }
-      }
-      return 'black';
     }
-
   };
 }])

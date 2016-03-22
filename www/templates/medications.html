@@ -8,13 +8,13 @@
           <i class="icon ion-ios-arrow-right"></i>
         </a>
 
-        <ion-item ng-repeat="med in dateSchedule.medications", ui-sref="tabsController.medication({schedule_id: 1, medicationName: med.name})" ng-hide="hasTaken(med.id, 'morning')"
-        ng-style="{'color': hasSkipped(med.id, 'morning')}">
+        <ion-item ng-repeat="med in dateSchedule.medications", ui-sref="tabsController.medication({schedule_id: dateSchedule.id, medicationName: med.name})" ng-hide="medicationHistory(med.name, dateSchedule.id).taken_at"
+        ng-style="{'color': (medicationHistory(med.name, dateSchedule.id).skipped_at ? 'grey' : 'black')}">
           {{med.trade_name}}
         </ion-item>
       </span>
 
-  
+
     </ion-list>
   </ion-content>
 </ion-view>
