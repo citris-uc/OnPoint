@@ -86,10 +86,16 @@ angular.module('app.services', [])
       var card = Card.find_by_object(m.id, CARD.CATEGORY.MEASUREMENTS);
       if (!card)
         card = Card.create_from_object(m, CARD.CATEGORY.MEASUREMENTS, CARD.TYPE.ACTION)
-      card.completed_at = now
+
+      // Let's update the timestamps.
+      if (m.weight || (m.systolic && m.diastolic) || m.heartRate) {
+        card.updated_at   = now
+        card.completed_at = now
+      }
+
+      return m;
     }
   };
-
 }] )
 
 .factory('MeasurementTips', function() {
