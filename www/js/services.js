@@ -129,7 +129,7 @@ angular.module('app.services', [])
 
 })
 
-.factory("Cards", function(CARD) {
+.factory("Card", function(CARD) {
   var cards = [{
     id: 0,
     created_at: "2016-03-15T10:00:00",
