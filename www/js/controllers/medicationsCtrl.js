@@ -34,8 +34,7 @@ angular.module('app.controllers')
 })
 
 .controller("medicationScheduleCtrl", function($scope, $stateParams, MedicationSchedule, MedicationDosage, MedicationHistory) {
-  $scope.state = $stateParams;
-  $scope.schedule = MedicationSchedule.get()[$scope.state.schedule];
+  $scope.schedule = MedicationSchedule.findByID($stateParams.schedule_id);
 
   $scope.hasTaken = function(med_id, slot) {
     now = new Date().toDateString();
