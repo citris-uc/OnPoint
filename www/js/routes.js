@@ -106,6 +106,16 @@ angular.module('app.routes', [])
     }
   })
 
+  .state('tabsController.comments', {
+    url: '/cards/:id/comments',
+    views: {
+      'timeline-tab': {
+        templateUrl: 'templates/comments.html',
+        controller: 'commentsCtrl'
+      }
+    }
+  })
+
   .state('tabsController.goals', {
     url: '/goals',
     views: {
