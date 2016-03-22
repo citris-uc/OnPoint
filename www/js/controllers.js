@@ -17,7 +17,7 @@ angular.module('app.controllers', [])
   // We inject the Measurement factory so that we can query for the measurement
   // history.
 
-  //Need to bind the ng-model to an object, thats why i declare input={}
+  //Need to bind the ng-model to an object, thats why i declare newMeasurement={}
   $scope.newMeasurement = {};
   $scope.newMeasurement.weight = null;
   $scope.newMeasurement.systolic = null;
