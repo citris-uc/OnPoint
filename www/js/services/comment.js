@@ -16,13 +16,13 @@ angular.module('app.services')
       return comments;
     },
     getByCardId: function(id) {
-      comments = [];
+      cardcomments = [];
       for (var i = 0; i < comments.length; i++) {
         if (comments[i].cardId == id){
-          comments.push(comments[i]);
+          cardcomments.push(comments[i]);
         }
       }
-      return comments;
+      return cardcomments;
     },
   };
 })
