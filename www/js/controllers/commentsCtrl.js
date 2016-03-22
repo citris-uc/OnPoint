@@ -6,7 +6,6 @@ angular.module('app.controllers')
   $scope.reply = function(replyContent){
   	new_comment = {};
   	new_comment.cardId = $stateParams.id;
-  	new_comment.timestamp = new Date();
   	new_comment.user_name = "Mr.A";
   	new_comment.content = replyContent;
   	Comment.add(new_comment);

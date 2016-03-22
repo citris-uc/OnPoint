@@ -25,6 +25,7 @@ angular.module('app.services')
       return cardcomments;
     },
     add: function(comment) {
+      comment.created_at = (new Date()).toISOString()
       comments.push(comment);
     }
   };
