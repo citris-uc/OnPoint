@@ -16,10 +16,16 @@ angular.module('app.services')
       return medications;
     },
     getByName: function(name) {
-      return medications.find( function(med){ return med.name == name } );
+      for (var i = 0; i < medications.length; i++) {
+        if (medications[i].name == name)
+          return medications[i]
+      }
     },
     getByTradeName: function(trade_name) {
-      return medications.find( function(med){ return med.trade_name == trade_name } );
+      for (var i = 0; i < medications.length; i++) {
+        if (medications[i].trade_name == trade_name)
+          return medications[i]
+      }
     }
   };
 })
@@ -61,8 +67,11 @@ angular.module('app.services')
   }
 
   return {
-    get: function() {
-      return dosage;
+    getByName: function(name) {
+      for (var med_name in dosage) {
+        if (med_name == name)
+          return dosage[med_name]
+      }
     }
   };
 }])
