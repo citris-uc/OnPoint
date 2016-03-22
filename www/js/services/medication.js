@@ -125,27 +125,31 @@ angular.module('app.services')
       skipped_at: "2016-03-21T19:00:00"
     }
   ]
+
   return {
     get: function() {
       return history;
     },
 
-    create_or_update: function(medication, slot) {
-      var instance = this.find(medication, slot)
+    create_or_update: function(medication, schedule, choice) {
+      var instance = this.findByMedicationIdAndScheduleId(medication.id, schedule.id)
+      if (!instance) {
+        instance = {
+          id: history.length + 1,
+          medication_id: medication.id,
+          medication_schedule_id: schedule.id
+        }
 
-      instance = {
-        id: history.length + 1,
-        medication_id: medication_id,
-        scheduled_at: now,
-        scheduled_slot: slot
+        history.push(instance);
       }
 
-      if (choice == "taken")
+      // NOTE: We should still be able to update the object after we've pushed
+      // it to the array.
+      now = (new Date()).toISOString();
+      if (choice == "take")
         instance.taken_at = now
-      else if (choice == "skipped")
-        instance.taken_at = now
-
-      history.push(instance);
+      else if (choice == "skip")
+        instance.skipped_at = now
     },
 
     findByMedicationIdAndScheduleId: function(med_id, schedule_id) {
