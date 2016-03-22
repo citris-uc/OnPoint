@@ -24,5 +24,8 @@ angular.module('app.services')
       }
       return cardcomments;
     },
+    add: function(comment) {
+      comments.push(comment);
+    }
   };
 })

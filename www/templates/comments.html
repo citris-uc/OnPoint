@@ -4,7 +4,17 @@
 
       <ion-item ng-repeat="comment in comments">
         {{comment.timestamp}} &nbsp {{comment.user_name}} said :  {{comment.content}}
-      </ion-item>    
+      </ion-item>  
+
+      <br></br>
+      <form class="list">
+        <!-- Text Input for reply -->
+        <label class="item item-input">
+          <input type="text" placeholder="type to reply" ng-model="replyContent" required>
+        </label>
+        <!-- Save button -->
+        <button class="button button-positive button-block" ng-click="reply(replyContent)">reply</button>
+      </form>
     </ion-list>
   </ion-content>
 </ion-view>
