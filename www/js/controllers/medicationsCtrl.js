@@ -1,111 +1,54 @@
 angular.module('app.controllers')
 
-.controller('medicationsCtrl', function($scope, MedicationSchedule, MedicationHistory) {
+.controller('medicationsCtrl', function($scope, Medication, MedicationSchedule, MedicationHistory) {
   $scope.schedule = MedicationSchedule.get();
 
-  $scope.hasTaken = function(med_id, slot) {
-    now = new Date().toDateString();
-    return MedicationHistory.hasTaken(med_id, slot, now);
-    /*
-    var i = MedicationHistory.find(med_id, slot, now);
-    if (i !=null) {
-      if(MedicationHistory.taken(i)) {
-        return true;
-      }
-    }
-    return false;
-    */
-  }
-
-  $scope.hasSkipped = function(med_id, slot) {
-    now = new Date().toDateString();
-    return MedicationHistory.setColor(med_id, slot, now);
-    /*
-    now = new Date().toDateString();
-    var i = MedicationHistory.find(med_id, slot, now);
-    if (i !=null) {
-      if (MedicationHistory.skipped(i)) {
-        return 'grey';
-      }
-    }
-    return 'black';
-    */
+  $scope.medicationHistory = function(med_name, schedule_id) {
+    med = Medication.getByName(med_name)
+    return MedicationHistory.findByMedicationIdAndScheduleId(med.id, schedule_id)
   }
 })
 
-.controller("medicationScheduleCtrl", function($scope, $stateParams, MedicationSchedule, MedicationDosage, MedicationHistory) {
+.controller("medicationScheduleCtrl", function($scope, $stateParams, Medication, MedicationSchedule, MedicationDosage, MedicationHistory) {
   $scope.schedule = MedicationSchedule.findByID($stateParams.schedule_id);
 
-  $scope.hasTaken = function(med_id, slot) {
-    now = new Date().toDateString();
-    return MedicationHistory.hasTaken(med_id, slot, now);
-    /*
-    var i = MedicationHistory.find(med_id, slot, now);
-    if (i !=null) {
-      if(MedicationHistory.taken(i)) {
-        return true;
-      }
-    }
-    return false;
-    */
+  $scope.medicationHistory = function(med_name) {
+    med = Medication.getByName(med_name)
+    return MedicationHistory.findByMedicationIdAndScheduleId(med.id, $scope.schedule.id)
   }
-
-  $scope.hasSkipped = function(med_id, slot) {
-    now = new Date().toDateString();
-    return MedicationHistory.setColor(med_id, slot, now);
-    /*
-    now = new Date().toDateString();
-    var i = MedicationHistory.find(med_id, slot, now);
-    if (i !=null) {
-      if (MedicationHistory.skipped(i)) {
-        return 'grey';
-      }
-    }
-    return 'black';
-    */
-  }
-
 })
 .controller("medicationCtrl", function($scope, $stateParams,$ionicPopup,$ionicHistory, Medication, MedicationSchedule, MedicationDosage, MedicationHistory) {
   $scope.state = $stateParams;
   $scope.medication = Medication.getByName($stateParams.medicationName);
   $scope.dosage     = MedicationDosage.getByName($stateParams.medicationName);
+  $scope.schedule   = MedicationSchedule.findByID($stateParams.schedule_id)
 
-
-  $scope.take = function(med_id, slot, med_name) {
-    var now = new Date();
-    var i = MedicationHistory.find(med_id, slot, now.toDateString());
-    if (i != null) {  
-      MedicationHistory.update(i,'taken_at', now);
-    } else {
-      MedicationHistory.add(med_id, now.toDateString(), slot, now, null);
-    }
+  $scope.takeMedication = function() {
+    MedicationHistory.create_or_update($scope.medication, $scope.schedule, "take")
     var alertPopup = $ionicPopup.alert({
       title: 'Success',
-      template: 'You have succesfully taken ' + med_name
+      template: 'You have succesfully taken ' + $scope.medication.trade_name
     });
 
     alertPopup.then(function(res) {
-      $ionicHistory.goBack(); //calling back button manually.
+      $ionicHistory.goBack();
     });
   }
 
-  $scope.skip = function(med_id,slot, med_name)  {
-  var now = new Date();
-  var myPopup = $ionicPopup.show({
-    subTitle: 'Are you sure you want to skip ' + med_name,
-    scope: $scope,
-    buttons: [
-      { text: 'No'
-      },
-      {
-        text: '<b>Yes</b>',
-        onTap: function(e) {
-          MedicationHistory.add(med_id, now.toDateString(), slot, null, now);
-          $ionicHistory.goBack(); //calling back button manually.
+  $scope.skipMedication = function()  {
+    var myPopup = $ionicPopup.show({
+      subTitle: 'Are you sure you want to skip ' + $scope.medication.trade_name,
+      scope: $scope,
+      buttons: [
+        { text: 'No' },
+        {
+          text: '<b>Yes</b>',
+          onTap: function(e) {
+            MedicationHistory.create_or_update($scope.medication, $scope.schedule, "skip")
+            $ionicHistory.goBack();
+          }
         }
-      }
-    ]
-  });
- };
+      ]
+    });
+  };
 })
