@@ -80,16 +80,16 @@ angular.module('app.services')
   var count = 1;
   var history = [{
       id: 0,
-      med_id: 1, 
-      scheudled_date: (new Date("2016-03-21 08:00")).toDateString(), //just get the DATE PORTION
-      scheuduled_slot: 'morning',
+      medication_id: 1, 
+      scheduled_at: (new Date("2016-03-21 08:00")).toDateString(), //just get the DATE PORTION
+      scheduled_slot: 'morning',
       taken_at: new Date("2016-03-21 08:01"), 
       skipped_at: null 
     }, {
       id: 1,
-      med_id: 7, 
-      scheudled_date: (new Date("2016-03-22 19:00")).toDateString(),
-      scheuduled_slot: 'evening',
+      medication_id: 7, 
+      scheduled_at: (new Date("2016-03-22 19:00")).toDateString(),
+      scheduled_slot: 'evening',
       taken_at: null, 
       skipped_at: new Date("2016-03-21 19:01") }
   ]
@@ -114,7 +114,7 @@ angular.module('app.services')
 
     find: function(med_id, slot, date) {
       for(var i = 0; i < history.length; i++) {
-        if (history[i].scheudled_date.valueOf() == date.valueOf() && 
+        if (history[i].scheudled_date == date && 
             history[i].scheuduled_slot == slot && history[i].med_id == med_id) {
           return history[i].id;
         }
@@ -123,15 +123,29 @@ angular.module('app.services')
     },
 
     taken: function(id) {
-      if (history[id]['taken_at'] != null)
-        return true;
-      return false;
+      return (history[id]['taken_at'] != null)
     },
 
     skipped: function(id) {
-      if (history[id]['skipped_at'] != null)
-        return true;
-      return false;
+      return (history[id]['skipped_at'] != null)
+    },
+
+    hasTaken: function(med_id, slot, date) {
+      var i = this.find(med_id, slot, date);
+        if (i != null) {
+          return this.taken(i);
+        }
+        return false;
+    },
+    
+    setColor: function(med_id, slot, date) {
+      var i = this.find(med_id, slot, date);
+      if (i != null) {
+        if (this.skipped(i)) {
+          return 'grey';
+        }
+      }
+      return 'black';
     }
 
   };

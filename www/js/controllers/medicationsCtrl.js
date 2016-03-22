@@ -5,7 +5,8 @@ angular.module('app.controllers')
 
   $scope.hasTaken = function(med_id, slot) {
     now = new Date().toDateString();
-
+    return MedicationHistory.hasTaken(med_id, slot, now);
+    /*
     var i = MedicationHistory.find(med_id, slot, now);
     if (i !=null) {
       if(MedicationHistory.taken(i)) {
@@ -13,9 +14,13 @@ angular.module('app.controllers')
       }
     }
     return false;
+    */
   }
 
-  $scope.getColor = function(med_id, slot) {
+  $scope.hasSkipped = function(med_id, slot) {
+    now = new Date().toDateString();
+    return MedicationHistory.setColor(med_id, slot, now);
+    /*
     now = new Date().toDateString();
     var i = MedicationHistory.find(med_id, slot, now);
     if (i !=null) {
@@ -24,6 +29,7 @@ angular.module('app.controllers')
       }
     }
     return 'black';
+    */
   }
 })
 
@@ -33,7 +39,8 @@ angular.module('app.controllers')
 
   $scope.hasTaken = function(med_id, slot) {
     now = new Date().toDateString();
-
+    return MedicationHistory.hasTaken(med_id, slot, now);
+    /*
     var i = MedicationHistory.find(med_id, slot, now);
     if (i !=null) {
       if(MedicationHistory.taken(i)) {
@@ -41,9 +48,13 @@ angular.module('app.controllers')
       }
     }
     return false;
+    */
   }
 
-  $scope.getColor = function(med_id, slot) {
+  $scope.hasSkipped = function(med_id, slot) {
+    now = new Date().toDateString();
+    return MedicationHistory.setColor(med_id, slot, now);
+    /*
     now = new Date().toDateString();
     var i = MedicationHistory.find(med_id, slot, now);
     if (i !=null) {
@@ -52,6 +63,7 @@ angular.module('app.controllers')
       }
     }
     return 'black';
+    */
   }
 
 })

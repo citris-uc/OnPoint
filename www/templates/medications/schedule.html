@@ -2,7 +2,7 @@
   <ion-content overflow-scroll="true" padding="false" class="has-header">
     <div class="list">
       <a class="item" ng-repeat="med in schedule" ui-sref="tabsController.medication({schedule: state.schedule, date: state.date, medicationName: med.name})" ng-hide="hasTaken(med.id, state.schedule)"
-      ng-style="{'color': getColor(med.id, state.schedule)}">
+      ng-style="{'color': hasSkipped(med.id, state.schedule)}">
         {{med.trade_name}}
       </a>
     </div>
