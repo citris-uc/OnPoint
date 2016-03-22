@@ -5,8 +5,8 @@ angular.module('app.services')
     id: 0,
     created_at: "2016-03-15T10:00:00",
     updated_at: "2016-03-15T10:00:00", //should arrange timeline by this timestamp
-    completed_at: null,
-    archived_at: null,
+    completed_at: null, 
+    archived_at: null, 
     type: CARD.TYPE.ACTION,
     object_type: CARD.CATEGORY.MEDICATIONS,
     object_id: 1
@@ -14,19 +14,37 @@ angular.module('app.services')
     id: 1,
     created_at: "2016-03-15T11:00:00",
     updated_at: "2016-03-15T11:00:00", //should arrange timeline by this timestamp
-    completed_at: null,
-    archived_at: null,
-    type: CARD.TYPE.ACTION,
+    completed_at: null, 
+    archived_at: null, 
+    type: CARD.TYPE.URGENT,
     object_type: CARD.CATEGORY.MEASUREMENTS,
     object_id: 1
   }, {
     id: 2,
     created_at: "2016-03-15T11:30:00",
     updated_at: "2016-03-15T11:30:00", //should arrange timeline by this timestamp
-    completed_at: null,
-    archived_at: null,
+    completed_at: null, 
+    archived_at: null, 
     type: CARD.TYPE.REMINDER,
     object_type: CARD.CATEGORY.APPOINTMENTS,
+    object_id: 1
+  }, {
+    id: 3,
+    created_at: "2016-03-15T12:00:00",
+    updated_at: "2016-03-15T12:30:00", //should arrange timeline by this timestamp
+    completed_at: "2016-03-15T12:30:00", 
+    archived_at: null, 
+    type: CARD.TYPE.REMINDER,
+    object_type: CARD.CATEGORY.GOALS,
+    object_id: 1
+  }, {
+    id: 4,
+    created_at: "2016-03-15T12:00:00",
+    updated_at: "2016-03-15T12:30:00", //should arrange timeline by this timestamp
+    completed_at: "2016-03-15T12:30:00", 
+    archived_at: "2016-03-15T12:30:00", 
+    type: CARD.TYPE.URGENT,
+    object_type: CARD.CATEGORY.SYMPTOMS,
     object_id: 1
   }];
 

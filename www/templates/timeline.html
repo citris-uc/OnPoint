@@ -1,20 +1,39 @@
-<!-- <link type="text/css" rel="stylesheet" href="css/timelineStyle.css"/> -->
+<link type="text/css" rel="stylesheet" href="css/timelineStyle.css"/>
 
-
-<ion-view title="Home">
+<ion-view title="Home" class = "timeline">
   <ion-nav-buttons side="left">
     <button class="button button-icon icon ion-ios-gear-outline button-positive button-clear" ui-sref="/tabs"></button>
   </ion-nav-buttons>
+
   <ion-content overflow-scroll="true" padding="true" class="has-header">
 
-      <div class="card" ng-repeat="c in cards | orderBy: '-updated_at' | filter:{archived_at:null}">
-          <div class="item item-divider">
-            <a href="#">{{c.type == CARD.TYPE.ACTION ? 'Take ': c.type == CARD.TYPE.URGENT ? 'TODO: ': ''}}{{c.object_type}}{{c.type == CARD.TYPE.REMINDER ? ' Reminder':''}}</a>
-          </div>
-          <div class="item item-text-wrap">
-            
-          </div>
+    <!-- Text input for Symptoms Feeling tracker -->
+    <!-- TODO: Save button on right? -->
+    <div class="list list-inset">
+      <label class="item item-input">
+        <input type="text" placeholder="How are you feeling?">
+      </label>
+    </div>
+
+    <!-- Create Cards -->
+    <div class="card" ng-repeat="c in cards | orderBy: '-updated_at' | filter:{archived_at:null}" ng-init="cardClass=(c.type == CARD.TYPE.URGENT ? 'urgentCard' : c.completed_at == null ? 'activeCard':'completedCard')">
+
+      <!-- Card Title -->
+      <div ng-class="['item', cardClass]">
+        <a href="#">{{c.type == CARD.TYPE.ACTION ? 'Take ': c.type == CARD.TYPE.URGENT ? 'TODO: ': ''}}{{c.object_type}}{{c.type == CARD.TYPE.REMINDER ? ' Reminder':''}}</a>
       </div>
 
+      <!-- Card Body -->
+      <div class="item item-text-wrap">
+        <a>Lorem Ipsum</a>
+      </div>
+
+      <!-- Card Buttons -->
+      <div class="button-bar">
+        <a class="button button-small icon ion-ios-chatboxes-outline"> Comments</a>
+        <a class="button button-small ">Action</a>
+      </div>
+
+    </div>
   </ion-content>
 </ion-view>
