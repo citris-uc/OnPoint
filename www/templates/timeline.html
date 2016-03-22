@@ -16,7 +16,7 @@
     </div>
 
     <!-- Create Cards -->
-    <div class="card" ng-repeat="c in cards | orderBy: '-updated_at' | filter:{archived_at:null}" ng-init="cardClass=(c.type == CARD.TYPE.URGENT ? 'urgentCard' : c.completed_at == null ? 'activeCard':'completedCard')">
+    <div class="card" ng-repeat="c in cards | orderBy: '-updated_at' | filter:{archived_at:null}" ng-init="cardClass= c.completed_at != null ? 'completedCard' : (c.type == CARD.TYPE.URGENT ? 'urgentCard' : 'activeCard')">
 
       <!-- Card Title -->
       <div ng-class="['item', cardClass]">
