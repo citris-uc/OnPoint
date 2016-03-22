@@ -2,13 +2,13 @@ angular.module('app.services')
 
 .factory('Medication', function() {
   medications = [
-    {name: "furomeside", trade_name: "Lasix", instructions: "Take twice daily; First in morning and then 6-8 hours later", purpose: "Treats salt and fluid retention and swelling caused by heart failure."},
-    {name: "metoprolol", trade_name: "Toprol XL", instructions: "TODO: Add instructions here", purpose: "Used to treat chest pain (angina), heart failure, and high blood pressure."},
-    {name: "lisinopril", trade_name: "Zestril", instructions: "TODO: Add instructions here", purpose: "Zestril is used to treat high blood pressure (hypertension) or congestive heart failure."},
-    {name: "warfarin", trade_name: "Coumadin", instructions: "Take orally once a day in the morning", purpose: "Treats and prevents blood clots by acting as a blood thinner."},
-    {name: "losartan", trade_name: "Cozaar", instructions: "TODO: Add instructions here", purpose: "It can treat high blood pressure."},
-    {name: "metformin", trade_name: "Riomet", instructions: "Take orally, twice daily, with meals", purpose: "Used to treat Type 2 Diabetes."},
-    {name: "statin", trade_name: "Lipitor", instructions: "TODO: Add instructions here", purpose: "It can treat high cholesterol and triglyceride levels."}
+    {id: 1, name: "furomeside", trade_name: "Lasix", instructions: "Take twice daily; First in morning and then 6-8 hours later", purpose: "Treats salt and fluid retention and swelling caused by heart failure."},
+    {id: 2, name: "metoprolol", trade_name: "Toprol XL", instructions: "TODO: Add instructions here", purpose: "Used to treat chest pain (angina), heart failure, and high blood pressure."},
+    {id: 3, name: "lisinopril", trade_name: "Zestril", instructions: "TODO: Add instructions here", purpose: "Zestril is used to treat high blood pressure (hypertension) or congestive heart failure."},
+    {id: 4, name: "warfarin", trade_name: "Coumadin", instructions: "Take orally once a day in the morning", purpose: "Treats and prevents blood clots by acting as a blood thinner."},
+    {id: 5, name: "losartan", trade_name: "Cozaar", instructions: "TODO: Add instructions here", purpose: "It can treat high blood pressure."},
+    {id: 6, name: "metformin", trade_name: "Riomet", instructions: "Take orally, twice daily, with meals", purpose: "Used to treat Type 2 Diabetes."},
+    {id: 7, name: "statin", trade_name: "Lipitor", instructions: "TODO: Add instructions here", purpose: "It can treat high cholesterol and triglyceride levels."}
   ]
 
   return {
@@ -77,13 +77,50 @@ angular.module('app.services')
 }])
 
 .factory('MedicationHistory', ["Medication", function() {
-  history = [
-    {med_name: "furomeside", taken_at: new Date("2016-03-21 08:00"), skipped_at: null },
-    {med_name: "lipitor", taken_at: null, skipped_at: new Date("2016-03-20 19:00") }
+  var count = 2;
+  var history = [{
+      id: 1,
+      med_id: 1, 
+      scheudled_date: (new Date("2016-03-21 08:00")).toDateString(), //just get the DATE PORTION
+      scheuduled_slot: 'morning',
+      taken_at: new Date("2016-03-21 08:01"), 
+      skipped_at: null 
+    }, {
+      id: 2,
+      med_id: 7, 
+      scheudled_date: (new Date("2016-03-22 19:00")).toDateString(),
+      scheuduled_slot: 'evening',
+      taken_at: null, 
+      skipped_at: new Date("2016-03-21 19:01") }
   ]
   return {
     get: function() {
       return history;
+    },
+    add: function(med_id,date,slot,taken,skipped) {
+      console.log("yo");
+      count = count+1;
+      history.push({id: count,
+                         med_id: med_id,
+                         scheudled_date: date,
+                         scheuduled_slot: slot,
+                         taken_at: taken,
+                         skipped_at: skipped});
+      console.log(history);
+    },
+    check: function(med_id, slot, date) {
+      for(var i = 0; i < history.length; i++) {
+        //console.log(history.length);
+        //console.log(history);
+        if (history[i].scheudled_date.valueOf() == date.valueOf() && 
+            history[i].scheuduled_slot == slot && history[i].med_id == med_id) {
+          if (history[i].taken_at != null)
+            return 'taken';
+          else if (history[i].skipped_at!= null)
+            return 'skipped';
+        }
+      }
+      return null;
     }
   };
 }])

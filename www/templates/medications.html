@@ -6,7 +6,8 @@
         <i class="icon ion-ios-arrow-right"></i>
       </a>
 
-      <ion-item ng-repeat="med in schedule.morning", ui-sref="tabsController.medication({date:'20160321', schedule:'morning', medicationName: med.name})">
+      <ion-item ng-repeat="med in schedule.morning", ui-sref="tabsController.medication({date:'20160321', schedule:'morning', medicationName: med.name})" ng-hide="hasTaken(med.id, 'morning')"
+      ng-style="{'color': getColor(med.id, 'morning')}">
         {{med.trade_name}}
       </ion-item>
 
@@ -15,7 +16,8 @@
         <i class="icon ion-ios-arrow-right"></i>
       </a>
 
-      <ion-item ng-repeat="med in schedule.afternoon" ui-sref="tabsController.medication({date:'20160321', schedule:'afternoon', medicationName: med.name})">
+      <ion-item ng-repeat="med in schedule.afternoon" ui-sref="tabsController.medication({date:'20160321', schedule:'afternoon', medicationName: med.name})" ng-hide="hasTaken(med.id, 'afternoon')"
+      ng-style="{'color': 'getColor(med.id, 'afternoon')'}">
         {{med.trade_name}}
       </ion-item>
 
@@ -24,7 +26,8 @@
         <i class="icon ion-ios-arrow-right"></i>
       </a>
 
-      <ion-item ng-repeat="med in schedule.evening" ui-sref="tabsController.medication({date:'20160321', schedule:'evening', medicationName: med.name})">
+      <ion-item ng-repeat="med in schedule.evening" ui-sref="tabsController.medication({date:'20160321', schedule:'evening', medicationName: med.name})" ng-hide="hasTaken(med.id, 'evening')"
+      ng-style="{'color': getColor(med.id, 'evening')}">
         {{med.trade_name}}
       </ion-item>
     </ion-list>

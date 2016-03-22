@@ -24,10 +24,10 @@
       <div class="item item-body">
         <div class = "row">
           <div class = "col">
-            <button class="button button-block button-light">Skip</button>
+            <button class="button button-block button-light" ng-click="skip(medication.id, state.schedule, state.medicationName)">Skip</button>
           </div>
           <div class="col">
-            <button class="button button-block button-balanced">Take</button>
+            <button class="button button-block button-balanced" ng-click="take(medication.id, state.schedule, state.medicationName)">Take</button>
           </div>
         </div>
       </div>
