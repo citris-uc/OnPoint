@@ -47,14 +47,9 @@ angular.module('app.controllers', [])
   };
 
   $scope.checkBP = function() {
-    if ($scope.newMeasurement.systolic!=null && $scope.newMeasurement.diastolic!=null) {
-      if ($scope.newMeasurement.systolic >160) { //hardcoded limits for now
-        $scope.newMeasurement.bpcolor = 'red';
-        $scope.bpAlert('Blood Pressure High');
-      } else if ($scope.newMeasurement.systolic < 90){
-        $scope.newMeasurement.bpcolor = 'red';
-        $scope.bpAlert('Blood Pressure Low');
-      }
+    if (Measurement.hasHighBP($scope.newMeasurement)) {
+      $scope.newMeasurement.bpcolor = 'red';
+      $scope.bpAlert('Blood Pressure High');
     }
   };
 

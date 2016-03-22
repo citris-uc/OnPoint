@@ -67,6 +67,14 @@ angular.module('app.services', [])
       return measurements;
     },
 
+    hasHighBP: function(measurement) {
+      if ( !(measurement.systolic && measurement.diastolic) )
+        return false;
+
+      if (measurement.systolic > 160 || measurement.systolic < 90)
+        return true;
+    },
+
     add: function(measurement) {
       now = (new Date()).toISOString();
 
