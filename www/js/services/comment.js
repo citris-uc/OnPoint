@@ -2,13 +2,13 @@ angular.module('app.services')
 
 .factory('Comment', function() {
   comments = [
-    {cardId: "2", timestamp: "2016-03-15T12:00:00", user_name: "Son", content: "I will pick you up tomorrow at 10 AM mom."},
-    {cardId: "2", timestamp: "2016-03-15T12:30:00", user_name: "Mr.A", content: "Thanks, see you tomorrow."},
-    {cardId: "2", timestamp: "2016-03-15T12:33:00", user_name: "Daughter", content: "Don't forget to bring your ID."},
-    {cardId: "1", timestamp: "2016-03-15T13:00:00", user_name: "Son", content: "Mom, how do you feel? Are you okay now? Do I need to call nurse?"},
-    {cardId: "1", timestamp: "2016-03-15T13:30:00", user_name: "Mr.A", content: "I will take my measurement one hour later and let you know."},
-    {cardId: "0", timestamp: "2016-03-15T20:00:00", user_name: "Son", content: "Wy did you skipped Lasix today ?"},
-    {cardId: "0", timestamp: "2016-03-15T20:30:00", user_name: "Mr.A", content: "Lasix makes me pee a lot. I can't sleep well."},
+    {card_id: "2", created_at: "2016-03-15T12:00:00", user_name: "Son", content: "I will pick you up tomorrow at 10 AM mom."},
+    {card_id: "2", created_at: "2016-03-15T12:30:00", user_name: "Mr.A", content: "Thanks, see you tomorrow."},
+    {card_id: "2", created_at: "2016-03-15T12:33:00", user_name: "Daughter", content: "Don't forget to bring your ID."},
+    {card_id: "1", created_at: "2016-03-15T13:00:00", user_name: "Son", content: "Mom, how do you feel? Are you okay now? Do I need to call nurse?"},
+    {card_id: "1", created_at: "2016-03-15T13:30:00", user_name: "Mr.A", content: "I will take my measurement one hour later and let you know."},
+    {card_id: "0", created_at: "2016-03-15T20:00:00", user_name: "Son", content: "Wy did you skipped Lasix today ?"},
+    {card_id: "0", created_at: "2016-03-15T20:30:00", user_name: "Mr.A", content: "Lasix makes me pee a lot. I can't sleep well."},
   ]
 
   return {
@@ -16,13 +16,17 @@ angular.module('app.services')
       return comments;
     },
     getByCardId: function(id) {
-      comments = [];
+      cardcomments = [];
       for (var i = 0; i < comments.length; i++) {
-        if (comments[i].cardId == id){
-          comments.push(comments[i]);
+        if (comments[i].card_id == id){
+          cardcomments.push(comments[i]);
         }
       }
-      return comments;
+      return cardcomments;
     },
+    add: function(comment) {
+      comment.created_at = (new Date()).toISOString()
+      comments.push(comment);
+    }
   };
 })
