@@ -35,10 +35,12 @@ angular.module('app.services')
       return cards;
     },
     find_by_object: function(object_id, object_type) {
+      var card;
       for(var i = 0; i < cards.length; i++) {
         if (cards[i].object_id === object_id && cards[i].object_type === object_type)
-          return cards[i]
+          card = cards[i];
       }
+      return card;
     },
     create_from_object: function(object, object_type, card_type) {
       var now = (new Date()).toISOString();
@@ -51,6 +53,7 @@ angular.module('app.services')
         object_type: object_type
       }
       cards.push(card)
+      return card;
     },
     complete: function(cardID) {
       var card;
