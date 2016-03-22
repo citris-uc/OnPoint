@@ -30,20 +30,53 @@ angular.module('app.services')
   };
 })
 
+// This factory is responsible for defining a Medication Schedule
+// that the patient usually adheres to.
 .factory('MedicationSchedule', ["Medication", function(Medication) {
   morning   = ["Lasix", "Toprol XL", "Zestril", "Coumadin", "Riomet"]
   afternoon = ["Lasix", "Toprol XL", "Zestril", "Riomet"]
   evening   = ["Lipitor"]
 
-  schedule = {
-    morning:   morning.map( function(trade_name) { return Medication.getByTradeName(trade_name) } ),
-    afternoon: afternoon.map( function(trade_name) { return Medication.getByTradeName(trade_name) } ),
-    evening:   evening.map( function(trade_name) { return Medication.getByTradeName(trade_name) } )
-  }
+  schedule = [
+    {
+      id: 1,
+      scheduled_at: "2016-03-15T08:00:00",
+      slot: "morning",
+      medications: morning.map( function(trade_name) { return Medication.getByTradeName(trade_name) } )
+    },
+    {
+      id: 2,
+      scheduled_at: "2016-03-16T13:00:00",
+      slot: "afternoon",
+      medications: afternoon.map( function(trade_name) { return Medication.getByTradeName(trade_name) } )
+    },
+    {
+      id: 3,
+      scheduled_at: "2016-03-16T19:00:00",
+      slot: "evening",
+      medications: evening.map( function(trade_name) { return Medication.getByTradeName(trade_name) } )
+    }
+  ]
 
   return {
     get: function() {
       return schedule;
+    },
+    getByDateAndSlot: function(date, slot) {
+      var dateSchedule;
+      for (var i = 0; i < schedule.length; i++) {
+        if (new Date(schedule[i].scheduled_at).toDateString() == new Date(date).toDateString() && schedule[i].slot == slot)
+          dateSchedule = schedule[i]
+      }
+      return dateSchedule;
+    },
+    findByID: function(id) {
+      var dateSchedule;
+      for (var i = 0; i < schedule.length; i++) {
+        if (schedule[i].id == id)
+          dateSchedule = schedule[i]
+      }
+      return dateSchedule;
     }
   };
 }])
