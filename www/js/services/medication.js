@@ -113,46 +113,49 @@ angular.module('app.services')
   var count = 1;
   var history = [{
       id: 0,
-      medication_id: 1, 
-      scheduled_at: (new Date("2016-03-21 08:00")).toDateString(), //just get the DATE PORTION
-      scheduled_slot: 'morning',
-      taken_at: new Date("2016-03-21 08:01"), 
-      skipped_at: null 
+      medication_id: 1,
+      medication_schedule_id: 1,
+      taken_at: "2016-03-15T08:01:00",
+      skipped_at: null
     }, {
       id: 1,
-      medication_id: 7, 
-      scheduled_at: (new Date("2016-03-22 19:00")).toDateString(),
-      scheduled_slot: 'evening',
-      taken_at: null, 
-      skipped_at: new Date("2016-03-21 19:01") }
+      medication_id: 7,
+      medication_schedule_id: 3,
+      taken_at: null,
+      skipped_at: "2016-03-21T19:00:00"
+    }
   ]
   return {
     get: function() {
       return history;
     },
-    add: function(med_id,date,slot,taken,skipped) {
-      count = count+1;
-      history.push({id: count,
-                    med_id: med_id,
-                    scheudled_date: date,
-                    scheuduled_slot: slot,
-                    taken_at: taken,
-                    skipped_at: skipped});
-      console.log(history);
-    },
-    
-    update: function(id,property,value) {
-      history[id][property] = value;
+
+    create_or_update: function(medication, slot) {
+      var instance = this.find(medication, slot)
+
+      instance = {
+        id: history.length + 1,
+        medication_id: medication_id,
+        scheduled_at: now,
+        scheduled_slot: slot
+      }
+
+      if (choice == "taken")
+        instance.taken_at = now
+      else if (choice == "skipped")
+        instance.taken_at = now
+
+      history.push(instance);
     },
 
-    find: function(med_id, slot, date) {
+    findByMedicationIdAndScheduleId: function(med_id, schedule_id) {
+      var match;
       for(var i = 0; i < history.length; i++) {
-        if (history[i].scheudled_date == date && 
-            history[i].scheuduled_slot == slot && history[i].med_id == med_id) {
-          return history[i].id;
+        if (history[i].medication_id == med_id && history[i].medication_schedule_id == schedule_id) {
+          match = history[i]
         }
       }
-      return null;
+      return match;
     },
 
     taken: function(id) {
@@ -170,7 +173,7 @@ angular.module('app.services')
         }
         return false;
     },
-    
+
     setColor: function(med_id, slot, date) {
       var i = this.find(med_id, slot, date);
       if (i != null) {
