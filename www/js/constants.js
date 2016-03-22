@@ -13,4 +13,3 @@ angular.module('app.constants', [])
     'GOALS': 'goals',
     'SYMPTOMS': 'symptoms'}
 })
-
