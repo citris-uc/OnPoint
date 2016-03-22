@@ -8,10 +8,7 @@ angular.module('app.controllers', [])
   $scope.CARD = CARD;
 
   $scope.getTime = function(timestamp) {
-    console.log(timestamp);
-    var time = new Date(timestamp);
-    console.log(time);
-    return time;
+    return new Date(timestamp);
   }
 
 })
