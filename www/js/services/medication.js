@@ -77,16 +77,16 @@ angular.module('app.services')
 }])
 
 .factory('MedicationHistory', ["Medication", function() {
-  var count = 2;
+  var count = 1;
   var history = [{
-      id: 1,
+      id: 0,
       med_id: 1, 
       scheudled_date: (new Date("2016-03-21 08:00")).toDateString(), //just get the DATE PORTION
       scheuduled_slot: 'morning',
       taken_at: new Date("2016-03-21 08:01"), 
       skipped_at: null 
     }, {
-      id: 2,
+      id: 1,
       med_id: 7, 
       scheudled_date: (new Date("2016-03-22 19:00")).toDateString(),
       scheuduled_slot: 'evening',
@@ -98,29 +98,41 @@ angular.module('app.services')
       return history;
     },
     add: function(med_id,date,slot,taken,skipped) {
-      console.log("yo");
       count = count+1;
       history.push({id: count,
-                         med_id: med_id,
-                         scheudled_date: date,
-                         scheuduled_slot: slot,
-                         taken_at: taken,
-                         skipped_at: skipped});
+                    med_id: med_id,
+                    scheudled_date: date,
+                    scheuduled_slot: slot,
+                    taken_at: taken,
+                    skipped_at: skipped});
       console.log(history);
     },
-    check: function(med_id, slot, date) {
+    
+    update: function(id,property,value) {
+      history[id][property] = value;
+    },
+
+    find: function(med_id, slot, date) {
       for(var i = 0; i < history.length; i++) {
-        //console.log(history.length);
-        //console.log(history);
         if (history[i].scheudled_date.valueOf() == date.valueOf() && 
             history[i].scheuduled_slot == slot && history[i].med_id == med_id) {
-          if (history[i].taken_at != null)
-            return 'taken';
-          else if (history[i].skipped_at!= null)
-            return 'skipped';
+          return history[i].id;
         }
       }
       return null;
+    },
+
+    taken: function(id) {
+      if (history[id]['taken_at'] != null)
+        return true;
+      return false;
+    },
+
+    skipped: function(id) {
+      if (history[id]['skipped_at'] != null)
+        return true;
+      return false;
     }
+
   };
 }])

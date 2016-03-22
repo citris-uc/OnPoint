@@ -17,7 +17,7 @@
       </a>
 
       <ion-item ng-repeat="med in schedule.afternoon" ui-sref="tabsController.medication({date:'20160321', schedule:'afternoon', medicationName: med.name})" ng-hide="hasTaken(med.id, 'afternoon')"
-      ng-style="{'color': 'getColor(med.id, 'afternoon')'}">
+      ng-style="{'color': getColor(med.id, 'afternoon')}">
         {{med.trade_name}}
       </ion-item>
 
