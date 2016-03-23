@@ -7,9 +7,9 @@ angular.module('app.constants', [])
     'URGENT':'urgent', 
     'REMINDER':'reminder'},
   CATEGORY: {
-    'MEDICATIONS': 'medications',
-    'MEASUREMENTS': 'measurements',
+    'MEDICATIONS_SCHEDULE': 'medications_schedule',
+    'MEASUREMENTS_SCHEDULE': 'measurements_schedule',
     'APPOINTMENTS': 'appointments',
     'GOALS': 'goals',
-    'SYMPTOMS': 'symptoms'}
+    'SYMPTOMS_SCHEDULE': 'symptoms_schedule'}
 })
