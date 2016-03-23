@@ -75,12 +75,12 @@ angular.module('app.services')
   var schedule = [{
       id :1 ,
       time :"T08:00:00",
-      days_of_week: [0,1,2,3,4,5,6],
+      days: [0,1,2,3,4,5,6],
       measurements :["weight", "systolic", "diastolic", "heart_rate"]
     }, {
       id: 2,
       time: "T16:00:00",
-      days_of_week: [0,1,2,3,4,5,6],
+      days: [0,1,2,3,4,5,6],
       measurements :["systolic", "diastolic", "heart_rate"]    
     }];
 
