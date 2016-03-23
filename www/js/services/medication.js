@@ -40,20 +40,23 @@ angular.module('app.services')
   schedule = [
     {
       id: 1,
-      scheduled_at: "2016-03-15T08:00:00",
+      //scheduled_at: "2016-03-15T08:00:00",
       slot: "morning",
+      days_of_week: [0,1,2,3,4,5,6], //array descirbing days of week to do this action
       medications: morning.map( function(trade_name) { return Medication.getByTradeName(trade_name) } )
     },
     {
       id: 2,
-      scheduled_at: "2016-03-16T13:00:00",
+      //scheduled_at: "2016-03-16T13:00:00",
       slot: "afternoon",
+      days_of_week: [0,1,2,3,4,5,6], //array descirbing days of week to do this action,
       medications: afternoon.map( function(trade_name) { return Medication.getByTradeName(trade_name) } )
     },
     {
       id: 3,
-      scheduled_at: "2016-03-16T19:00:00",
+      //scheduled_at: "2016-03-16T19:00:00",
       slot: "evening",
+      days_of_week: [0,1,2,3,4,5,6], //array descirbing days of week to do this action,
       medications: evening.map( function(trade_name) { return Medication.getByTradeName(trade_name) } )
     }
   ]
@@ -62,6 +65,7 @@ angular.module('app.services')
     get: function() {
       return schedule;
     },
+    /*
     getByDateAndSlot: function(date, slot) {
       var dateSchedule;
       for (var i = 0; i < schedule.length; i++) {
@@ -70,6 +74,7 @@ angular.module('app.services')
       }
       return dateSchedule;
     },
+    */
     findByID: function(id) {
       var dateSchedule;
       for (var i = 0; i < schedule.length; i++) {
