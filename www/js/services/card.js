@@ -60,15 +60,17 @@ angular.module('app.services')
       }
       return card;
     },
-    create_from_object: function(object, object_type, card_type, time) {
+    create_from_object: function(object, object_type, card_type) {
       var now = (new Date()).toISOString();
-      var display = new Date();
-      display.setHours(time[0],time[1],time[2]);
-      display = display.toISOString();
+      var showAt = new Date();
+      time = object.time.split(":");
+      showAt.setHours(time[0],time[1]);
+      showAt = showAt.toISOString();
       var card = {
         id: cards.length + 1,
         created_at: now,
-        updated_at: display,
+        updated_at: now,
+        shown_at: showAt,
         completed_at: null,
         archived_at: null,
         type: card_type,

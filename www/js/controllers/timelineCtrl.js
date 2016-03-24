@@ -8,7 +8,7 @@ angular.module('app.controllers')
     return new Date(timestamp);
   }
 
-  $scope.displayCard = function(timestamp) {
+  $scope.shouldDisplayCard = function(timestamp) {
     var cardDate = $scope.getTime(timestamp);
     var now = new Date(); 
     if (cardDate.toDateString() == now.toDateString() && cardDate.toTimeString()  < now.toTimeString())
@@ -26,14 +26,14 @@ angular.module('app.controllers')
       slot = medSchedule[i];
       //console.log(slot.time);
       if (slot.days.includes(currentDay)) {
-        Card.create_from_object(slot, CARD.CATEGORY.MEDICATIONS_SCHEDULE, CARD.TYPE.ACTION, slot.time);
+        Card.create_from_object(slot, CARD.CATEGORY.MEDICATIONS_SCHEDULE, CARD.TYPE.ACTION);
       }
     }
 
     for(var i = 0; i < measurementSchedule.length; i++) {
       slot = measurementSchedule[i];
       if (slot.days.includes(currentDay)) {
-        Card.create_from_object(slot, CARD.CATEGORY.MEASUREMENTS_SCHEDULE, CARD.TYPE.ACTION, slot.time);
+        Card.create_from_object(slot, CARD.CATEGORY.MEASUREMENTS_SCHEDULE, CARD.TYPE.ACTION);
       }
     }
     console.log($scope.cards.length);

@@ -74,12 +74,12 @@ angular.module('app.services')
 .factory('MeasurementSchedule', function() {
   var schedule = [{
       id :1 ,
-      time :[08,00,00],//in HR, MIN, SEC format
+      time :"08:00",
       days: [0,1,2,3,4,5,6],
       measurements :["weight", "systolic", "diastolic", "heart_rate"]
     }, {
       id: 2,
-      time: [16,00,00], //in HR, MIN, SEC format
+      time: "16:00",
       days: [0,1,2,3,4,5,6],
       measurements :["systolic", "diastolic", "heart_rate"]    
     }];
