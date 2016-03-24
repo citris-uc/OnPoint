@@ -3,20 +3,6 @@ angular.module('app.controllers', [])
 .controller('loginCtrl', function($scope) {
 })
 
-.controller('timelineCtrl', function($scope, $state, Card, CARD, MedicationSchedule) {
-  $scope.cards = Card.get();
-  $scope.CARD = CARD;
-
-  $scope.getTime = function(timestamp) {
-    return new Date(timestamp);
-  }
-
-  $scope.openPage = function(card){
-    [tab, params] = Card.getAction(card.id);
-    $state.go(tab, params);
-  }
-})
-
 .controller('measurementsCtrl', function($scope, Measurement) {
   // We inject the Measurement factory so that we can query for the measurement
   // history.
@@ -64,9 +50,9 @@ $scope.bpAlert = function(value) {
  };
 })
 
-.controller('measurementTipsCtrl', function($scope, MeasurementTips) {
+.controller('measurementTipsCtrl', function($scope, TIPS) {
   // We inject the Measurement Tips factory so that we view tips
-  $scope.measurementsTips = MeasurementTips.get();
+  $scope.measurementsTips = TIPS;
 })
 
 .controller('appointmentCtrl', function($scope) {

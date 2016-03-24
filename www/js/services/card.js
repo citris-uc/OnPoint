@@ -8,7 +8,7 @@ angular.module('app.services')
     completed_at: null, 
     archived_at: null, 
     type: CARD.TYPE.ACTION,
-    object_type: CARD.CATEGORY.MEDICATIONS,
+    object_type: CARD.CATEGORY.MEDICATIONS_SCHEDULE,
     object_id: 1
   }, {
     id: 1,
@@ -17,7 +17,7 @@ angular.module('app.services')
     completed_at: null, 
     archived_at: null, 
     type: CARD.TYPE.URGENT,
-    object_type: CARD.CATEGORY.MEASUREMENTS,
+    object_type: CARD.CATEGORY.MEASUREMENTS_SCHEDULE,
     object_id: 1
   }, {
     id: 2,
@@ -26,7 +26,7 @@ angular.module('app.services')
     completed_at: null, 
     archived_at: null, 
     type: CARD.TYPE.REMINDER,
-    object_type: CARD.CATEGORY.APPOINTMENTS,
+    object_type: CARD.CATEGORY.APPOINTMENTS_SCHEDULE,
     object_id: 1
   }, {
     id: 3,
@@ -44,7 +44,7 @@ angular.module('app.services')
     completed_at: "2016-03-15T12:30:00", 
     archived_at: "2016-03-15T12:30:00", 
     type: CARD.TYPE.URGENT,
-    object_type: CARD.CATEGORY.SYMPTOMS,
+    object_type: CARD.CATEGORY.SYMPTOMS_SCHEDULE,
     object_id: 1
   }];
 
@@ -62,10 +62,17 @@ angular.module('app.services')
     },
     create_from_object: function(object, object_type, card_type) {
       var now = (new Date()).toISOString();
+      var showAt = new Date();
+      time = object.time.split(":");
+      showAt.setHours(time[0],time[1]);
+      showAt = showAt.toISOString();
       var card = {
         id: cards.length + 1,
         created_at: now,
         updated_at: now,
+        shown_at: showAt,
+        completed_at: null,
+        archived_at: null,
         type: card_type,
         object_id: object.id,
         object_type: object_type
@@ -109,13 +116,13 @@ angular.module('app.services')
       }
 
       switch(card.object_type) {
-        case CARD.CATEGORY.MEDICATIONS :
+        case CARD.CATEGORY.MEDICATIONS_SCHEDULE :
           // Take Medications --> Show Schedule
           var schedule = MedicationSchedule.findByID(card.object_id);
           return ['tabsController.medicationsSchedule', {schedule_id: schedule.id}];
-        case CARD.CATEGORY.MEASUREMENTS :
+        case CARD.CATEGORY.MEASUREMENTS_SCHEDULE :
           return ['tabsController.measurementAdd', {}]
-        case CARD.CATEGORY.APPOINTMENTS :
+        case CARD.CATEGORY.APPOINTMENTS_SCHEDULE :
           return ['tabsController.appointments', {}]
         case CARD.CATEGORY.GOALS :
           return ['tabsController.goals', {}]
