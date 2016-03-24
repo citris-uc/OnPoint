@@ -3,7 +3,7 @@ angular.module('app.controllers', [])
 .controller('loginCtrl', function($scope) {
 })
 
-.controller('timelineCtrl', function($scope, Card, CARD) {
+.controller('timelineCtrl', function($scope, $state, Card, CARD, MedicationSchedule) {
   $scope.cards = Card.get();
   $scope.CARD = CARD;
 
@@ -11,6 +11,10 @@ angular.module('app.controllers', [])
     return new Date(timestamp);
   }
 
+  $scope.openPage = function(card){
+    [tab, params] = Card.getAction(card.id);
+    $state.go(tab, params);
+  }
 })
 
 .controller('measurementsCtrl', function($scope, Measurement) {
