@@ -9,7 +9,7 @@
 
         <!-- Cards for each goal type -->
         <div class="card">
-            <div class="item item-divider">Personal goals ({{ (goals | filter:{type:'personal'}).length }})
+            <div class="item item-divider">Personal goals ( {{ (goals | filter:{type:'personal'}).length }} )
               <a href="#" class="item-icon-right" ng-click="visible.personal = !visible.personal">
                 <i class="icon" ng-class="visible.personal ? 'ion-chevron-up' : 'ion-chevron-down'"></i>
               </a>
