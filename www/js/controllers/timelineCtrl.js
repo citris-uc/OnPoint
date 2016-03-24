@@ -8,9 +8,14 @@ angular.module('app.controllers')
     return new Date(timestamp);
   }
 
+  $scope.openPage = function(card){
+    [tab, params] = Card.getAction(card.id);
+    $state.go(tab, params);
+  }
+
   $scope.shouldDisplayCard = function(timestamp) {
     var cardDate = $scope.getTime(timestamp);
-    var now = new Date(); 
+    var now = new Date();
     if (cardDate.toDateString() == now.toDateString() && cardDate.toTimeString()  < now.toTimeString())
       return true;
     return false;
