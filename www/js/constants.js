@@ -13,3 +13,19 @@ angular.module('app.constants', [])
     'GOALS': 'goals',
     'SYMPTOMS_SCHEDULE': 'symptoms_schedule'}
 })
+
+.constant('TIPS',  [{
+        measurement: "Weight",
+        tips: []
+      }, {
+        measurement: "Blood Pressure",
+        tips: ["Be still.",
+               "Make sure you haven't had any caffeine, tobacco, or exercise in the last 30 minutes",
+               "Wait one minute before taking another measurement",
+               "Make sure you are sitting down, with your back supported by a chair and your feet on the floor"]
+      }, {
+        measurement: "Heart Rate",
+        tips: []
+      }]
+)
+
