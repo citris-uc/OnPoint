@@ -1,6 +1,6 @@
 angular.module('app.services')
 
-.factory("Card", ["CARD", function(CARD) {
+.factory("Card", ["CARD", "MedicationSchedule", function(CARD, MedicationSchedule) {
   var cards = [{
     id: 0,
     created_at: "2016-03-15T10:00:00",
@@ -100,6 +100,31 @@ angular.module('app.services')
         card.archived_at = now;
       }
       return card;
+    },
+    getAction: function(cardID) {
+      var card;
+      for(var i = 0; i < cards.length; i++) {
+        if (cards[i].id === cardID)
+          card = cards[i]
+      }
+
+      switch(card.object_type) {
+        case CARD.CATEGORY.MEDICATIONS :
+          // Take Medications --> Show Schedule
+          var schedule = MedicationSchedule.findByID(card.object_id);
+          return ['tabsController.medicationsSchedule', {schedule_id: schedule.id}];
+        case CARD.CATEGORY.MEASUREMENTS :
+          return ['tabsController.measurementAdd', {}]
+        case CARD.CATEGORY.APPOINTMENTS :
+          return ['tabsController.appointments', {}]
+        case CARD.CATEGORY.GOALS :
+          return ['tabsController.goals', {}]
+        //case CARD.CATEGORY.SYMPTOMS :
+        default:
+          return ['tabsController',{}]
+      }
     }
   };
+
+  
 }])
