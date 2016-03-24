@@ -60,9 +60,9 @@ $scope.bpAlert = function(value) {
  };
 })
 
-.controller('measurementTipsCtrl', function($scope, MeasurementTips) {
+.controller('measurementTipsCtrl', function($scope, TIPS) {
   // We inject the Measurement Tips factory so that we view tips
-  $scope.measurementsTips = MeasurementTips.get();
+  $scope.measurementsTips = TIPS;
 })
 
 .controller('appointmentCtrl', function($scope) {

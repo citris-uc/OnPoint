@@ -71,15 +71,15 @@ angular.module('app.services')
 }] )
 
 
-.factory('MeasurementScheudle', function() {
+.factory('MeasurementSchedule', function() {
   var schedule = [{
       id :1 ,
-      time :"T08:00:00",
+      time :"08:00",
       days: [0,1,2,3,4,5,6],
       measurements :["weight", "systolic", "diastolic", "heart_rate"]
     }, {
       id: 2,
-      time: "T16:00:00",
+      time: "16:00",
       days: [0,1,2,3,4,5,6],
       measurements :["systolic", "diastolic", "heart_rate"]    
     }];
@@ -90,28 +90,3 @@ angular.module('app.services')
     }
   };
 }) 
-
-.factory('MeasurementTips', function() {
-  var measurementTips = [{
-    id: 1,
-    measurement: "Weight",
-    tips: []
-  }, {
-    id: 2,
-    measurement: "Blood Pressure",
-    tips: ["Be still.",
-           "Make sure you haven't had any caffeine, tobacco, or exercise in the last 30 minutes",
-           "Wait one minute before taking another measurement",
-           "Make sure you are sitting down, with your back supported by a chair and your feet on the floor"]
-  }, {
-    id: 3,
-    measurement: "Heart Rate",
-    tips: []
-  }];
-
-  return {
-    get: function() {
-      return measurementTips;
-    }
-  };
-})
