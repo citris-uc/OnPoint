@@ -31,7 +31,7 @@
 
       <!-- Card Body -->
       <div class="item item-text-wrap" >
-        <div ng-repeat="line in getBody(c)">{{line}}</div>
+        <div ng-repeat="line in getBody(c) track by $index">{{line}}</div>
       </div>
 
       <!-- Card Buttons -->

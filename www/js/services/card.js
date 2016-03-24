@@ -116,13 +116,13 @@ angular.module('app.services')
       }
 
       switch(card.object_type) {
-        case CARD.CATEGORY.MEDICATIONS :
+        case CARD.CATEGORY.MEDICATIONS_SCHEDULE :
           // Take Medications --> Show Schedule
           var schedule = MedicationSchedule.findByID(card.object_id);
           return ['tabsController.medicationsSchedule', {schedule_id: schedule.id}];
-        case CARD.CATEGORY.MEASUREMENTS :
+        case CARD.CATEGORY.MEASUREMENTS_SCHEDULE :
           return ['tabsController.measurementAdd', {}]
-        case CARD.CATEGORY.APPOINTMENTS :
+        case CARD.CATEGORY.APPOINTMENTS_SCHEDULE :
           return ['tabsController.appointments', {}]
         case CARD.CATEGORY.GOALS :
           return ['tabsController.goals', {}]
@@ -139,7 +139,7 @@ angular.module('app.services')
       }
 
       switch(card.object_type) {
-        case CARD.CATEGORY.MEDICATIONS :
+        case CARD.CATEGORY.MEDICATIONS_SCHEDULE :
           // Get schedule associated with card
           var schedule = MedicationSchedule.findByID(card.object_id);
           var medications = schedule.medications;
@@ -177,9 +177,9 @@ angular.module('app.services')
           })
           
           return [takeString, skippedString, completedString];
-        case CARD.CATEGORY.MEASUREMENTS :
+        case CARD.CATEGORY.MEASUREMENTS_SCHEDULE :
           return ["Take <measurements>"];
-        case CARD.CATEGORY.APPOINTMENTS :
+        case CARD.CATEGORY.APPOINTMENTS_SCHEDULE :
           return ["Appointment Information"];
         case CARD.CATEGORY.GOALS :
           return ["View Goals"];

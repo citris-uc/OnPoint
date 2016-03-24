@@ -9,7 +9,7 @@ angular.module('app.constants', [])
   CATEGORY: {
     'MEDICATIONS_SCHEDULE': 'medications_schedule',
     'MEASUREMENTS_SCHEDULE': 'measurements_schedule',
-    'APPOINTMENTS': 'appointments',
+    'APPOINTMENTS_SCHEDULE': 'appointments',
     'GOALS': 'goals',
     'SYMPTOMS_SCHEDULE': 'symptoms_schedule'}
 })
