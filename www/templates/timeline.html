@@ -7,6 +7,11 @@
 
   <ion-content overflow-scroll="true" padding="true" class="has-header">
 
+    <!-- test button for generate scheduling, will delete after -->
+    <button class="button" ng-click="generateCardsForToday()">TEST BUTTON: generateCardsForToday</button>
+
+    <ion-refresher pulling-text="Pull to refresh" on-refresh="generateCardsForToday()">
+    </ion-refresher>
     <!-- Text input for Symptoms Feeling tracker -->
     <!-- TODO: Save button on right? -->
     <div class="list list-inset">
@@ -16,12 +21,12 @@
     </div>
 
     <!-- Create Cards -->
-    <div class="card" ng-repeat="c in cards | orderBy: '-updated_at' | filter:{archived_at:null}" ng-init="cardClass= c.completed_at != null ? 'completedCard' : (c.type == CARD.TYPE.URGENT ? 'urgentCard' : 'activeCard')">
+    <div class="card" ng-repeat="c in cards | orderBy: 'updated_at' | filter:{archived_at:null}" ng-init="cardClass= c.completed_at != null ? 'completedCard' : (c.type == CARD.TYPE.URGENT ? 'urgentCard' : 'activeCard')" ng-show="shouldDisplayCard(c.shown_at)">
 
       <!-- Card Title -->
       <div ng-class="['item', cardClass]">
         <a href="#">{{c.type == CARD.TYPE.ACTION ? 'Take ': c.type == CARD.TYPE.URGENT ? 'TODO: ': ''}}{{c.object_type}}{{c.type == CARD.TYPE.REMINDER ? ' Reminder':''}}</a>
-        <a style="float:right">{{getTime(c.updated_at) | date: 'h:mm a'}}</a>
+        <a style="float:right">{{getTime(c.shown_at) | date: 'h:mm a'}}</a>
       </div>
 
       <!-- Card Body -->

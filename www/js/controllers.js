@@ -3,16 +3,6 @@ angular.module('app.controllers', [])
 .controller('loginCtrl', function($scope) {
 })
 
-.controller('timelineCtrl', function($scope, Card, CARD) {
-  $scope.cards = Card.get();
-  $scope.CARD = CARD;
-
-  $scope.getTime = function(timestamp) {
-    return new Date(timestamp);
-  }
-
-})
-
 .controller('measurementsCtrl', function($scope, Measurement) {
   // We inject the Measurement factory so that we can query for the measurement
   // history.
