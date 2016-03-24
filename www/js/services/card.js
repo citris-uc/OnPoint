@@ -1,6 +1,6 @@
 angular.module('app.services')
 
-.factory("Card", ["CARD", "MedicationSchedule", function(CARD, MedicationSchedule) {
+.factory("Card", ["CARD", "MedicationSchedule", "MedicationHistory", function(CARD, MedicationSchedule, MedicationHistory) {
   var cards = [{
     id: 0,
     created_at: "2016-03-15T10:00:00",
@@ -123,6 +123,65 @@ angular.module('app.services')
         default:
           return ['tabsController',{}]
       }
+    },
+    getBody: function(cardID) {
+      var card;
+      for(var i = 0; i < cards.length; i++) {
+        if (cards[i].id === cardID)
+          card = cards[i]
+      }
+
+      switch(card.object_type) {
+        case CARD.CATEGORY.MEDICATIONS :
+          // Get schedule associated with card
+          var schedule = MedicationSchedule.findByID(card.object_id);
+          var medications = schedule.medications;
+          var takeMeds = [];
+          var skippedMeds = [];
+          var completedMeds = [];
+
+          // Check history for each medication in the specified schedule
+          medications.forEach( function(med) {
+            var history = MedicationHistory.findByMedicationIdAndScheduleId(med.id, schedule.id);
+            if (history == null) 
+              takeMeds.push(med);
+            else if (history.taken_at != null) {
+              completedMeds.push(med);
+            } else if (history.skipped_at != null) {
+              skippedMeds.push(med);
+            }              
+          })
+          
+          // Create a string for each line for Take/Skipped/Completed meds
+          // TODO -- is there a clean way to do this in the UI to filter?
+          //         possible to have different UI templates depending on card category?
+          var takeString = takeMeds.length > 0 ? "Take:" : null;
+          var skippedString = skippedMeds.length > 0 ? "Skipped:" : null;
+          var completedString = completedMeds.length > 0 ? "Completed:" : null;
+
+          takeMeds.forEach( function(med) {
+            takeString = takeString + " " + med.trade_name;
+          })
+          skippedMeds.forEach( function(med) {
+            skippedString = skippedString + " " + med.trade_name;
+          })
+          completedMeds.forEach( function(med) {
+            completedString = completedString + " " + med.trade_name;
+          })
+          
+          return [takeString, skippedString, completedString];
+        case CARD.CATEGORY.MEASUREMENTS :
+          return ["Take <measurements>"];
+        case CARD.CATEGORY.APPOINTMENTS :
+          return ["Appointment Information"];
+        case CARD.CATEGORY.GOALS :
+          return ["View Goals"];
+        //case CARD.CATEGORY.SYMPTOMS :
+        default:
+          return [""];
+      }
+
+
     }
   };
 

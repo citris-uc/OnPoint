@@ -3,12 +3,17 @@ angular.module('app.controllers', [])
 .controller('loginCtrl', function($scope) {
 })
 
-.controller('timelineCtrl', function($scope, $state, Card, CARD, MedicationSchedule) {
+.controller('timelineCtrl', function($scope, $state,  $ionicHistory, Card, CARD, MedicationSchedule) {
   $scope.cards = Card.get();
   $scope.CARD = CARD;
 
   $scope.getTime = function(timestamp) {
     return new Date(timestamp);
+  }
+
+  $scope.getBody = function(card) {
+    console.log("Get Body");
+   return Card.getBody(card.id);
   }
 
   $scope.openPage = function(card){
