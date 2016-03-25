@@ -1,6 +1,6 @@
 angular.module('app.controllers')
 
-.controller('timelineCtrl', function($scope, Card, CARD, MedicationSchedule, MeasurementSchedule) {
+.controller('timelineCtrl', function($scope, $state, Card, CARD, MedicationSchedule, MeasurementSchedule) {
   $scope.cards = Card.get();
   $scope.CARD = CARD;
 
@@ -8,9 +8,19 @@ angular.module('app.controllers')
     return new Date(timestamp);
   }
 
+  $scope.getBody = function(card) {
+    console.log("Get Body");
+   return Card.getBody(card.id);
+  }
+
+  $scope.openPage = function(card){
+    action = Card.getAction(card.id);
+    $state.go(action.tab, action.params);
+  }
+
   $scope.shouldDisplayCard = function(timestamp) {
     var cardDate = $scope.getTime(timestamp);
-    var now = new Date(); 
+    var now = new Date();
     if (cardDate.toDateString() == now.toDateString() && cardDate.toTimeString()  < now.toTimeString())
       return true;
     return false;
