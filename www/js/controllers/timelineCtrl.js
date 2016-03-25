@@ -8,9 +8,14 @@ angular.module('app.controllers')
     return new Date(timestamp);
   }
 
+  $scope.getBody = function(card) {
+    console.log("Get Body");
+   return Card.getBody(card.id);
+  }
+
   $scope.openPage = function(card){
-    [tab, params] = Card.getAction(card.id);
-    $state.go(tab, params);
+    action = Card.getAction(card.id);
+    $state.go(action.tab, action.params);
   }
 
   $scope.shouldDisplayCard = function(timestamp) {
@@ -20,7 +25,7 @@ angular.module('app.controllers')
       return true;
     return false;
   }
-  
+
   $scope.generateCardsForToday = function() {
     var medSchedule = MedicationSchedule.get();
     var measurementSchedule = MeasurementSchedule.get();

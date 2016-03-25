@@ -1,12 +1,12 @@
 angular.module('app.services')
 
-.factory("Card", ["CARD", "MedicationSchedule", function(CARD, MedicationSchedule) {
+.factory("Card", ["CARD", "MedicationSchedule", "MedicationHistory", function(CARD, MedicationSchedule, MedicationHistory) {
   var cards = [{
     id: 0,
     created_at: "2016-03-15T10:00:00",
     updated_at: "2016-03-15T10:00:00", //should arrange timeline by this timestamp
-    completed_at: null, 
-    archived_at: null, 
+    completed_at: null,
+    archived_at: null,
     type: CARD.TYPE.ACTION,
     object_type: CARD.CATEGORY.MEDICATIONS_SCHEDULE,
     object_id: 1
@@ -14,8 +14,8 @@ angular.module('app.services')
     id: 1,
     created_at: "2016-03-15T11:00:00",
     updated_at: "2016-03-15T11:00:00", //should arrange timeline by this timestamp
-    completed_at: null, 
-    archived_at: null, 
+    completed_at: null,
+    archived_at: null,
     type: CARD.TYPE.URGENT,
     object_type: CARD.CATEGORY.MEASUREMENTS_SCHEDULE,
     object_id: 1
@@ -23,8 +23,8 @@ angular.module('app.services')
     id: 2,
     created_at: "2016-03-15T11:30:00",
     updated_at: "2016-03-15T11:30:00", //should arrange timeline by this timestamp
-    completed_at: null, 
-    archived_at: null, 
+    completed_at: null,
+    archived_at: null,
     type: CARD.TYPE.REMINDER,
     object_type: CARD.CATEGORY.APPOINTMENTS_SCHEDULE,
     object_id: 1
@@ -32,8 +32,8 @@ angular.module('app.services')
     id: 3,
     created_at: "2016-03-15T12:00:00",
     updated_at: "2016-03-15T12:30:00", //should arrange timeline by this timestamp
-    completed_at: "2016-03-15T12:30:00", 
-    archived_at: null, 
+    completed_at: "2016-03-15T12:30:00",
+    archived_at: null,
     type: CARD.TYPE.REMINDER,
     object_type: CARD.CATEGORY.GOALS,
     object_id: 1
@@ -41,8 +41,8 @@ angular.module('app.services')
     id: 4,
     created_at: "2016-03-15T12:00:00",
     updated_at: "2016-03-15T12:30:00", //should arrange timeline by this timestamp
-    completed_at: "2016-03-15T12:30:00", 
-    archived_at: "2016-03-15T12:30:00", 
+    completed_at: "2016-03-15T12:30:00",
+    archived_at: "2016-03-15T12:30:00",
     type: CARD.TYPE.URGENT,
     object_type: CARD.CATEGORY.SYMPTOMS_SCHEDULE,
     object_id: 1
@@ -119,19 +119,78 @@ angular.module('app.services')
         case CARD.CATEGORY.MEDICATIONS_SCHEDULE :
           // Take Medications --> Show Schedule
           var schedule = MedicationSchedule.findByID(card.object_id);
-          return ['tabsController.medicationsSchedule', {schedule_id: schedule.id}];
+          return {tab: 'tabsController.medicationsSchedule', params: {schedule_id: schedule.id}};
         case CARD.CATEGORY.MEASUREMENTS_SCHEDULE :
-          return ['tabsController.measurementAdd', {}]
+          return {tab: 'tabsController.measurementAdd', params: {}}
         case CARD.CATEGORY.APPOINTMENTS_SCHEDULE :
-          return ['tabsController.appointments', {}]
+          return {tab: 'tabsController.appointments', params: {}}
         case CARD.CATEGORY.GOALS :
-          return ['tabsController.goals', {}]
+          return {tab: 'tabsController.goals', params: {}}
         //case CARD.CATEGORY.SYMPTOMS :
         default:
-          return ['tabsController',{}]
+          return {tab: 'tabsController', params: {}}
       }
+    },
+    getBody: function(cardID) {
+      var card;
+      for(var i = 0; i < cards.length; i++) {
+        if (cards[i].id === cardID)
+          card = cards[i]
+      }
+
+      switch(card.object_type) {
+        case CARD.CATEGORY.MEDICATIONS_SCHEDULE :
+          // Get schedule associated with card
+          var schedule = MedicationSchedule.findByID(card.object_id);
+          var medications = schedule.medications;
+          var takeMeds = [];
+          var skippedMeds = [];
+          var completedMeds = [];
+
+          // Check history for each medication in the specified schedule
+          medications.forEach( function(med) {
+            var history = MedicationHistory.findByMedicationIdAndScheduleId(med.id, schedule.id);
+            if (history == null)
+              takeMeds.push(med);
+            else if (history.taken_at != null) {
+              completedMeds.push(med);
+            } else if (history.skipped_at != null) {
+              skippedMeds.push(med);
+            }
+          })
+
+          // Create a string for each line for Take/Skipped/Completed meds
+          // TODO -- is there a clean way to do this in the UI to filter?
+          //         possible to have different UI templates depending on card category?
+          var takeString = takeMeds.length > 0 ? "Take:" : null;
+          var skippedString = skippedMeds.length > 0 ? "Skipped:" : null;
+          var completedString = completedMeds.length > 0 ? "Completed:" : null;
+
+          takeMeds.forEach( function(med) {
+            takeString = takeString + " " + med.trade_name;
+          })
+          skippedMeds.forEach( function(med) {
+            skippedString = skippedString + " " + med.trade_name;
+          })
+          completedMeds.forEach( function(med) {
+            completedString = completedString + " " + med.trade_name;
+          })
+
+          return [takeString, skippedString, completedString];
+        case CARD.CATEGORY.MEASUREMENTS_SCHEDULE :
+          return ["Take <measurements>"];
+        case CARD.CATEGORY.APPOINTMENTS_SCHEDULE :
+          return ["Appointment Information"];
+        case CARD.CATEGORY.GOALS :
+          return ["View Goals"];
+        //case CARD.CATEGORY.SYMPTOMS :
+        default:
+          return [""];
+      }
+
+
     }
   };
 
-  
+
 }])
