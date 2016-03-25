@@ -131,13 +131,7 @@ angular.module('app.services')
           return {tab: 'tabsController', params: {}}
       }
     },
-    getBody: function(cardID) {
-      var card;
-      for(var i = 0; i < cards.length; i++) {
-        if (cards[i].id === cardID)
-          card = cards[i]
-      }
-
+    getBody: function(card) {
       switch(card.object_type) {
         case CARD.CATEGORY.MEDICATIONS_SCHEDULE :
           // Get schedule associated with card
