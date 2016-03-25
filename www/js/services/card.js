@@ -119,16 +119,16 @@ angular.module('app.services')
         case CARD.CATEGORY.MEDICATIONS_SCHEDULE :
           // Take Medications --> Show Schedule
           var schedule = MedicationSchedule.findByID(card.object_id);
-          return ['tabsController.medicationsSchedule', {schedule_id: schedule.id}];
+          return {tab: 'tabsController.medicationsSchedule', params: {schedule_id: schedule.id}};
         case CARD.CATEGORY.MEASUREMENTS_SCHEDULE :
-          return ['tabsController.measurementAdd', {}]
+          return {tab: 'tabsController.measurementAdd', params: {}}
         case CARD.CATEGORY.APPOINTMENTS_SCHEDULE :
-          return ['tabsController.appointments', {}]
+          return {tab: 'tabsController.appointments', params: {}}
         case CARD.CATEGORY.GOALS :
-          return ['tabsController.goals', {}]
+          return {tab: 'tabsController.goals', params: {}}
         //case CARD.CATEGORY.SYMPTOMS :
         default:
-          return ['tabsController',{}]
+          return {tab: 'tabsController', params: {}}
       }
     },
     getBody: function(cardID) {

@@ -14,8 +14,8 @@ angular.module('app.controllers')
   }
 
   $scope.openPage = function(card){
-    [tab, params] = Card.getAction(card.id);
-    $state.go(tab, params);
+    action = Card.getAction(card.id);
+    $state.go(action.tab, action.params);
   }
 
   $scope.shouldDisplayCard = function(timestamp) {
