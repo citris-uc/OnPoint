@@ -39,4 +39,10 @@ angular.module('app.controllers')
     console.log($scope.cards.length);
   }
 
+  $scope.swipeCard = function(card) {
+    if (card.completed_at != null) {
+      Card.archive(card.id);
+    }
+  }
+
 })

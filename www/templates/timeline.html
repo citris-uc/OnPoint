@@ -21,7 +21,7 @@
     </div>
 
     <!-- Create Cards -->
-    <div class="card" ng-repeat="c in cards | orderBy: 'updated_at' | filter:{archived_at:null}" ng-init="cardClass= c.completed_at != null ? 'completedCard' : (c.type == CARD.TYPE.URGENT ? 'urgentCard' : 'activeCard')" ng-show="shouldDisplayCard(c.shown_at)">
+    <div class="card" ng-repeat="c in cards | orderBy: 'updated_at' | filter:{archived_at:null}" ng-init="cardClass= c.completed_at != null ? 'completedCard' : (c.type == CARD.TYPE.URGENT ? 'urgentCard' : 'activeCard')" ng-show="shouldDisplayCard(c.shown_at)" on-swipe-right="swipeCard(c)" on-swipe-left="swipeCard(c)">
 
       <!-- Card Title -->
       <div ng-class="['item', cardClass]">
