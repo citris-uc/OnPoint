@@ -13,7 +13,7 @@ angular.module('app.controllers')
   }
 
   $scope.openPage = function(card){
-    action = Card.getAction(card.id);
+    action = Card.getAction(card);
     $state.go(action.tab, action.params);
   }
 

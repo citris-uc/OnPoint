@@ -108,13 +108,7 @@ angular.module('app.services')
       }
       return card;
     },
-    getAction: function(cardID) {
-      var card;
-      for(var i = 0; i < cards.length; i++) {
-        if (cards[i].id === cardID)
-          card = cards[i]
-      }
-
+    getAction: function(card) {
       switch(card.object_type) {
         case CARD.CATEGORY.MEDICATIONS_SCHEDULE :
           // Take Medications --> Show Schedule
