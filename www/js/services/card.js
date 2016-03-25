@@ -111,9 +111,7 @@ angular.module('app.services')
     getAction: function(card) {
       switch(card.object_type) {
         case CARD.CATEGORY.MEDICATIONS_SCHEDULE :
-          // Take Medications --> Show Schedule
-          var schedule = MedicationSchedule.findByID(card.object_id);
-          return {tab: 'tabsController.medicationsSchedule', params: {schedule_id: schedule.id}};
+          return {tab: 'tabsController.medicationsSchedule', params: {schedule_id: card.object_id}};
         case CARD.CATEGORY.MEASUREMENTS_SCHEDULE :
           return {tab: 'tabsController.measurementAdd', params: {}}
         case CARD.CATEGORY.APPOINTMENTS_SCHEDULE :
