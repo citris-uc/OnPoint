@@ -1,6 +1,6 @@
 angular.module('app.controllers')
 
-.controller('timelineCtrl', function($scope, $state,  $ionicHistory, Card, CARD, MedicationSchedule, MeasurementSchedule) {
+.controller('timelineCtrl', function($scope, $state, Card, CARD, MedicationSchedule, MeasurementSchedule) {
   $scope.cards = Card.get();
   $scope.CARD = CARD;
 
@@ -20,7 +20,7 @@ angular.module('app.controllers')
 
   $scope.shouldDisplayCard = function(timestamp) {
     var cardDate = $scope.getTime(timestamp);
-    var now = new Date(); 
+    var now = new Date();
     if (cardDate.toDateString() == now.toDateString() && cardDate.toTimeString()  < now.toTimeString())
       return true;
     return false;
