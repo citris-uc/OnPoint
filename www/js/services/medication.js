@@ -1,6 +1,7 @@
 angular.module('app.services')
 
-.factory('Medication', function() {
+.factory('Medication', ["$firebaseObject", function($firebaseArray) {
+  var medicationsRef = new Firebase("https://vivid-inferno-5187.firebaseio.com/medication/medications");
   medications = [
     {id: 1, name: "furomeside", trade_name: "Lasix", instructions: "Take twice daily; First in morning and then 6-8 hours later", purpose: "Treats salt and fluid retention and swelling caused by heart failure."},
     {id: 2, name: "metoprolol", trade_name: "Toprol XL", instructions: "TODO: Add instructions here", purpose: "Used to treat chest pain (angina), heart failure, and high blood pressure."},
@@ -16,6 +17,16 @@ angular.module('app.services')
       return medications;
     },
     getByName: function(name) {
+      var temp = $firebaseArray(medicationsRef);
+      temp.$loaded(
+        function(data) {
+          console.log(data[0]); // true
+        },
+        function(error) {
+          console.error("Error:", error);
+        }
+      );
+
       for (var i = 0; i < medications.length; i++) {
         if (medications[i].name == name)
           return medications[i]
@@ -28,7 +39,7 @@ angular.module('app.services')
       }
     }
   };
-})
+}])
 
 // This factory is responsible for defining a Medication Schedule
 // that the patient usually adheres to.
