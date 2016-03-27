@@ -3,12 +3,16 @@ angular.module('app.controllers', [])
 .controller('loginCtrl', function($scope) {
 })
 
-.controller('timelineCtrl', function($scope, Card, CARD) {
+.controller('timelineCtrl', function($scope, Card, Comment, CARD) {
   $scope.cards = Card.get();
   $scope.CARD = CARD;
 
   $scope.getTime = function(timestamp) {
     return new Date(timestamp);
+  };
+
+  $scope.getCommentsCount = function(card_id){
+    return Comment.get_comments_count_by_id(card_id);
   }
 
 })

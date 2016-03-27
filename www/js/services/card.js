@@ -1,6 +1,6 @@
 angular.module('app.services')
 
-.factory("Card", ["CARD", function(CARD) {
+.factory("Card", ["CARD", function( CARD) {
   var cards = [{
     id: 0,
     created_at: "2016-03-15T10:00:00",
@@ -100,6 +100,6 @@ angular.module('app.services')
         card.archived_at = now;
       }
       return card;
-    }
+    },
   };
 }])
