@@ -17,6 +17,7 @@ angular.module('app.controllers')
     return MedicationHistory.findByMedicationIdAndScheduleId(med.id, $scope.schedule.id)
   }
 })
+
 .controller("medicationCtrl", function($scope, $stateParams,$ionicPopup,$ionicHistory, Medication, MedicationSchedule, MedicationDosage, MedicationHistory) {
   $scope.state = $stateParams;
   $scope.medication = Medication.getByName($stateParams.medicationName);

@@ -3,20 +3,6 @@ angular.module('app.controllers', [])
 .controller('loginCtrl', function($scope) {
 })
 
-.controller('timelineCtrl', function($scope, Card, Comment, CARD) {
-  $scope.cards = Card.get();
-  $scope.CARD = CARD;
-
-  $scope.getTime = function(timestamp) {
-    return new Date(timestamp);
-  };
-
-  $scope.getCommentsCount = function(card_id){
-    return Comment.get_comments_count_by_id(card_id);
-  }
-
-})
-
 .controller('measurementsCtrl', function($scope, Measurement) {
   // We inject the Measurement factory so that we can query for the measurement
   // history.
@@ -64,9 +50,9 @@ $scope.bpAlert = function(value) {
  };
 })
 
-.controller('measurementTipsCtrl', function($scope, MeasurementTips) {
+.controller('measurementTipsCtrl', function($scope, TIPS) {
   // We inject the Measurement Tips factory so that we view tips
-  $scope.measurementsTips = MeasurementTips.get();
+  $scope.measurementsTips = TIPS;
 })
 
 .controller('appointmentCtrl', function($scope) {
@@ -74,7 +60,7 @@ $scope.bpAlert = function(value) {
 
 .controller('goalsCtrl', function($scope, Goal) {
   // TODO use enums for personal/clinical here
-  $scope.goals = Goal.get(),
+  $scope.goals = Goal.get();
 
   // See https://github.com/angular/angular.js/wiki/Understanding-Scopes
   // on why we're creating an Object here rather than assigning
@@ -139,12 +125,6 @@ $scope.bpAlert = function(value) {
 .controller('appointmentCtrl', function($scope,$stateParams, Appointment) {
   var appointmentRecord = Appointment.get();
   $scope.appointment = appointmentRecord[parseInt($stateParams.appointmentId)];
-})
-
-.controller('goalsCtrl', function($scope, Goal) {
-  // We inject the Goal factory so that we can query for the personal
-  // goals associated with the user.
-  $scope.personal_goals = Goal.get();
 })
 
 .controller('addGoalCtrl', function($scope) {
