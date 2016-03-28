@@ -140,6 +140,19 @@ angular.module('app.services')
   };
 }])
 
+.factory('MedicationHistoryFB', ["$firebaseArray", "$firebaseObject", function($firebaseArray, $firebaseObject) {
+  return {
+    get: function(username) {
+      // create a reference to the database where we will store our data
+      var ref = new Firebase("https://vivid-inferno-5187.firebaseio.com/users");
+      var historyRef = ref.child(username).child('medicationHistory');
+      // return it as a synchronized Array
+      return $firebaseArray(scheduleRef);
+    },
+  }
+
+}])
+
 .factory('MedicationHistory', ["Medication", function() {
   var count = 1;
   var history = [{
