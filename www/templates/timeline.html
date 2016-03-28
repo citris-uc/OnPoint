@@ -2,7 +2,7 @@
 
 <ion-view title="Home" class = "timeline">
   <ion-nav-buttons side="left">
-    <button class="button button-icon icon ion-ios-gear-outline button-positive button-clear" ui-sref="/tabs"></button>
+    <button class="button button-icon icon ion-ios-gear-outline button-positive button-clear" ui-sref="tabsController.settings"></button>
   </ion-nav-buttons>
 
   <ion-content overflow-scroll="true" padding="true" class="has-header">
@@ -30,14 +30,14 @@
       </div>
 
       <!-- Card Body -->
-      <div class="item item-text-wrap">
-        <a>Lorem Ipsum</a>
+      <div class="item item-text-wrap" >
+        <div ng-repeat="line in getBody(c) track by $index">{{line}}</div>
       </div>
 
       <!-- Card Buttons -->
       <div class="button-bar">
         <a class="button button-small icon ion-ios-chatboxes-outline"> Comments</a>
-        <a class="button button-small ">Action</a>
+        <a class="button button-small" ng-click="openPage(c)">Action</a>
       </div>
 
     </div>

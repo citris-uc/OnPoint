@@ -1,0 +1,24 @@
+<ion-view title="Medications Schedule">
+<ion-nav-buttons side="right">
+       <button class="button button-clear button-positive" ng-click="saveMedicationSchedule()">Save</button>
+    </ion-nav-buttons>
+  <ion-content overflow-scroll="true" padding="false" class="has-header">
+    <ion-list show-reorder="true">
+      <span ng-repeat = "dateSchedule in schedule">
+
+        <a class="item item-divider item-icon-right" >
+          {{dateSchedule.slot}}
+        </a>
+
+        <ion-item ng-repeat="med in dateSchedule.medications">
+          {{med}}
+           <ion-reorder-button class="ion-navicon"
+              on-reorder="moveItem(dateSchedule,med, $fromIndex, $toIndex)">
+          </ion-reorder-button>
+        </ion-item>
+      </span>
+
+
+    </ion-list>
+  </ion-content>
+</ion-view>
