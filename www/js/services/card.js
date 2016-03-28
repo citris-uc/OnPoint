@@ -52,6 +52,15 @@ angular.module('app.services')
     get: function() {
       return cards;
     },
+    getCardById : function(cardID) {
+      var card;
+      for(var i = 0; i < cards.length; i++) {
+        if (cards[i].id === cardID){
+          card = cards[i];          
+        }
+      }
+      return card;
+    },
     find_by_object: function(object_id, object_type) {
       var card;
       for(var i = 0; i < cards.length; i++) {
@@ -188,15 +197,7 @@ angular.module('app.services')
           return [""];
       }
     },
-    getCardById : function(cardID) {
-      var card;
-      for(var i = 0; i < cards.length; i++) {
-        if (cards[i].id === cardID){
-          card = cards[i];          
-        }
-      }
-      return card;
-    }
+
   };
 
   
