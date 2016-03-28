@@ -16,15 +16,6 @@ angular.module('app.services')
       return medications;
     },
     getByName: function(name) {
-      var temp = $firebaseArray(medicationsRef);
-      temp.$loaded(
-        function(data) {
-          console.log(data[0]); // true
-        },
-        function(error) {
-          console.error("Error:", error);
-        }
-      );
 
       for (var i = 0; i < medications.length; i++) {
         if (medications[i].name == name)
@@ -39,18 +30,40 @@ angular.module('app.services')
       }
     }
   };
-}])
+})
 
 
-.factory('MedicationScheduleFB', ["$firebaseArray", function($firebaseArray) {
-  return function(username) {
-    // create a reference to the database where we will store our data
-    var ref = new Firebase("https://vivid-inferno-5187.firebaseio.com/users");
-    var scheduleRef = ref.child(username).child('medicationSchedule');
-    // return it as a synchronized object
-    return $firebaseArray(scheduleRef);
+.factory('MedicationScheduleFB', ["$firebaseArray", "$firebaseObject", function($firebaseArray, $firebaseObject) {
+  return {
+    get: function(username) {
+      // create a reference to the database where we will store our data
+      var ref = new Firebase("https://vivid-inferno-5187.firebaseio.com/users");
+      var scheduleRef = ref.child(username).child('medicationSchedule');
+      // return it as a synchronized Array
+      return $firebaseArray(scheduleRef);
+    },
+    findByID: function(username, id) {
+      // create a reference to the database where we will store our data
+      var ref = new Firebase("https://vivid-inferno-5187.firebaseio.com/users");
+      var ans = ref.child(username).child('medicationSchedule').child(0);
+      // return it as a synchronized object
+      return  $firebaseObject(ans);
+      
+      /*
+      console.log(schedule);
+      var dateSchedule;
+      for (var i = 0; i < schedule.length; i++) {
+        if (schedule[i].id == id)
+          dateSchedule = schedule[i]
+      }
+      return dateSchedule;
+      */
+    }
   }
+
 }])
+
+
 
 // This factory is responsible for defining a Medication Schedule
 // that the patient usually adheres to.
@@ -65,21 +78,21 @@ angular.module('app.services')
       time: "08:00",
       slot: "morning",
       days: [0,1,2,3,4,5,6], //array descirbing days of week to do this action
-      medications: morning.map( function(trade_name) { return Medication.getByTradeName(trade_name) } )
+      medications: ["Lasix", "Toprol XL", "Zestril", "Coumadin", "Riomet"]
     },
     {
       id: 2,
       time: "13:00",
       slot: "afternoon",
       days: [0,1,2,3,4,5,6], //array descirbing days of week to do this action,
-      medications: afternoon.map( function(trade_name) { return Medication.getByTradeName(trade_name) } )
+      medications: ["Lasix", "Toprol XL", "Zestril", "Riomet"]
     },
     {
       id: 3,
       time: "19:00",
       slot: "evening",
       days: [0,1,2,3,4,5,6], //array descirbing days of week to do this action,
-      medications: evening.map( function(trade_name) { return Medication.getByTradeName(trade_name) } )
+      medications: ["Lipitor"]
     }
   ]
 
@@ -87,16 +100,7 @@ angular.module('app.services')
     get: function() {
       return schedule;
     },
-    /*
-    getByDateAndSlot: function(date, slot) {
-      var dateSchedule;
-      for (var i = 0; i < schedule.length; i++) {
-        if (new Date(schedule[i].scheduled_at).toDateString() == new Date(date).toDateString() && schedule[i].slot == slot)
-          dateSchedule = schedule[i]
-      }
-      return dateSchedule;
-    },
-    */
+
     findByID: function(id) {
       var dateSchedule;
       for (var i = 0; i < schedule.length; i++) {
