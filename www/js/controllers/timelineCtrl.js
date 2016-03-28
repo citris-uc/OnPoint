@@ -1,6 +1,6 @@
 angular.module('app.controllers')
 
-.controller('timelineCtrl', function($scope, $state, Card, CARD, MedicationSchedule, MeasurementSchedule) {
+.controller('timelineCtrl', function($scope, $state, Card, CARD, Comment, MedicationSchedule, MeasurementSchedule) {
   $scope.cards = Card.get();
   $scope.CARD = CARD;
 
@@ -49,4 +49,7 @@ angular.module('app.controllers')
     console.log($scope.cards.length);
   }
 
+  $scope.getCommentsCount = function(card_id){
+    return Comment.get_comments_count_by_id(card_id);
+  }
 })

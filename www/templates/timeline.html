@@ -36,11 +36,10 @@
 
       <!-- Card Buttons -->
       <div class="button-bar">
-        <a class="button button-small icon ion-ios-chatboxes-outline"> Comments  ({{getCommentsCount(c.id)}})</a>
+        <a class="button button-small icon ion-ios-chatboxes-outline" ng-href="/#/tabs/cards/{{c.id}}/comments"> Comments  ({{getCommentsCount(c.id)}})</a>
         <a class="button button-small" ng-click="openPage(c)">Action</a>
       </div>
     </div>
     
-
   </ion-content>
 </ion-view>

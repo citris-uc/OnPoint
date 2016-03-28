@@ -1,18 +1,31 @@
 <ion-view title="Comments">
   <ion-content overflow-scroll="true" padding="false" class="has-header">
-    <ion-list>
+    
+    <div class="card" >
 
+      <!-- Card Title -->
+      <div ng-class="['item', cardClass]">
+        <a href="#">{{c.type == CARD.TYPE.ACTION ? 'Take ': c.type == CARD.TYPE.URGENT ? 'TODO: ': ''}}{{c.object_type}}{{c.type == CARD.TYPE.REMINDER ? ' Reminder':''}}</a>
+        <a style="float:right">{{getTime(c.shown_at) | date: 'h:mm a'}}</a>
+      </div>
+
+      <!-- Card Body -->
+      <div class="item item-text-wrap" >
+        <div ng-repeat="line in getBody(c) track by $index">{{line}}</div>
+      </div>
+
+    </div>
+
+    <ion-list>
       <ion-item ng-repeat="comment in comments">
         {{comment.timestamp}} &nbsp {{comment.user_name}} said :  {{comment.content}}
       </ion-item>
 
       <br></br>
       <form class="list">
-        <!-- Text Input for reply -->
         <label class="item item-input">
           <input type="text" placeholder="type to reply" ng-model="newComment.content" required>
         </label>
-        <!-- Save button -->
         <button class="button button-positive button-block" ng-click="reply()">reply</button>
       </form>
     </ion-list>

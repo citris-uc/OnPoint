@@ -187,6 +187,15 @@ angular.module('app.services')
         default:
           return [""];
       }
+    },
+    getCardById : function(cardID) {
+      var card;
+      for(var i = 0; i < cards.length; i++) {
+        if (cards[i].id === cardID){
+          card = cards[i];          
+        }
+      }
+      return card;
     }
   };
 
