@@ -1,7 +1,6 @@
 angular.module('app.services')
 
-.factory('Medication', ["$firebaseObject", function($firebaseArray) {
-  var medicationsRef = new Firebase("https://vivid-inferno-5187.firebaseio.com/medication/medications");
+.factory('Medication',function() {
   medications = [
     {id: 1, name: "furomeside", trade_name: "Lasix", instructions: "Take twice daily; First in morning and then 6-8 hours later", purpose: "Treats salt and fluid retention and swelling caused by heart failure."},
     {id: 2, name: "metoprolol", trade_name: "Toprol XL", instructions: "TODO: Add instructions here", purpose: "Used to treat chest pain (angina), heart failure, and high blood pressure."},
@@ -31,6 +30,7 @@ angular.module('app.services')
         if (medications[i].name == name)
           return medications[i]
       }
+      
     },
     getByTradeName: function(trade_name) {
       for (var i = 0; i < medications.length; i++) {
@@ -39,6 +39,17 @@ angular.module('app.services')
       }
     }
   };
+}])
+
+
+.factory('MedicationScheduleFB', ["$firebaseArray", function($firebaseArray) {
+  return function(username) {
+    // create a reference to the database where we will store our data
+    var ref = new Firebase("https://vivid-inferno-5187.firebaseio.com/users");
+    var scheduleRef = ref.child(username).child('medicationSchedule');
+    // return it as a synchronized object
+    return $firebaseArray(scheduleRef);
+  }
 }])
 
 // This factory is responsible for defining a Medication Schedule
