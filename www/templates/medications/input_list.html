@@ -1,0 +1,23 @@
+<link type="text/css" rel="stylesheet" href="css/setupStyle.css"/>
+
+<ion-view title="Medication Setup" id="page20">
+    <ion-content overflow-scroll="true" padding="true" class="has-header">
+        <div >
+           <h3 class = "subtitle">Step 1 of 5 Input Meds </h3>
+        </div>
+
+        <form class="list">
+            <li>Scheduled Medications</li>
+            <ion-item ng-repeat="med in Scheduledmedications">
+              {{med.name}}
+            </ion-item>
+            <li>As needed Medications</li>
+        </form>
+
+        <a href="#/input_main">
+            <button class="button button-positive  button-block" >Add another medication</button>
+        </a>
+
+        <button class="button button-positive  button-block" >Generate Shedule</button>
+    </ion-content>
+</ion-view>

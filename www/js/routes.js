@@ -154,7 +154,22 @@ angular.module('app.routes', [])
     controller: 'symptomsListMultipleCtrl'
   })
 
+  .state('medInputMain', {
+    url: '/input_main',
+    templateUrl: 'templates/medications/input_main.html',
+  })
 
+  .state('medInputDetail', {
+    url: '/input_detail',
+    templateUrl: 'templates/medications/input_detail.html',
+    controller: 'medInputCtrl'
+  })
+
+  .state('medInputList', {
+    url: '/input_list',
+    templateUrl: 'templates/medications/input_list.html',
+    controller: 'medListCtrl'
+  })
 
   $urlRouterProvider.otherwise('/tabs/timeline')
 });

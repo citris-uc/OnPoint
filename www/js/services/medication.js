@@ -21,6 +21,10 @@ angular.module('app.services')
           return medications[i]
       }
     },
+    addMed: function(newMed) {
+      newMed.id = medications.length + 1,
+      medications.push(newMed);
+    },
     getByTradeName: function(trade_name) {
       for (var i = 0; i < medications.length; i++) {
         if (medications[i].trade_name == trade_name)
