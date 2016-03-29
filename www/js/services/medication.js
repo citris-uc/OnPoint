@@ -1,6 +1,6 @@
 angular.module('app.services')
 
-.factory('Medication', function() {
+.factory('Medication',function() {
   medications = [
     {id: 1, name: "furomeside", trade_name: "Lasix", instructions: "Take twice daily; First in morning and then 6-8 hours later", purpose: "Treats salt and fluid retention and swelling caused by heart failure."},
     {id: 2, name: "metoprolol", trade_name: "Toprol XL", instructions: "TODO: Add instructions here", purpose: "Used to treat chest pain (angina), heart failure, and high blood pressure."},
@@ -20,6 +20,7 @@ angular.module('app.services')
         if (medications[i].name == name)
           return medications[i]
       }
+      
     },
     getByTradeName: function(trade_name) {
       for (var i = 0; i < medications.length; i++) {
