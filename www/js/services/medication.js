@@ -175,7 +175,60 @@ angular.module('app.services')
       return history;
     },
 
-    create_or_update: function(medication, schedule, choice) {
+    create_or_update: function(username, medication, schedule, choice) {
+      // create a reference to the database where we will store our data
+      var ref = new Firebase("https://vivid-inferno-5187.firebaseio.com/users");
+      var historyRef = ref.child(username).child('medicationHistory');
+      var instanceFB =  {
+          id: history.length + 1,
+          medication_id: medication.id,
+          medication_schedule_id: schedule.id,
+          date : (new Date()).toDateString()
+      };
+      var time_now = (new Date()).toTimeString();
+      var updateObject;
+      if (choice == "take") {
+        instanceFB.taken_at = time_now;
+        updateObject = {'taken_at':time_now};
+      }
+      else if (choice == "skip") {
+        instanceFB.skipped_at = time_now;
+        updateObject ={'skipped_at':time_now};
+      }
+      //query
+      var query = historyRef.orderByChild('date').equalTo((new Date()).toDateString());
+      //query callback
+      query.once('value', function(snapshot) {
+        if (snapshot.exists()) {
+          var updated = false;
+          console.log('exists');
+          snapshot.forEach(function(data) {
+            console.log("key: "+ data.key()+ " value: " + data.val().medication_schedule_id + " "+data.val().medication_id)
+            var hist = data.val();
+            if (hist.medication_schedule_id == schedule.id && hist.medication_id == medication.id) {
+              //found it, need to update it!
+              updated=true;
+              var medRef = data.ref();
+              medRef.update(updateObject);
+            } 
+          });
+          if(!updated) {
+              //need to push a new one. 
+              var medRef = snapshot.ref();
+              medRef.push(instanceFB);
+          }
+        }
+        else {
+          //doesnt exist at all yet, push a new one.
+          console.log("doesnt exist");
+          var medRef = snapshot.ref();
+          medRef.push(instanceFB);
+        }
+      }); //end query callback. 
+
+      /*---------------------------------------------------------------------
+      non firebase way
+      -----------------------------------------------------------------------*/
       var instance = this.findByMedicationIdAndScheduleId(medication.id, schedule.id)
       if (!instance) {
         instance = {
@@ -187,6 +240,7 @@ angular.module('app.services')
         history.push(instance);
       }
 
+
       // NOTE: We should still be able to update the object after we've pushed
       // it to the array.
       now = (new Date()).toISOString();
@@ -197,6 +251,7 @@ angular.module('app.services')
     },
 
     findByMedicationIdAndScheduleId: function(med_id, schedule_id) {
+
       var match;
       for(var i = 0; i < history.length; i++) {
         if (history[i].medication_id == med_id && history[i].medication_schedule_id == schedule_id) {

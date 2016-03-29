@@ -25,7 +25,8 @@ angular.module('app.controllers')
   $scope.schedule   = MedicationSchedule.findByID($stateParams.schedule_id)
 
   $scope.takeMedication = function() {
-    MedicationHistory.create_or_update($scope.medication, $scope.schedule, "take")
+    var uid = JSON.parse(window.localStorage["authData"]).uid;
+    MedicationHistory.create_or_update(uid, $scope.medication, $scope.schedule, "take")
     var alertPopup = $ionicPopup.alert({
       title: 'Success',
       template: 'You have succesfully taken ' + $scope.medication.trade_name
@@ -45,7 +46,8 @@ angular.module('app.controllers')
         {
           text: '<b>Yes</b>',
           onTap: function(e) {
-            MedicationHistory.create_or_update($scope.medication, $scope.schedule, "skip")
+            var uid = JSON.parse(window.localStorage["authData"]).uid;
+            MedicationHistory.create_or_update(uid, $scope.medication, $scope.schedule, "skip")
             $ionicHistory.goBack();
           }
         }
@@ -69,17 +71,16 @@ angular.module('app.controllers')
     console.log(JSON.parse(window.localStorage["authData"]).uid);
     var userRef = firebaseRef.child("users").child(JSON.parse(window.localStorage["authData"]).uid);
     var temp = MedicationScheduleFB.findByID(uid,1);
-    console.log(temp);
-    console.log(temp.$getRecord(''));
-    console.log(temp.$priority);
+    console.log(temp); //gets an object
+    console.log(temp.$id); //can access perfectly fine
+    console.log(temp.days); // this is 'undefined' bc of asynchrnous behavior
     temp.$loaded(
        function(data) {
-        console.log(data.days); // true
+        console.log(data.days);  //this works great
       });
-    console.log(temp.days);
     $scope.schedule.$loaded(
       function(data) {
-        console.log(data.$getRecord(0)); // true
+        console.log(data.$getRecord(0)); //this also works
       },
       function(error) {
         console.error("Error:", error);
