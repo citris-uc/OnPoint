@@ -30,6 +30,9 @@ angular.module('app.services')
     },
     getToken: function() {
       $window.localStorage.getItem("token");
+    },
+    ref: function() {
+      return new Firebase("https://vivid-inferno-5187.firebaseio.com/patients/" + this.get().uid);
     }
   };
 })
