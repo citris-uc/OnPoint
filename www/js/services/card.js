@@ -187,8 +187,6 @@ angular.module('app.services')
         default:
           return [""];
       }
-
-
     }
   };
 
