@@ -1,45 +1,49 @@
 angular.module('app.controllers')
 
-.controller('loginCtrl', function($scope, $state, $stateParams, $ionicPopup) {
+.controller('loginCtrl', function($scope, $state, $ionicHistory, Auth, Patient, $ionicPopup) {
   $scope.user  = {email: 'ucb.onpoint@gmail.com', password: 'onpoint'};
   $scope.state = {loading: false}
 
-  $scope.logIn = function(){
+  $scope.login = function(){
     $scope.state.loading = true;
 
-    var firebaseRef = new Firebase("https://vivid-inferno-5187.firebaseio.com/");
-    firebaseRef.authWithPassword($scope.user, function(error, authData) {
-      if (error) {
-        var alertPopup = $ionicPopup.alert({
-          title: 'Error',
-          template: error
-        });
-      } else {
-        window.localStorage.setItem("authData", JSON.stringify(authData));
-        $state.go("tabsController.timeline");
-      }
-
-      $scope.state.loading = false;
-    });
+    Auth.$authWithPassword($scope.user).then(function(authData) {
+      handleTransition()
+      Patient.setToken(authData.token);
+      $state.go("tabsController.timeline");
+    }).catch(function(error) {
+      handleError(error)
+    })
   }
 
-  $scope.createAccount = function()   {
+  $scope.register = function()   {
     $scope.state.loading = true;
 
-    var firebaseRef = new Firebase("https://vivid-inferno-5187.firebaseio.com/");
-    firebaseRef.createUser($scope.user, function(error, authData) {
-      if (error) {
-        var alertPopup = $ionicPopup.alert({
-          title: 'Error creating user',
-          template: error
-        });
-      } else {
-        window.localStorage.setItem("authData", JSON.stringify(authData));
-        $state.go("tabsController.timeline");
-      }
+    Auth.$createUser($scope.user).then(function(authData) {
+      handleTransition()
+      Patient.create($scope.user.email, authData)
+      $state.go("tabsController.timeline");
+    }).catch(function(error) {
+      handleError(error)
+    })
+  }
 
-      $scope.state.loading = false;
+  var handleTransition = function() {
+    $scope.state.loading = false;
+
+    $ionicHistory.nextViewOptions({
+      disableAnimate: true,
+      disableBack: true,
+      historyRoot: true
+    })
+  }
+
+  var handleError = function(error) {
+    var alertPopup = $ionicPopup.alert({
+      title: 'Error',
+      template: error
     });
+    $scope.state.loading = false;
   }
 
 })
