@@ -4,6 +4,26 @@ angular.module('app.controllers')
   $scope.user  = {email: 'ucb.onpoint@gmail.com', password: 'onpoint'};
   $scope.state = {loading: false}
 
+  var handleTransition = function() {
+    $scope.state.loading = false;
+
+    $ionicHistory.nextViewOptions({
+      disableAnimate: true,
+      disableBack: true,
+      historyRoot: true
+    })
+  }
+
+  var handleError = function(error) {
+    var alertPopup = $ionicPopup.alert({
+      title: 'Error',
+      template: error
+    });
+    $scope.state.loading = false;
+  }
+
+
+
   // Redirect to Timeline view if the user is already authenticated.
   var authData = Auth.$getAuth();
   if (authData) {
