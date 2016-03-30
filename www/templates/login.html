@@ -1,19 +1,27 @@
 <ion-view title="Login">
-    <ion-content overflow-scroll="true" padding="true" class="has-header">
-        <form class="list">
-            <ion-list>
-                <label class="item item-input">
-                    <span class="input-label" >Username/Email</span>
-                    <input type="text" placeholder="" ng-model="user.email">
-                </label>
-                <label class="item item-input">
-                    <span class="input-label">Password</span>
-                    <input type="password" placeholder=""ng-model="user.password">
-                </label>
-            </ion-list>
-            <div class="spacer" style="height: 40px;"></div>
-            <button id="login-button1" class="button button-stable button-block " ng-click="logIn()">Log in</button>
-            <a href="#" ng-click="createAccount()" id="login-button2" class="button button-positive button-clear button-block ">Or create an account</a>
-        </form>
-    </ion-content>
+  <ion-content overflow-scroll="true" padding="true" class="has-header">
+    <form class="list">
+      <ion-list>
+        <label class="item item-input">
+          <span class="input-label">Email</span>
+          <input type="email" placeholder="" ng-model="user.email">
+        </label>
+        <label class="item item-input">
+          <span class="input-label">Password</span>
+          <input type="password" placeholder=""ng-model="user.password">
+        </label>
+      </ion-list>
+      <button class="button button-positive button-block" ng-click="login()">
+        <span ng-hide="state.loading">Login</span>
+        <ion-spinner icon="ios-small" class="spinner-stable" ng-show="state.loading"></ion-spinner>
+      </button>
+
+      <h3 class="text-center" style="margin-bottom: 20px;">or</h1>
+
+      <button class="button button-light button-block" ng-click="register()">
+        <span ng-hide="state.loading">Create an account</span>
+        <ion-spinner icon="ios-small" class="spinner-stable" ng-show="state.loading"></ion-spinner>
+      </button>
+    </form>
+  </ion-content>
 </ion-view>
