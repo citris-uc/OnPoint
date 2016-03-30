@@ -25,7 +25,7 @@
 
       <!-- Card Title -->
       <div ng-class="['item', cardClass]">
-        <a href="#">{{c.type == CARD.TYPE.ACTION ? 'Take ': c.type == CARD.TYPE.URGENT ? 'TODO: ': ''}}{{c.object_type}}{{c.type == CARD.TYPE.REMINDER ? ' Reminder':''}}</a>
+        <span>{{c.type == CARD.TYPE.ACTION ? 'Take ': c.type == CARD.TYPE.URGENT ? 'TODO: ': ''}}{{c.object_type}}{{c.type == CARD.TYPE.REMINDER ? ' Reminder':''}}</span>
         <a style="float:right">{{getTime(c.shown_at) | date: 'h:mm a'}}</a>
       </div>
 
@@ -36,7 +36,7 @@
 
       <!-- Card Buttons -->
       <div class="button-bar">
-        <a class="button button-small icon ion-ios-chatboxes-outline" ng-href="/#/tabs/cards/{{c.id}}/comments"> Comments  ({{getCommentsCount(c.id)}})</a>
+        <a class="button button-small icon ion-ios-chatboxes-outline" ui-sref="tabsController.comments({id:c.id})"> Comments  ({{getCommentsCount(c.id)}})</a>
         <a class="button button-small" ng-click="openPage(c)">Action</a>
       </div>
     </div>

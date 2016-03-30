@@ -5,13 +5,13 @@
 
       <!-- Card Title -->
       <div ng-class="['item', cardClass]">
-        <a href="#">{{c.type == CARD.TYPE.ACTION ? 'Take ': c.type == CARD.TYPE.URGENT ? 'TODO: ': ''}}{{c.object_type}}{{c.type == CARD.TYPE.REMINDER ? ' Reminder':''}}</a>
-        <a style="float:right">{{getTime(c.shown_at) | date: 'h:mm a'}}</a>
+        <a href="#">{{card.type == CARD.TYPE.ACTION ? 'Take ': card.type == CARD.TYPE.URGENT ? 'TODO: ': ''}}{{card.object_type}}{{card.type == CARD.TYPE.REMINDER ? ' Reminder':''}}</a>
+        <a style="float:right">{{getTime(card.shown_at) | date: 'h:mm a'}}</a>
       </div>
 
       <!-- Card Body -->
       <div class="item item-text-wrap" >
-        <div ng-repeat="line in getBody(c) track by $index">{{line}}</div>
+        <div ng-repeat="line in getBody(card) track by $index">{{line}}</div>
       </div>
 
     </div>

@@ -1,7 +1,7 @@
 angular.module('app.controllers')
 
 .controller('commentsCtrl', function($scope, $stateParams, Comment, Card) {
-  $scope.c = Card.getCardById($stateParams.id);
+  $scope.card = Card.getCardById($stateParams.id);
   $scope.comments   = Comment.getByCardId($stateParams.id);
   $scope.newComment = {card_id: $stateParams.id, user_name: "Mr. A"}
 
