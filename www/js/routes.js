@@ -7,6 +7,12 @@ angular.module('app.routes', [])
   // Each state's controller can be found in controllers.js
   $stateProvider
 
+  .state('loginScreen', {
+    url: '/login',
+    templateUrl: 'templates/login.html',
+    controller: 'loginCtrl'
+  })
+
   .state('tabsController', {
     url: '/tabs',
     templateUrl: 'templates/tabsController.html',
@@ -156,5 +162,5 @@ angular.module('app.routes', [])
 
 
 
-  $urlRouterProvider.otherwise('/tabs/timeline')
+  $urlRouterProvider.otherwise('/login')
 });
