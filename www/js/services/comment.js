@@ -27,6 +27,15 @@ angular.module('app.services')
     add: function(comment) {
       comment.created_at = (new Date()).toISOString()
       comments.push(comment);
+    },
+    get_comments_count_by_id: function(id){
+      counts = 0;
+      for (var i = 0; i < comments.length; i++) {
+        if (comments[i].card_id == id){
+          counts = counts + 1 ;
+        }
+      }
+      return counts;
     }
   };
 })
