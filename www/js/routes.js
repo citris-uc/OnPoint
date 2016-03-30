@@ -7,6 +7,12 @@ angular.module('app.routes', [])
   // Each state's controller can be found in controllers.js
   $stateProvider
 
+  .state('loginScreen', {
+    url: '/login',
+    templateUrl: 'templates/login.html',
+    controller: 'loginCtrl'
+  })
+
   .state('tabsController', {
     url: '/tabs',
     templateUrl: 'templates/tabsController.html',
@@ -19,6 +25,26 @@ angular.module('app.routes', [])
       'timeline-tab': {
         templateUrl: 'templates/timeline.html',
         controller: 'timelineCtrl'
+      }
+    }
+  })
+
+  .state('tabsController.settings', {
+    url: '/settings',
+    views: {
+      'timeline-tab': {
+        templateUrl: 'templates/settings.html',
+        controller: 'settingsCtrl'
+      }
+    }
+  })
+
+  .state('tabsController.settingsMedicationSchedule', {
+    url: '/settings/medicationSchedule',
+    views: {
+      'timeline-tab': {
+        templateUrl: 'templates/settingsMedicationSchedule.html',
+        controller: 'medicationsSettingCtrl'
       }
     }
   })
@@ -156,5 +182,5 @@ angular.module('app.routes', [])
 
 
 
-  $urlRouterProvider.otherwise('/tabs/timeline')
+  $urlRouterProvider.otherwise('/login')
 });

@@ -2,7 +2,7 @@ angular.module('app.services')
 // Factories allows us to define objects within our app. We can expose
 // specific methods within the object literal to mimic API calls, e.g.
 // Measurement.get() will return all measurements associated with a user.
-.factory("Measurement", ["CARD", "Card", function(CARD, Card) {
+.factory("Measurement", ["CARD", "Card", "Patient", "$firebaseArray", function(CARD, Card, Patient, $firebaseArray) {
   var measurements = [
     {
       id: 1,
@@ -23,9 +23,13 @@ angular.module('app.services')
 
   return {
     get: function() {
-      return measurements;
+      var ref = this.ref();
+      return $firebaseArray(ref)
     },
-
+    ref: function() {
+      var uid = Patient.uid();
+      return Patient.ref(uid).child("measurements")
+    },
     hasHighBP: function(measurement) {
       if ( !(measurement.systolic && measurement.diastolic) )
         return false;
@@ -37,33 +41,41 @@ angular.module('app.services')
     add: function(measurement) {
       now = (new Date()).toISOString();
 
+      // Replace with Firebase
       var m = {
-        id: measurements.length + 1,
         weight: measurement.weight,
         systolic: measurement.systolic,
         diastolic: measurement.diastolic,
-        heartRate: measurement.heartDate,
+        heart_rate: measurement.heartRate,
         created_at: now
       }
 
-      measurements.push(m);
+      // TODO: Remove this ugliness. We're doing this to reference
+      // the current scope before we enter the `then` scope below.
+      var that = this;
 
-      // At this point, let's find, or create an associated
-      // card.
-      var card = Card.find_by_object(m.id, CARD.CATEGORY.MEASUREMENTS);
-      if (!card)
-        card = Card.create_from_object(m, CARD.CATEGORY.MEASUREMENTS, CARD.TYPE.ACTION)
+      var measurements = this.get();
+      var req = measurements.$add(m);
+      req.then(function(ref) {
+        m.id = ref.key();
 
-      // Let's update the timestamps.
-      if (m.weight || (m.systolic && m.diastolic) || m.heartRate) {
-        card.updated_at   = now
-        card.completed_at = now
-      }
+        // At this point, let's find, or create an associated
+        // card.
+        var card = Card.find_by_object(m.id, CARD.CATEGORY.MEASUREMENTS);
+        if (!card)
+          card = Card.create_from_object(m, CARD.CATEGORY.MEASUREMENTS, CARD.TYPE.ACTION)
 
-      // Finally, let's check if the blood pressure is out of range, and if so,
-      // change this card to urgent.
-      if (this.hasHighBP(m))
-        card.type = CARD.TYPE.URGENT
+        // Let's update the timestamps.
+        if (m.weight || (m.systolic && m.diastolic) || m.heartRate) {
+          card.updated_at   = now
+          card.completed_at = now
+        }
+
+        // Finally, let's check if the blood pressure is out of range, and if so,
+        // change this card to urgent.
+        if (that.hasHighBP(m))
+          card.type = CARD.TYPE.URGENT
+      });
 
       return m;
     }

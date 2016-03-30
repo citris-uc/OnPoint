@@ -9,7 +9,6 @@ angular.module('app.controllers')
   }
 
   $scope.getBody = function(card) {
-    console.log("Get Body");
    return Card.getBody(card.id);
   }
 
