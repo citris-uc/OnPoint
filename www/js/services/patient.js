@@ -18,6 +18,7 @@ angular.module('app.services')
       // Create the patient, add to localstorage, and add the token.
       patient = {email: email, uid: authData.uid, profileImageUrl: authData.profileImageUrl}
       this.set(patient)
+      this.ref().set({email: email})
       this.setToken(authData.token)
     },
     setProfilePicture: function(profileImageUrl) {
@@ -30,6 +31,9 @@ angular.module('app.services')
     },
     getToken: function() {
       $window.localStorage.getItem("token");
+    },
+    ref: function() {
+      return new Firebase("https://vivid-inferno-5187.firebaseio.com/patients/").child(this.get().uid);
     }
   };
 })
