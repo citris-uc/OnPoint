@@ -29,6 +29,26 @@ angular.module('app.routes', [])
     }
   })
 
+  .state('tabsController.settings', {
+    url: '/settings',
+    views: {
+      'timeline-tab': {
+        templateUrl: 'templates/settings.html',
+        controller: 'settingsCtrl'
+      }
+    }
+  })
+
+  .state('tabsController.settingsMedicationSchedule', {
+    url: '/settings/medicationSchedule',
+    views: {
+      'timeline-tab': {
+        templateUrl: 'templates/settingsMedicationSchedule.html',
+        controller: 'medicationsSettingCtrl'
+      }
+    }
+  })
+
   .state('tabsController.medications', {
     url: '/medications',
     views: {
