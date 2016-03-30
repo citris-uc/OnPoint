@@ -163,6 +163,7 @@ angular.module('app.routes', [])
   .state('medInputMain', {
     url: '/input_main',
     templateUrl: 'templates/medications/input_main.html',
+    controller: 'medInputMainCtrl'
   })
 
   .state('medInputDetail', {
