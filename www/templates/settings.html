@@ -1,9 +1,13 @@
 <ion-view title="Settings">
-    <ion-content overflow-scroll="true" padding="true" class="has-header">
-        <ion-list class="list">
-        	<ion-item ui-sref="tabsController.settingsMedicationSchedule">
-          Medication Schedule
-        </ion-list>
-        
-    </ion-content>
+  <ion-content overflow-scroll="true" padding="false" class="has-header">
+    <ul class="list">
+    	<li class="item item-icon-right" ui-sref="tabsController.settingsMedicationSchedule">
+        Manage your medication schedule
+        <i class="icon ion-ios-arrow-right"></i>
+      <li>
+      <li class="item" ng-click="logout()">
+        Logout
+      <li>
+    </ul>
+  </ion-content>
 </ion-view>

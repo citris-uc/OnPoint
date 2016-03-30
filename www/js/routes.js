@@ -33,7 +33,8 @@ angular.module('app.routes', [])
     url: '/settings',
     views: {
       'timeline-tab': {
-        templateUrl: 'templates/settings.html'
+        templateUrl: 'templates/settings.html',
+        controller: 'settingsCtrl'
       }
     }
   })
