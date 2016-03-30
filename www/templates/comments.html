@@ -13,9 +13,8 @@
       <div class="item item-text-wrap" >
         <div ng-repeat="line in getBody(card) track by $index">{{line}}</div>
       </div>
-
     </div>
-
+{{card}}
     <ion-list>
       <ion-item ng-repeat="comment in comments">
         {{comment.timestamp}} &nbsp {{comment.user_name}} said :  {{comment.content}}

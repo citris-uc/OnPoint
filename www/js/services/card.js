@@ -54,6 +54,7 @@ angular.module('app.services')
     },
     getCardById : function(cardID) {
       var card;
+      
       for(var i = 0; i < cards.length; i++) {
         if (cards[i].id === cardID){
           card = cards[i];          

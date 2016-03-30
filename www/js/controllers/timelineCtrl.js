@@ -21,7 +21,7 @@ angular.module('app.controllers')
   $scope.shouldDisplayCard = function(timestamp) {
     var cardDate = $scope.getTime(timestamp);
     var now = new Date();
-    if (cardDate.toDateString() == now.toDateString() && cardDate.toTimeString()  < now.toTimeString())
+    if (cardDate.toDateString() == now.toDateString() )
       return true;
     return false;
   }
