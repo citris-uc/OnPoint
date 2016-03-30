@@ -63,9 +63,14 @@ angular.module('app.services')
     create_from_object: function(object, object_type, card_type) {
       var now = (new Date()).toISOString();
       var showAt = new Date();
-      time = object.time.split(":");
-      showAt.setHours(time[0],time[1]);
-      showAt = showAt.toISOString();
+
+      if (object_type == CARD.CATEGORY.MEDICATIONS_SCHEDULE) {
+        time = object.time.split(":");
+        showAt.setHours(time[0],time[1]);
+        showAt = showAt.toISOString();
+      } else {
+        showAt = (new Date()).toISOString();
+      }
       var card = {
         id: cards.length + 1,
         created_at: now,

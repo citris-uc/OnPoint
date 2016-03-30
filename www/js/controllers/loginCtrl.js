@@ -1,45 +1,77 @@
 angular.module('app.controllers')
 
-.controller('loginCtrl', function($scope, $state, $stateParams, $ionicPopup) {
+.controller('loginCtrl', function($scope, $state, $ionicHistory, Auth, Patient, $ionicPopup) {
   $scope.user  = {email: 'ucb.onpoint@gmail.com', password: 'onpoint'};
   $scope.state = {loading: false}
 
-  $scope.logIn = function(){
-    $scope.state.loading = true;
+  var handleTransition = function() {
+    $scope.state.loading = false;
 
-    var firebaseRef = new Firebase("https://vivid-inferno-5187.firebaseio.com/");
-    firebaseRef.authWithPassword($scope.user, function(error, authData) {
-      if (error) {
-        var alertPopup = $ionicPopup.alert({
-          title: 'Error',
-          template: error
-        });
-      } else {
-        window.localStorage.setItem("authData", JSON.stringify(authData));
-        $state.go("tabsController.timeline");
-      }
-
-      $scope.state.loading = false;
-    });
+    $ionicHistory.nextViewOptions({
+      disableAnimate: true,
+      disableBack: true,
+      historyRoot: true
+    })
   }
 
-  $scope.createAccount = function()   {
+  var handleError = function(error) {
+    var alertPopup = $ionicPopup.alert({
+      title: 'Error',
+      template: error
+    });
+    $scope.state.loading = false;
+  }
+
+
+
+  // Redirect to Timeline view if the user is already authenticated.
+  var authData = Auth.$getAuth();
+  if (authData) {
+    handleTransition()
+    Patient.setToken(authData.token);
+    $state.go("tabsController.timeline");
+  }
+
+  $scope.login = function(){
     $scope.state.loading = true;
 
-    var firebaseRef = new Firebase("https://vivid-inferno-5187.firebaseio.com/");
-    firebaseRef.createUser($scope.user, function(error, authData) {
-      if (error) {
-        var alertPopup = $ionicPopup.alert({
-          title: 'Error creating user',
-          template: error
-        });
-      } else {
-        window.localStorage.setItem("authData", JSON.stringify(authData));
-        $state.go("tabsController.timeline");
-      }
+    Auth.$authWithPassword($scope.user).then(function(authData) {
+      handleTransition()
+      Patient.setToken(authData.token);
+      $state.go("tabsController.timeline");
+    }).catch(function(error) {
+      handleError(error)
+    })
+  }
 
-      $scope.state.loading = false;
+  $scope.register = function()   {
+    $scope.state.loading = true;
+
+    Auth.$createUser($scope.user).then(function(authData) {
+      handleTransition()
+      Patient.create($scope.user.email, authData)
+      $state.go("tabsController.timeline");
+    }).catch(function(error) {
+      handleError(error)
+    })
+  }
+
+  var handleTransition = function() {
+    $scope.state.loading = false;
+
+    $ionicHistory.nextViewOptions({
+      disableAnimate: true,
+      disableBack: true,
+      historyRoot: true
+    })
+  }
+
+  var handleError = function(error) {
+    var alertPopup = $ionicPopup.alert({
+      title: 'Error',
+      template: error
     });
+    $scope.state.loading = false;
   }
 
 })
