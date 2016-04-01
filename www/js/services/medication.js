@@ -67,7 +67,7 @@ angular.module('app.services')
 
 // This factory is responsible for defining a Medication Schedule
 // that the patient usually adheres to.
-.factory('MedicationSchedule', ["Medication", function(Medication) {
+.factory('MedicationSchedule', ["Medication","Patient", function(Medication, Patient) {
   morning   = ["Lasix", "Toprol XL", "Zestril", "Coumadin", "Riomet"]
   afternoon = ["Lasix", "Toprol XL", "Zestril", "Riomet"]
   evening   = ["Lipitor"]
@@ -97,6 +97,13 @@ angular.module('app.services')
   ]
 
   return {
+
+    addDefaultToFireBase() {
+      var uid = Patient.uid();
+      var ref = Patient.ref(uid).child("medicationSchedule");
+      ref.set({defaultSchedule:schedule});
+    },
+
     get: function() {
       return schedule;
     },
@@ -158,13 +165,13 @@ angular.module('app.services')
   var history = [{
       id: 0,
       medication_id: 1,
-      medication_schedule_id: 1,
+      medication_schedule_id: 0,
       taken_at: "2016-03-15T08:01:00",
       skipped_at: null
     }, {
       id: 1,
       medication_id: 7,
-      medication_schedule_id: 3,
+      medication_schedule_id: 2,
       taken_at: null,
       skipped_at: "2016-03-21T19:00:00"
     }
@@ -220,7 +227,7 @@ angular.module('app.services')
         }
         else {
           //doesnt exist at all yet, push a new one.
-          console.log("doesnt exist");
+          //console.log("doesnt exist");
           var medRef = snapshot.ref();
           medRef.push(instanceFB);
         }

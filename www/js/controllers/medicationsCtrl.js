@@ -87,7 +87,7 @@ angular.module('app.controllers')
       }
     );
 
-  };  
+  };
    $scope.moveItem = function(slot, item, fromIndex, toIndex) {
     console.log(fromIndex);
     console.log(toIndex);
