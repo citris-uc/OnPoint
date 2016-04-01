@@ -1,46 +1,75 @@
 angular.module('app.controllers')
 
-.controller('loginCtrl', function($scope, $state, $stateParams,$ionicPopup) {
-  $scope.user ={email: 'ucb.onpoint@gmail.com', password: 'onpoint'};
+.controller('loginCtrl', function($scope, $state, $ionicHistory, Patient, $ionicPopup) {
+  $scope.user  = {email: 'ucb.onpoint@gmail.com', password: 'onpoint'};
+  $scope.state = {loading: false}
 
-  $scope.logIn = function(){
-    var firebaseRef = new Firebase("https://vivid-inferno-5187.firebaseio.com/");
-    firebaseRef.authWithPassword({
-      email : $scope.user.email,
-      password: $scope.user.password
-    }, function(error, authData) {
-      if (error) {
-      console.log($scope.user.email);
-      console.log($scope.user.password);
-      console.log("Login Failed!", error)
+  var handleTransition = function() {
+    $scope.state.loading = false;
 
+    $ionicHistory.nextViewOptions({
+      disableAnimate: true,
+      disableBack: true,
+      historyRoot: true
+    })
+  }
+
+  var handleError = function(error) {
     var alertPopup = $ionicPopup.alert({
       title: 'Error',
       template: error
     });
-
-    } else {
-      console.log("Authenticated successfully with payload:", authData);
-      window.localStorage["authData"] = JSON.stringify(authData);
-      console.log(JSON.parse(window.localStorage["authData"])); //retrieving authData example
-      //$localstorage.setObject("authData", authData); //idk why this doesnt work.
-      $state.go("tabsController.timeline");
-    }
-  });
+    $scope.state.loading = false;
   }
 
-  $scope.createAccount = function()   {
-    var firebaseRef = new Firebase("https://vivid-inferno-5187.firebaseio.com/");
-    firebaseRef.createUser({
-      email : $scope.user.email,
-      password: $scope.user.password
-    }, function(error, userData) {
-      if (error) {
-        console.log("Error creating user:", error);
-      } else {
-        console.log("Successfully created user account with uid:", userData.uid);
-      }
+  // Redirect to Timeline view if the user is already authenticated.
+  var authData = Patient.auth().$getAuth();
+  if (authData) {
+    handleTransition()
+    Patient.setToken(authData.token);
+    $state.go("tabsController.timeline");
+  }
+
+  $scope.login = function(){
+    $scope.state.loading = true;
+
+    Patient.auth().$authWithPassword($scope.user).then(function(authData) {
+      handleTransition()
+      Patient.setToken(authData.token);
+      $state.go("tabsController.timeline");
+    }).catch(function(error) {
+      handleError(error)
+    })
+  }
+
+  $scope.register = function()   {
+    $scope.state.loading = true;
+
+    Patient.auth().$createUser($scope.user).then(function(authData) {
+      handleTransition()
+      Patient.create($scope.user.email, authData)
+      $state.go("tabsController.timeline");
+    }).catch(function(error) {
+      handleError(error)
+    })
+  }
+
+  var handleTransition = function() {
+    $scope.state.loading = false;
+
+    $ionicHistory.nextViewOptions({
+      disableAnimate: true,
+      disableBack: true,
+      historyRoot: true
+    })
+  }
+
+  var handleError = function(error) {
+    var alertPopup = $ionicPopup.alert({
+      title: 'Error',
+      template: error
     });
+    $scope.state.loading = false;
   }
 
 })
