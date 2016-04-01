@@ -21,7 +21,7 @@ angular.module('app.services')
         if (medications[i].name == name)
           return medications[i]
       }
-      
+
     },
     getByTradeName: function(trade_name) {
       for (var i = 0; i < medications.length; i++) {
@@ -48,7 +48,7 @@ angular.module('app.services')
       var ans = ref.child(username).child('medicationSchedule').child(0);
       // return it as a synchronized object
       return  $firebaseObject(ans);
-      
+
       /*
       console.log(schedule);
       var dateSchedule;
@@ -177,7 +177,7 @@ angular.module('app.services')
 
     create_or_update: function(username, medication, schedule, choice) {
       // create a reference to the database where we will store our data
-      var ref = new Firebase("https://vivid-inferno-5187.firebaseio.com/users");
+      var ref = new Firebase("https://vivid-inferno-5187.firebaseio.com/patients");
       var historyRef = ref.child(username).child('medicationHistory');
       var instanceFB =  {
           id: history.length + 1,
@@ -210,10 +210,10 @@ angular.module('app.services')
               updated=true;
               var medRef = data.ref();
               medRef.update(updateObject);
-            } 
+            }
           });
           if(!updated) {
-              //need to push a new one. 
+              //need to push a new one.
               var medRef = snapshot.ref();
               medRef.push(instanceFB);
           }
@@ -224,7 +224,7 @@ angular.module('app.services')
           var medRef = snapshot.ref();
           medRef.push(instanceFB);
         }
-      }); //end query callback. 
+      }); //end query callback.
 
       /*---------------------------------------------------------------------
       non firebase way
