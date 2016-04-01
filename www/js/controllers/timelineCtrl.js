@@ -4,6 +4,10 @@ angular.module('app.controllers')
   $scope.cards = Card.get();
   $scope.CARD = CARD;
 
+  $scope.getCardStatus = function(card) {
+    return Card.getCardStatus(card.id);
+  }
+
   $scope.getTime = function(timestamp) {
     return new Date(timestamp);
   }
@@ -19,7 +23,7 @@ angular.module('app.controllers')
 
   $scope.shouldDisplayCard = function(timestamp) {
     var cardDate = $scope.getTime(timestamp);
-    var now = new Date(); 
+    var now = new Date();
     if (cardDate.toDateString() == now.toDateString() && cardDate.toTimeString()  <= now.toTimeString())
       return true;
     return false;
