@@ -11,3 +11,8 @@ angular.module('app.controllers',[])
 .controller('medListCtrl', function($scope, Medication) {
    $scope.Scheduledmedications = Medication.get();
 })
+
+.controller('medInputMainCtrl', function($scope, Medication) {
+})
+
+
