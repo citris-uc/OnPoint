@@ -54,12 +54,4 @@ angular.module('app.controllers')
     })
   }
 
-  var handleError = function(error) {
-    var alertPopup = $ionicPopup.alert({
-      title: 'Error',
-      template: error
-    });
-    $scope.state.loading = false;
-  }
-
 })

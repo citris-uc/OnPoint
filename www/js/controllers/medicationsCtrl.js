@@ -56,9 +56,10 @@ angular.module('app.controllers')
   };
 })
 
-.controller('medicationsSettingCtrl', function($scope, MedicationScheduleFB, Medication, MedicationSchedule, MedicationHistory) {
+.controller('medicationsSettingCtrl', function($scope, MedicationScheduleFB, Medication, MedicationSchedule, MedicationHistory, Patient) {
   //$scope.schedule = MedicationSchedule.get();
-  var uid = JSON.parse(window.localStorage["authData"]).uid;
+  var uid = Patient.uid();
+
 
   //3 way data binding of medicationSchedule...
   //MedicationScheduleFB(uid).$bindTo($scope,"schedule");

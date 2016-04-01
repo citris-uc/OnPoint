@@ -67,11 +67,9 @@ angular.module('app.services')
 
 // This factory is responsible for defining a Medication Schedule
 // that the patient usually adheres to.
-.factory('MedicationSchedule', ["Medication","Patient", function(Medication, Patient) {
-  morning   = ["Lasix", "Toprol XL", "Zestril", "Coumadin", "Riomet"]
-  afternoon = ["Lasix", "Toprol XL", "Zestril", "Riomet"]
-  evening   = ["Lipitor"]
+.factory('MedicationSchedule', ["Medication","Patient", "$firebaseArray", "$q", function(Medication, Patient, $firebaseArray, $q) {
 
+  /*
   schedule = [
     {
       id: 1,
@@ -95,6 +93,7 @@ angular.module('app.services')
       medications: ["Lipitor"]
     }
   ]
+  */
 
   return {
 
@@ -103,18 +102,49 @@ angular.module('app.services')
       var ref = Patient.ref(uid).child("medicationSchedule");
       ref.set({defaultSchedule:schedule});
     },
-
+    /*
+    //Old get method
     get: function() {
       return schedule;
     },
-
+    */
+    get: function() {
+      var ref = this.ref().child("defaultSchedule");
+      var deferred = $q.defer();
+      req = $firebaseArray(ref)
+      req.$loaded().then(function (val) {
+        deferred.resolve(val)
+      });
+      return deferred.promise
+      //return $firebaseArray(ref)
+    },
+    ref: function() {
+      var uid = Patient.uid();
+      return Patient.ref(uid).child("medicationSchedule")
+    },
     findByID: function(id) {
+      var uid = Patient.uid();
+      var ref = this.ref(uid).child("defaultSchedule").child(id-1);
+      var deferred = $q.defer();
+      //var req = ref.orderByChild("id").equalTo(id).once('value', function(snap) {
+        //console.log(snap.val());
+        //deferred.resolve(snap.val());
+      //});
+      //return deferred.promise
+      req = $firebaseArray(ref);
+      req.$loaded().then(function (val) {
+        deferred.resolve(val);
+      });
+      return deferred.promise
+      /*
+      var schedule = this.get();
       var dateSchedule;
       for (var i = 0; i < schedule.length; i++) {
         if (schedule[i].id == id)
           dateSchedule = schedule[i]
       }
       return dateSchedule;
+      */
     }
   };
 }])
