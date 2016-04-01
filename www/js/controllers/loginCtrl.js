@@ -54,16 +54,6 @@ angular.module('app.controllers')
     })
   }
 
-  var handleTransition = function() {
-    $scope.state.loading = false;
-
-    $ionicHistory.nextViewOptions({
-      disableAnimate: true,
-      disableBack: true,
-      historyRoot: true
-    })
-  }
-
   var handleError = function(error) {
     var alertPopup = $ionicPopup.alert({
       title: 'Error',
