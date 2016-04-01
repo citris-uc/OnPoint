@@ -53,5 +53,4 @@ angular.module('app.controllers')
       handleError(error)
     })
   }
-
 })
