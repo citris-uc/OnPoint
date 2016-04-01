@@ -10,21 +10,28 @@ angular.module('app.services')
     {id: 6, name: "metformin", trade_name: "Riomet", instructions: "Take orally, twice daily, with meals", purpose: "Used to treat Type 2 Diabetes."},
     {id: 7, name: "statin", trade_name: "Lipitor", instructions: "TODO: Add instructions here", purpose: "It can treat high cholesterol and triglyceride levels."}
   ]
+  input_medications = [];
 
   return {
     get: function() {
       return medications;
+    },
+    get_inputList: function() {
+      return input_medications;
     },
     getByName: function(name) {
       for (var i = 0; i < medications.length; i++) {
         if (medications[i].name == name)
           return medications[i]
       }
-      
     },
     addMed: function(newMed) {
       newMed.id = medications.length + 1,
       medications.push(newMed);
+    },
+    add_inputMed: function(newMed) {
+      newMed.id = input_medications.length + 1,
+      input_medications.push(newMed);
     },
     getByTradeName: function(trade_name) {
       for (var i = 0; i < medications.length; i++) {
