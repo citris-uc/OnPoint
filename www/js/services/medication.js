@@ -25,13 +25,16 @@ angular.module('app.services')
           return medications[i]
       }
     },
-    addMed: function(newMed) {
-      newMed.id = medications.length + 1,
-      medications.push(newMed);
-    },
     add_inputMed: function(newMed) {
-      newMed.id = input_medications.length + 1,
-      input_medications.push(newMed);
+      m = {};
+      m.id = input_medications.length + 1;
+      m.name = newMed.name;
+      m.dosage = newMed.dosage;
+      m.timing = newMed.timing;
+      m.instructions = newMed.instructions;
+      m.purpose = newMed.purpose;
+      m.notes = newMed.notes;
+      input_medications.push(m);
     },
     getByTradeName: function(trade_name) {
       for (var i = 0; i < medications.length; i++) {
