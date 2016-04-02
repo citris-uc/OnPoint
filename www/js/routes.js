@@ -85,7 +85,7 @@ angular.module('app.routes', [])
     url: '/measurements',
     views: {
       'measurements-tab': {
-        templateUrl: 'templates/measurements.html',
+        templateUrl: 'templates/measurements/measurements.html',
         controller: 'measurementsCtrl'
       }
     }
@@ -95,7 +95,7 @@ angular.module('app.routes', [])
     url: '/measurement-add',
     views: {
       'measurements-tab': {
-        templateUrl: 'templates/measurements-add.html',
+        templateUrl: 'templates/measurements/measurements-add.html',
         controller: 'addMeasurementsCtrl'
       }
     }
@@ -105,7 +105,7 @@ angular.module('app.routes', [])
     url: '/measurement-tips',
     views: {
       'measurements-tab': {
-        templateUrl: 'templates/measurementTips.html',
+        templateUrl: 'templates/measurements/measurementTips.html',
         controller: 'measurementTipsCtrl'
       }
     }
