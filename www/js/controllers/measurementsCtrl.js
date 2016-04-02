@@ -1,5 +1,14 @@
 angular.module('app.controllers')
 
+.controller('addMeasurementScheduleCtrl', function($scope, Measurement) {
+
+})
+
+.controller('MeasurementSetupCtrl', function($scope, Measurement) {
+
+})
+
+
 .controller('measurementsCtrl', function($scope, Measurement) {
   // We inject the Measurement factory so that we can query for the measurement
   // history.
@@ -50,7 +59,4 @@ $scope.bpAlert = function(value) {
 .controller('measurementTipsCtrl', function($scope, TIPS) {
   // We inject the Measurement Tips factory so that we view tips
   $scope.measurementsTips = TIPS;
-})
-
-
 })
