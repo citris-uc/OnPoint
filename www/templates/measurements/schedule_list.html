@@ -5,11 +5,11 @@
     </ion-header-bar>
     <ion-content overflow-scroll="true" padding="true" class="has-header">
 
-        <form class="list">
+        <div class="list">
             <ion-item ng-repeat="shedule in Scheduledmeasurements">
               {{shedule.name}}
             </ion-item>
-        </form>
+        </div>
 
         <button ui-sref="measurementInput" class="button button-positive  button-block" >Add another shedule</button>
 

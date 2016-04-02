@@ -93,12 +93,20 @@ angular.module('app.services')
       id: 2,
       time: "16:00",
       days: [0,1,2,3,4,5,6],
-      measurements :["systolic", "diastolic", "heart_rate"]    
+      measurements :["systolic", "diastolic", "heart_rate"]
     }];
+
+  var inputShedule = [];
 
   return {
     get: function() {
       return schedule;
+    },
+    getInputShedule: function() {
+      return inputShedule;
+    },
+    addInputShedule: function(shedule){
+      inputShedule.push(shedule);
     }
   };
-}) 
+})

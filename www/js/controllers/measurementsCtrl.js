@@ -1,11 +1,27 @@
-angular.module('app.controllers')
+angular.module('app.controllers', ['ionic', 'ionic-timepicker'])
 
-.controller('addMeasurementScheduleCtrl', function($scope, Measurement) {
+.controller('addMeasurementScheduleCtrl', function($scope, MeasurementSchedule) {
+    $scope.Scheduledmeasurements = MeasurementSchedule.getInputShedule();
 
 })
 
-.controller('MeasurementSetupCtrl', function($scope, Measurement) {
+.controller('MeasurementSetupCtrl', function($scope, MeasurementSchedule, ionicTimePicker ) {
+  var ipObj1 = {
+      callback: function (val) {      //Mandatory
+        if (typeof (val) === 'undefined') {
+          console.log('Time not selected');
+        } else {
+          var selectedTime = new Date(val * 1000);
+          console.log('Selected epoch is : ', val, 'and the time is ', selectedTime.getUTCHours(), 'H :', selectedTime.getUTCMinutes(), 'M');
+        }
+      },
+      inputTime: 50400,   //Optional
+      format: 12,         //Optional
+      step: 15,           //Optional
+      setLabel: 'Set2'    //Optional
+    };
 
+    ionicTimePicker.openTimePicker(ipObj1);
 })
 
 
