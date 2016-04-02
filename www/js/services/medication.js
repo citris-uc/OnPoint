@@ -67,9 +67,9 @@ angular.module('app.services')
 
 // This factory is responsible for defining a Medication Schedule
 // that the patient usually adheres to.
-.factory('MedicationSchedule', ["Medication","Patient", "$firebaseArray", "$q", function(Medication, Patient, $firebaseArray, $q) {
+.factory('MedicationSchedule', ["Medication","Patient","$firebaseObject", "$firebaseArray", "$q", function(Medication, Patient, $firebaseObject,$firebaseArray, $q) {
 
-  /*
+
   schedule = [
     {
       id: 1,
@@ -93,7 +93,7 @@ angular.module('app.services')
       medications: ["Lipitor"]
     }
   ]
-  */
+
 
   return {
 
@@ -102,29 +102,56 @@ angular.module('app.services')
       var ref = Patient.ref(uid).child("medicationSchedule");
       ref.set({defaultSchedule:schedule});
     },
-    /*
+
+
     //Old get method
     get: function() {
       return schedule;
     },
-    */
+    /*
     get: function() {
       var ref = this.ref().child("defaultSchedule");
       var deferred = $q.defer();
       req = $firebaseArray(ref)
       req.$loaded().then(function (val) {
+        console.log()
         deferred.resolve(val)
       });
       return deferred.promise
       //return $firebaseArray(ref)
     },
+    */
     ref: function() {
       var uid = Patient.uid();
       return Patient.ref(uid).child("medicationSchedule")
     },
+
+    testObject: function() {
+      var ref = this.ref().child("defaultSchedule").child("0").child("slot");
+      return $firebaseObject(ref);
+    },
+
+    testQuery: function() {
+      var ref = this.ref().child("defaultSchedule").orderByChild("id").equalTo(1).once("child_added");
+      return ref
+      /*
+      .on("child_added", function(snapshot) {
+        //console.log(snapshot.val())
+        $timeout(function() {
+          $scope.test=snapshot.val()
+        })
+      })
+      */
+    },
+    findByIdFB: function(id) {
+      var ref = this.ref().child("defaultSchedule").orderByChild("id").equalTo(id-1).once("child_added");
+      return ref;
+    },
     findByID: function(id) {
+      /*
       var uid = Patient.uid();
       var ref = this.ref(uid).child("defaultSchedule").child(id-1);
+      //var ref = this.ref(uid).child("defaultSchedule");
       var deferred = $q.defer();
       //var req = ref.orderByChild("id").equalTo(id).once('value', function(snap) {
         //console.log(snap.val());
@@ -133,10 +160,11 @@ angular.module('app.services')
       //return deferred.promise
       req = $firebaseArray(ref);
       req.$loaded().then(function (val) {
+        //console.log(val)
         deferred.resolve(val);
       });
       return deferred.promise
-      /*
+      */
       var schedule = this.get();
       var dateSchedule;
       for (var i = 0; i < schedule.length; i++) {
@@ -144,7 +172,7 @@ angular.module('app.services')
           dateSchedule = schedule[i]
       }
       return dateSchedule;
-      */
+
     }
   };
 }])

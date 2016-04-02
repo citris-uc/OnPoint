@@ -111,7 +111,9 @@ angular.module('app.services')
         case CARD.CATEGORY.MEDICATIONS_SCHEDULE :
           // Get schedule associated with card
           var schedule = MedicationSchedule.findByID(card.object_id);
+
           //console.log(schedule);
+          /*
           var deferred = $q.defer();
           schedule.then(function(val) {
             //console.log(val);
@@ -151,15 +153,13 @@ angular.module('app.services')
             })
 
             ans =  [takeString, skippedString, completedString];
-
+            console.log(ans);
             deferred.resolve(ans);
           });
           return deferred
-          /*
-          var takeMeds = [];
-          var skippedMeds = [];
-          var completedMeds = [];
+          */
 
+          /*
           schedule.$loaded().then(function(){
             console.log(schedule);
 
@@ -167,10 +167,14 @@ angular.module('app.services')
                   console.log(schedule);
               })
           });
-
           */
 
-          /*
+
+          
+          var medications = schedule.medications;
+          var takeMeds = [];
+          var skippedMeds = [];
+          var completedMeds = [];
           // Check history for each medication in the specified schedule
           medications.forEach( function(med) {
             var history = MedicationHistory.findByMedicationIdAndScheduleId(med.id, schedule.id);
@@ -201,7 +205,7 @@ angular.module('app.services')
           })
 
           return [takeString, skippedString, completedString];
-          */
+
 
         case CARD.CATEGORY.MEASUREMENTS_SCHEDULE :
           return ["Take <measurements>"];

@@ -9,7 +9,10 @@ angular.module('app.controllers')
   }
 
   $scope.getBody = function(card) {
-   promise = Card.getBody(card.id);
+    console.log("getBodyCalled");
+    console.log($scope.cards.length)
+    return Card.getBody(card.id);
+   //promise = Card.getBody(card.id);
    //promise.then(function(val) {
   //   console.log(val);
    //});
@@ -30,7 +33,7 @@ angular.module('app.controllers')
   }
   $scope.generateCardsForToday = function() {
     var medSchedule = MedicationSchedule.get();
-    medSchedule.then(function(val) {
+    /*medSchedule.then(function(val) {
       //console.log(val)
       var measurementSchedule = MeasurementSchedule.get();
       var today = new Date();
@@ -54,7 +57,8 @@ angular.module('app.controllers')
       }
       //console.log($scope.cards.length);
     })
-    /*
+    */
+
     var measurementSchedule = MeasurementSchedule.get();
     var today = new Date();
     var currentDay = today.getDay();
@@ -76,7 +80,7 @@ angular.module('app.controllers')
       }
     }
     console.log($scope.cards.length);
-    */
+
   }
 
 })
