@@ -1,16 +1,31 @@
 angular.module('app.controllers')
 
 .controller('timelineCtrl', function($scope, $state, Card, CARD, MedicationSchedule, MeasurementSchedule) {
-  $scope.cards = Card.get();
+  $scope.cards = Card.get(); // assume this returns cards for today only (function call filters by day)
   $scope.CARD = CARD;
+  $scope.unarchivedCards = $scope.cards.filter(function (c) {return c.archived_at == null;});
+                            //.sort(function(a, b) {return Date.parse(a.updated_at) < Date.parse(b.updated_at)});
 
   $scope.getTime = function(timestamp) {
+    console.log("get time");
     return new Date(timestamp);
   }
 
-  $scope.getBody = function(card) {
-   return Card.getBody(card.id);
+  $scope.getBody = function() {
+    var cardBody = [];
+    for (var i = 0; i < $scope.cards.length; i++ ) {
+      c = $scope.cards[i];
+      console.log("all card:" + c.id + "archived_at: " + c.archived_at);
+    }
+
+    for (var i = 0; i < $scope.unarchivedCards.length; i++ ) {
+      c = $scope.unarchivedCards[i];
+      console.log("card:" + c.id);
+      cardBody.push(Card.getBody(c.id));
+    }
+    return cardBody;
   }
+  $scope.cardBody = $scope.getBody();
 
   $scope.openPage = function(card){
     action = Card.getAction(card.id);
@@ -19,12 +34,13 @@ angular.module('app.controllers')
 
   $scope.shouldDisplayCard = function(timestamp) {
     var cardDate = $scope.getTime(timestamp);
-    var now = new Date(); 
+    var now = new Date();
     if (cardDate.toDateString() == now.toDateString() && cardDate.toTimeString()  <= now.toTimeString())
       return true;
     return false;
   }
   $scope.generateCardsForToday = function() {
+    console.log("gen cards");
     var medSchedule = MedicationSchedule.get();
     var measurementSchedule = MeasurementSchedule.get();
     var today = new Date();
@@ -46,6 +62,10 @@ angular.module('app.controllers')
       }
     }
     console.log($scope.cards.length);
+
+    $scope.unarchivedCards = $scope.cards.filter(function (c) {return c.archived_at == null;});
+    $scope.cardBody = $scope.getBody();
+
   }
 
 })

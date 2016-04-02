@@ -55,22 +55,22 @@ angular.module('app.controllers')
 })
 
 .controller('medicationsSettingCtrl', function($scope, MedicationScheduleFB, Medication, MedicationSchedule, MedicationHistory) {
-  //$scope.schedule = MedicationSchedule.get();
-  var uid = JSON.parse(window.localStorage["authData"]).uid;
-
-  //3 way data binding of medicationSchedule...
-  //MedicationScheduleFB(uid).$bindTo($scope,"schedule");
-
-  $scope.schedule = MedicationScheduleFB(uid);
-  console.log(schedule);
-  $scope.saveMedicationSchedule = function() {
-    var firebaseRef = new Firebase("https://vivid-inferno-5187.firebaseio.com/");
-    console.log(JSON.parse(window.localStorage["authData"]).uid);
-    var userRef = firebaseRef.child("users").child(JSON.parse(window.localStorage["authData"]).uid);
-
-    console.log(schedule);
-
-  };  
+    $scope.schedule = MedicationSchedule.get();
+  // var uid = JSON.parse(window.localStorage["authData"]).uid;
+  //
+  // //3 way data binding of medicationSchedule...
+    //MedicationScheduleFB(uid).$bindTo($scope,"schedule");
+  //
+  // $scope.schedule = MedicationScheduleFB(uid);
+  // console.log(schedule);
+  // $scope.saveMedicationSchedule = function() {
+  //   var firebaseRef = new Firebase("https://vivid-inferno-5187.firebaseio.com/");
+  //   console.log(JSON.parse(window.localStorage["authData"]).uid);
+  //   var userRef = firebaseRef.child("users").child(JSON.parse(window.localStorage["authData"]).uid);
+  //
+  //   console.log(schedule);
+  //
+  // };
    $scope.moveItem = function(slot, item, fromIndex, toIndex) {
     console.log(fromIndex);
     console.log(toIndex);
@@ -79,4 +79,5 @@ angular.module('app.controllers')
     slot.medications.splice(fromIndex, 1);
     slot.medications.splice(toIndex, 0, item);
   };
+
 })

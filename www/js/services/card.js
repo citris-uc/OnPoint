@@ -5,8 +5,8 @@ angular.module('app.services')
     id: 0,
     created_at: "2016-03-15T10:00:00",
     updated_at: "2016-03-15T10:00:00", //should arrange timeline by this timestamp
-    completed_at: null, 
-    archived_at: null, 
+    completed_at: null,
+    archived_at: null,
     type: CARD.TYPE.ACTION,
     object_type: CARD.CATEGORY.MEDICATIONS_SCHEDULE,
     object_id: 1
@@ -14,8 +14,8 @@ angular.module('app.services')
     id: 1,
     created_at: "2016-03-15T11:00:00",
     updated_at: "2016-03-15T11:00:00", //should arrange timeline by this timestamp
-    completed_at: null, 
-    archived_at: null, 
+    completed_at: null,
+    archived_at: null,
     type: CARD.TYPE.URGENT,
     object_type: CARD.CATEGORY.MEASUREMENTS_SCHEDULE,
     object_id: 1
@@ -23,8 +23,8 @@ angular.module('app.services')
     id: 2,
     created_at: "2016-03-15T11:30:00",
     updated_at: "2016-03-15T11:30:00", //should arrange timeline by this timestamp
-    completed_at: null, 
-    archived_at: null, 
+    completed_at: null,
+    archived_at: null,
     type: CARD.TYPE.REMINDER,
     object_type: CARD.CATEGORY.APPOINTMENTS_SCHEDULE,
     object_id: 1
@@ -32,8 +32,8 @@ angular.module('app.services')
     id: 3,
     created_at: "2016-03-15T12:00:00",
     updated_at: "2016-03-15T12:30:00", //should arrange timeline by this timestamp
-    completed_at: "2016-03-15T12:30:00", 
-    archived_at: null, 
+    completed_at: "2016-03-15T12:30:00",
+    archived_at: null,
     type: CARD.TYPE.REMINDER,
     object_type: CARD.CATEGORY.GOALS,
     object_id: 1
@@ -41,8 +41,8 @@ angular.module('app.services')
     id: 4,
     created_at: "2016-03-15T12:00:00",
     updated_at: "2016-03-15T12:30:00", //should arrange timeline by this timestamp
-    completed_at: "2016-03-15T12:30:00", 
-    archived_at: "2016-03-15T12:30:00", 
+    completed_at: "2016-03-15T12:30:00",
+    archived_at: "2016-03-15T12:30:00",
     type: CARD.TYPE.URGENT,
     object_type: CARD.CATEGORY.SYMPTOMS_SCHEDULE,
     object_id: 1
@@ -155,15 +155,15 @@ angular.module('app.services')
           // Check history for each medication in the specified schedule
           medications.forEach( function(med) {
             var history = MedicationHistory.findByMedicationIdAndScheduleId(med.id, schedule.id);
-            if (history == null) 
+            if (history == null)
               takeMeds.push(med);
             else if (history.taken_at != null) {
               completedMeds.push(med);
             } else if (history.skipped_at != null) {
               skippedMeds.push(med);
-            }              
+            }
           })
-          
+
           // Create a string for each line for Take/Skipped/Completed meds
           // TODO -- is there a clean way to do this in the UI to filter?
           //         possible to have different UI templates depending on card category?
@@ -180,7 +180,7 @@ angular.module('app.services')
           completedMeds.forEach( function(med) {
             completedString = completedString + " " + med.trade_name;
           })
-          
+
           return [takeString, skippedString, completedString];
         case CARD.CATEGORY.MEASUREMENTS_SCHEDULE :
           return ["Take <measurements>"];
@@ -195,5 +195,5 @@ angular.module('app.services')
     }
   };
 
-  
+
 }])
