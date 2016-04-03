@@ -21,7 +21,8 @@
     </div>
 
     <!-- Create Cards -->
-    <div class="card" ng-repeat="c in cards | orderBy: 'updated_at' | filter:{archived_at:null}" ng-init="cardClass= c.completed_at != null ? 'completedCard' : (c.type == CARD.TYPE.URGENT ? 'urgentCard' : 'activeCard')" ng-show="shouldDisplayCard(c.shown_at)">
+    <div class="card" ng-repeat="c in cards | orderBy: 'updated_at' | filter:{archived_at:null}"
+      ng-init="cardClass= c.completed_at != null ? 'completedCard' : (c.type == CARD.TYPE.URGENT ? 'urgentCard' : 'activeCard')" ng-show="shouldDisplayCard(c.shown_at)">
 
       <!-- Card Title -->
       <div ng-class="['item', cardClass]">
@@ -31,7 +32,8 @@
 
       <!-- Card Body -->
       <div class="item item-text-wrap" >
-        <div ng-repeat="line in getBody(c) track by $index">{{line}}</div>
+        <!--<div ng-repeat="line in getBody(c) track by $index">{{line}}</div> -->
+        <div>{{getBody(c)}}</div>
       </div>
 
       <!-- Card Buttons -->
@@ -40,7 +42,7 @@
         <a class="button button-small" ng-click="openPage(c)">Action</a>
       </div>
     </div>
-    
+
 
   </ion-content>
 </ion-view>

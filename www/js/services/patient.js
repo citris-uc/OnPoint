@@ -15,6 +15,7 @@ angular.module('app.services')
       return JSON.parse($window.localStorage.getItem("patient") || "{}");
     },
     set: function(patient) {
+      this.setToken(patient.Token);
       $window.localStorage.setItem("patient", JSON.stringify(patient || {}));
     },
     create: function(email, authData) {
