@@ -1,4 +1,4 @@
-angular.module('app.controllers',[])
+angular.module('app.controllers')
 
 .controller('medInputCtrl', function($scope, $state, $ionicPopup, $templateCache, Medication) {
     $scope.newMedication = {};
