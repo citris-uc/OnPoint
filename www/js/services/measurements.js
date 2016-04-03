@@ -27,7 +27,8 @@ angular.module('app.services')
       return $firebaseArray(ref)
     },
     ref: function() {
-      return Patient.ref().child("measurements")
+      var uid = Patient.uid();
+      return Patient.ref(uid).child("measurements")
     },
     hasHighBP: function(measurement) {
       if ( !(measurement.systolic && measurement.diastolic) )

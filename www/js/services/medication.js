@@ -31,6 +31,17 @@ angular.module('app.services')
   };
 })
 
+
+.factory('MedicationScheduleFB', ["$firebaseArray", function($firebaseArray) {
+  return function(username) {
+    // create a reference to the database where we will store our data
+    var ref = new Firebase("https://vivid-inferno-5187.firebaseio.com/users");
+    var scheduleRef = ref.child(username).child('medicationSchedule');
+    // return it as a synchronized object
+    return $firebaseArray(scheduleRef);
+  }
+}])
+
 // This factory is responsible for defining a Medication Schedule
 // that the patient usually adheres to.
 .factory('MedicationSchedule', ["Medication", function(Medication) {
