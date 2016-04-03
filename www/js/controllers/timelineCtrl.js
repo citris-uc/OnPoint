@@ -36,20 +36,20 @@ angular.module('app.controllers')
 
     //Create medications Cards for the day
     for (var i =0; i < medSchedule.length; i++) {
-      slot = medSchedule[i];
-      //console.log(slot.time);
-      if (slot.days.includes(currentDay)) {
-        Card.create_from_object(slot, CARD.CATEGORY.MEDICATIONS_SCHEDULE, CARD.TYPE.ACTION);
+       slot = medSchedule[i];
+       //console.log(slot.time);
+     if (slot.days.includes(currentDay)) {
+         Card.create_from_object(slot, CARD.CATEGORY.MEDICATIONS_SCHEDULE, CARD.TYPE.ACTION);
       }
     }
 
     for(var i = 0; i < measurementSchedule.length; i++) {
-      slot = measurementSchedule[i];
-      if (slot.days.includes(currentDay)) {
-        Card.create_from_object(slot, CARD.CATEGORY.MEASUREMENTS_SCHEDULE, CARD.TYPE.ACTION);
-      }
-    }
-    console.log($scope.cards.length);
+       slot = measurementSchedule[i];
+       if (slot.days.includes(currentDay)) {
+         Card.create_from_object(slot, CARD.CATEGORY.MEASUREMENTS_SCHEDULE, CARD.TYPE.ACTION);
+       }
+     }
+     console.log($scope.cards.length);
   }
 
   $scope.swipeCard = function(card) {
