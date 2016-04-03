@@ -1,52 +1,53 @@
 angular.module('app.services')
 
-.factory("Card", ["CARD", "MedicationSchedule", "MedicationHistory", function(CARD, MedicationSchedule, MedicationHistory) {
-  var cards = [{
-    id: 0,
-    created_at: "2016-03-15T10:00:00",
-    updated_at: "2016-03-15T10:00:00", //should arrange timeline by this timestamp
-    completed_at: null,
-    archived_at: null,
-    type: CARD.TYPE.ACTION,
-    object_type: CARD.CATEGORY.MEDICATIONS_SCHEDULE,
-    object_id: 1
-  }, {
-    id: 1,
-    created_at: "2016-03-15T11:00:00",
-    updated_at: "2016-03-15T11:00:00", //should arrange timeline by this timestamp
-    completed_at: null,
-    archived_at: null,
-    type: CARD.TYPE.URGENT,
-    object_type: CARD.CATEGORY.MEASUREMENTS_SCHEDULE,
-    object_id: 1
-  }, {
-    id: 2,
-    created_at: "2016-03-15T11:30:00",
-    updated_at: "2016-03-15T11:30:00", //should arrange timeline by this timestamp
-    completed_at: null,
-    archived_at: null,
-    type: CARD.TYPE.REMINDER,
-    object_type: CARD.CATEGORY.APPOINTMENTS_SCHEDULE,
-    object_id: 1
-  }, {
-    id: 3,
-    created_at: "2016-03-15T12:00:00",
-    updated_at: "2016-03-15T12:30:00", //should arrange timeline by this timestamp
-    completed_at: "2016-03-15T12:30:00",
-    archived_at: null,
-    type: CARD.TYPE.REMINDER,
-    object_type: CARD.CATEGORY.GOALS,
-    object_id: 1
-  }, {
-    id: 4,
-    created_at: "2016-03-15T12:00:00",
-    updated_at: "2016-03-15T12:30:00", //should arrange timeline by this timestamp
-    completed_at: "2016-03-15T12:30:00",
-    archived_at: "2016-03-15T12:30:00",
-    type: CARD.TYPE.URGENT,
-    object_type: CARD.CATEGORY.SYMPTOMS_SCHEDULE,
-    object_id: 1
-  }];
+.factory("Card", ["CARD", "MedicationSchedule", "MedicationHistory", "$q", function(CARD, MedicationSchedule, MedicationHistory, $q) {
+  var cards = [];
+  // [{
+  //   id: 0,
+  //   created_at: "2016-03-15T10:00:00",
+  //   updated_at: "2016-03-15T10:00:00", //should arrange timeline by this timestamp
+  //   completed_at: null,
+  //   archived_at: null,
+  //   type: CARD.TYPE.ACTION,
+  //   object_type: CARD.CATEGORY.MEDICATIONS_SCHEDULE,
+  //   object_id: 1
+  // }, {
+  //   id: 1,
+  //   created_at: "2016-03-15T11:00:00",
+  //   updated_at: "2016-03-15T11:00:00", //should arrange timeline by this timestamp
+  //   completed_at: null,
+  //   archived_at: null,
+  //   type: CARD.TYPE.URGENT,
+  //   object_type: CARD.CATEGORY.MEASUREMENTS_SCHEDULE,
+  //   object_id: 1
+  // }, {
+  //   id: 2,
+  //   created_at: "2016-03-15T11:30:00",
+  //   updated_at: "2016-03-15T11:30:00", //should arrange timeline by this timestamp
+  //   completed_at: null,
+  //   archived_at: null,
+  //   type: CARD.TYPE.REMINDER,
+  //   object_type: CARD.CATEGORY.APPOINTMENTS_SCHEDULE,
+  //   object_id: 1
+  // }, {
+  //   id: 3,
+  //   created_at: "2016-03-15T12:00:00",
+  //   updated_at: "2016-03-15T12:30:00", //should arrange timeline by this timestamp
+  //   completed_at: "2016-03-15T12:30:00",
+  //   archived_at: null,
+  //   type: CARD.TYPE.REMINDER,
+  //   object_type: CARD.CATEGORY.GOALS,
+  //   object_id: 1
+  // }, {
+  //   id: 4,
+  //   created_at: "2016-03-15T12:00:00",
+  //   updated_at: "2016-03-15T12:30:00", //should arrange timeline by this timestamp
+  //   completed_at: "2016-03-15T12:30:00",
+  //   archived_at: "2016-03-15T12:30:00",
+  //   type: CARD.TYPE.URGENT,
+  //   object_type: CARD.CATEGORY.SYMPTOMS_SCHEDULE,
+  //   object_id: 1
+  // }];
 
   return {
     get: function() {
@@ -72,7 +73,7 @@ angular.module('app.services')
         showAt = (new Date()).toISOString();
       }
       var card = {
-        id: cards.length + 1,
+        id: cards.length,
         created_at: now,
         updated_at: now,
         shown_at: showAt,
@@ -147,11 +148,72 @@ angular.module('app.services')
         case CARD.CATEGORY.MEDICATIONS_SCHEDULE :
           // Get schedule associated with card
           var schedule = MedicationSchedule.findByID(card.object_id);
+          var scheduleFB = MedicationSchedule.findByIdFB(card.object_id);
+          //var deferred = new Promise();
+        return  scheduleFB.then(function(snapshot) {
+
+
+
+            //console.log(snapshot.val());
+            var medications = snapshot.val().medications;
+            //console.log(medications)
+            var takeMeds = [];
+            var skippedMeds = [];
+            var completedMeds = [];
+
+            // Check history for each medication in the specified schedule
+            medications.forEach( function(med) {
+              var history = MedicationHistory.findByMedicationIdAndScheduleId(med.id, schedule.id);
+              if (history == null)
+                takeMeds.push(med);
+              else if (history.taken_at != null) {
+                completedMeds.push(med);
+              } else if (history.skipped_at != null) {
+                skippedMeds.push(med);
+              }
+            })
+
+            // Create a string for each line for Take/Skipped/Completed meds
+            // TODO -- is there a clean way to do this in the UI to filter?
+            //         possible to have different UI templates depending on card category?
+            var takeString = takeMeds.length > 0 ? "Take:" : null;
+            var skippedString = skippedMeds.length > 0 ? "Skipped:" : null;
+            var completedString = completedMeds.length > 0 ? "Completed:" : null;
+
+            takeMeds.forEach( function(med) {
+              takeString = takeString + " " + med;
+            })
+            skippedMeds.forEach( function(med) {
+              skippedString = skippedString + " " + med;
+            })
+            completedMeds.forEach( function(med) {
+              completedString = completedString + " " + med;
+            })
+
+            ans =  [cardID, takeString, skippedString, completedString];
+            //console.log(ans);
+            return ans;
+            //deferred.resolve(ans);
+          });
+          //return deferred;
+
+
+          /*
+          schedule.$loaded().then(function(){
+            console.log(schedule);
+
+              angular.forEach(schedule, function(schedule) {
+                  console.log(schedule);
+              })
+          });
+          */
+
+
+          /*
           var medications = schedule.medications;
           var takeMeds = [];
           var skippedMeds = [];
           var completedMeds = [];
-
           // Check history for each medication in the specified schedule
           medications.forEach( function(med) {
             var history = MedicationHistory.findByMedicationIdAndScheduleId(med.id, schedule.id);
@@ -172,16 +234,19 @@ angular.module('app.services')
           var completedString = completedMeds.length > 0 ? "Completed:" : null;
 
           takeMeds.forEach( function(med) {
-            takeString = takeString + " " + med.trade_name;
+            takeString = takeString + " " + med;
           })
           skippedMeds.forEach( function(med) {
-            skippedString = skippedString + " " + med.trade_name;
+            skippedString = skippedString + " " + med;
           })
           completedMeds.forEach( function(med) {
-            completedString = completedString + " " + med.trade_name;
+            completedString = completedString + " " + med;
           })
 
           return [takeString, skippedString, completedString];
+
+          */
+          /*
         case CARD.CATEGORY.MEASUREMENTS_SCHEDULE :
           return ["Take <measurements>"];
         case CARD.CATEGORY.APPOINTMENTS_SCHEDULE :
@@ -191,6 +256,9 @@ angular.module('app.services')
         //case CARD.CATEGORY.SYMPTOMS :
         default:
           return [""];
+          */
+        default:
+          return Promise.resolve([cardID, "EMPTY"]);
       }
     }
   };

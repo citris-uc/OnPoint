@@ -26,7 +26,7 @@ angular.module('app.controllers')
   var authData = Patient.auth().$getAuth();
   if (authData) {
     handleTransition()
-    Patient.setToken(authData.token);
+    Patient.set(authData); //this will also set the Token
     $state.go("tabsController.timeline");
   }
 
@@ -35,7 +35,7 @@ angular.module('app.controllers')
 
     Patient.auth().$authWithPassword($scope.user).then(function(authData) {
       handleTransition()
-      Patient.setToken(authData.token);
+      Patient.set(authData); //this will also set the Token
       $state.go("tabsController.timeline");
     }).catch(function(error) {
       handleError(error)
@@ -53,23 +53,4 @@ angular.module('app.controllers')
       handleError(error)
     })
   }
-
-  var handleTransition = function() {
-    $scope.state.loading = false;
-
-    $ionicHistory.nextViewOptions({
-      disableAnimate: true,
-      disableBack: true,
-      historyRoot: true
-    })
-  }
-
-  var handleError = function(error) {
-    var alertPopup = $ionicPopup.alert({
-      title: 'Error',
-      template: error
-    });
-    $scope.state.loading = false;
-  }
-
 })

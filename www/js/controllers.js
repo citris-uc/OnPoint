@@ -3,10 +3,26 @@ angular.module('app.controllers', [])
 .controller('loginCtrl', function($scope) {
 })
 
-.controller('measurementsCtrl', function($scope, Measurement) {
+.controller('measurementsCtrl', function($scope,$timeout, Measurement, MedicationSchedule) {
   // We inject the Measurement factory so that we can query for the measurement
   // history.
   $scope.measurements = Measurement.get();
+  $scope.test = MedicationSchedule.testObject();
+  var query = MedicationSchedule.findByIdFB(1);
+  query.then(function(snapshot) {
+    $timeout(function() {
+      $scope.test=snapshot.val().medications;
+    })
+  })
+  /*
+  var ref = MedicationSchedule.ref().child("defaultSchedule").orderByChild("id").equalTo(1).on("child_added", function(snapshot) {
+    //console.log(snapshot.val())
+    $timeout(function() {
+      $scope.test=snapshot.val()
+    })
+  })
+  */
+
 })
 
 .controller('addMeasurementsCtrl', function($scope, $state, Measurement, $ionicPopup, $ionicHistory) {
