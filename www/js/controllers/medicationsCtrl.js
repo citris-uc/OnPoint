@@ -18,14 +18,14 @@ angular.module('app.controllers')
   }
 })
 
-.controller("medicationCtrl", function($scope, $stateParams,$ionicPopup,$ionicHistory, Medication, MedicationSchedule, MedicationDosage, MedicationHistory) {
+.controller("medicationCtrl", function($scope, $stateParams,$ionicPopup,$ionicHistory, Patient, Medication, MedicationSchedule, MedicationDosage, MedicationHistory) {
   $scope.state = $stateParams;
   $scope.medication = Medication.getByTradeName($stateParams.medicationName);
   $scope.dosage     = MedicationDosage.getByName($stateParams.medicationName);
   $scope.schedule   = MedicationSchedule.findByID($stateParams.schedule_id)
 
   $scope.takeMedication = function() {
-    var uid = JSON.parse(window.localStorage["authData"]).uid;
+    var uid = Patient.uid();//JSON.parse(window.localStorage["authData"]).uid;
     MedicationHistory.create_or_update(uid, $scope.medication, $scope.schedule, "take")
     var alertPopup = $ionicPopup.alert({
       title: 'Success',
@@ -46,7 +46,8 @@ angular.module('app.controllers')
         {
           text: '<b>Yes</b>',
           onTap: function(e) {
-            var uid = JSON.parse(window.localStorage["authData"]).uid;
+            var uid = Patient.uid();//JSON.parse(window.localStorage["authData"]).uid;
+            //var uid = JSON.parse(window.localStorage["authData"]).uid;
             MedicationHistory.create_or_update(uid, $scope.medication, $scope.schedule, "skip")
             $ionicHistory.goBack();
           }
