@@ -9,6 +9,8 @@ angular.module('app.controllers', [])
   $scope.measurements = Measurement.get();
   $scope.test = MedicationSchedule.testObject();
   var query = MedicationSchedule.findByIdFB(1);
+  console.log(query)
+  console.log(typeof(query))
   query.then(function(snapshot) {
     $timeout(function() {
       $scope.test=snapshot.val().medications;
