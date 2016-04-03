@@ -137,7 +137,7 @@ angular.module('app.services')
           return {tab: 'tabsController', params: {}}
       }
     },
-    getBody: function(cardID) {
+    getBody: function(idx, cardID) {
       var card;
       for(var i = 0; i < cards.length; i++) {
         if (cards[i].id === cardID)
@@ -190,7 +190,7 @@ angular.module('app.services')
               completedString = completedString + " " + med;
             })
 
-            ans =  [cardID, takeString, skippedString, completedString];
+            ans =  [idx, cardID, [takeString, skippedString, completedString]];
             //console.log(ans);
             return ans;
             //deferred.resolve(ans);
@@ -258,7 +258,7 @@ angular.module('app.services')
           return [""];
           */
         default:
-          return Promise.resolve([cardID, "EMPTY"]);
+          return Promise.resolve([idx, cardID, ["EMPTY"]]);
       }
     }
   };

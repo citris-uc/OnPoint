@@ -25,6 +25,7 @@
 
     <div class="card" ng-repeat="c in unarchivedCards"
     ng-init="cardClass= c.completed_at != null ? 'completedCard' : (c.type == CARD.TYPE.URGENT ? 'urgentCard' : 'activeCard')"
+
     ng-show="shouldDisplayCard(c.shown_at)">
 
       <!-- Card Title -->
