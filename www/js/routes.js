@@ -191,12 +191,29 @@ angular.module('app.routes', [])
     controller: 'symptomsListMultipleCtrl'
   })
 
+  .state('medInputMain', {
+    url: '/input_main',
+    templateUrl: 'templates/medications/input_main.html',
+    controller: 'medInputMainCtrl'
+  })
+
+  .state('medInputDetail', {
+    url: '/input_detail',
+    templateUrl: 'templates/medications/input_detail.html',
+    controller: 'medInputCtrl'
+  })
+
   .state('onboardingMain', {
     url: '/onboarding-main',
     templateUrl: 'templates/onboardingMain.html',
     controller: 'onboardingCtrl'
   })
 
+  .state('medInputList', {
+    url: '/input_list',
+    templateUrl: 'templates/medications/input_list.html',
+    controller: 'medListCtrl'
+  })
 
   $urlRouterProvider.otherwise('/login')
 });

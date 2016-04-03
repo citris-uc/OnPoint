@@ -2,7 +2,8 @@
 
 <ion-view title="Home" class = "timeline">
   <ion-nav-buttons side="left">
-    <button class="button button-icon icon ion-ios-gear-outline button-positive button-clear" ui-sref="tabsController.settings"></button>
+    <button class="button button-icon icon ion-ios-gear-outline button-positive button-clear"
+    ui-sref="tabsController.settings"></button>
   </ion-nav-buttons>
 
   <ion-content overflow-scroll="true" padding="true" class="has-header">
@@ -21,10 +22,11 @@
     </div>
 
     <!-- Create Cards -->
-    <div class="card" ng-repeat="c in cards | orderBy: 'updated_at' | filter:{archived_at:null}" ng-init="cardClass= c.completed_at != null ? 'completedCard' : (c.type == CARD.TYPE.URGENT ? 'urgentCard' : 'activeCard')" ng-show="shouldDisplayCard(c.shown_at)">
+    <div class="card" ng-repeat="c in cards | orderBy: 'updated_at' | filter:{archived_at:null}" ng-show="shouldDisplayCard(c.shown_at)" on-swipe-right="swipeCard(c)" on-swipe-left="swipeCard(c)">
 
       <!-- Card Title -->
-      <div ng-class="['item', cardClass]">
+
+      <div ng-class="['item', getCardStatus(c)]">
         <a href="#">{{c.type == CARD.TYPE.ACTION ? 'Take ': c.type == CARD.TYPE.URGENT ? 'TODO: ': ''}}{{c.object_type}}{{c.type == CARD.TYPE.REMINDER ? ' Reminder':''}}</a>
         <a style="float:right">{{getTime(c.shown_at) | date: 'h:mm a'}}</a>
       </div>
@@ -36,11 +38,9 @@
 
       <!-- Card Buttons -->
       <div class="button-bar">
-        <a class="button button-small icon ion-ios-chatboxes-outline"> Comments  ({{getCommentsCount(c.id)}})</a>
+        <a class="button button-small icon ion-ios-chatboxes-outline" ui-sref="tabsController.comments({id:c.id})"> Comments  ({{getCommentsCount(c.id)}})</a>
         <a class="button button-small" ng-click="openPage(c)">Action</a>
       </div>
     </div>
-    
-
   </ion-content>
 </ion-view>
