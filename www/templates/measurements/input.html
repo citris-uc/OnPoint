@@ -9,7 +9,7 @@
         <ion-list style = "text-align:center">
           <label class="item item-input">
             <span class="input-label"><strong>Shedule Name</strong></span>
-            <input class="input-label"  type="text" placeholder="med name" ng-model="newShedule.name" ></input>
+            <input class="input-label"  type="text" placeholder="daily schedule" ng-model="newShedule.name" ></input>
           </label>
 
           <li class="item"><strong>Please select measurements</strong></li>
@@ -27,10 +27,11 @@
           <ion-checkbox ng-model="newShedule.days5">Friday</ion-checkbox>
           <ion-checkbox ng-model="newShedule.days6">Saturday</ion-checkbox>
 
-          <li class="item"><strong>Please select reminder time</strong></li>
-
+          <button class="button button-positive button-block" ng-click = "openTimer()"><strong>Click to select reminder time</strong></button>
+        </ion-list>
         <button class="button button-positive button-block button-big" ng-click = "save()">Save</button>
     </form>
-
+    {{newShedule}}
+    {{test}}
   </ion-content>
 </ion-view>

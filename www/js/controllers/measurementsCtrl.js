@@ -1,27 +1,52 @@
 angular.module('app.controllers', ['ionic', 'ionic-timepicker'])
 
-.controller('addMeasurementScheduleCtrl', function($scope, MeasurementSchedule) {
-    $scope.Scheduledmeasurements = MeasurementSchedule.getInputShedule();
+.controller('addMeasurementScheduleCtrl', function($scope,  $ionicPopup, MeasurementSchedule, ionicTimePicker ) {
 
+    $scope.newShedule = {};
+    $scope.openTimer = function(){
+      var ipObj1 = {
+          callback: function (val) {      //Mandatory
+            if (typeof (val) === 'undefined') {
+              console.log('Time not selected');
+            } else {
+              var selectedTime = new Date(val * 1000);
+              $scope.newShedule.time = selectedTime.getUTCHours()+":"+selectedTime.getUTCMinutes();
+              console.log('Selected epoch is : ', val, 'and the time is ', selectedTime.getUTCHours(), 'H :', selectedTime.getUTCMinutes(), 'M');
+            }
+          },
+          inputTime: 50400,   //Optional
+          format: 12,         //Optional
+          step: 15,           //Optional
+          setLabel: 'Set2'    //Optional
+      };
+      ionicTimePicker.openTimePicker(ipObj1);
+    };
+    $scope.save = function(){
+      var message = "";
+      if(typeof $scope.newShedule.weight == "false" && $scope.newShedule.systolicBP  == "false"){
+          message += " please choose a measurement ";
+      }
+      $scope.test = message;
+      // if(message != null){
+      //   var myPopup = $ionicPopup.show({
+      //     title: "Invalid input",
+      //     subTitle: message,
+      //     scope: $scope,
+      //     buttons: [
+      //       {text: '<b>OK</b>'}
+      //     ]
+      //   });
+      // }else{
+      //    var shedule = {};
+      //
+      //    MeasurementSchedule.addInputShedule(shedule);
+      //    $state.go('measurementList');
+      // }
+    }
 })
 
-.controller('MeasurementSetupCtrl', function($scope, MeasurementSchedule, ionicTimePicker ) {
-  var ipObj1 = {
-      callback: function (val) {      //Mandatory
-        if (typeof (val) === 'undefined') {
-          console.log('Time not selected');
-        } else {
-          var selectedTime = new Date(val * 1000);
-          console.log('Selected epoch is : ', val, 'and the time is ', selectedTime.getUTCHours(), 'H :', selectedTime.getUTCMinutes(), 'M');
-        }
-      },
-      inputTime: 50400,   //Optional
-      format: 12,         //Optional
-      step: 15,           //Optional
-      setLabel: 'Set2'    //Optional
-    };
-
-    ionicTimePicker.openTimePicker(ipObj1);
+.controller('MeasurementSetupCtrl', function($scope, MeasurementSchedule) {
+      $scope.Scheduledmeasurements = MeasurementSchedule.getInputShedule();
 })
 
 
