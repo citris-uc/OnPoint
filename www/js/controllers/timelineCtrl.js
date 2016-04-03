@@ -4,6 +4,10 @@ angular.module('app.controllers')
   $scope.cards = Card.get();
   $scope.CARD = CARD;
 
+  $scope.getCardStatus = function(card) {
+    return Card.getCardStatus(card.id);
+  }
+
   $scope.getTime = function(timestamp) {
     return new Date(timestamp);
   }
@@ -20,7 +24,7 @@ angular.module('app.controllers')
   $scope.shouldDisplayCard = function(timestamp) {
     var cardDate = $scope.getTime(timestamp);
     var now = new Date();
-    if (cardDate.toDateString() == now.toDateString() )
+    if (cardDate.toDateString() == now.toDateString() && cardDate.toTimeString()  <= now.toTimeString())
       return true;
     return false;
   }
@@ -48,7 +52,16 @@ angular.module('app.controllers')
     console.log($scope.cards.length);
   }
 
+<<<<<<< HEAD
   $scope.getCommentsCount = function(card_id){
     return Comment.get_comments_count_by_id(card_id);
   }
+=======
+  $scope.swipeCard = function(card) {
+    if (card.completed_at != null) {
+      Card.archive(card.id);
+    }
+  }
+
+>>>>>>> master
 })

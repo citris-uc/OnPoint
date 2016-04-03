@@ -180,6 +180,11 @@ angular.module('app.routes', [])
     controller: 'symptomsListMultipleCtrl'
   })
 
+  .state('onboardingMain', {
+    url: '/onboarding-main',
+    templateUrl: 'templates/onboardingMain.html',
+    controller: 'onboardingCtrl'
+  })
 
 
   $urlRouterProvider.otherwise('/login')
