@@ -137,7 +137,7 @@ angular.module('app.routes', [])
     views: {
       'appointments-tab': {
         templateUrl: 'templates/appointments/addAppointment.html',
-        controller: 'appointmentCtrl'
+        controller: 'addAppointmentCtrl'
       }
     }
   })

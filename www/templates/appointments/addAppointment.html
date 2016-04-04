@@ -1,8 +1,35 @@
 <ion-view title="Add Appointment">
     <ion-content overflow-scroll="true" padding="true" class="has-header">
         <form name="inputAppointment" class="list">
+          <ion-list style = "text-align:center">
 
-        	<button class="button button-positive button-block button-big" ng-click="addAppointment(appointment)">Save</button>
+            <label class="item item-input">
+              <span class="input-label"><strong>Title</strong></span>
+              <input class="input-label"  type="text" placeholder="appointment with Doctor Who" ng-model="newAppointment.title" ></input>
+            </label>
+
+            <label class="item item-input">
+              <span class="input-label"><strong>Location</strong></span>
+              <input class="input-label" type="text" placeholder="Shuttack Avenue" ng-model="newAppointment.location" ></input>
+            </label>
+
+            <label class="item item-input">
+              <button class="button button-positive button-block button-small" ng-click="datePicker()">Select Date</button>
+              <input class="input-label" type="text" placeholder="yyyy-mm-dd" ng-model="newAppointment.date" ></input>
+            </label>
+
+            <label class="item item-input">
+              <button class="button button-positive button-block button-small" ng-click="timePicker()">Select Time</button>
+              <input class="input-label" type="text" placeholder="hh:mm" ng-model="newAppointment.time" ></input>
+            </label>
+
+            <label class="item item-input">
+              <span class="input-label"><strong>Note</strong></span>
+              <input class="input-label" type="text" placeholder="Remember to bring your ID" ng-model="newAppointment.note" ></input>
+            </label>
+
+          </ion-list>
+        	<button class="button button-positive button-block button-big" ng-click="save()">Save</button>
         </form>
     </ion-content>
 </ion-view>
