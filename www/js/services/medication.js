@@ -47,7 +47,7 @@ angular.module('app.services')
 
 // This factory is responsible for defining a Medication Schedule
 // that the patient usually adheres to.
-.factory('MedicationSchedule', ["Medication", function(Medication) {
+.factory('MedicationSchedule', ["Medication", "Patient","$firebaseObject", "$firebaseArray", function(Medication, Patient, $firebaseObject,$firebaseArray) {
   morning   = ["Lasix", "Toprol XL", "Zestril", "Coumadin", "Riomet"]
   afternoon = ["Lasix", "Toprol XL", "Zestril", "Riomet"]
   evening   = ["Lipitor"]
