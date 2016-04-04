@@ -8,7 +8,7 @@ angular.module('app.controllers')
     var match;
     for(var i = 0; i < $scope.medicationHistory.length; i++) {
       if ($scope.medicationHistory[i].medication_id == med.id) {
-        match = history[i]
+        match = $scope.medicationHistory[i]
       }
     }
 
@@ -22,7 +22,7 @@ angular.module('app.controllers')
     var match;
     for(var i = 0; i < $scope.medicationHistory.length; i++) {
       if ($scope.medicationHistory[i].medication_id == med.id) {
-        match = history[i]
+        match = $scope.medicationHistory[i]
       }
     }
 
@@ -30,10 +30,6 @@ angular.module('app.controllers')
       return (match.skipped_at !== undefined);
     else
       return false;
-  }
-
-  $scope.medFromHistory = function(med_name) {
-
   }
 })
 
