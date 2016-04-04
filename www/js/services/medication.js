@@ -109,9 +109,9 @@ angular.module('app.services')
       var ref = this.ref().child("defaultSchedule").orderByChild("id").equalTo(id).once("child_added");
       return ref;
     },
-    findByIdFbArray: function(id) {
-      var ref = this.ref().child("defaultSchedule").orderByChild("id").equalTo(id)
-      return $firebaseArray(ref);
+    findByIdFbObject: function(id) {
+      var ref = this.ref().child("defaultSchedule").child(id)
+      return $firebaseObject(ref);
     },
     findByID: function(id) {
       var schedule = this.get();
@@ -219,8 +219,6 @@ angular.module('app.services')
         updateObject ={'skipped_at':time_now};
       }
 
-
-
       //query
       var query = ref.orderByChild('date').equalTo((new Date()).toDateString());
       //query callback
@@ -233,7 +231,7 @@ angular.module('app.services')
             var hist = data.val();
             if (hist.medication_schedule_id ==  schedule_id && hist.medication_id == medication.id) {
               //found it, need to update it!
-              updated=true;
+              updated = true;
               var medRef = data.ref();
               medRef.update(updateObject);
             }
@@ -246,38 +244,13 @@ angular.module('app.services')
         }
         else {
           //doesnt exist at all yet, push a new one.
-          //console.log("doesnt exist");
           var medRef = snapshot.ref();
           medRef.push(instanceFB);
         }
       }); //end query callback.
-
-      /*---------------------------------------------------------------------
-      non firebase way
-      -----------------------------------------------------------------------*/
-      var instance = this.findByMedicationIdAndScheduleId(medication.id,  schedule_id)
-      if (!instance) {
-        instance = {
-          id: history.length + 1,
-          medication_id: medication.id,
-          medication_schedule_id:  schedule_id
-        }
-
-        history.push(instance);
-      }
-
-
-      // NOTE: We should still be able to update the object after we've pushed
-      // it to the array.
-      now = (new Date()).toISOString();
-      if (choice == "take")
-        instance.taken_at = now
-      else if (choice == "skip")
-        instance.skipped_at = now
     },
 
     findByMedicationIdAndScheduleId: function(med_id, schedule_id) {
-
       var match;
       for(var i = 0; i < history.length; i++) {
         if (history[i].medication_id == med_id && history[i].medication_schedule_id == schedule_id) {

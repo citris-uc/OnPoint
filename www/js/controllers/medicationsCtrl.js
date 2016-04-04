@@ -11,7 +11,7 @@ angular.module('app.controllers')
     var med = Medication.getTradeName(hist.medication_id)
     if(typeof($scope.history[hist.medication_schedule_id])=='undefined')
       $scope.history[hist.medication_schedule_id] = new Array()
-    if(typeof($scope.history[hist.medication_schedule_id].med)=='undefined')
+    if(typeof($scope.history[hist.medication_schedule_id][med])=='undefined')
       $scope.history[hist.medication_schedule_id][med] = new Object()
     if(hist.taken_at!=null)
       $scope.history[hist.medication_schedule_id][med].taken_at="yes"
@@ -28,19 +28,35 @@ angular.module('app.controllers')
       $scope.history[hist.medication_schedule_id][med].skipped_at="yes"
   })
 
-  $scope.medicationHistory = function(med_name, schedule_id) {
-    med = Medication.getByTradeName(med_name)
-    return MedicationHistory.findByMedicationIdAndScheduleId(med.id, schedule_id)
-  }
 })
 
 .controller("medicationScheduleCtrl", function($scope, $stateParams, Medication, MedicationSchedule, MedicationDosage, MedicationHistory) {
-  $scope.schedule = MedicationSchedule.findByID($stateParams.schedule_id);
+  $scope.schedule = MedicationSchedule.findByIdFbObject($stateParams.schedule_id);
 
-  $scope.medicationHistory = function(med_name) {
-    med = Medication.getByTradeName(med_name)
-    return MedicationHistory.findByMedicationIdAndScheduleId(med.id, $scope.schedule.id)
-  }
+  $scope.history = new Array();
+  var ref = MedicationHistory.getTodaysRef();
+
+  ref.on("child_added", function(snapshot) {
+    console.log("child_added");
+    var hist = snapshot.val()
+    var med = Medication.getTradeName(hist.medication_id)
+    if(typeof($scope.history[med])=='undefined')
+      $scope.history[med] = new Object()
+    if(hist.taken_at!=null)
+      $scope.history[med].taken_at="yes"
+    if(hist.skipped_at!=null)
+      $scope.history[med].skipped_at="yes"
+
+  })
+  ref.on("child_changed", function(snapshot) {
+    var hist = snapshot.val()
+    var med = Medication.getTradeName(hist.medication_id)
+    if(hist.taken_at!=null)
+      $scope.history[med].taken_at="yes"
+    if(hist.skipped_at!=null)
+      $scope.history[med].skipped_at="yes"
+  })
+
 })
 
 .controller("medicationCtrl", function($scope, $stateParams,$ionicPopup,$ionicHistory, Patient, Medication, MedicationSchedule, MedicationDosage, MedicationHistory) {

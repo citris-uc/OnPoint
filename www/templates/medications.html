@@ -12,12 +12,11 @@
         <ion-item ng-repeat="med in dateSchedule.medications", ui-sref="tabsController.medication({schedule_id: dateSchedule.id, medicationName: med})"
         ng-hide="history[$parent.$parent.$index][med].taken_at"
         ng-style="{'color': (history[$parent.$parent.$index][med].skipped_at ? 'grey' : 'black')}">
-          {{med}} hist: {{history[$parent.$parent.$index][med].taken_at}}
+          {{med}}
         </ion-item>
       </span>
 
 
     </ion-list>
-    <div>{{schedule}} </div>
   </ion-content>
 </ion-view>
