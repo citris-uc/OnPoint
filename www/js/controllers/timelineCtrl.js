@@ -5,15 +5,17 @@ angular.module('app.controllers')
   $scope.CARD = CARD;
 
   $scope.getCardStatus = function(card) {
-    return Card.getCardStatus(card.id);
+    //COMMENTING OUT TO JUST FOCUS ON MEDICATIONS TAB FIREBASE INTEGRATION
+    //return Card.getCardStatus(card.id);
   }
 
   $scope.getTime = function(timestamp) {
     return new Date(timestamp);
   }
 
-  $scope.getBody = function(card) {
-   return Card.getBody(card.id);
+  $scope.getBody = function(card)
+    //COMMENTING OUT TO JUST FOCUS ON MEDICATIONS TAB FIREBASE INTEGRATION
+   //return Card.getBody(card.id);
   }
 
   $scope.openPage = function(card){
