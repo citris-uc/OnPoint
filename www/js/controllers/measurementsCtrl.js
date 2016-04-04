@@ -1,8 +1,9 @@
 angular.module('app.controllers', ['ionic', 'ionic-timepicker'])
 
-.controller('addMeasurementScheduleCtrl', function($scope,  $ionicPopup, MeasurementSchedule, ionicTimePicker ) {
+.controller('addMeasurementScheduleCtrl', function($scope, $state, $ionicPopup, MeasurementSchedule, ionicTimePicker ) {
 
     $scope.newShedule = {};
+    $scope.remindTime = "You have not set the reminding time.";
     $scope.openTimer = function(){
       var ipObj1 = {
           callback: function (val) {      //Mandatory
@@ -11,6 +12,7 @@ angular.module('app.controllers', ['ionic', 'ionic-timepicker'])
             } else {
               var selectedTime = new Date(val * 1000);
               $scope.newShedule.time = selectedTime.getUTCHours()+":"+selectedTime.getUTCMinutes();
+              $scope.remindTime = "You have selected the remind time as : " + $scope.newShedule.time;
               console.log('Selected epoch is : ', val, 'and the time is ', selectedTime.getUTCHours(), 'H :', selectedTime.getUTCMinutes(), 'M');
             }
           },
@@ -23,36 +25,84 @@ angular.module('app.controllers', ['ionic', 'ionic-timepicker'])
     };
     $scope.save = function(){
       var message = "";
-      if(typeof $scope.newShedule.weight == "false" && $scope.newShedule.systolicBP  == "false"){
-          message += " please choose a measurement ";
+      if( typeof $scope.newShedule.name === 'undefined'){
+        message += "Please enter measurement name <br/>";
       }
-      $scope.test = message;
-      // if(message != null){
-      //   var myPopup = $ionicPopup.show({
-      //     title: "Invalid input",
-      //     subTitle: message,
-      //     scope: $scope,
-      //     buttons: [
-      //       {text: '<b>OK</b>'}
-      //     ]
-      //   });
-      // }else{
-      //    var shedule = {};
-      //
-      //    MeasurementSchedule.addInputShedule(shedule);
-      //    $state.go('measurementList');
-      // }
+      if( (typeof $scope.newShedule.weight === 'undefined') && (typeof $scope.newShedule.systolicBP === 'undefined')
+          && (typeof $scope.newShedule.diastolicBP === 'undefined') && (typeof $scope.newShedule.heartRate === 'undefined')){
+          message += " Please choose a measurement <br/>";
+      }
+      if( (typeof $scope.newShedule.days0 === 'undefined') && (typeof $scope.newShedule.days1 === 'undefined')
+          && (typeof $scope.newShedule.days2 === 'undefined') && (typeof $scope.newShedule.days3 === 'undefined')
+          && (typeof $scope.newShedule.days4 === 'undefined') && (typeof $scope.newShedule.days5 === 'undefined')
+          && (typeof $scope.newShedule.days6 === 'undefined')){
+          message += " Please select a reminder day <br/>";
+      }
+      if( typeof $scope.newShedule.time === 'undefined'){
+        message += "Please select a reminder time <br/>";
+      }
+
+      if(message != ""){
+        var myPopup = $ionicPopup.show({
+          title: "Invalid input",
+          subTitle: message,
+          scope: $scope,
+          buttons: [
+            {text: '<b>OK</b>'}
+          ]
+        });
+      }else{
+         var schedule = {};
+         schedule.name = $scope.newShedule.name;
+         schedule.time = $scope.newShedule.time;
+         schedule.days = [];
+         if($scope.newShedule.days0 == true){
+           schedule.days.push(0);
+         }
+         if($scope.newShedule.days1 == true){
+           schedule.days.push(1);
+         }
+         if($scope.newShedule.days2 == true){
+           schedule.days.push(2);
+         }
+         if($scope.newShedule.days3 == true){
+           schedule.days.push(3);
+         }
+         if($scope.newShedule.days4 == true){
+           schedule.days.push(4);
+         }
+         if($scope.newShedule.days5 == true){
+           schedule.days.push(5);
+         }
+         if($scope.newShedule.days6 == true){
+           schedule.days.push(6);
+         }
+         schedule.measurements = [];
+         if($scope.newShedule.weight == true){
+           schedule.measurements.push("weight");
+         }
+         if($scope.newShedule.systolicBP == true){
+           schedule.measurements.push("systolicBP");
+         }
+         if($scope.newShedule.diastolicBP == true){
+           schedule.measurements.push("diastolicBP");
+         }
+         if($scope.newShedule.heartRate == true){
+           schedule.measurements.push("heartRate");
+         }
+         schedule.time = $scope.newShedule.time;
+         MeasurementSchedule.add_inputSchedule(schedule);
+         $state.go('measurementList');
+      }
     }
 })
 
-.controller('MeasurementSetupCtrl', function($scope, MeasurementSchedule) {
-      $scope.Scheduledmeasurements = MeasurementSchedule.getInputShedule();
+.controller('measurementScheduleListCtrl', function($scope, MeasurementSchedule) {
+  $scope.Scheduledmeasurements = MeasurementSchedule.get_inputSchedule();
 })
 
 
 .controller('measurementsCtrl', function($scope, Measurement) {
-  // We inject the Measurement factory so that we can query for the measurement
-  // history.
   $scope.measurements = Measurement.get();
 })
 

@@ -120,7 +120,7 @@ angular.module('app.routes', [])
   .state('measurementList', {
     url: '/measurement_list',
     templateUrl: 'templates/measurements/schedule_list.html',
-    controller: 'addMeasurementScheduleCtrl'
+    controller: 'measurementScheduleListCtrl'
   })
 
   .state('tabsController.appointments', {

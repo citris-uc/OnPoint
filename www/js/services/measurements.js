@@ -96,17 +96,17 @@ angular.module('app.services')
       measurements :["systolic", "diastolic", "heart_rate"]
     }];
 
-  var inputShedule = [];
+  var input_schedule = [];
 
   return {
     get: function() {
       return schedule;
     },
-    getInputShedule: function() {
-      return inputShedule;
+    get_inputSchedule: function() {
+      return input_schedule;
     },
-    addInputShedule: function(shedule){
-      inputShedule.push(shedule);
-    }
+    add_inputSchedule: function(schedule){
+      input_schedule.push(schedule);
+    },
   };
 })
