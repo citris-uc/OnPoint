@@ -7,15 +7,17 @@ angular.module('app.controllers')
   $scope.getCardStatus = function(card) {
     //COMMENTING OUT TO JUST FOCUS ON MEDICATIONS TAB FIREBASE INTEGRATION
     //return Card.getCardStatus(card.id);
+    return "COMMENTED OUT FOR MEDICATIONS SCHEDULE FB INTEGRATION"
   }
 
   $scope.getTime = function(timestamp) {
     return new Date(timestamp);
   }
 
-  $scope.getBody = function(card)
+  $scope.getBody = function(card) {
     //COMMENTING OUT TO JUST FOCUS ON MEDICATIONS TAB FIREBASE INTEGRATION
    //return Card.getBody(card.id);
+   return "COMMENTED OUT FOR MEDICATIONS SCHEDULE FB INTEGRATION"
   }
 
   $scope.openPage = function(card){
