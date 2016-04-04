@@ -140,7 +140,7 @@ angular.module('app.services')
   };
 }])
 
-.factory('MedicationHistory', ["Medication", function() {
+.factory('MedicationHistory', ["Patient", "$firebaseArray", function(Patient, $firebaseArray) {
   var count = 1;
   var history = [{
       id: 0,
@@ -163,9 +163,12 @@ angular.module('app.services')
     },
     // TODO: Returns only today's history.
     getBySchedule: function(schedule) {
-      return history;
+      var ref = this.ref();
+      return $firebaseArray(ref);
     },
-
+    ref: function() {
+      return Patient.ref().child("medication_histories");
+    },
     create_or_update: function(medication, schedule, choice) {
       // TODO: Refactor this to use AngularFire methods to create only if element
       // does not exist.
