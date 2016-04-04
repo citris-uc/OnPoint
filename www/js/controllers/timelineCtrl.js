@@ -5,9 +5,8 @@ angular.module('app.controllers')
   $scope.CARD = CARD;
 
   $scope.getCardStatus = function(card) {
-    //COMMENTING OUT TO JUST FOCUS ON MEDICATIONS TAB FIREBASE INTEGRATION
-    //return Card.getCardStatus(card.id);
-    return "COMMENTED OUT FOR MEDICATIONS SCHEDULE FB INTEGRATION"
+    //TODO: update this method to use Firebase Properly
+    return Card.getCardStatus(card.id);
   }
 
   $scope.getTime = function(timestamp) {
@@ -15,9 +14,8 @@ angular.module('app.controllers')
   }
 
   $scope.getBody = function(card) {
-    //COMMENTING OUT TO JUST FOCUS ON MEDICATIONS TAB FIREBASE INTEGRATION
-   //return Card.getBody(card.id);
-   return "COMMENTED OUT FOR MEDICATIONS SCHEDULE FB INTEGRATION"
+    //TODO: update this method to use Firebase Properly
+   return Card.getBody(card.id);
   }
 
   $scope.openPage = function(card){
