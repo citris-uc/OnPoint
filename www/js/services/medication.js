@@ -69,31 +69,31 @@ angular.module('app.services')
 // that the patient usually adheres to.
 .factory('MedicationSchedule', ["Medication","Patient","$firebaseObject", "$firebaseArray", "$q", function(Medication, Patient, $firebaseObject,$firebaseArray, $q) {
 
-
+  /*
   schedule = [
     {
-      id: 0,
+      id: 1,
       time: "08:00",
       slot: "morning",
       days: [0,1,2,3,4,5,6], //array descirbing days of week to do this action
       medications: ["Lasix", "Toprol XL", "Zestril", "Coumadin", "Riomet"]
     },
     {
-      id: 1,
+      id: 2,
       time: "13:00",
       slot: "afternoon",
       days: [0,1,2,3,4,5,6], //array descirbing days of week to do this action,
       medications: ["Lasix", "Toprol XL", "Zestril", "Riomet"]
     },
     {
-      id: 2,
+      id: 3,
       time: "19:00",
       slot: "evening",
       days: [0,1,2,3,4,5,6], //array descirbing days of week to do this action,
       medications: ["Lipitor"]
     }
   ]
-
+  */
 
   return {
 
@@ -105,22 +105,21 @@ angular.module('app.services')
 
 
     //Old get method
+    /*
     get: function() {
       return schedule;
     },
-    /*
+    */
     get: function() {
       var ref = this.ref().child("defaultSchedule");
-      var deferred = $q.defer();
-      req = $firebaseArray(ref)
-      req.$loaded().then(function (val) {
-        console.log()
-        deferred.resolve(val)
-      });
-      return deferred.promise
-      //return $firebaseArray(ref)
+      return $firebaseArray(ref)
     },
-    */
+
+    getQuery: function() {
+      var ref = this.ref().child("defaultSchedule").once("value");
+      return ref;
+    },
+
     ref: function() {
       var uid = Patient.uid();
       return Patient.ref(uid).child("medicationSchedule")

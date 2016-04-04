@@ -1,6 +1,6 @@
 angular.module('app.services')
 
-.factory("Card", ["CARD", "MedicationSchedule", "MedicationHistory", "$q", function(CARD, MedicationSchedule, MedicationHistory, $q) {
+.factory("Card", ["CARD", "Medication","MedicationSchedule", "MedicationHistory", "$q", function(CARD,Medication, MedicationSchedule, MedicationHistory, $q) {
   var cards = [];
   // [{
   //   id: 0,
@@ -140,8 +140,9 @@ angular.module('app.services')
     getBody: function(idx, cardID) {
       var card;
       for(var i = 0; i < cards.length; i++) {
-        if (cards[i].id === cardID)
+        if (cards[i].id === cardID) {
           card = cards[i]
+        }
       }
 
       switch(card.object_type) {
@@ -149,11 +150,8 @@ angular.module('app.services')
           // Get schedule associated with card
           var schedule = MedicationSchedule.findByID(card.object_id);
           var scheduleFB = MedicationSchedule.findByIdFB(card.object_id);
-          //var deferred = new Promise();
-        return  scheduleFB.then(function(snapshot) {
-
-
-
+          //console.log(scheduleFB);
+        return scheduleFB.then(function(snapshot) {
             //console.log(snapshot.val());
             var medications = snapshot.val().medications;
             //console.log(medications)
@@ -163,7 +161,7 @@ angular.module('app.services')
 
             // Check history for each medication in the specified schedule
             medications.forEach( function(med) {
-              var history = MedicationHistory.findByMedicationIdAndScheduleId(med.id, schedule.id);
+              var history = MedicationHistory.findByMedicationIdAndScheduleId(med.id, snapshot.val().id);
               if (history == null)
                 takeMeds.push(med);
               else if (history.taken_at != null) {
