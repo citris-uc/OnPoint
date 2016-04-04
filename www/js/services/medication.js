@@ -28,6 +28,12 @@ angular.module('app.services')
         if (medications[i].trade_name == trade_name)
           return medications[i]
       }
+    },
+    getTradeName: function(id) {
+      for (var i = 0; i < medications.length; i++) {
+        if (medications[i].id == id)
+          return medications[i].trade_name;
+      }
     }
   };
 })
@@ -68,48 +74,13 @@ angular.module('app.services')
 // This factory is responsible for defining a Medication Schedule
 // that the patient usually adheres to.
 .factory('MedicationSchedule', ["Medication","Patient","$firebaseObject", "$firebaseArray", "$q", function(Medication, Patient, $firebaseObject,$firebaseArray, $q) {
-
-  /*
-  schedule = [
-    {
-      id: 1,
-      time: "08:00",
-      slot: "morning",
-      days: [0,1,2,3,4,5,6], //array descirbing days of week to do this action
-      medications: ["Lasix", "Toprol XL", "Zestril", "Coumadin", "Riomet"]
-    },
-    {
-      id: 2,
-      time: "13:00",
-      slot: "afternoon",
-      days: [0,1,2,3,4,5,6], //array descirbing days of week to do this action,
-      medications: ["Lasix", "Toprol XL", "Zestril", "Riomet"]
-    },
-    {
-      id: 3,
-      time: "19:00",
-      slot: "evening",
-      days: [0,1,2,3,4,5,6], //array descirbing days of week to do this action,
-      medications: ["Lipitor"]
-    }
-  ]
-  */
-
   return {
-
     addDefaultToFireBase() {
       var uid = Patient.uid();
       var ref = Patient.ref(uid).child("medicationSchedule");
       ref.set({defaultSchedule:schedule});
     },
 
-
-    //Old get method
-    /*
-    get: function() {
-      return schedule;
-    },
-    */
     get: function() {
       var ref = this.ref().child("defaultSchedule");
       return $firebaseArray(ref)
@@ -132,38 +103,17 @@ angular.module('app.services')
 
     testQuery: function() {
       var ref = this.ref().child("defaultSchedule").orderByChild("id").equalTo(1).once("child_added");
-      return ref
-      /*
-      .on("child_added", function(snapshot) {
-        //console.log(snapshot.val())
-        $timeout(function() {
-          $scope.test=snapshot.val()
-        })
-      })
-      */
+      return ref;
     },
     findByIdFB: function(id) {
       var ref = this.ref().child("defaultSchedule").orderByChild("id").equalTo(id).once("child_added");
       return ref;
     },
+    findByIdFbArray: function(id) {
+      var ref = this.ref().child("defaultSchedule").orderByChild("id").equalTo(id)
+      return $firebaseArray(ref);
+    },
     findByID: function(id) {
-      /*
-      var uid = Patient.uid();
-      var ref = this.ref(uid).child("defaultSchedule").child(id-1);
-      //var ref = this.ref(uid).child("defaultSchedule");
-      var deferred = $q.defer();
-      //var req = ref.orderByChild("id").equalTo(id).once('value', function(snap) {
-        //console.log(snap.val());
-        //deferred.resolve(snap.val());
-      //});
-      //return deferred.promise
-      req = $firebaseArray(ref);
-      req.$loaded().then(function (val) {
-        //console.log(val)
-        deferred.resolve(val);
-      });
-      return deferred.promise
-      */
       var schedule = this.get();
       var dateSchedule;
       for (var i = 0; i < schedule.length; i++) {
@@ -217,7 +167,7 @@ angular.module('app.services')
 
 }])
 
-.factory('MedicationHistory', ["Medication", function() {
+.factory('MedicationHistory', ["Medication","Patient", function(Medication, Patient) {
   var count = 1;
   var history = [{
       id: 0,
@@ -232,21 +182,30 @@ angular.module('app.services')
       taken_at: null,
       skipped_at: "2016-03-21T19:00:00"
     }
-  ]
+  ];
 
   return {
     get: function() {
       return history;
     },
+    ref: function() {
+      var uid = Patient.uid();
+      return Patient.ref(uid).child("medicationHistory")
+    },
 
-    create_or_update: function(username, medication, schedule, choice) {
+    getTodaysRef: function() {
+      var ref = this.ref().orderByChild('date').equalTo((new Date()).toDateString());
+      return ref;
+    },
+
+    create_or_update: function(username, medication, schedule_id, choice) {
       // create a reference to the database where we will store our data
-      var ref = new Firebase("https://vivid-inferno-5187.firebaseio.com/patients");
-      var historyRef = ref.child(username).child('medicationHistory');
+      console.log(schedule_id)
+      var ref = this.ref()
       var instanceFB =  {
           id: history.length + 1,
           medication_id: medication.id,
-          medication_schedule_id: schedule.id,
+          medication_schedule_id: schedule_id,
           date : (new Date()).toDateString()
       };
       var time_now = (new Date()).toTimeString();
@@ -259,8 +218,11 @@ angular.module('app.services')
         instanceFB.skipped_at = time_now;
         updateObject ={'skipped_at':time_now};
       }
+
+
+
       //query
-      var query = historyRef.orderByChild('date').equalTo((new Date()).toDateString());
+      var query = ref.orderByChild('date').equalTo((new Date()).toDateString());
       //query callback
       query.once('value', function(snapshot) {
         if (snapshot.exists()) {
@@ -269,7 +231,7 @@ angular.module('app.services')
           snapshot.forEach(function(data) {
             console.log("key: "+ data.key()+ " value: " + data.val().medication_schedule_id + " "+data.val().medication_id)
             var hist = data.val();
-            if (hist.medication_schedule_id == schedule.id && hist.medication_id == medication.id) {
+            if (hist.medication_schedule_id ==  schedule_id && hist.medication_id == medication.id) {
               //found it, need to update it!
               updated=true;
               var medRef = data.ref();
@@ -293,12 +255,12 @@ angular.module('app.services')
       /*---------------------------------------------------------------------
       non firebase way
       -----------------------------------------------------------------------*/
-      var instance = this.findByMedicationIdAndScheduleId(medication.id, schedule.id)
+      var instance = this.findByMedicationIdAndScheduleId(medication.id,  schedule_id)
       if (!instance) {
         instance = {
           id: history.length + 1,
           medication_id: medication.id,
-          medication_schedule_id: schedule.id
+          medication_schedule_id:  schedule_id
         }
 
         history.push(instance);

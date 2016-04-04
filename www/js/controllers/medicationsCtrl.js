@@ -3,6 +3,31 @@ angular.module('app.controllers')
 .controller('medicationsCtrl', function($scope, Medication, MedicationSchedule, MedicationHistory) {
   $scope.schedule = MedicationSchedule.get();
 
+  $scope.history = new Array();
+  var ref = MedicationHistory.getTodaysRef();
+
+  ref.on("child_added", function(snapshot) {
+    var hist = snapshot.val()
+    var med = Medication.getTradeName(hist.medication_id)
+    if(typeof($scope.history[hist.medication_schedule_id])=='undefined')
+      $scope.history[hist.medication_schedule_id] = new Array()
+    if(typeof($scope.history[hist.medication_schedule_id].med)=='undefined')
+      $scope.history[hist.medication_schedule_id][med] = new Object()
+    if(hist.taken_at!=null)
+      $scope.history[hist.medication_schedule_id][med].taken_at="yes"
+    if(hist.skipped_at!=null)
+      $scope.history[hist.medication_schedule_id][med].skipped_at="yes"
+
+  })
+  ref.on("child_changed", function(snapshot) {
+    var hist = snapshot.val()
+    var med = Medication.getTradeName(hist.medication_id)
+    if(hist.taken_at!=null)
+      $scope.history[hist.medication_schedule_id][med].taken_at="yes"
+    if(hist.skipped_at!=null)
+      $scope.history[hist.medication_schedule_id][med].skipped_at="yes"
+  })
+
   $scope.medicationHistory = function(med_name, schedule_id) {
     med = Medication.getByTradeName(med_name)
     return MedicationHistory.findByMedicationIdAndScheduleId(med.id, schedule_id)
@@ -22,11 +47,11 @@ angular.module('app.controllers')
   $scope.state = $stateParams;
   $scope.medication = Medication.getByTradeName($stateParams.medicationName);
   $scope.dosage     = MedicationDosage.getByName($stateParams.medicationName);
-  $scope.schedule   = MedicationSchedule.findByID($stateParams.schedule_id)
+  var scheudle_id = parseInt($stateParams.schedule_id);
 
   $scope.takeMedication = function() {
     var uid = Patient.uid();//JSON.parse(window.localStorage["authData"]).uid;
-    MedicationHistory.create_or_update(uid, $scope.medication, $scope.schedule, "take")
+    MedicationHistory.create_or_update(uid, $scope.medication, scheudle_id, "take")
     var alertPopup = $ionicPopup.alert({
       title: 'Success',
       template: 'You have succesfully taken ' + $scope.medication.trade_name
@@ -48,7 +73,7 @@ angular.module('app.controllers')
           onTap: function(e) {
             var uid = Patient.uid();//JSON.parse(window.localStorage["authData"]).uid;
             //var uid = JSON.parse(window.localStorage["authData"]).uid;
-            MedicationHistory.create_or_update(uid, $scope.medication, $scope.schedule, "skip")
+            MedicationHistory.create_or_update(uid, $scope.medication, scheudle_id, "skip")
             $ionicHistory.goBack();
           }
         }
