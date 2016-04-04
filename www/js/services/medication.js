@@ -161,8 +161,14 @@ angular.module('app.services')
     get: function() {
       return history;
     },
+    // TODO: Returns only today's history.
+    getBySchedule: function(schedule) {
+      return history;
+    },
 
     create_or_update: function(medication, schedule, choice) {
+      // TODO: Refactor this to use AngularFire methods to create only if element
+      // does not exist.
       var instance = this.findByMedicationIdAndScheduleId(medication.id, schedule.id)
       if (!instance) {
         instance = {

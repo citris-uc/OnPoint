@@ -1,11 +1,39 @@
 angular.module('app.controllers')
 
 .controller('medicationsCtrl', function($scope, Medication, MedicationSchedule, MedicationHistory) {
-  $scope.schedule = MedicationSchedule.get();
+  $scope.schedule           = MedicationSchedule.get();
+  $scope.medicationHistory  = MedicationHistory.getBySchedule($scope.schedule);
 
-  $scope.medicationHistory = function(med_name, schedule_id) {
-    med = Medication.getByName(med_name)
-    return MedicationHistory.findByMedicationIdAndScheduleId(med.id, schedule_id)
+  $scope.didTakeMed = function(med) {
+    var match;
+    for(var i = 0; i < $scope.medicationHistory.length; i++) {
+      if ($scope.medicationHistory[i].medication_id == med.id) {
+        match = history[i]
+      }
+    }
+
+    if (match)
+      return (match.taken_at !== undefined);
+    else
+      return false;
+  }
+
+  $scope.didSkipMed = function(med) {
+    var match;
+    for(var i = 0; i < $scope.medicationHistory.length; i++) {
+      if ($scope.medicationHistory[i].medication_id == med.id) {
+        match = history[i]
+      }
+    }
+
+    if (match)
+      return (match.skipped_at !== undefined);
+    else
+      return false;
+  }
+
+  $scope.medFromHistory = function(med_name) {
+
   }
 })
 
@@ -70,7 +98,7 @@ angular.module('app.controllers')
 
     console.log(schedule);
 
-  };  
+  };
    $scope.moveItem = function(slot, item, fromIndex, toIndex) {
     console.log(fromIndex);
     console.log(toIndex);
