@@ -77,27 +77,61 @@ angular.module('app.services')
   ]
 
   return {
-    get: function() {
-      return schedule;
-    },
+
+    // NON FIREBASE METHODS
+    // get: function() {
+    //   return schedule;
+    // },
+    //
+    // findByID: function(id) {
+    //   var dateSchedule;
+    //   for (var i = 0; i < schedule.length; i++) {
+    //     if (schedule[i].id == id)
+    //       dateSchedule = schedule[i]
+    //   }
+    //   return dateSchedule;
+    // },
+
     /*
-    getByDateAndSlot: function(date, slot) {
-      var dateSchedule;
-      for (var i = 0; i < schedule.length; i++) {
-        if (new Date(schedule[i].scheduled_at).toDateString() == new Date(date).toDateString() && schedule[i].slot == slot)
-          dateSchedule = schedule[i]
-      }
-      return dateSchedule;
+     * Returns a FB reference to this patients' medicationScheudle
+     */
+    ref: function() {
+      var uid = Patient.uid();
+      return Patient.ref(uid).child("medicationSchedule")
     },
-    */
+
+    /*
+     * queries firebase data and returns the defaultSchedule from firebase
+     * returns a $firebaseArray, this IS NOT A PROMISE. CANNOT CALL THE THEN METHOD ON this
+     * use this to display the schedule on the view layer.
+     */
+    get: function() {
+      var ref = this.ref().child("defaultSchedule");
+      return $firebaseArray(ref)
+    },
+
+    /*
+     * queries firebase data and returns the defaultSchedule from firebase
+     * this method will return a PROMISE, so we can call the then method on the promise
+     * and update other $scope variables once the promise has been fulfilled.
+     * use this when we need to use the schedule to create other things, i.e. generateCardsForToday()
+     */
+    getAsPromise: function() {
+      var ref = this.ref().child("defaultSchedule").once("value");
+      return ref;
+    },
+
+    /*
+     * querues firebase returns a specific scheduleId within this patients
+     * firebase defaultSchedule
+     * returns a $firebaseObject, THIS IS NOT A PROMISE. TREAT IT LIKE A REAL OBJECT
+     * use this to display the specific schedule on an html page.
+     */
     findByID: function(id) {
-      var dateSchedule;
-      for (var i = 0; i < schedule.length; i++) {
-        if (schedule[i].id == id)
-          dateSchedule = schedule[i]
-      }
-      return dateSchedule;
+      var ref = this.ref().child("defaultSchedule").child(id)
+      return $firebaseObject(ref);
     }
+
   };
 }])
 
