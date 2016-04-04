@@ -1,22 +1,32 @@
 angular.module('app.controllers')
 
 .controller('timelineCtrl', function($scope, $state, Card, CARD, MedicationSchedule, MeasurementSchedule) {
-  $scope.cards = Card.get();
+  $scope.cards = Card.get(); // assume this returns cards for today only (function call filters by day)
   $scope.CARD = CARD;
+  $scope.unarchivedCards = $scope.cards.filter(function (c) {return c.archived_at == null;});
+                            //.sort(function(a, b) {return Date.parse(a.updated_at) < Date.parse(b.updated_at)});
+  $scope.cardBody = new Array($scope.unarchivedCards.length);
+
 
   $scope.getTime = function(timestamp) {
+    console.log("get time");
     return new Date(timestamp);
   }
 
-  $scope.getBody = function(card) {
-    console.log("getBodyCalled");
-    console.log($scope.cards.length)
-    return Card.getBody(card.id);
-   //promise = Card.getBody(card.id);
-   //promise.then(function(val) {
-  //   console.log(val);
-   //});
-   //console.log(promise)
+  $scope.getBody = function() {
+    for (var i = 0; i < $scope.unarchivedCards.length; i++ ) {
+      c = $scope.unarchivedCards[i];
+      //console.log("unarchived card: " + c.id + " i " + i + " c.object_type " + c.object_type + " c.object_id " + c.object_id);
+      //console.log("meds schedule: " + MedicationSchedule.findByID(c.object_id).medications);
+      promise = Card.getBody(i, c.id);
+      promise.then(function(val) {
+        //console.log("promise return val: " + val);
+        //console.log("promise returned cindex: " + val[0] +  " c.id: " + val[1] + " value: " + val[2]);
+        $scope.cardBody[val[0]] = val[2];
+        //console.log("CARDBODY: "+ $scope.cardBody);
+      })
+      //cardBody.push(Card.getBody(c.id));
+    }
   }
 
   $scope.openPage = function(card){
@@ -32,6 +42,7 @@ angular.module('app.controllers')
     return false;
   }
   $scope.generateCardsForToday = function() {
+    console.log("gen cards");
     var medSchedule = MedicationSchedule.get();
     /*medSchedule.then(function(val) {
       //console.log(val)
@@ -80,6 +91,11 @@ angular.module('app.controllers')
       }
     }
     console.log($scope.cards.length);
+
+    // TODO --> update these arrays in callback
+    $scope.unarchivedCards = $scope.cards.filter(function (c) {return c.archived_at == null;});
+    $scope.cardBody = new Array($scope.unarchivedCards.length);
+    $scope.getBody();
 
   }
 

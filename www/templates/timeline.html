@@ -21,19 +21,23 @@
     </div>
 
     <!-- Create Cards -->
-    <div class="card" ng-repeat="c in cards | orderBy: 'updated_at' | filter:{archived_at:null}"
-      ng-init="cardClass= c.completed_at != null ? 'completedCard' : (c.type == CARD.TYPE.URGENT ? 'urgentCard' : 'activeCard')" ng-show="shouldDisplayCard(c.shown_at)">
+    <!-- <div class="card" ng-repeat="c in cards | orderBy: 'updated_at' | filter:{archived_at:null}" ng-init="cardClass= c.completed_at != null ? 'completedCard' : (c.type == CARD.TYPE.URGENT ? 'urgentCard' : 'activeCard')" ng-show="shouldDisplayCard(c.shown_at)"> -->
+
+    <div class="card" ng-repeat="c in unarchivedCards"
+    ng-init="cardClass= c.completed_at != null ? 'completedCard' : (c.type == CARD.TYPE.URGENT ? 'urgentCard' : 'activeCard')"
+
+    ng-show="shouldDisplayCard(c.shown_at)">
 
       <!-- Card Title -->
       <div ng-class="['item', cardClass]">
         <a href="#">{{c.type == CARD.TYPE.ACTION ? 'Take ': c.type == CARD.TYPE.URGENT ? 'TODO: ': ''}}{{c.object_type}}{{c.type == CARD.TYPE.REMINDER ? ' Reminder':''}}</a>
-        <a style="float:right">{{getTime(c.shown_at) | date: 'h:mm a'}}</a>
+        <!-- <a style="float:right">{{getTime(c.shown_at) | date: 'h:mm a'}}</a> -->
       </div>
 
       <!-- Card Body -->
       <div class="item item-text-wrap" >
+        <div ng-repeat="line in cardBody[$index] track by $index">{{line}}</div>
         <!--<div ng-repeat="line in getBody(c) track by $index">{{line}}</div> -->
-        <div>{{getBody(c)}}</div>
       </div>
 
       <!-- Card Buttons -->

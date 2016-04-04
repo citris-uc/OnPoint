@@ -11,7 +11,7 @@
         </a>
 
         <ion-item ng-repeat="med in dateSchedule.medications">
-          {{med}}
+          {{med.trade_name}}
            <ion-reorder-button class="ion-navicon"
               on-reorder="moveItem(dateSchedule,med, $fromIndex, $toIndex)">
           </ion-reorder-button>

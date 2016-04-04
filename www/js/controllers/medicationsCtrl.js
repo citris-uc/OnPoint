@@ -18,14 +18,14 @@ angular.module('app.controllers')
   }
 })
 
-.controller("medicationCtrl", function($scope, $stateParams,$ionicPopup,$ionicHistory, Medication, MedicationSchedule, MedicationDosage, MedicationHistory) {
+.controller("medicationCtrl", function($scope, $stateParams,$ionicPopup,$ionicHistory, Patient, Medication, MedicationSchedule, MedicationDosage, MedicationHistory) {
   $scope.state = $stateParams;
   $scope.medication = Medication.getByTradeName($stateParams.medicationName);
   $scope.dosage     = MedicationDosage.getByName($stateParams.medicationName);
   $scope.schedule   = MedicationSchedule.findByID($stateParams.schedule_id)
 
   $scope.takeMedication = function() {
-    var uid = JSON.parse(window.localStorage["authData"]).uid;
+    var uid = Patient.uid();//JSON.parse(window.localStorage["authData"]).uid;
     MedicationHistory.create_or_update(uid, $scope.medication, $scope.schedule, "take")
     var alertPopup = $ionicPopup.alert({
       title: 'Success',
@@ -46,7 +46,8 @@ angular.module('app.controllers')
         {
           text: '<b>Yes</b>',
           onTap: function(e) {
-            var uid = JSON.parse(window.localStorage["authData"]).uid;
+            var uid = Patient.uid();//JSON.parse(window.localStorage["authData"]).uid;
+            //var uid = JSON.parse(window.localStorage["authData"]).uid;
             MedicationHistory.create_or_update(uid, $scope.medication, $scope.schedule, "skip")
             $ionicHistory.goBack();
           }
@@ -64,37 +65,12 @@ angular.module('app.controllers')
   //3 way data binding of medicationSchedule...
   //MedicationScheduleFB(uid).$bindTo($scope,"schedule");
 
-  $scope.schedule = MedicationScheduleFB.get(uid);
 
-  console.log(schedule);
   $scope.saveMedicationSchedule = function() {
-    var firebaseRef = new Firebase("https://vivid-inferno-5187.firebaseio.com/");
-    console.log(JSON.parse(window.localStorage["authData"]).uid);
-    var userRef = firebaseRef.child("users").child(JSON.parse(window.localStorage["authData"]).uid);
-    var temp = MedicationScheduleFB.findByID(uid,1);
-    console.log(temp); //gets an object
-    console.log(temp.$id); //can access perfectly fine
-    console.log(temp.days); // this is 'undefined' bc of asynchrnous behavior
-    temp.$loaded(
-       function(data) {
-        console.log(data.days);  //this works great
-      });
-    $scope.schedule.$loaded(
-      function(data) {
-        console.log(data.$getRecord(0)); //this also works
-      },
-      function(error) {
-        console.error("Error:", error);
-      }
-    );
 
   };
    $scope.moveItem = function(slot, item, fromIndex, toIndex) {
-    console.log(fromIndex);
-    console.log(toIndex);
-    console.log(slot.medications);
-    //Move the item in the array
-    slot.medications.splice(fromIndex, 1);
-    slot.medications.splice(toIndex, 0, item);
+
   };
+
 })

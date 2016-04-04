@@ -72,21 +72,21 @@ angular.module('app.services')
 
   schedule = [
     {
-      id: 1,
+      id: 0,
       time: "08:00",
       slot: "morning",
       days: [0,1,2,3,4,5,6], //array descirbing days of week to do this action
       medications: ["Lasix", "Toprol XL", "Zestril", "Coumadin", "Riomet"]
     },
     {
-      id: 2,
+      id: 1,
       time: "13:00",
       slot: "afternoon",
       days: [0,1,2,3,4,5,6], //array descirbing days of week to do this action,
       medications: ["Lasix", "Toprol XL", "Zestril", "Riomet"]
     },
     {
-      id: 3,
+      id: 2,
       time: "19:00",
       slot: "evening",
       days: [0,1,2,3,4,5,6], //array descirbing days of week to do this action,
@@ -144,7 +144,7 @@ angular.module('app.services')
       */
     },
     findByIdFB: function(id) {
-      var ref = this.ref().child("defaultSchedule").orderByChild("id").equalTo(id-1).once("child_added");
+      var ref = this.ref().child("defaultSchedule").orderByChild("id").equalTo(id).once("child_added");
       return ref;
     },
     findByID: function(id) {

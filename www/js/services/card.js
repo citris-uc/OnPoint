@@ -1,16 +1,53 @@
 angular.module('app.services')
 
 .factory("Card", ["CARD", "MedicationSchedule", "MedicationHistory", "$q", function(CARD, MedicationSchedule, MedicationHistory, $q) {
-  var cards = [{
-    id: 0,
-    created_at: "2016-03-15T10:00:00",
-    updated_at: "2016-03-15T10:00:00", //should arrange timeline by this timestamp
-    completed_at: null,
-    archived_at: null,
-    type: CARD.TYPE.ACTION,
-    object_type: CARD.CATEGORY.MEDICATIONS_SCHEDULE,
-    object_id: 1
-  }];
+  var cards = [];
+  // [{
+  //   id: 0,
+  //   created_at: "2016-03-15T10:00:00",
+  //   updated_at: "2016-03-15T10:00:00", //should arrange timeline by this timestamp
+  //   completed_at: null,
+  //   archived_at: null,
+  //   type: CARD.TYPE.ACTION,
+  //   object_type: CARD.CATEGORY.MEDICATIONS_SCHEDULE,
+  //   object_id: 1
+  // }, {
+  //   id: 1,
+  //   created_at: "2016-03-15T11:00:00",
+  //   updated_at: "2016-03-15T11:00:00", //should arrange timeline by this timestamp
+  //   completed_at: null,
+  //   archived_at: null,
+  //   type: CARD.TYPE.URGENT,
+  //   object_type: CARD.CATEGORY.MEASUREMENTS_SCHEDULE,
+  //   object_id: 1
+  // }, {
+  //   id: 2,
+  //   created_at: "2016-03-15T11:30:00",
+  //   updated_at: "2016-03-15T11:30:00", //should arrange timeline by this timestamp
+  //   completed_at: null,
+  //   archived_at: null,
+  //   type: CARD.TYPE.REMINDER,
+  //   object_type: CARD.CATEGORY.APPOINTMENTS_SCHEDULE,
+  //   object_id: 1
+  // }, {
+  //   id: 3,
+  //   created_at: "2016-03-15T12:00:00",
+  //   updated_at: "2016-03-15T12:30:00", //should arrange timeline by this timestamp
+  //   completed_at: "2016-03-15T12:30:00",
+  //   archived_at: null,
+  //   type: CARD.TYPE.REMINDER,
+  //   object_type: CARD.CATEGORY.GOALS,
+  //   object_id: 1
+  // }, {
+  //   id: 4,
+  //   created_at: "2016-03-15T12:00:00",
+  //   updated_at: "2016-03-15T12:30:00", //should arrange timeline by this timestamp
+  //   completed_at: "2016-03-15T12:30:00",
+  //   archived_at: "2016-03-15T12:30:00",
+  //   type: CARD.TYPE.URGENT,
+  //   object_type: CARD.CATEGORY.SYMPTOMS_SCHEDULE,
+  //   object_id: 1
+  // }];
 
   return {
     get: function() {
@@ -36,7 +73,7 @@ angular.module('app.services')
         showAt = (new Date()).toISOString();
       }
       var card = {
-        id: cards.length + 1,
+        id: cards.length,
         created_at: now,
         updated_at: now,
         shown_at: showAt,
@@ -100,7 +137,7 @@ angular.module('app.services')
           return {tab: 'tabsController', params: {}}
       }
     },
-    getBody: function(cardID) {
+    getBody: function(idx, cardID) {
       var card;
       for(var i = 0; i < cards.length; i++) {
         if (cards[i].id === cardID)
@@ -111,13 +148,14 @@ angular.module('app.services')
         case CARD.CATEGORY.MEDICATIONS_SCHEDULE :
           // Get schedule associated with card
           var schedule = MedicationSchedule.findByID(card.object_id);
+          var scheduleFB = MedicationSchedule.findByIdFB(card.object_id);
+          //var deferred = new Promise();
+        return  scheduleFB.then(function(snapshot) {
 
-          //console.log(schedule);
-          /*
-          var deferred = $q.defer();
-          schedule.then(function(val) {
-            //console.log(val);
-            var medications = val.$getRecord("medications");
+
+
+            //console.log(snapshot.val());
+            var medications = snapshot.val().medications;
             //console.log(medications)
             var takeMeds = [];
             var skippedMeds = [];
@@ -152,12 +190,13 @@ angular.module('app.services')
               completedString = completedString + " " + med;
             })
 
-            ans =  [takeString, skippedString, completedString];
-            console.log(ans);
-            deferred.resolve(ans);
+            ans =  [idx, cardID, [takeString, skippedString, completedString]];
+            //console.log(ans);
+            return ans;
+            //deferred.resolve(ans);
           });
-          return deferred
-          */
+          //return deferred;
+
 
           /*
           schedule.$loaded().then(function(){
@@ -170,7 +209,7 @@ angular.module('app.services')
           */
 
 
-          
+          /*
           var medications = schedule.medications;
           var takeMeds = [];
           var skippedMeds = [];
@@ -206,7 +245,8 @@ angular.module('app.services')
 
           return [takeString, skippedString, completedString];
 
-
+          */
+          /*
         case CARD.CATEGORY.MEASUREMENTS_SCHEDULE :
           return ["Take <measurements>"];
         case CARD.CATEGORY.APPOINTMENTS_SCHEDULE :
@@ -216,6 +256,9 @@ angular.module('app.services')
         //case CARD.CATEGORY.SYMPTOMS :
         default:
           return [""];
+          */
+        default:
+          return Promise.resolve([idx, cardID, ["EMPTY"]]);
       }
     }
   };
