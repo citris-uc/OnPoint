@@ -55,35 +55,24 @@ angular.module('app.services')
     },
     ref: function() {
       var uid = Patient.uid();
-      console.log(uid)
       return Patient.ref(uid).child("cards");
     },
     find_or_create_by_object(object, cardObject) {
+      console.log("Object is: ")
       console.log(object)
+      console.log("cardObject is: ")
       console.log(cardObject)
+
       var ref = this.ref().child(object.type).child(object.id)
       return ref.transaction(function(current) {
-        console.log("Current")
-        console.log(current);
-
         if (!current)
           current = {}
 
         var now    = (new Date()).toISOString();
-        var showAt;
-
-        if (object.type == CARD.CATEGORY.MEDICATIONS_SCHEDULE) {
-          time = object.time.split(":");
-          showAt = (new Date()).setHours(time[0],time[1]);
-          showAt = showAt.toISOString();
-        } else {
-          showAt = (new Date()).toISOString();
-        }
-
-        current.created_at = now;
-        current.updated_at = now;
-        current.shown_at   = showAt;
-        current.completed_at = cardObject.completed_at;
+        current.created_at   = now;
+        current.updated_at   = now;
+        current.shown_at     = cardObject.shown_at || (new Date()).toISOString();
+        current.completed_at = cardObject.completed_at || null;
         current.archived_at  = null;
         current.type         = cardObject.type
         return current
@@ -116,87 +105,6 @@ angular.module('app.services')
         card.archived_at = now;
       }
       return card;
-    },
-    getAction: function(cardID) {
-      var card;
-      for(var i = 0; i < cards.length; i++) {
-        if (cards[i].id === cardID)
-          card = cards[i]
-      }
-
-      switch(card.object_type) {
-        case CARD.CATEGORY.MEDICATIONS_SCHEDULE :
-          // Take Medications --> Show Schedule
-          var schedule = MedicationSchedule.findByID(card.object_id);
-          return {tab: 'tabsController.medicationsSchedule', params: {schedule_id: schedule.id}};
-        case CARD.CATEGORY.MEASUREMENTS_SCHEDULE :
-          return {tab: 'tabsController.measurementAdd', params: {}}
-        case CARD.CATEGORY.APPOINTMENTS_SCHEDULE :
-          return {tab: 'tabsController.appointments', params: {}}
-        case CARD.CATEGORY.GOALS :
-          return {tab: 'tabsController.goals', params: {}}
-        //case CARD.CATEGORY.SYMPTOMS :
-        default:
-          return {tab: 'tabsController', params: {}}
-      }
-    },
-    getBody: function(cardID) {
-      var card;
-      for(var i = 0; i < cards.length; i++) {
-        if (cards[i].id === cardID)
-          card = cards[i]
-      }
-
-      switch(card.object_type) {
-        case CARD.CATEGORY.MEDICATIONS_SCHEDULE :
-          // Get schedule associated with card
-          var schedule = MedicationSchedule.findByID(card.object_id);
-          var medications = schedule.medications;
-          var takeMeds = [];
-          var skippedMeds = [];
-          var completedMeds = [];
-
-          // Check history for each medication in the specified schedule
-          // TODO: Refactor this to query against a MedicationHistory array.
-          medications.forEach( function(med) {
-            var history = MedicationHistory.findByMedicationIdAndScheduleId(med.id, schedule.id);
-            if (history == null)
-              takeMeds.push(med);
-            else if (history.taken_at != null) {
-              completedMeds.push(med);
-            } else if (history.skipped_at != null) {
-              skippedMeds.push(med);
-            }
-          })
-
-          // Create a string for each line for Take/Skipped/Completed meds
-          // TODO -- is there a clean way to do this in the UI to filter?
-          //         possible to have different UI templates depending on card category?
-          var takeString = takeMeds.length > 0 ? "Take:" : null;
-          var skippedString = skippedMeds.length > 0 ? "Skipped:" : null;
-          var completedString = completedMeds.length > 0 ? "Completed:" : null;
-
-          takeMeds.forEach( function(med) {
-            takeString = takeString + " " + med.trade_name;
-          })
-          skippedMeds.forEach( function(med) {
-            skippedString = skippedString + " " + med.trade_name;
-          })
-          completedMeds.forEach( function(med) {
-            completedString = completedString + " " + med.trade_name;
-          })
-
-          return [takeString, skippedString, completedString];
-        case CARD.CATEGORY.MEASUREMENTS_SCHEDULE :
-          return ["Take <measurements>"];
-        case CARD.CATEGORY.APPOINTMENTS_SCHEDULE :
-          return ["Appointment Information"];
-        case CARD.CATEGORY.GOALS :
-          return ["View Goals"];
-        //case CARD.CATEGORY.SYMPTOMS :
-        default:
-          return [""];
-      } // end switch
     },
     checkCardUpdate: function(card){
       // Check the latest timestamp for the card
