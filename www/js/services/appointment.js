@@ -26,13 +26,8 @@ angular.module('app.services')
       return appointments;
     },
     add: function(newAppointment) {
-      appointment = {};
-      appointment.id = appointments.length + 1;
-      appointment.timestamp = newAppointment.date+"T"+newAppointment.time+":00";
-      appointment.title = newAppointment.title;
-      appointment.location = newAppointment.location;
-      appointment.note = newAppointment.note;
-      appointments.push(appointment);
+      appointments.push(newAppointment);
+      console.log("pushed new appointment appointments are", appointments)
     },
   };
 

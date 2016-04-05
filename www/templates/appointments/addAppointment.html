@@ -14,20 +14,19 @@
             </label>
 
             <label class="item item-input">
-              <input class="input-label" type="date" ng-model="newAppointment.date" ></input>
+              <input class="input-label" type="date" ng-model="date" ></input>
             </label>
 
             <label class="item item-input">
-              <input class="input-label" type="time" ng-model="newAppointment.time" ></input>
+              <input class="input-label" type="time" ng-model="time" ></input>
             </label>
 
             <label class="item item-input">
               <span class="input-label"><strong>Note</strong></span>
               <input class="input-label" type="text" placeholder="Remember to bring your ID" ng-model="newAppointment.note" ></input>
             </label>
-
           </ion-list>
-        	<button class="button button-positive button-block button-big" ng-click="save()">Save</button>
+        	<button class="button button-positive button-block button-big" ng-click="save(time)">Save</button>
         </form>
     </ion-content>
 </ion-view>
