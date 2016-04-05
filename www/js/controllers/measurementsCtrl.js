@@ -1,28 +1,9 @@
-angular.module('app.controllers', ['ionic', 'ionic-timepicker'])
+angular.module('app.controllers')
 
-.controller('addMeasurementScheduleCtrl', function($scope, $state, $ionicPopup, MeasurementSchedule, ionicTimePicker ) {
+.controller('addMeasurementScheduleCtrl', function($scope, $state, MeasurementSchedule ) {
 
     $scope.newShedule = {};
-    $scope.remindTime = "You have not set the reminding time.";
-    $scope.openTimer = function(){
-      var ipObj1 = {
-          callback: function (val) {      //Mandatory
-            if (typeof (val) === 'undefined') {
-              console.log('Time not selected');
-            } else {
-              var selectedTime = new Date(val * 1000);
-              $scope.newShedule.time = selectedTime.getUTCHours()+":"+selectedTime.getUTCMinutes();
-              $scope.remindTime = "You have selected the remind time as : " + $scope.newShedule.time;
-              console.log('Selected epoch is : ', val, 'and the time is ', selectedTime.getUTCHours(), 'H :', selectedTime.getUTCMinutes(), 'M');
-            }
-          },
-          inputTime: 50400,   //Optional
-          format: 12,         //Optional
-          step: 15,           //Optional
-          setLabel: 'Set2'    //Optional
-      };
-      ionicTimePicker.openTimePicker(ipObj1);
-    };
+    $scope.newShedule.time = new Date();
     $scope.save = function(){
       var message = "";
       if( typeof $scope.newShedule.name === 'undefined'){
@@ -37,9 +18,6 @@ angular.module('app.controllers', ['ionic', 'ionic-timepicker'])
           && (typeof $scope.newShedule.days4 === 'undefined') && (typeof $scope.newShedule.days5 === 'undefined')
           && (typeof $scope.newShedule.days6 === 'undefined')){
           message += " Please select a reminder day <br/>";
-      }
-      if( typeof $scope.newShedule.time === 'undefined'){
-        message += "Please select a reminder time <br/>";
       }
 
       if(message != ""){
