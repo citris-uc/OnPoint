@@ -19,6 +19,22 @@ angular.module('app.services')
     get_inputList: function() {
       return input_medications;
     },
+    get_all_med_trade_name: function(){
+      meds = [];
+      for(var i = 0; i < medications.length; i++){
+        meds.push(medications[i].trade_name);
+      }
+      return meds;
+    },
+    get_name_by_trade_name: function(tradeName){
+      var name;
+      for(var i = 0; i < medications.length; i++){
+        if(tradeName == medications[i].trade_name){
+          name = medications[i].name;
+        }
+      }
+      return name;
+    },
     getByName: function(name) {
       for (var i = 0; i < medications.length; i++) {
         if (medications[i].name == name)
@@ -109,7 +125,6 @@ angular.module('app.services')
       var ref = this.ref().child("defaultSchedule");
       return $firebaseArray(ref)
     },
-
     /*
      * queries firebase data and returns the defaultSchedule from firebase
      * this method will return a PROMISE, so we can call the then method on the promise
@@ -131,7 +146,6 @@ angular.module('app.services')
       var ref = this.ref().child("defaultSchedule").child(id)
       return $firebaseObject(ref);
     }
-
   };
 }])
 
@@ -150,7 +164,32 @@ angular.module('app.services')
       dose: 500,
       tablets: 2,
       required: true
-    }
+    },
+    lisinopril: {
+      dose: 40,
+      tablets: 3,
+      required: false
+    },
+    warfarin: {
+      dose: 500,
+      tablets: 4,
+      required: true
+    },
+    losartan: {
+      dose: 40,
+      tablets: 5,
+      required: false
+    },
+    metoprolol: {
+      dose: 40,
+      tablets: 6,
+      required: false
+    },
+    statin: {
+      dose: 40,
+      tablets: 7,
+      required: false
+    },
   }
 
   return {
