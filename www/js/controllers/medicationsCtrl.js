@@ -4,8 +4,9 @@ angular.module('app.controllers')
   $scope.schedule           = MedicationSchedule.get();
   $scope.medicationHistory  = MedicationHistory.getTodaysHistory();
 
-  $scope.didTakeMed = function(med, schedule) {
+  $scope.didTakeMed = function(medication, schedule) {
     var match;
+    var med = Medication.getByTradeName(medication)
     for(var i = 0; i < $scope.medicationHistory.length; i++) {
       if ($scope.medicationHistory[i].medication_id == med.id && $scope.medicationHistory[i].medication_schedule_id == schedule.id) {
         match = $scope.medicationHistory[i]
@@ -18,8 +19,9 @@ angular.module('app.controllers')
       return false;
   }
 
-  $scope.didSkipMed = function(med, schedule) {
+  $scope.didSkipMed = function(medication, schedule) {
     var match;
+    var med = Medication.getByTradeName(medication)
     for(var i = 0; i < $scope.medicationHistory.length; i++) {
       if ($scope.medicationHistory[i].medication_id == med.id && $scope.medicationHistory[i].medication_schedule_id == schedule.id) {
         match = $scope.medicationHistory[i]
