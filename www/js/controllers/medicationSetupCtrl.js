@@ -51,6 +51,7 @@ angular.module('app.controllers')
 
 .controller('medFillMainCtrl', function($scope, MedicationSchedule, Medication, MedicationDosage) {
   var medShedule = MedicationSchedule.get();
+  var sheduledMed = [];
   $scope.meds = Medication.get_all_med_trade_name();
   console.log(medShedule[0].medications.name);
   $scope.slots = [];
@@ -82,6 +83,17 @@ angular.module('app.controllers')
           $scope.slots[i][medShedule[i].days[k] + 1] = "0";
         }
       }
+    }
+    if(sheduledMed.indexOf(med) == -1){
+      sheduledMed.push(med);
+    }
+  }
+
+  $scope.isSheduledlist = function(med){
+    if(sheduledMed.indexOf(med) == -1){
+      return false;
+    }else{
+      return true;
     }
   }
 })
