@@ -55,35 +55,24 @@ angular.module('app.services')
     },
     ref: function() {
       var uid = Patient.uid();
-      console.log(uid)
       return Patient.ref(uid).child("cards");
     },
     find_or_create_by_object(object, cardObject) {
+      console.log("Object is: ")
       console.log(object)
+      console.log("cardObject is: ")
       console.log(cardObject)
+
       var ref = this.ref().child(object.type).child(object.id)
       return ref.transaction(function(current) {
-        console.log("Current")
-        console.log(current);
-
         if (!current)
           current = {}
 
         var now    = (new Date()).toISOString();
-        var showAt;
-
-        if (object.type == CARD.CATEGORY.MEDICATIONS_SCHEDULE) {
-          time = object.time.split(":");
-          showAt = (new Date()).setHours(time[0],time[1]);
-          showAt = showAt.toISOString();
-        } else {
-          showAt = (new Date()).toISOString();
-        }
-
-        current.created_at = now;
-        current.updated_at = now;
-        current.shown_at   = showAt;
-        current.completed_at = cardObject.completed_at;
+        current.created_at   = now;
+        current.updated_at   = now;
+        current.shown_at     = cardObject.shown_at || (new Date()).toISOString();
+        current.completed_at = cardObject.completed_at || null;
         current.archived_at  = null;
         current.type         = cardObject.type
         return current
