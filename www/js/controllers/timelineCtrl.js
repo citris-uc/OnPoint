@@ -36,13 +36,87 @@ angular.module('app.controllers')
   }
 
   $scope.getBody = function(card) {
-    //TODO: update this method to use Firebase Properly
-   return Card.getBody(card.id);
+    var card;
+    for(var i = 0; i < $scope.cards.length; i++) {
+      if ($scope.cards[i].id === card.id)
+        card = $scope.cards[i]
+    }
+
+    switch(card.object_type) {
+      case CARD.CATEGORY.MEDICATIONS_SCHEDULE :
+        // Get schedule associated with card
+        var schedule = MedicationSchedule.findByID(card.object_id);
+        var medications = schedule.medications;
+        var takeMeds = [];
+        var skippedMeds = [];
+        var completedMeds = [];
+
+        // Check history for each medication in the specified schedule
+        // TODO: Refactor this to query against a MedicationHistory array.
+        medications.forEach( function(med) {
+          var history = MedicationHistory.findByMedicationIdAndScheduleId(med.id, schedule.id);
+          if (history == null)
+            takeMeds.push(med);
+          else if (history.taken_at != null) {
+            completedMeds.push(med);
+          } else if (history.skipped_at != null) {
+            skippedMeds.push(med);
+          }
+        })
+
+        // Create a string for each line for Take/Skipped/Completed meds
+        // TODO -- is there a clean way to do this in the UI to filter?
+        //         possible to have different UI templates depending on card category?
+        var takeString = takeMeds.length > 0 ? "Take:" : null;
+        var skippedString = skippedMeds.length > 0 ? "Skipped:" : null;
+        var completedString = completedMeds.length > 0 ? "Completed:" : null;
+
+        takeMeds.forEach( function(med) {
+          takeString = takeString + " " + med.trade_name;
+        })
+        skippedMeds.forEach( function(med) {
+          skippedString = skippedString + " " + med.trade_name;
+        })
+        completedMeds.forEach( function(med) {
+          completedString = completedString + " " + med.trade_name;
+        })
+
+        return [takeString, skippedString, completedString];
+      case CARD.CATEGORY.MEASUREMENTS_SCHEDULE :
+        return ["Take <measurements>"];
+      case CARD.CATEGORY.APPOINTMENTS_SCHEDULE :
+        return ["Appointment Information"];
+      case CARD.CATEGORY.GOALS :
+        return ["View Goals"];
+      //case CARD.CATEGORY.SYMPTOMS :
+      default:
+        return [""];
+    } // end switch
   }
 
   $scope.openPage = function(card){
-    action = Card.getAction(card.id);
-    $state.go(action.tab, action.params);
+    var index = $scope.cards.indexOf(card);
+    card = $scope.cards[index];
+
+    switch(card.object_type) {
+      case CARD.CATEGORY.MEDICATIONS_SCHEDULE :
+        // Take Medications --> Show Schedule
+        var schedule = MedicationSchedule.findByID(card.object_id);
+        action = {tab: 'tabsController.medicationsSchedule', params: {schedule_id: schedule.id}};
+        return $state.go(action.tab, action.params);
+      case CARD.CATEGORY.MEASUREMENTS_SCHEDULE:
+        action = {tab: 'tabsController.measurementAdd', params: {}}
+        return $state.go(action.tab, action.params);
+      case CARD.CATEGORY.APPOINTMENTS_SCHEDULE :
+        action = {tab: 'tabsController.appointments', params: {}}
+        return $state.go(action.tab, action.params);
+      case CARD.CATEGORY.GOALS :
+        action = {tab: 'tabsController.goals', params: {}}
+        $state.go(action.tab, action.params);
+      default:
+        action = {tab: 'tabsController', params: {}}
+        return $state.go(action.tab, action.params);
+    }
   }
 
   $scope.shouldDisplayCard = function(timestamp) {
