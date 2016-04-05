@@ -69,13 +69,13 @@ angular.module('app.controllers')
   //    }
   //  }
 
-   for(var i = 0; i < measurementSchedule.length; i++) {
-     slot = measurementSchedule[i];
-     if (slot.days.includes(currentDay)) {
-       Card.create_from_object(slot, CARD.CATEGORY.MEASUREMENTS_SCHEDULE, CARD.TYPE.ACTION);
-     }
-   }
-   console.log($scope.cards.length);
+  //  for(var i = 0; i < measurementSchedule.length; i++) {
+  //    slot = measurementSchedule[i];
+  //    if (slot.days.includes(currentDay)) {
+  //      Card.create_from_object(slot, CARD.CATEGORY.MEASUREMENTS_SCHEDULE, {type: CARD.TYPE.ACTION});
+  //    }
+  //  }
+  //  console.log($scope.cards.length);
   }
 
   $scope.getCommentsCount = function(card_id){

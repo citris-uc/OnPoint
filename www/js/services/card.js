@@ -1,89 +1,93 @@
 angular.module('app.services')
 
-.factory("Card", ["CARD", "MedicationSchedule", "MedicationHistory", function(CARD, MedicationSchedule, MedicationHistory) {
-  var cards = [{
-    id: 0,
-    created_at: "2016-03-15T10:00:00",
-    updated_at: "2016-03-15T10:00:00", //should arrange timeline by this timestamp
-    completed_at: null,
-    archived_at: null,
-    type: CARD.TYPE.ACTION,
-    object_type: CARD.CATEGORY.MEDICATIONS_SCHEDULE,
-    object_id: 1
-  }, {
-    id: 1,
-    created_at: "2016-03-15T11:00:00",
-    updated_at: "2016-03-15T11:00:00", //should arrange timeline by this timestamp
-    completed_at: null,
-    archived_at: null,
-    type: CARD.TYPE.URGENT,
-    object_type: CARD.CATEGORY.MEASUREMENTS_SCHEDULE,
-    object_id: 1
-  }, {
-    id: 2,
-    created_at: "2016-03-15T11:30:00",
-    updated_at: "2016-03-15T11:30:00", //should arrange timeline by this timestamp
-    completed_at: null,
-    archived_at: null,
-    type: CARD.TYPE.REMINDER,
-    object_type: CARD.CATEGORY.APPOINTMENTS_SCHEDULE,
-    object_id: 1
-  }, {
-    id: 3,
-    created_at: "2016-03-15T12:00:00",
-    updated_at: "2016-03-15T12:30:00", //should arrange timeline by this timestamp
-    completed_at: "2016-03-15T12:30:00",
-    archived_at: null,
-    type: CARD.TYPE.REMINDER,
-    object_type: CARD.CATEGORY.GOALS,
-    object_id: 1
-  }, {
-    id: 4,
-    created_at: "2016-03-15T12:00:00",
-    updated_at: "2016-03-15T12:30:00", //should arrange timeline by this timestamp
-    completed_at: "2016-03-15T12:30:00",
-    archived_at: "2016-03-15T12:30:00",
-    type: CARD.TYPE.URGENT,
-    object_type: CARD.CATEGORY.SYMPTOMS_SCHEDULE,
-    object_id: 1
-  }];
+.factory("Card", ["CARD", "Patient", "MedicationSchedule", "MedicationHistory", "$firebaseArray", "$firebaseObject", function(CARD, Patient, MedicationSchedule, MedicationHistory, $firebaseArray, $firebaseObject) {
+  // var cards = [{
+  //   id: 0,
+  //   created_at: "2016-03-15T10:00:00",
+  //   updated_at: "2016-03-15T10:00:00", //should arrange timeline by this timestamp
+  //   completed_at: null,
+  //   archived_at: null,
+  //   type: CARD.TYPE.ACTION,
+  //   object_type: CARD.CATEGORY.MEDICATIONS_SCHEDULE,
+  //   object_id: 1
+  // }, {
+  //   id: 1,
+  //   created_at: "2016-03-15T11:00:00",
+  //   updated_at: "2016-03-15T11:00:00", //should arrange timeline by this timestamp
+  //   completed_at: null,
+  //   archived_at: null,
+  //   type: CARD.TYPE.URGENT,
+  //   object_type: CARD.CATEGORY.MEASUREMENTS_SCHEDULE,
+  //   object_id: 1
+  // }, {
+  //   id: 2,
+  //   created_at: "2016-03-15T11:30:00",
+  //   updated_at: "2016-03-15T11:30:00", //should arrange timeline by this timestamp
+  //   completed_at: null,
+  //   archived_at: null,
+  //   type: CARD.TYPE.REMINDER,
+  //   object_type: CARD.CATEGORY.APPOINTMENTS_SCHEDULE,
+  //   object_id: 1
+  // }, {
+  //   id: 3,
+  //   created_at: "2016-03-15T12:00:00",
+  //   updated_at: "2016-03-15T12:30:00", //should arrange timeline by this timestamp
+  //   completed_at: "2016-03-15T12:30:00",
+  //   archived_at: null,
+  //   type: CARD.TYPE.REMINDER,
+  //   object_type: CARD.CATEGORY.GOALS,
+  //   object_id: 1
+  // }, {
+  //   id: 4,
+  //   created_at: "2016-03-15T12:00:00",
+  //   updated_at: "2016-03-15T12:30:00", //should arrange timeline by this timestamp
+  //   completed_at: "2016-03-15T12:30:00",
+  //   archived_at: "2016-03-15T12:30:00",
+  //   type: CARD.TYPE.URGENT,
+  //   object_type: CARD.CATEGORY.SYMPTOMS_SCHEDULE,
+  //   object_id: 1
+  // }];
 
   return {
     get: function() {
-      return cards;
+      var ref = this.ref();
+      return $firebaseArray(ref)
     },
-    find_by_object: function(object_id, object_type) {
-      var card;
-      for(var i = 0; i < cards.length; i++) {
-        if (cards[i].object_id === object_id && cards[i].object_type === object_type)
-          card = cards[i];
-      }
-      return card;
+    ref: function() {
+      var uid = Patient.uid();
+      console.log(uid)
+      return Patient.ref(uid).child("cards");
     },
-    create_from_object: function(object, object_type, card_type) {
-      var now = (new Date()).toISOString();
-      var showAt = new Date();
+    find_or_create_by_object(object, cardObject) {
+      console.log(object)
+      console.log(cardObject)
+      var ref = this.ref().child(object.type).child(object.id)
+      return ref.transaction(function(current) {
+        console.log("Current")
+        console.log(current);
 
-      if (object_type == CARD.CATEGORY.MEDICATIONS_SCHEDULE) {
-        time = object.time.split(":");
-        showAt.setHours(time[0],time[1]);
-        showAt = showAt.toISOString();
-      } else {
-        showAt = (new Date()).toISOString();
-      }
-      var card = {
-        id: cards.length + 1,
-        created_at: now,
-        updated_at: now,
-        shown_at: showAt,
-        completed_at: null,
-        archived_at: null,
-        type: card_type,
-        object_id: object.id,
-        object_type: object_type
-      }
-      cards.push(card)
-      return card;
+        if (!current)
+          current = {}
+
+        var now    = (new Date()).toISOString();
+        var showAt;
+
+        if (object.type == CARD.CATEGORY.MEDICATIONS_SCHEDULE) {
+          time = object.time.split(":");
+          showAt = (new Date()).setHours(time[0],time[1]);
+          showAt = showAt.toISOString();
+        } else {
+          showAt = (new Date()).toISOString();
+        }
+
+        current.created_at = now;
+        current.updated_at = now;
+        current.shown_at   = showAt;
+        current.completed_at = cardObject.completed_at;
+        current.archived_at  = null;
+        current.type         = cardObject.type
+        return current
+      })
     },
     complete: function(cardID) {
       var card;
