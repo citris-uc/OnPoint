@@ -8,7 +8,7 @@ angular.module('app.controllers')
     var match;
     for(var i = 0; i < $scope.medicationHistory.length; i++) {
       if ($scope.medicationHistory[i].medication_id == med.id) {
-        match = history[i]
+        match = $scope.medicationHistory[i]
       }
     }
 
@@ -22,7 +22,7 @@ angular.module('app.controllers')
     var match;
     for(var i = 0; i < $scope.medicationHistory.length; i++) {
       if ($scope.medicationHistory[i].medication_id == med.id) {
-        match = history[i]
+        match = $scope.medicationHistory[i]
       }
     }
 
@@ -30,10 +30,6 @@ angular.module('app.controllers')
       return (match.skipped_at !== undefined);
     else
       return false;
-  }
-
-  $scope.medFromHistory = function(med_name) {
-
   }
 })
 
@@ -53,15 +49,17 @@ angular.module('app.controllers')
   $scope.schedule   = MedicationSchedule.findByID($stateParams.schedule_id)
 
   $scope.takeMedication = function() {
-    MedicationHistory.create_or_update($scope.medication, $scope.schedule, "take")
-    var alertPopup = $ionicPopup.alert({
-      title: 'Success',
-      template: 'You have succesfully taken ' + $scope.medication.trade_name
-    });
+    var req = MedicationHistory.create_or_update($scope.medication, $scope.schedule, "take");
+    req.then(function(ref) {
+      var alertPopup = $ionicPopup.alert({
+        title: 'Success',
+        template: 'You have succesfully taken ' + $scope.medication.trade_name
+      });
 
-    alertPopup.then(function(res) {
-      $ionicHistory.goBack();
-    });
+      alertPopup.then(function(res) {
+        $ionicHistory.goBack();
+      });
+    })
   }
 
   $scope.skipMedication = function()  {
@@ -73,8 +71,8 @@ angular.module('app.controllers')
         {
           text: '<b>Yes</b>',
           onTap: function(e) {
-            MedicationHistory.create_or_update($scope.medication, $scope.schedule, "skip")
-            $ionicHistory.goBack();
+            var req = MedicationHistory.create_or_update($scope.medication, $scope.schedule, "skip");
+            req.then(function(ref) { $ionicHistory.goBack(); });
           }
         }
       ]

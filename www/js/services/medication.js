@@ -140,7 +140,7 @@ angular.module('app.services')
   };
 }])
 
-.factory('MedicationHistory', ["Medication", function() {
+.factory('MedicationHistory', ["Patient", "$firebaseArray", function(Patient, $firebaseArray) {
   var count = 1;
   var history = [{
       id: 0,
@@ -163,30 +163,35 @@ angular.module('app.services')
     },
     // TODO: Returns only today's history.
     getBySchedule: function(schedule) {
-      return history;
+      var ref = this.ref();
+      return $firebaseArray(ref);
     },
-
+    ref: function() {
+      return Patient.ref().child("medication_histories");
+    },
     create_or_update: function(medication, schedule, choice) {
       // TODO: Refactor this to use AngularFire methods to create only if element
       // does not exist.
-      var instance = this.findByMedicationIdAndScheduleId(medication.id, schedule.id)
+
+      // TODO: Let's create the instance for now. As we move schedule to Firebase,
+      // we'll be able to update with a schedule uid rather than an arbitrary id.
+      var instance = false //this.findByMedicationIdAndScheduleId(medication.id, schedule.id)
       if (!instance) {
         instance = {
-          id: history.length + 1,
           medication_id: medication.id,
           medication_schedule_id: schedule.id
         }
+        // NOTE: We should still be able to update the object after we've pushed
+        // it to the array.
+        now = (new Date()).toISOString();
+        if (choice == "take")
+          instance.taken_at = now
+        else if (choice == "skip")
+          instance.skipped_at = now
 
-        history.push(instance);
+        var history = this.getBySchedule(schedule);
+        return history.$add(instance);
       }
-
-      // NOTE: We should still be able to update the object after we've pushed
-      // it to the array.
-      now = (new Date()).toISOString();
-      if (choice == "take")
-        instance.taken_at = now
-      else if (choice == "skip")
-        instance.skipped_at = now
     },
 
     findByMedicationIdAndScheduleId: function(med_id, schedule_id) {
