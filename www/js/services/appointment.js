@@ -27,7 +27,7 @@ angular.module('app.services')
     },
     add: function(newAppointment) {
       appointments.push(newAppointment);
-      console.log("pushed new appointment appointments are", appointments)
+      console.log("pushed new appointment appointments are", appointments);
     },
   };
 

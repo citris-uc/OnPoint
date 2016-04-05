@@ -7,10 +7,8 @@ angular.module('app.controllers', ['ionic'])
 
 .controller('addAppointmentCtrl', function($scope,$state,$stateParams,$ionicPopup, Appointment) {
    $scope.newAppointment = {};
-   var today = new Date();
-   $scope.date = today;
-
-   $scope.save = function(time){
+   $scope.newAppointment.timestamp = new Date();
+   $scope.save = function(){
      var message = "";
      if(typeof $scope.newAppointment.title === 'undefined'){
        message += " title cannot be empty <br/>";
@@ -31,7 +29,6 @@ angular.module('app.controllers', ['ionic'])
       if(typeof $scope.newAppointment.note === 'undefined'){
         $scope.newAppointment.note = "";
       }
-      $scope.newAppointment.timestamp = $scope.date.getFullYear()+"-"+ $scope.date.getMonth()+"-"+ $scope.date.getDate()+"-"+"T"+time.getTime();
       Appointment.add($scope.newAppointment);
       $state.transitionTo('tabsController.appointments', {reload: true});
      }
