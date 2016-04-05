@@ -1,7 +1,22 @@
 .onboarding table {
     border-collapse: collapse;
     border: 3px ;
+    border-style: solid;
+    background-color:#CCC;
 }
+
+.onboarding th {
+    border-collapse: collapse;
+    border: 2px ;
+    border-style: solid;
+}
+
+.onboarding td {
+    border-collapse: collapse;
+    border: 2px ;
+    border-style: solid;
+}
+
 .onboarding .center {
    margin: auto;
    width: 80%;

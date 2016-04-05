@@ -30,7 +30,7 @@
       Select medicaiton to begin:
     </h3>
     <div ng-repeat="med in meds" style="float:left">
-        <button ng-click="displayShedule(med);">{{med}}</button>
+        <button class = " button button-calm ", ng-click="displayShedule(med);">{{med}}</button>
     </div>
     <button ui-sref="tabsController.timeline" class="button button-positive  button-block" >Down</button>
   </ion-ontent>
