@@ -1,89 +1,82 @@
 angular.module('app.services')
 
-.factory("Card", ["CARD", "MedicationSchedule", "MedicationHistory", function(CARD, MedicationSchedule, MedicationHistory) {
-  var cards = [{
-    id: 0,
-    created_at: "2016-03-15T10:00:00",
-    updated_at: "2016-03-15T10:00:00", //should arrange timeline by this timestamp
-    completed_at: null,
-    archived_at: null,
-    type: CARD.TYPE.ACTION,
-    object_type: CARD.CATEGORY.MEDICATIONS_SCHEDULE,
-    object_id: 1
-  }, {
-    id: 1,
-    created_at: "2016-03-15T11:00:00",
-    updated_at: "2016-03-15T11:00:00", //should arrange timeline by this timestamp
-    completed_at: null,
-    archived_at: null,
-    type: CARD.TYPE.URGENT,
-    object_type: CARD.CATEGORY.MEASUREMENTS_SCHEDULE,
-    object_id: 1
-  }, {
-    id: 2,
-    created_at: "2016-03-15T11:30:00",
-    updated_at: "2016-03-15T11:30:00", //should arrange timeline by this timestamp
-    completed_at: null,
-    archived_at: null,
-    type: CARD.TYPE.REMINDER,
-    object_type: CARD.CATEGORY.APPOINTMENTS_SCHEDULE,
-    object_id: 1
-  }, {
-    id: 3,
-    created_at: "2016-03-15T12:00:00",
-    updated_at: "2016-03-15T12:30:00", //should arrange timeline by this timestamp
-    completed_at: "2016-03-15T12:30:00",
-    archived_at: null,
-    type: CARD.TYPE.REMINDER,
-    object_type: CARD.CATEGORY.GOALS,
-    object_id: 1
-  }, {
-    id: 4,
-    created_at: "2016-03-15T12:00:00",
-    updated_at: "2016-03-15T12:30:00", //should arrange timeline by this timestamp
-    completed_at: "2016-03-15T12:30:00",
-    archived_at: "2016-03-15T12:30:00",
-    type: CARD.TYPE.URGENT,
-    object_type: CARD.CATEGORY.SYMPTOMS_SCHEDULE,
-    object_id: 1
-  }];
+.factory("Card", ["CARD", "Patient", "MedicationSchedule", "MedicationHistory", "$firebaseArray", "$firebaseObject", function(CARD, Patient, MedicationSchedule, MedicationHistory, $firebaseArray, $firebaseObject) {
+  // var cards = [{
+  //   id: 0,
+  //   created_at: "2016-03-15T10:00:00",
+  //   updated_at: "2016-03-15T10:00:00", //should arrange timeline by this timestamp
+  //   completed_at: null,
+  //   archived_at: null,
+  //   type: CARD.TYPE.ACTION,
+  //   object_type: CARD.CATEGORY.MEDICATIONS_SCHEDULE,
+  //   object_id: 1
+  // }, {
+  //   id: 1,
+  //   created_at: "2016-03-15T11:00:00",
+  //   updated_at: "2016-03-15T11:00:00", //should arrange timeline by this timestamp
+  //   completed_at: null,
+  //   archived_at: null,
+  //   type: CARD.TYPE.URGENT,
+  //   object_type: CARD.CATEGORY.MEASUREMENTS_SCHEDULE,
+  //   object_id: 1
+  // }, {
+  //   id: 2,
+  //   created_at: "2016-03-15T11:30:00",
+  //   updated_at: "2016-03-15T11:30:00", //should arrange timeline by this timestamp
+  //   completed_at: null,
+  //   archived_at: null,
+  //   type: CARD.TYPE.REMINDER,
+  //   object_type: CARD.CATEGORY.APPOINTMENTS_SCHEDULE,
+  //   object_id: 1
+  // }, {
+  //   id: 3,
+  //   created_at: "2016-03-15T12:00:00",
+  //   updated_at: "2016-03-15T12:30:00", //should arrange timeline by this timestamp
+  //   completed_at: "2016-03-15T12:30:00",
+  //   archived_at: null,
+  //   type: CARD.TYPE.REMINDER,
+  //   object_type: CARD.CATEGORY.GOALS,
+  //   object_id: 1
+  // }, {
+  //   id: 4,
+  //   created_at: "2016-03-15T12:00:00",
+  //   updated_at: "2016-03-15T12:30:00", //should arrange timeline by this timestamp
+  //   completed_at: "2016-03-15T12:30:00",
+  //   archived_at: "2016-03-15T12:30:00",
+  //   type: CARD.TYPE.URGENT,
+  //   object_type: CARD.CATEGORY.SYMPTOMS_SCHEDULE,
+  //   object_id: 1
+  // }];
 
   return {
     get: function() {
-      return cards;
+      var ref = this.ref();
+      return $firebaseArray(ref)
     },
-    find_by_object: function(object_id, object_type) {
-      var card;
-      for(var i = 0; i < cards.length; i++) {
-        if (cards[i].object_id === object_id && cards[i].object_type === object_type)
-          card = cards[i];
-      }
-      return card;
+    ref: function() {
+      var uid = Patient.uid();
+      return Patient.ref(uid).child("cards");
     },
-    create_from_object: function(object, object_type, card_type) {
-      var now = (new Date()).toISOString();
-      var showAt = new Date();
+    find_or_create_by_object(object, cardObject) {
+      console.log("Object is: ")
+      console.log(object)
+      console.log("cardObject is: ")
+      console.log(cardObject)
 
-      if (object_type == CARD.CATEGORY.MEDICATIONS_SCHEDULE) {
-        time = object.time.split(":");
-        showAt.setHours(time[0],time[1]);
-        showAt = showAt.toISOString();
-      } else {
-        showAt = (new Date()).toISOString();
-      }
-      var card = {
-        id: cards.length + 1,
-        created_at: now,
-        updated_at: now,
-        shown_at: showAt,
-        completed_at: null,
-        archived_at: null,
-        type: card_type,
-        object_id: object.id,
-        object_type: object_type
-      }
-      cards.push(card)
-      return card;
+      var ref = this.ref().child(object.type).child(object.id)
+      return ref.transaction(function(current) {
+        if (!current)
+          current = {}
+
+        var now    = (new Date()).toISOString();
+        current.created_at   = now;
+        current.updated_at   = now;
+        current.shown_at     = cardObject.shown_at || (new Date()).toISOString();
+        current.completed_at = cardObject.completed_at || null;
+        current.archived_at  = null;
+        current.type         = cardObject.type
+        return current
+      })
     },
     complete: function(cardID) {
       var card;
@@ -112,106 +105,6 @@ angular.module('app.services')
         card.archived_at = now;
       }
       return card;
-    },
-    getAction: function(cardID) {
-      var card;
-      for(var i = 0; i < cards.length; i++) {
-        if (cards[i].id === cardID)
-          card = cards[i]
-      }
-
-      switch(card.object_type) {
-        case CARD.CATEGORY.MEDICATIONS_SCHEDULE :
-          // Take Medications --> Show Schedule
-          var schedule = MedicationSchedule.findByID(card.object_id);
-          return {tab: 'tabsController.medicationsSchedule', params: {schedule_id: schedule.id}};
-        case CARD.CATEGORY.MEASUREMENTS_SCHEDULE :
-          return {tab: 'tabsController.measurementAdd', params: {}}
-        case CARD.CATEGORY.APPOINTMENTS_SCHEDULE :
-          return {tab: 'tabsController.appointments', params: {}}
-        case CARD.CATEGORY.GOALS :
-          return {tab: 'tabsController.goals', params: {}}
-        //case CARD.CATEGORY.SYMPTOMS :
-        default:
-          return {tab: 'tabsController', params: {}}
-      }
-    },
-    getBody: function(cardID) {
-      var card;
-      for(var i = 0; i < cards.length; i++) {
-        if (cards[i].id === cardID)
-          card = cards[i]
-      }
-
-      switch(card.object_type) {
-        case CARD.CATEGORY.MEDICATIONS_SCHEDULE :
-          // Get schedule associated with card
-          var schedule = MedicationSchedule.findByID(card.object_id);
-          var medications = schedule.medications;
-          var takeMeds = [];
-          var skippedMeds = [];
-          var completedMeds = [];
-
-          // Check history for each medication in the specified schedule
-          // TODO: Refactor this to query against a MedicationHistory array.
-          medications.forEach( function(med) {
-            var history = MedicationHistory.findByMedicationIdAndScheduleId(med.id, schedule.id);
-            if (history == null)
-              takeMeds.push(med);
-            else if (history.taken_at != null) {
-              completedMeds.push(med);
-            } else if (history.skipped_at != null) {
-              skippedMeds.push(med);
-            }
-          })
-
-          // Create a string for each line for Take/Skipped/Completed meds
-          // TODO -- is there a clean way to do this in the UI to filter?
-          //         possible to have different UI templates depending on card category?
-          var takeString = takeMeds.length > 0 ? "Take:" : null;
-          var skippedString = skippedMeds.length > 0 ? "Skipped:" : null;
-          var completedString = completedMeds.length > 0 ? "Completed:" : null;
-
-          takeMeds.forEach( function(med) {
-            takeString = takeString + " " + med.trade_name;
-          })
-          skippedMeds.forEach( function(med) {
-            skippedString = skippedString + " " + med.trade_name;
-          })
-          completedMeds.forEach( function(med) {
-            completedString = completedString + " " + med.trade_name;
-          })
-
-          return [takeString, skippedString, completedString];
-        case CARD.CATEGORY.MEASUREMENTS_SCHEDULE :
-          return ["Take <measurements>"];
-        case CARD.CATEGORY.APPOINTMENTS_SCHEDULE :
-          return ["Appointment Information"];
-        case CARD.CATEGORY.GOALS :
-          return ["View Goals"];
-        //case CARD.CATEGORY.SYMPTOMS :
-        default:
-          return [""];
-      } // end switch
-    },
-    getCardStatus: function(cardID) {
-      var card;
-      for(var i = 0; i < cards.length; i++) {
-        if (cards[i].id === cardID)
-          card = cards[i]
-      }
-      this.checkCardUpdate(card);
-      this.checkCardComplete(card);
-      // Return cardClass: urgent/active/completed
-      if (card.completed_at == null) {
-        if (card.type == CARD.TYPE.URGENT) {
-          return "urgentCard";
-        } else {
-          return "activeCard";
-        }
-      } else {
-        return "completedCard";
-      }
     },
     checkCardUpdate: function(card){
       // Check the latest timestamp for the card

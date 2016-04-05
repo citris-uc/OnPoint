@@ -56,25 +56,22 @@ angular.module('app.services')
 
       var measurements = this.get();
       var req = measurements.$add(m);
+
+      // Once we've persisted the measurement to Firebase, let's create an associated card
+      // in Firebase.
       req.then(function(ref) {
-        m.id = ref.key();
+        m.id = ref.key(); // Return the ID to persist it further.
 
-        // At this point, let's find, or create an associated
-        // card.
-        var card = Card.find_by_object(m.id, CARD.CATEGORY.MEASUREMENTS);
-        if (!card)
-          card = Card.create_from_object(m, CARD.CATEGORY.MEASUREMENTS, CARD.TYPE.ACTION)
-
-        // Let's update the timestamps.
-        if (m.weight || (m.systolic && m.diastolic) || m.heartRate) {
-          card.updated_at   = now
-          card.completed_at = now
-        }
-
-        // Finally, let's check if the blood pressure is out of range, and if so,
-        // change this card to urgent.
+        // Construct the object and card object.
+        var object     = {id: ref.key(), type: CARD.CATEGORY.MEASUREMENTS_SCHEDULE};
+        var cardObject = { type: CARD.TYPE.ACTION};
+        if (m.weight || (m.systolic && m.diastolic) || m.heartRate)
+          cardObject.completed_at = now
         if (that.hasHighBP(m))
-          card.type = CARD.TYPE.URGENT
+          cardProp.type = CARD.TYPE.URGENT
+
+        // Finally, find or update the corresponding card.
+        Card.find_or_create_by_object(object, cardObject);
       });
 
       return m;

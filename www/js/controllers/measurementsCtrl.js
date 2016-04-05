@@ -101,7 +101,6 @@ angular.module('app.controllers', ['ionic', 'ionic-timepicker'])
   $scope.Scheduledmeasurements = MeasurementSchedule.get_inputSchedule();
 })
 
-
 .controller('measurementsCtrl', function($scope, Measurement) {
   $scope.measurements = Measurement.get();
 })
