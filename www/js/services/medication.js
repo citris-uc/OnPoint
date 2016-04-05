@@ -19,6 +19,13 @@ angular.module('app.services')
     get_inputList: function() {
       return input_medications;
     },
+    get_all_med_trade_name: function(){
+      meds = [];
+      for(var i = 0; i < medications.length; i++){
+        meds.push(medications[i].trade_name);
+      }
+      return meds;
+    },
     getByName: function(name) {
       for (var i = 0; i < medications.length; i++) {
         if (medications[i].name == name)
@@ -91,7 +98,7 @@ angular.module('app.services')
     get: function() {
       return schedule;
     },
-    /*
+
     getByDateAndSlot: function(date, slot) {
       var dateSchedule;
       for (var i = 0; i < schedule.length; i++) {
@@ -100,7 +107,7 @@ angular.module('app.services')
       }
       return dateSchedule;
     },
-    */
+    
     findByID: function(id) {
       var dateSchedule;
       for (var i = 0; i < schedule.length; i++) {
@@ -108,7 +115,7 @@ angular.module('app.services')
           dateSchedule = schedule[i]
       }
       return dateSchedule;
-    }
+    },
   };
 }])
 

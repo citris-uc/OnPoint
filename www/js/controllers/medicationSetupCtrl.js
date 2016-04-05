@@ -49,5 +49,37 @@ angular.module('app.controllers')
 .controller('medInputMainCtrl', function($scope, Medication) {
 })
 
-.controller('medFillMainCtrl', function($scope, Medication) {
+.controller('medFillMainCtrl', function($scope, MedicationSchedule, Medication, MedicationDosage) {
+  var medShedule = MedicationSchedule.get();
+  $scope.meds = Medication.get_all_med_trade_name();
+  console.log(medShedule[0].medications.name);
+  $scope.slots = [];
+
+  for(var i = 0; i < medShedule.length; i++){
+    $scope.slots[i] = [];
+    $scope.slots[i].push(medShedule[i].slot);
+    for(var j = 0; j < 7; j++){
+        $scope.slots[i].push(" ");
+    }
+  }
+
+  $scope.displayShedule = function(med){
+    var contains = false;
+    for(var j = 0; j < medShedule[0].medications.length; j++){
+      if(medShedule[0].medications[j].trade_name == med){
+        contains = true;
+      }
+    }
+    if(contains){
+  //    var tablets = MedicationDosage.getByName(med).tablets;
+      // for(var k = 0; k < medShedule[0].days.length; k++){
+      //   $scope.slots[0][medShedule[0].days[0] + 1],
+      // }
+      $scope.test = MedicationDosage.getByName(med);
+    }
+
+    // for(var i = 0; i < medShedule.length; i++){
+    //   if(medShedule[i].Medications)
+    // }
+  }
 })

@@ -1,0 +1,10 @@
+.onboarding table {
+    border-collapse: collapse;
+    border: 3px ;
+}
+.onboarding .center {
+   margin: auto;
+   width: 80%;
+   text-align: center;
+   position: relative;
+}
