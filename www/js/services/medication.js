@@ -192,7 +192,7 @@ angular.module('app.services')
       }
 
       //Add to or update firebase
-      ref.once('value', function(snapshot) {
+      var req = ref.once('value', function(snapshot) {
         if(snapshot.exists()) { //this date child exists
           var updated = false;
           snapshot.forEach(function(data) { //find it
@@ -214,6 +214,7 @@ angular.module('app.services')
           medRef.push(instanceFB);
         }
       })
+      return req;
     },
 
     findByMedicationIdAndScheduleId: function(med_id, schedule_id) {
