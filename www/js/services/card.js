@@ -113,18 +113,10 @@ angular.module('app.services')
       }
       return card;
     },
-    getAction: function(cardID) {
-      var card;
-      for(var i = 0; i < cards.length; i++) {
-        if (cards[i].id === cardID)
-          card = cards[i]
-      }
-
+    getAction: function(card) {
       switch(card.object_type) {
         case CARD.CATEGORY.MEDICATIONS_SCHEDULE :
-          // Take Medications --> Show Schedule
-          var schedule = MedicationSchedule.findByID(card.object_id);
-          return {tab: 'tabsController.medicationsSchedule', params: {schedule_id: schedule.id}};
+          return {tab: 'tabsController.medicationsSchedule', params: {schedule_id: card.object_id}};
         case CARD.CATEGORY.MEASUREMENTS_SCHEDULE :
           return {tab: 'tabsController.measurementAdd', params: {}}
         case CARD.CATEGORY.APPOINTMENTS_SCHEDULE :
@@ -136,13 +128,7 @@ angular.module('app.services')
           return {tab: 'tabsController', params: {}}
       }
     },
-    getBody: function(cardID) {
-      var card;
-      for(var i = 0; i < cards.length; i++) {
-        if (cards[i].id === cardID)
-          card = cards[i]
-      }
-
+    getBody: function(card) {
       switch(card.object_type) {
         case CARD.CATEGORY.MEDICATIONS_SCHEDULE :
           // Get schedule associated with card

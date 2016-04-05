@@ -13,11 +13,11 @@ angular.module('app.controllers')
   }
 
   $scope.getBody = function(card) {
-   return Card.getBody(card.id);
+   return Card.getBody(card);
   }
 
   $scope.openPage = function(card){
-    action = Card.getAction(card.id);
+    action = Card.getAction(card);
     $state.go(action.tab, action.params);
   }
 
@@ -28,6 +28,7 @@ angular.module('app.controllers')
       return true;
     return false;
   }
+
   $scope.generateCardsForToday = function() {
     var medSchedule = MedicationSchedule.get();
    var measurementSchedule = MeasurementSchedule.get();
