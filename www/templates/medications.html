@@ -8,10 +8,11 @@
         </a>
 
         <ion-item ng-repeat="med in dateSchedule.medications",
-          ui-sref="tabsController.medication({schedule_id: dateSchedule.id, medicationName: med})"
-          ng-hide="didTakeMed(med)"
-          ng-style="{'color': (didSkipMed(med) ? 'grey' : 'black')}">
+        ui-sref="tabsController.medication({schedule_id: dateSchedule.id, medicationName: med.name})"
+        ng-hide="didTakeMed(med, dateSchedule)"
+        ng-style="{'color': (didSkipMed(med, dateSchedule) ? 'grey' : 'black')}">
           {{med}}
+
         </ion-item>
       </span>
     </ion-list>
