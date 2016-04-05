@@ -4,6 +4,12 @@ angular.module('app.controllers')
   $scope.cards = Card.get();
   $scope.CARD = CARD;
 
+  for(var i = 0; i < $scope.cards.length; i++) {
+    card = $scope.cards.length[i];
+    Card.checkCardUpdate(card);
+    Card.checkCardComplete(card);
+  }
+
   $scope.getCardStatus = function(card) {
     //TODO: update this method to use Firebase Properly
     return Card.getCardStatus(card.id);
@@ -15,7 +21,8 @@ angular.module('app.controllers')
 
   $scope.getBody = function(card) {
     //TODO: update this method to use Firebase Properly
-   return Card.getBody(card.id);
+   //return Card.getBody(card.id);
+   return null
   }
 
   $scope.openPage = function(card){

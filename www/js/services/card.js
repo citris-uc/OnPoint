@@ -200,8 +200,8 @@ angular.module('app.services')
         if (cards[i].id === cardID)
           card = cards[i]
       }
-      this.checkCardUpdate(card);
-      this.checkCardComplete(card);
+      //this.checkCardUpdate(card);
+      //this.checkCardComplete(card);
       // Return cardClass: urgent/active/completed
       if (card.completed_at == null) {
         if (card.type == CARD.TYPE.URGENT) {
