@@ -6,10 +6,11 @@
           {{dateSchedule.slot}}
           <i class="icon ion-ios-arrow-right"></i>
         </a>
+
         <ion-item ng-repeat="med in dateSchedule.medications",
           ui-sref="tabsController.medication({schedule_id: dateSchedule.id, medicationName: med})"
-          ng-hide="history[$parent.$parent.$index][med].taken_at"
-          ng-style="{'color': (history[$parent.$parent.$index][med].skipped_at ? 'grey' : 'black')}">
+          ng-hide="didTakeMed(med)"
+          ng-style="{'color': (didSkipMed(med) ? 'grey' : 'black')}">
           {{med}}
         </ion-item>
       </span>
