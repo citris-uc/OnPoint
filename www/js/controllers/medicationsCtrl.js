@@ -41,7 +41,7 @@ angular.module('app.controllers')
   $scope.didTakeMed = function(med) {
     var match;
     for(var i = 0; i < $scope.medicationHistory.length; i++) {
-      if ($scope.medicationHistory[i].medication_id == med.id && $scope.medicationHistory[i].medication_schedule_id == $stateParams.schedule_id)) {
+      if ($scope.medicationHistory[i].medication_id == med.id && $scope.medicationHistory[i].medication_schedule_id == $stateParams.schedule_id) {
         match = $scope.medicationHistory[i]
       }
     }
@@ -55,7 +55,7 @@ angular.module('app.controllers')
   $scope.didSkipMed = function(med) {
     var match;
     for(var i = 0; i < $scope.medicationHistory.length; i++) {
-      if ($scope.medicationHistory[i].medication_id == med.id && $scope.medicationHistory[i].medication_schedule_id == $stateParams.schedule_id)) {
+      if ($scope.medicationHistory[i].medication_id == med.id && $scope.medicationHistory[i].medication_schedule_id == $stateParams.schedule_id) {
         match = $scope.medicationHistory[i]
       }
     }
