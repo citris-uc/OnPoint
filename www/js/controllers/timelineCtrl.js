@@ -4,15 +4,31 @@ angular.module('app.controllers')
   $scope.cards = Card.get();
   $scope.CARD = CARD;
 
+  // TODO: Remove this inefficiency by moving the update/complete logic to the
+  // appropriate factory.
   for(var i = 0; i < $scope.cards.length; i++) {
-    card = $scope.cards.length[i];
+    var card = $scope.cards[i];
     Card.checkCardUpdate(card);
     Card.checkCardComplete(card);
   }
 
   $scope.getCardStatus = function(card) {
-    //TODO: update this method to use Firebase Properly
-    return Card.getCardStatus(card.id);
+    var card;
+    for(var i = 0; i < $scope.cards.length; i++) {
+      if ($scope.cards[i].id === card.id)
+        card = $scope.cards[i]
+    }
+
+    // Return cardClass: urgent/active/completed
+    if (card.completed_at == null) {
+      if (card.type == CARD.TYPE.URGENT) {
+        return "urgentCard";
+      } else {
+        return "activeCard";
+      }
+    } else {
+      return "completedCard";
+    }
   }
 
   $scope.getTime = function(timestamp) {
@@ -21,8 +37,7 @@ angular.module('app.controllers')
 
   $scope.getBody = function(card) {
     //TODO: update this method to use Firebase Properly
-   //return Card.getBody(card.id);
-   return null
+   return Card.getBody(card.id);
   }
 
   $scope.openPage = function(card){

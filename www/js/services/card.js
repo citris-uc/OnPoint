@@ -194,25 +194,6 @@ angular.module('app.services')
           return [""];
       } // end switch
     },
-    getCardStatus: function(cardID) {
-      var card;
-      for(var i = 0; i < cards.length; i++) {
-        if (cards[i].id === cardID)
-          card = cards[i]
-      }
-      //this.checkCardUpdate(card);
-      //this.checkCardComplete(card);
-      // Return cardClass: urgent/active/completed
-      if (card.completed_at == null) {
-        if (card.type == CARD.TYPE.URGENT) {
-          return "urgentCard";
-        } else {
-          return "activeCard";
-        }
-      } else {
-        return "completedCard";
-      }
-    },
     checkCardUpdate: function(card){
       // Check the latest timestamp for the card
       switch(card.object_type) {
