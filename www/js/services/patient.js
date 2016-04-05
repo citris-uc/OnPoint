@@ -41,6 +41,7 @@ angular.module('app.services')
     },
     ref: function(uid) {
       var patientRef = new Firebase("https://vivid-inferno-5187.firebaseio.com/patients/");
+      var uid = this.uid();
       if (uid)
         return patientRef.child(uid);
       else

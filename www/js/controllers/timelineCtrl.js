@@ -5,6 +5,7 @@ angular.module('app.controllers')
   $scope.CARD = CARD;
 
   $scope.getCardStatus = function(card) {
+    //TODO: update this method to use Firebase Properly
     return Card.getCardStatus(card.id);
   }
 
@@ -13,6 +14,7 @@ angular.module('app.controllers')
   }
 
   $scope.getBody = function(card) {
+    //TODO: update this method to use Firebase Properly
    return Card.getBody(card.id);
   }
 
@@ -29,19 +31,21 @@ angular.module('app.controllers')
     return false;
   }
   $scope.generateCardsForToday = function() {
-    var medSchedule = MedicationSchedule.get();
+    //COMMENTING OUT TO JUST FOCUS ON MEDICATIONS TAB FIREBASE INTEGRATION
+   //var medSchedule = MedicationSchedule.get();
    var measurementSchedule = MeasurementSchedule.get();
    var today = new Date();
    var currentDay = today.getDay();
 
+   //COMMENTING OUT TO JUST FOCUS ON MEDICATIONS TAB FIREBASE INTEGRATION
    //Create medications Cards for the day
-   for (var i =0; i < medSchedule.length; i++) {
-     slot = medSchedule[i];
-     //console.log(slot.time);
-     if (slot.days.includes(currentDay)) {
-       Card.create_from_object(slot, CARD.CATEGORY.MEDICATIONS_SCHEDULE, CARD.TYPE.ACTION);
-     }
-   }
+  //  for (var i =0; i < medSchedule.length; i++) {
+  //    slot = medSchedule[i];
+  //    //console.log(slot.time);
+  //    if (slot.days.includes(currentDay)) {
+  //      Card.create_from_object(slot, CARD.CATEGORY.MEDICATIONS_SCHEDULE, CARD.TYPE.ACTION);
+  //    }
+  //  }
 
    for(var i = 0; i < measurementSchedule.length; i++) {
      slot = measurementSchedule[i];
