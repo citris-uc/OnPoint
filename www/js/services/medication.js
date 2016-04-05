@@ -185,7 +185,7 @@ angular.module('app.services')
       return history;
     },
     getTodaysHistory: function() {
-      var today = (new Date()).toDateString()
+      var today = ((new Date()).toISOString()).substring(0,10)
       var ref = this.ref().child(today);
       return $firebaseArray(ref);
     },
@@ -195,7 +195,7 @@ angular.module('app.services')
     create_or_update: function(medication, schedule, choice) {
       // TODO: Refactor this to use AngularFire methods to create only if element
       // does not exist.
-      var today = (new Date()).toDateString()
+      var today = ((new Date()).toISOString()).substring(0,10)
       var ref = this.ref().child(today);
       var time_now = (new Date()).toTimeString();
 

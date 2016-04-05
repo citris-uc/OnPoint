@@ -4,8 +4,9 @@ angular.module('app.controllers')
   $scope.schedule           = MedicationSchedule.get();
   $scope.medicationHistory  = MedicationHistory.getTodaysHistory();
 
-  $scope.didTakeMed = function(med, schedule) {
+  $scope.didTakeMed = function(medication, schedule) {
     var match;
+    var med = Medication.getByTradeName(medication)
     for(var i = 0; i < $scope.medicationHistory.length; i++) {
       if ($scope.medicationHistory[i].medication_id == med.id && $scope.medicationHistory[i].medication_schedule_id == schedule.id) {
         match = $scope.medicationHistory[i]
@@ -18,8 +19,9 @@ angular.module('app.controllers')
       return false;
   }
 
-  $scope.didSkipMed = function(med, schedule) {
+  $scope.didSkipMed = function(medication, schedule) {
     var match;
+    var med = Medication.getByTradeName(medication)
     for(var i = 0; i < $scope.medicationHistory.length; i++) {
       if ($scope.medicationHistory[i].medication_id == med.id && $scope.medicationHistory[i].medication_schedule_id == schedule.id) {
         match = $scope.medicationHistory[i]
@@ -36,9 +38,36 @@ angular.module('app.controllers')
 .controller("medicationScheduleCtrl", function($scope, $stateParams, Medication, MedicationSchedule, MedicationDosage, MedicationHistory) {
   $scope.schedule = MedicationSchedule.findByID($stateParams.schedule_id);
 
-  $scope.medicationHistory = function(med_name) {
-    med = Medication.getByName(med_name)
-    return MedicationHistory.findByMedicationIdAndScheduleId(med.id, $scope.schedule.id)
+  $scope.medicationHistory  = MedicationHistory.getTodaysHistory();
+
+  $scope.didTakeMed = function(medication) {
+    var match;
+    var med = Medication.getByTradeName(medication)
+    for(var i = 0; i < $scope.medicationHistory.length; i++) {
+      if ($scope.medicationHistory[i].medication_id == med.id && $scope.medicationHistory[i].medication_schedule_id == $stateParams.schedule_id) {
+        match = $scope.medicationHistory[i]
+      }
+    }
+
+    if (match)
+      return (match.taken_at !== undefined);
+    else
+      return false;
+  }
+
+  $scope.didSkipMed = function(medication) {
+    var match;
+    var med = Medication.getByTradeName(medication)
+    for(var i = 0; i < $scope.medicationHistory.length; i++) {
+      if ($scope.medicationHistory[i].medication_id == med.id && $scope.medicationHistory[i].medication_schedule_id == $stateParams.schedule_id) {
+        match = $scope.medicationHistory[i]
+      }
+    }
+
+    if (match)
+      return (match.skipped_at !== undefined);
+    else
+      return false;
   }
 })
 
