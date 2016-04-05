@@ -65,21 +65,23 @@ angular.module('app.controllers')
 
   $scope.displayShedule = function(med){
     var contains = false;
-    for(var j = 0; j < medShedule[0].medications.length; j++){
-      if(medShedule[0].medications[j].trade_name == med){
-        contains = true;
+    for(var i = 0; i < medShedule.length; i++){
+      for(var j = 0; j < medShedule[i].medications.length; j++){
+        if(medShedule[i].medications[j].trade_name == med){
+          contains = true;
+        }
+      }
+      if(contains){
+        var med_name = Medication.get_name_by_trade_name(med);
+        var tablets = MedicationDosage.getByName(med_name).tablets;
+        for(var k = 0; k < medShedule[i].days.length; k++){
+          $scope.slots[i][medShedule[i].days[k] + 1] = "" + tablets;
+        }
+      }else{
+        for(var k = 0; k < medShedule[i].days.length; k++){
+          $scope.slots[i][medShedule[i].days[k] + 1] = "0";
+        }
       }
     }
-    if(contains){
-  //    var tablets = MedicationDosage.getByName(med).tablets;
-      // for(var k = 0; k < medShedule[0].days.length; k++){
-      //   $scope.slots[0][medShedule[0].days[0] + 1],
-      // }
-      $scope.test = MedicationDosage.getByName(med);
-    }
-
-    // for(var i = 0; i < medShedule.length; i++){
-    //   if(medShedule[i].Medications)
-    // }
   }
 })

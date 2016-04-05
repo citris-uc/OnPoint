@@ -26,6 +26,15 @@ angular.module('app.services')
       }
       return meds;
     },
+    get_name_by_trade_name: function(tradeName){
+      var name;
+      for(var i = 0; i < medications.length; i++){
+        if(tradeName == medications[i].trade_name){
+          name = medications[i].name;
+        }
+      }
+      return name;
+    },
     getByName: function(name) {
       for (var i = 0; i < medications.length; i++) {
         if (medications[i].name == name)
@@ -107,7 +116,7 @@ angular.module('app.services')
       }
       return dateSchedule;
     },
-    
+
     findByID: function(id) {
       var dateSchedule;
       for (var i = 0; i < schedule.length; i++) {
@@ -134,7 +143,32 @@ angular.module('app.services')
       dose: 500,
       tablets: 2,
       required: true
-    }
+    },
+    lisinopril: {
+      dose: 40,
+      tablets: 3,
+      required: false
+    },
+    warfarin: {
+      dose: 500,
+      tablets: 4,
+      required: true
+    },
+    losartan: {
+      dose: 40,
+      tablets: 5,
+      required: false
+    },
+    metoprolol: {
+      dose: 40,
+      tablets: 6,
+      required: false
+    },
+    statin: {
+      dose: 40,
+      tablets: 7,
+      required: false
+    },
   }
 
   return {
