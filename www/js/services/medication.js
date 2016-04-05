@@ -172,26 +172,48 @@ angular.module('app.services')
     create_or_update: function(medication, schedule, choice) {
       // TODO: Refactor this to use AngularFire methods to create only if element
       // does not exist.
+      var today = (new Date()).toDateString()
+      var ref = this.ref().child(today);
+      var time_now = (new Date()).toTimeString();
 
-      // TODO: Let's create the instance for now. As we move schedule to Firebase,
-      // we'll be able to update with a schedule uid rather than an arbitrary id.
-      var instance = false //this.findByMedicationIdAndScheduleId(medication.id, schedule.id)
-      if (!instance) {
-        instance = {
+      var updateObject; //use this if updating an element. see https://www.firebase.com/docs/web/api/firebase/update.html
+      var instanceFB =  { //use this if adding new element
           medication_id: medication.id,
-          medication_schedule_id: schedule.id
-        }
-        // NOTE: We should still be able to update the object after we've pushed
-        // it to the array.
-        now = (new Date()).toISOString();
-        if (choice == "take")
-          instance.taken_at = now
-        else if (choice == "skip")
-          instance.skipped_at = now
+          medication_schedule_id: schedule.id,
+      };
 
-        var history = this.getBySchedule(schedule);
-        return history.$add(instance);
+      if (choice == "take") {
+        instanceFB.taken_at = time_now;
+        updateObject = {'taken_at':time_now};
       }
+      else if (choice == "skip") {
+        instanceFB.skipped_at = time_now;
+        updateObject ={'skipped_at':time_now};
+      }
+
+      //Add to or update firebase
+      ref.once('value', function(snapshot) {
+        if(snapshot.exists()) { //this date child exists
+          var updated = false;
+          snapshot.forEach(function(data) { //find it
+            var hist = data.val();
+            if (hist.medication_schedule_id ==  schedule.id && hist.medication_id == medication.id) {
+              //found it, need to update it!
+              updated = true;
+              var medRef = data.ref();
+              medRef.update(updateObject);
+            }
+          });
+          if(!updated) {
+              //need to push a new one.
+              var medRef = snapshot.ref();
+              medRef.push(instanceFB);
+          }
+        } else { //this date child does not exist, push it!
+          var medRef = snapshot.ref();
+          medRef.push(instanceFB);
+        }
+      })
     },
 
     findByMedicationIdAndScheduleId: function(med_id, schedule_id) {
