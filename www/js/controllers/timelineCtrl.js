@@ -120,36 +120,34 @@ angular.module('app.controllers')
   }
 
   $scope.shouldDisplayCard = function(timestamp) {
-    var cardDate = $scope.getTime(timestamp);
-    var now = new Date();
-    if (cardDate.toDateString() == now.toDateString() && cardDate.toTimeString()  <= now.toTimeString())
+    var cardDate = new Date(timestamp);
+    var now      = new Date();
+    if (cardDate.toDateString() == now.toDateString() && cardDate.toTimeString() <= now.toTimeString())
       return true;
     return false;
   }
+
+  // TODO: Deprecate soon as we're moving to Firebase.
   $scope.generateCardsForToday = function() {
-    //COMMENTING OUT TO JUST FOCUS ON MEDICATIONS TAB FIREBASE INTEGRATION
-   //var medSchedule = MedicationSchedule.get();
    var measurementSchedule = MeasurementSchedule.get();
    var today = new Date();
    var currentDay = today.getDay();
 
-   //COMMENTING OUT TO JUST FOCUS ON MEDICATIONS TAB FIREBASE INTEGRATION
-   //Create medications Cards for the day
-  //  for (var i =0; i < medSchedule.length; i++) {
-  //    slot = medSchedule[i];
-  //    //console.log(slot.time);
-  //    if (slot.days.includes(currentDay)) {
-  //      Card.create_from_object(slot, CARD.CATEGORY.MEDICATIONS_SCHEDULE, CARD.TYPE.ACTION);
-  //    }
-  //  }
+   for(var i = 0; i < measurementSchedule.length; i++) {
+     slot = measurementSchedule[i];
+     if (slot.days.includes(currentDay)) {
+       var cardObject = {type: CARD.TYPE.ACTION};
 
-  //  for(var i = 0; i < measurementSchedule.length; i++) {
-  //    slot = measurementSchedule[i];
-  //    if (slot.days.includes(currentDay)) {
-  //      Card.create_from_object(slot, CARD.CATEGORY.MEASUREMENTS_SCHEDULE, {type: CARD.TYPE.ACTION});
-  //    }
-  //  }
-  //  console.log($scope.cards.length);
+       time = slot.time.split(":");
+       var showAt = (new Date()).setHours(time[0],time[1]);
+       showAt = (new Date(showAt)).toISOString();
+
+       cardObject.shown_at = showAt;
+       Card.find_or_create_by_object({id: slot.id, type: CARD.CATEGORY.MEASUREMENTS_SCHEDULE}, cardObject);
+     }
+   }
+
+   $scope.cards = Card.get();
   }
 
   $scope.getCommentsCount = function(card_id){
