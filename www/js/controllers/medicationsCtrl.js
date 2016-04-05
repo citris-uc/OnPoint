@@ -72,8 +72,7 @@ angular.module('app.controllers')
           text: '<b>Yes</b>',
           onTap: function(e) {
             var req = MedicationHistory.create_or_update($scope.medication, $scope.schedule, "skip");
-            req.then(function(ref) { $ionicHistory.goBack(); });
-          }
+            req.then(function(ref) { $ionicHistory.goBack();});          }
         }
       ]
     });
