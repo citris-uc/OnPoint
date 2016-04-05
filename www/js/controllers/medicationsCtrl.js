@@ -1,11 +1,35 @@
 angular.module('app.controllers')
 
 .controller('medicationsCtrl', function($scope, Medication, MedicationSchedule, MedicationHistory) {
-  $scope.schedule = MedicationSchedule.get();
+  $scope.schedule           = MedicationSchedule.get();
+  $scope.medicationHistory  = MedicationHistory.getBySchedule($scope.schedule);
 
-  $scope.medicationHistory = function(med_name, schedule_id) {
-    med = Medication.getByName(med_name)
-    return MedicationHistory.findByMedicationIdAndScheduleId(med.id, schedule_id)
+  $scope.didTakeMed = function(med) {
+    var match;
+    for(var i = 0; i < $scope.medicationHistory.length; i++) {
+      if ($scope.medicationHistory[i].medication_id == med.id) {
+        match = $scope.medicationHistory[i]
+      }
+    }
+
+    if (match)
+      return (match.taken_at !== undefined);
+    else
+      return false;
+  }
+
+  $scope.didSkipMed = function(med) {
+    var match;
+    for(var i = 0; i < $scope.medicationHistory.length; i++) {
+      if ($scope.medicationHistory[i].medication_id == med.id) {
+        match = $scope.medicationHistory[i]
+      }
+    }
+
+    if (match)
+      return (match.skipped_at !== undefined);
+    else
+      return false;
   }
 })
 
@@ -20,20 +44,22 @@ angular.module('app.controllers')
 
 .controller("medicationCtrl", function($scope, $stateParams,$ionicPopup,$ionicHistory, Medication, MedicationSchedule, MedicationDosage, MedicationHistory) {
   $scope.state = $stateParams;
-  $scope.medication = Medication.getByName($stateParams.medicationName);
+  $scope.medication = Medication.getByTradeName($stateParams.medicationName);
   $scope.dosage     = MedicationDosage.getByName($stateParams.medicationName);
   $scope.schedule   = MedicationSchedule.findByID($stateParams.schedule_id)
 
   $scope.takeMedication = function() {
-    MedicationHistory.create_or_update($scope.medication, $scope.schedule, "take")
-    var alertPopup = $ionicPopup.alert({
-      title: 'Success',
-      template: 'You have succesfully taken ' + $scope.medication.trade_name
-    });
+    var req = MedicationHistory.create_or_update($scope.medication, $scope.schedule, "take");
+    req.then(function(ref) {
+      var alertPopup = $ionicPopup.alert({
+        title: 'Success',
+        template: 'You have succesfully taken ' + $scope.medication.trade_name
+      });
 
-    alertPopup.then(function(res) {
-      $ionicHistory.goBack();
-    });
+      alertPopup.then(function(res) {
+        $ionicHistory.goBack();
+      });
+    })
   }
 
   $scope.skipMedication = function()  {
@@ -45,9 +71,8 @@ angular.module('app.controllers')
         {
           text: '<b>Yes</b>',
           onTap: function(e) {
-            MedicationHistory.create_or_update($scope.medication, $scope.schedule, "skip")
-            $ionicHistory.goBack();
-          }
+            var req = MedicationHistory.create_or_update($scope.medication, $scope.schedule, "skip");
+            req.then(function(ref) { $ionicHistory.goBack();});          }
         }
       ]
     });
@@ -70,7 +95,7 @@ angular.module('app.controllers')
 
     console.log(schedule);
 
-  };  
+  };
    $scope.moveItem = function(slot, item, fromIndex, toIndex) {
     console.log(fromIndex);
     console.log(toIndex);

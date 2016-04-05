@@ -153,6 +153,7 @@ angular.module('app.services')
           var completedMeds = [];
 
           // Check history for each medication in the specified schedule
+          // TODO: Refactor this to query against a MedicationHistory array.
           medications.forEach( function(med) {
             var history = MedicationHistory.findByMedicationIdAndScheduleId(med.id, schedule.id);
             if (history == null)
