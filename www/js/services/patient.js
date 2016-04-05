@@ -15,7 +15,7 @@ angular.module('app.services')
       return JSON.parse($window.localStorage.getItem("patient") || "{}");
     },
     set: function(patient) {
-      this.setToken(patient.Token);
+      this.setToken(patient.token);
       $window.localStorage.setItem("patient", JSON.stringify(patient || {}));
     },
     create: function(email, authData) {
@@ -37,7 +37,7 @@ angular.module('app.services')
         $window.localStorage.setItem("token", token);
     },
     getToken: function() {
-      $window.localStorage.getItem("token");
+      return $window.localStorage.getItem("token");
     },
     ref: function(uid) {
       var patientRef = new Firebase("https://vivid-inferno-5187.firebaseio.com/patients/");
