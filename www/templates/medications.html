@@ -2,7 +2,6 @@
   <ion-content overflow-scroll="true" padding="false" class="has-header">
     <ion-list>
       <span ng-repeat = "dateSchedule in schedule">
-
         <a class="item item-divider item-icon-right" ui-sref="tabsController.medicationsSchedule({schedule_id: dateSchedule.id})">
           {{dateSchedule.slot}}
           <i class="icon ion-ios-arrow-right"></i>
@@ -12,11 +11,10 @@
         ui-sref="tabsController.medication({schedule_id: dateSchedule.id, medicationName: med.name})"
         ng-hide="didTakeMed(med, dateSchedule)"
         ng-style="{'color': (didSkipMed(med, dateSchedule) ? 'grey' : 'black')}">
-          {{med.trade_name}}
+          {{med}}
+
         </ion-item>
       </span>
-<span> aaa</span>
-
     </ion-list>
   </ion-content>
 </ion-view>
