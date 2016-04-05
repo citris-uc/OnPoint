@@ -161,9 +161,9 @@ angular.module('app.services')
     get: function() {
       return history;
     },
-    // TODO: Returns only today's history.
-    getBySchedule: function(schedule) {
-      var ref = this.ref();
+    getTodaysHistory: function() {
+      var today = (new Date()).toDateString()
+      var ref = this.ref().child(today);
       return $firebaseArray(ref);
     },
     ref: function() {

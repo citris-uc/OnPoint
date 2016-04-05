@@ -2,12 +2,12 @@ angular.module('app.controllers')
 
 .controller('medicationsCtrl', function($scope, Medication, MedicationSchedule, MedicationHistory) {
   $scope.schedule           = MedicationSchedule.get();
-  $scope.medicationHistory  = MedicationHistory.getBySchedule($scope.schedule);
+  $scope.medicationHistory  = MedicationHistory.getTodaysHistory();
 
-  $scope.didTakeMed = function(med) {
+  $scope.didTakeMed = function(med, schedule) {
     var match;
     for(var i = 0; i < $scope.medicationHistory.length; i++) {
-      if ($scope.medicationHistory[i].medication_id == med.id) {
+      if ($scope.medicationHistory[i].medication_id == med.id && $scope.medicationHistory[i].medication_schedule_id == schedule.id) {
         match = $scope.medicationHistory[i]
       }
     }
@@ -18,10 +18,10 @@ angular.module('app.controllers')
       return false;
   }
 
-  $scope.didSkipMed = function(med) {
+  $scope.didSkipMed = function(med, schedule) {
     var match;
     for(var i = 0; i < $scope.medicationHistory.length; i++) {
-      if ($scope.medicationHistory[i].medication_id == med.id) {
+      if ($scope.medicationHistory[i].medication_id == med.id && $scope.medicationHistory[i].medication_schedule_id == schedule.id) {
         match = $scope.medicationHistory[i]
       }
     }
