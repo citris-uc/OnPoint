@@ -20,7 +20,7 @@ angular.module('app.controllers')
 
 .controller("medicationCtrl", function($scope, $stateParams,$ionicPopup,$ionicHistory, Medication, MedicationSchedule, MedicationDosage, MedicationHistory) {
   $scope.state = $stateParams;
-  $scope.medication = Medication.getByName($stateParams.medicationName);
+  $scope.medication = Medication.getByTradeName($stateParams.medicationName);
   $scope.dosage     = MedicationDosage.getByName($stateParams.medicationName);
   $scope.schedule   = MedicationSchedule.findByID($stateParams.schedule_id)
 
@@ -70,7 +70,7 @@ angular.module('app.controllers')
 
     console.log(schedule);
 
-  };  
+  };
    $scope.moveItem = function(slot, item, fromIndex, toIndex) {
     console.log(fromIndex);
     console.log(toIndex);
