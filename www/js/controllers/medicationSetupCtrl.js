@@ -48,3 +48,6 @@ angular.module('app.controllers')
 
 .controller('medInputMainCtrl', function($scope, Medication) {
 })
+
+.controller('medFillMainCtrl', function($scope, Medication) {
+})
