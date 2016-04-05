@@ -45,70 +45,93 @@ angular.module('app.services')
   };
 })
 
-
-.factory('MedicationScheduleFB', ["$firebaseArray", function($firebaseArray) {
-  return function(username) {
-    // create a reference to the database where we will store our data
-    var ref = new Firebase("https://vivid-inferno-5187.firebaseio.com/users");
-    var scheduleRef = ref.child(username).child('medicationSchedule');
-    // return it as a synchronized object
-    return $firebaseArray(scheduleRef);
-  }
-}])
-
 // This factory is responsible for defining a Medication Schedule
 // that the patient usually adheres to.
-.factory('MedicationSchedule', ["Medication", function(Medication) {
-  morning   = ["Lasix", "Toprol XL", "Zestril", "Coumadin", "Riomet"]
-  afternoon = ["Lasix", "Toprol XL", "Zestril", "Riomet"]
-  evening   = ["Lipitor"]
-
-  schedule = [
-    {
-      id: 1,
-      time: "08:00",
-      slot: "morning",
-      days: [0,1,2,3,4,5,6], //array descirbing days of week to do this action
-      medications: morning.map( function(trade_name) { return Medication.getByTradeName(trade_name) } )
-    },
-    {
-      id: 2,
-      time: "13:00",
-      slot: "afternoon",
-      days: [0,1,2,3,4,5,6], //array descirbing days of week to do this action,
-      medications: afternoon.map( function(trade_name) { return Medication.getByTradeName(trade_name) } )
-    },
-    {
-      id: 3,
-      time: "19:00",
-      slot: "evening",
-      days: [0,1,2,3,4,5,6], //array descirbing days of week to do this action,
-      medications: evening.map( function(trade_name) { return Medication.getByTradeName(trade_name) } )
-    }
-  ]
+.factory('MedicationSchedule', ["Medication", "Patient","$firebaseObject", "$firebaseArray", function(Medication, Patient, $firebaseObject,$firebaseArray) {
+  // morning   = ["Lasix", "Toprol XL", "Zestril", "Coumadin", "Riomet"]
+  // afternoon = ["Lasix", "Toprol XL", "Zestril", "Riomet"]
+  // evening   = ["Lipitor"]
+  //
+  // schedule = [
+  //   {
+  //     id: 1,
+  //     time: "08:00",
+  //     slot: "morning",
+  //     days: [0,1,2,3,4,5,6], //array descirbing days of week to do this action
+  //     medications: morning.map( function(trade_name) { return Medication.getByTradeName(trade_name) } )
+  //   },
+  //   {
+  //     id: 2,
+  //     time: "13:00",
+  //     slot: "afternoon",
+  //     days: [0,1,2,3,4,5,6], //array descirbing days of week to do this action,
+  //     medications: afternoon.map( function(trade_name) { return Medication.getByTradeName(trade_name) } )
+  //   },
+  //   {
+  //     id: 3,
+  //     time: "19:00",
+  //     slot: "evening",
+  //     days: [0,1,2,3,4,5,6], //array descirbing days of week to do this action,
+  //     medications: evening.map( function(trade_name) { return Medication.getByTradeName(trade_name) } )
+  //   }
+  // ]
 
   return {
-    get: function() {
-      return schedule;
-    },
+
+    // NON FIREBASE METHODS
+    // get: function() {
+    //   return schedule;
+    // },
+    //
+    // findByID: function(id) {
+    //   var dateSchedule;
+    //   for (var i = 0; i < schedule.length; i++) {
+    //     if (schedule[i].id == id)
+    //       dateSchedule = schedule[i]
+    //   }
+    //   return dateSchedule;
+    // },
+
     /*
-    getByDateAndSlot: function(date, slot) {
-      var dateSchedule;
-      for (var i = 0; i < schedule.length; i++) {
-        if (new Date(schedule[i].scheduled_at).toDateString() == new Date(date).toDateString() && schedule[i].slot == slot)
-          dateSchedule = schedule[i]
-      }
-      return dateSchedule;
+     * Returns a FB reference to this patients' medicationScheudle
+     */
+    ref: function() {
+      var uid = Patient.uid();
+      return Patient.ref(uid).child("medicationSchedule")
     },
-    */
+
+    /*
+     * queries firebase data and returns the defaultSchedule from firebase
+     * returns a $firebaseArray, this IS NOT A PROMISE. CANNOT CALL THE THEN METHOD ON this
+     * use this to display the schedule on the view layer.
+     */
+    get: function() {
+      var ref = this.ref().child("defaultSchedule");
+      return $firebaseArray(ref)
+    },
+
+    /*
+     * queries firebase data and returns the defaultSchedule from firebase
+     * this method will return a PROMISE, so we can call the then method on the promise
+     * and update other $scope variables once the promise has been fulfilled.
+     * use this when we need to use the schedule to create other things, i.e. generateCardsForToday()
+     */
+    getAsPromise: function() {
+      var ref = this.ref().child("defaultSchedule").once("value");
+      return ref;
+    },
+
+    /*
+     * querues firebase returns a specific scheduleId within this patients
+     * firebase defaultSchedule
+     * returns a $firebaseObject, THIS IS NOT A PROMISE. TREAT IT LIKE A REAL OBJECT
+     * use this to display the specific schedule on an html page.
+     */
     findByID: function(id) {
-      var dateSchedule;
-      for (var i = 0; i < schedule.length; i++) {
-        if (schedule[i].id == id)
-          dateSchedule = schedule[i]
-      }
-      return dateSchedule;
+      var ref = this.ref().child("defaultSchedule").child(id)
+      return $firebaseObject(ref);
     }
+
   };
 }])
 
@@ -140,7 +163,7 @@ angular.module('app.services')
   };
 }])
 
-.factory('MedicationHistory', ["Medication", function() {
+.factory('MedicationHistory', ["Patient", "$firebaseArray", function(Patient, $firebaseArray) {
   var count = 1;
   var history = [{
       id: 0,
@@ -161,26 +184,60 @@ angular.module('app.services')
     get: function() {
       return history;
     },
-
+    getTodaysHistory: function() {
+      var today = (new Date()).toDateString()
+      var ref = this.ref().child(today);
+      return $firebaseArray(ref);
+    },
+    ref: function() {
+      return Patient.ref().child("medication_histories");
+    },
     create_or_update: function(medication, schedule, choice) {
-      var instance = this.findByMedicationIdAndScheduleId(medication.id, schedule.id)
-      if (!instance) {
-        instance = {
-          id: history.length + 1,
-          medication_id: medication.id,
-          medication_schedule_id: schedule.id
-        }
+      // TODO: Refactor this to use AngularFire methods to create only if element
+      // does not exist.
+      var today = (new Date()).toDateString()
+      var ref = this.ref().child(today);
+      var time_now = (new Date()).toTimeString();
 
-        history.push(instance);
+      var updateObject; //use this if updating an element. see https://www.firebase.com/docs/web/api/firebase/update.html
+      var instanceFB =  { //use this if adding new element
+          medication_id: medication.id,
+          medication_schedule_id: schedule.id,
+      };
+
+      if (choice == "take") {
+        instanceFB.taken_at = time_now;
+        updateObject = {'taken_at':time_now};
+      }
+      else if (choice == "skip") {
+        instanceFB.skipped_at = time_now;
+        updateObject ={'skipped_at':time_now};
       }
 
-      // NOTE: We should still be able to update the object after we've pushed
-      // it to the array.
-      now = (new Date()).toISOString();
-      if (choice == "take")
-        instance.taken_at = now
-      else if (choice == "skip")
-        instance.skipped_at = now
+      //Add to or update firebase
+      var req = ref.once('value', function(snapshot) {
+        if(snapshot.exists()) { //this date child exists
+          var updated = false;
+          snapshot.forEach(function(data) { //find it
+            var hist = data.val();
+            if (hist.medication_schedule_id ==  schedule.id && hist.medication_id == medication.id) {
+              //found it, need to update it!
+              updated = true;
+              var medRef = data.ref();
+              medRef.update(updateObject);
+            }
+          });
+          if(!updated) {
+              //need to push a new one.
+              var medRef = snapshot.ref();
+              medRef.push(instanceFB);
+          }
+        } else { //this date child does not exist, push it!
+          var medRef = snapshot.ref();
+          medRef.push(instanceFB);
+        }
+      })
+      return req;
     },
 
     findByMedicationIdAndScheduleId: function(med_id, schedule_id) {

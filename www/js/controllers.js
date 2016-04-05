@@ -1,8 +1,4 @@
 angular.module('app.controllers', [])
-
-.controller('loginCtrl', function($scope) {
-})
-
 .controller('measurementsCtrl', function($scope, Measurement) {
   // We inject the Measurement factory so that we can query for the measurement
   // history.
