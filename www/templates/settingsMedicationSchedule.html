@@ -5,14 +5,31 @@
        <button class="button button-clear button-positive" ng-click="saveMedicationSchedule()">Save</button>
     </ion-nav-buttons>
   <ion-content overflow-scroll="true" padding="false" class="has-header">
+    <div class = "item item-icon-right">
+      <button id="schedule-add" class="button button-clear button-small button-icon icon ion-plus button-positive"></button>
+    </div>
+
           <!-- The dnd-draggable directive makes an element draggable and will
                transfer the object that was assigned to it. If an element was
                dragged away, you have to remove it from the original list
                yourself using the dnd-moved attribute -->
-      <div ng-repeat = "dateSchedule in schedule">
-        <div class="card">{{dateSchedule.slot | uppercase}}
-          <ul dnd-list="dateSchedule.medications">
+
+   <ul dnd-list="schedule"
+       dnd-allowed-types="['timeSlotType']">
+      <li class = "card item"
+          ng-repeat = "dateSchedule in schedule"
+          dnd-type="'timeSlotType'"
+          dnd-draggable="dateSchedule"
+          dnd-moved="schedule.splice($index, 1)"
+          dnd-effect-allowed="move"
+          >
+          {{dateSchedule.slot | uppercase}}
+          <ul dnd-list="dateSchedule.medications"
+              dnd-horizontal-list="true"
+              dnd-allowed-types="['medType']"
+              >
               <li ng-repeat="med in dateSchedule.medications"
+                  dnd_type="'medType'"
                   dnd-draggable="med"
                   dnd-moved="dateSchedule.medications.splice($index, 1)"
                   dnd-effect-allowed="move"
@@ -20,8 +37,9 @@
                   {{med.trade_name}}
               </li>
           </ul>
-        </div>
-      </div>
+
+      </li>
+    </ul>
 
     <!-- </ion-list> -->
   </ion-content>
