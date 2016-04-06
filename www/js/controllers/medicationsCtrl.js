@@ -54,29 +54,42 @@ angular.module('app.controllers')
   };
 })
 
-.controller('medicationsSettingCtrl', function($scope, MedicationScheduleFB, Medication, MedicationSchedule, MedicationHistory) {
-  //$scope.schedule = MedicationSchedule.get();
-  var uid = JSON.parse(window.localStorage["authData"]).uid;
+.controller('medicationsSettingCtrl', function($scope, Patient, MedicationScheduleFB, Medication, MedicationSchedule, MedicationHistory) {
+  $scope.schedule = MedicationSchedule.get();
+  $scope.selected_med = null;
+
+  var uid = Patient.uid;
+
+
+
+  // angular.forEach($scope.schedule, function(value, key) {
+  //   this.push(value.slot)
+  //   console.log("slot: "+ value.slot + " medications: " + value.medications);
+  //   value.medications.forEach(function(med) {
+  //     $scope.medlist.push(med.trade_name);
+  //   });
+  // }, $scope.medlist);
+  //
+  // console.log("MedList: " + $scope.medlist);
+  //var uid = JSON.parse(window.localStorage["authData"]).uid;
 
   //3 way data binding of medicationSchedule...
   //MedicationScheduleFB(uid).$bindTo($scope,"schedule");
 
-  $scope.schedule = MedicationScheduleFB(uid);
-  console.log(schedule);
-  $scope.saveMedicationSchedule = function() {
-    var firebaseRef = new Firebase("https://vivid-inferno-5187.firebaseio.com/");
-    console.log(JSON.parse(window.localStorage["authData"]).uid);
-    var userRef = firebaseRef.child("users").child(JSON.parse(window.localStorage["authData"]).uid);
-
-    console.log(schedule);
-
-  };  
-   $scope.moveItem = function(slot, item, fromIndex, toIndex) {
-    console.log(fromIndex);
-    console.log(toIndex);
-    console.log(slot.medications);
+  // $scope.schedule = MedicationScheduleFB(uid);
+  // console.log(schedule);
+  // $scope.saveMedicationSchedule = function() {
+  //   var firebaseRef = new Firebase("https://vivid-inferno-5187.firebaseio.com/");
+  //   console.log(JSON.parse(window.localStorage["authData"]).uid);
+  //   var userRef = firebaseRef.child("users").child(JSON.parse(window.localStorage["authData"]).uid);
+  //
+  //   console.log(schedule);
+  //
+  // };
+   //$scope.moveItem = function(slot, item, fromIndex, toIndex) {
+    //console.log("Move from: " + fromIndex + " to: " + toIndex + " Med: " + item);
     //Move the item in the array
-    slot.medications.splice(fromIndex, 1);
-    slot.medications.splice(toIndex, 0, item);
-  };
+    //slot.medications.splice(fromIndex, 1);
+    //slot.medications.splice(toIndex, 0, item);
+  //};
 })
