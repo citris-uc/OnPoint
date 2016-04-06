@@ -94,6 +94,16 @@ angular.module('app.services')
   return {
     get: function() {
       return schedule;
+    },
+    addTimeSlot: function(slotName, daysArray){
+      var instanceFB =  { //use this if adding new element
+        id: schedule.length+1, // replace in FB
+        time: "00:00",
+        slot: slotName,
+        days: daysArray,
+        medications: []
+      };
+      schedule.splice(0, 0, instanceFB);
     }
   };
 }])
