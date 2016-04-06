@@ -7,7 +7,7 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('app', ['ionic','firebase', 'app.controllers', 'app.routes', 'app.services', 'app.directives', 'app.constants', 'dndLists'])
 
-.run(function($ionicPlatform) {
+.run(function($ionicPlatform, $rootScope, Patient, $state, $ionicHistory) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -17,6 +17,22 @@ angular.module('app', ['ionic','firebase', 'app.controllers', 'app.routes', 'app
     if(window.StatusBar) {
       // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
+    }
+  });
+
+  // The authentication hook that is triggered on every state transition.
+  // We check if the user is logged-in, and if not, then we cancel the current
+  // state transition and go to the login screen.
+  $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams, options) {
+    var token = Patient.getToken();
+    if (!token && toState.name !== "loginScreen") {
+      event.preventDefault();
+      $ionicHistory.nextViewOptions({
+        disableAnimate: true,
+        disableBack: true,
+        historyRoot: true
+      })
+      $state.go("loginScreen");
     }
   });
 })

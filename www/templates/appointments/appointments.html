@@ -1,6 +1,10 @@
 <link type="text/css" rel="stylesheet" href="css/appointmentStyle.css"/>
 
 <ion-view title="Appointments" class = "appointment">
+    <ion-nav-buttons side="right">
+        <button class="button button-clear button-icon icon ion-plus button-positive" ui-sref="tabsController.addAppointment"></button>
+    </ion-nav-buttons>
+
     <ion-content overflow-scroll="true" padding="true" class="has-header">
         <div ng-controller="appointmentsCtrl">
 		    <div class = "center">

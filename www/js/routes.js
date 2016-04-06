@@ -116,7 +116,7 @@ angular.module('app.routes', [])
     url: '/appointments',
     views: {
       'appointments-tab': {
-        templateUrl: 'templates/appointments.html',
+        templateUrl: 'templates/appointments/appointments.html',
         controller: 'appointmentsCtrl'
       }
     }
@@ -126,8 +126,18 @@ angular.module('app.routes', [])
     url: '/appointment/:appointmentId',
     views: {
       'appointments-tab': {
-        templateUrl: 'templates/appointment.html',
+        templateUrl: 'templates/appointments/appointment.html',
         controller: 'appointmentCtrl'
+      }
+    }
+  })
+
+  .state('tabsController.addAppointment', {
+    url: '/add-appointment',
+    views: {
+      'appointments-tab': {
+        templateUrl: 'templates/appointments/addAppointment.html',
+        controller: 'addAppointmentCtrl'
       }
     }
   })
@@ -191,6 +201,18 @@ angular.module('app.routes', [])
     templateUrl: 'templates/medications/input_detail.html',
     controller: 'medInputCtrl'
   })
+
+  .state('fillMain', {
+    url: '/fill_main',
+    templateUrl: 'templates/medications/fill_main.html',
+    controller: 'medFillMainCtrl'
+  })
+
+  .state('fillChoice', {
+    url: '/fill_choice',
+    templateUrl: 'templates/medications/fill_choice.html',
+  })
+
 
   .state('onboardingMain', {
     url: '/onboarding-main',

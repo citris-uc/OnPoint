@@ -1,9 +1,9 @@
 <ion-view title="{{schedule.slot | uppercase}}">
   <ion-content overflow-scroll="true" padding="false" class="has-header">
     <div class="list">
-      <a class="item" ng-repeat="med in schedule.medications" ui-sref="tabsController.medication({schedule_id: schedule.id, medicationName: med.name})" ng-hide="medicationHistory(med.name).taken_at"
-      ng-style="{'color': (medicationHistory(med.name).skipped_at ? 'grey' : 'black') }">
-        {{med.trade_name}}
+      <a class="item" ng-repeat="med in schedule.medications" ui-sref="tabsController.medication({schedule_id: schedule.id, medicationName: med})" ng-hide="didTakeMed(med)"
+      ng-style="{'color': (didSkipMed(med) ? 'grey' : 'black') }">
+        {{med}}
       </a>
     </div>
   </ion-content>

@@ -1,39 +1,94 @@
 angular.module('app.controllers')
 
 .controller('medicationsCtrl', function($scope, Medication, MedicationSchedule, MedicationHistory) {
-  $scope.schedule = MedicationSchedule.get();
+  $scope.schedule           = MedicationSchedule.get();
+  $scope.medicationHistory  = MedicationHistory.getTodaysHistory();
 
-  $scope.medicationHistory = function(med_name, schedule_id) {
-    med = Medication.getByName(med_name)
-    return MedicationHistory.findByMedicationIdAndScheduleId(med.id, schedule_id)
+  $scope.didTakeMed = function(medication, schedule) {
+    var match;
+    var med = Medication.getByTradeName(medication)
+    for(var i = 0; i < $scope.medicationHistory.length; i++) {
+      if ($scope.medicationHistory[i].medication_id == med.id && $scope.medicationHistory[i].medication_schedule_id == schedule.id) {
+        match = $scope.medicationHistory[i]
+      }
+    }
+
+    if (match)
+      return (match.taken_at !== undefined);
+    else
+      return false;
+  }
+
+  $scope.didSkipMed = function(medication, schedule) {
+    var match;
+    var med = Medication.getByTradeName(medication)
+    for(var i = 0; i < $scope.medicationHistory.length; i++) {
+      if ($scope.medicationHistory[i].medication_id == med.id && $scope.medicationHistory[i].medication_schedule_id == schedule.id) {
+        match = $scope.medicationHistory[i]
+      }
+    }
+
+    if (match)
+      return (match.skipped_at !== undefined);
+    else
+      return false;
   }
 })
 
 .controller("medicationScheduleCtrl", function($scope, $stateParams, Medication, MedicationSchedule, MedicationDosage, MedicationHistory) {
   $scope.schedule = MedicationSchedule.findByID($stateParams.schedule_id);
 
-  $scope.medicationHistory = function(med_name) {
-    med = Medication.getByName(med_name)
-    return MedicationHistory.findByMedicationIdAndScheduleId(med.id, $scope.schedule.id)
+  $scope.medicationHistory  = MedicationHistory.getTodaysHistory();
+
+  $scope.didTakeMed = function(medication) {
+    var match;
+    var med = Medication.getByTradeName(medication)
+    for(var i = 0; i < $scope.medicationHistory.length; i++) {
+      if ($scope.medicationHistory[i].medication_id == med.id && $scope.medicationHistory[i].medication_schedule_id == $stateParams.schedule_id) {
+        match = $scope.medicationHistory[i]
+      }
+    }
+
+    if (match)
+      return (match.taken_at !== undefined);
+    else
+      return false;
+  }
+
+  $scope.didSkipMed = function(medication) {
+    var match;
+    var med = Medication.getByTradeName(medication)
+    for(var i = 0; i < $scope.medicationHistory.length; i++) {
+      if ($scope.medicationHistory[i].medication_id == med.id && $scope.medicationHistory[i].medication_schedule_id == $stateParams.schedule_id) {
+        match = $scope.medicationHistory[i]
+      }
+    }
+
+    if (match)
+      return (match.skipped_at !== undefined);
+    else
+      return false;
   }
 })
 
 .controller("medicationCtrl", function($scope, $stateParams,$ionicPopup,$ionicHistory, Medication, MedicationSchedule, MedicationDosage, MedicationHistory) {
   $scope.state = $stateParams;
-  $scope.medication = Medication.getByName($stateParams.medicationName);
+  $scope.medication = Medication.getByTradeName($stateParams.medicationName);
   $scope.dosage     = MedicationDosage.getByName($stateParams.medicationName);
   $scope.schedule   = MedicationSchedule.findByID($stateParams.schedule_id)
 
   $scope.takeMedication = function() {
-    MedicationHistory.create_or_update($scope.medication, $scope.schedule, "take")
-    var alertPopup = $ionicPopup.alert({
-      title: 'Success',
-      template: 'You have succesfully taken ' + $scope.medication.trade_name
-    });
+    var req = MedicationHistory.create_or_update($scope.medication, $scope.schedule, "take");
+    req.then(function(ref) {
+      var alertPopup = $ionicPopup.alert({
+        title: 'Success',
+        template: 'You have succesfully taken ' + $scope.medication.trade_name
+      });
 
-    alertPopup.then(function(res) {
-      $ionicHistory.goBack();
-    });
+      alertPopup.then(function(res) {
+        $ionicHistory.goBack();
+      });
+    })
   }
 
   $scope.skipMedication = function()  {
@@ -45,32 +100,20 @@ angular.module('app.controllers')
         {
           text: '<b>Yes</b>',
           onTap: function(e) {
-            MedicationHistory.create_or_update($scope.medication, $scope.schedule, "skip")
-            $ionicHistory.goBack();
-          }
+            var req = MedicationHistory.create_or_update($scope.medication, $scope.schedule, "skip");
+            req.then(function(ref) { $ionicHistory.goBack();});          }
         }
       ]
     });
   };
 })
 
-.controller('medicationsSettingCtrl', function($scope, Patient, MedicationScheduleFB, Medication, MedicationSchedule, MedicationHistory) {
-  $scope.schedule = MedicationSchedule.get();
+.controller('medicationsSettingCtrl', function($scope, $stateParams, Patient, Medication, MedicationScheduleOLD, MedicationHistory) {
+
+  // TODO --> use MedicationSchedule and FB
+  $scope.schedule = MedicationScheduleOLD.get();
   $scope.selected_med = null;
 
-  var uid = Patient.uid;
-
-
-
-  // angular.forEach($scope.schedule, function(value, key) {
-  //   this.push(value.slot)
-  //   console.log("slot: "+ value.slot + " medications: " + value.medications);
-  //   value.medications.forEach(function(med) {
-  //     $scope.medlist.push(med.trade_name);
-  //   });
-  // }, $scope.medlist);
-  //
-  // console.log("MedList: " + $scope.medlist);
   //var uid = JSON.parse(window.localStorage["authData"]).uid;
 
   //3 way data binding of medicationSchedule...

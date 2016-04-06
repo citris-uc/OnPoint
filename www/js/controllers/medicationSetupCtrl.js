@@ -48,3 +48,52 @@ angular.module('app.controllers')
 
 .controller('medInputMainCtrl', function($scope, Medication) {
 })
+
+.controller('medFillMainCtrl', function($scope, MedicationSchedule, Medication, MedicationDosage) {
+  var medShedule = MedicationSchedule.get();
+  var sheduledMed = [];
+  $scope.meds = Medication.get_all_med_trade_name();
+  console.log(medShedule[0].medications.name);
+  $scope.slots = [];
+
+  for(var i = 0; i < medShedule.length; i++){
+    $scope.slots[i] = [];
+    $scope.slots[i].push(medShedule[i].slot);
+    for(var j = 0; j < 7; j++){
+        $scope.slots[i].push(" ");
+    }
+  }
+
+  $scope.displayShedule = function(med){
+    var contains = false;
+    for(var i = 0; i < medShedule.length; i++){
+      for(var j = 0; j < medShedule[i].medications.length; j++){
+        if(medShedule[i].medications[j].trade_name == med){
+          contains = true;
+        }
+      }
+      if(contains){
+        var med_name = Medication.get_name_by_trade_name(med);
+        var tablets = MedicationDosage.getByName(med_name).tablets;
+        for(var k = 0; k < medShedule[i].days.length; k++){
+          $scope.slots[i][medShedule[i].days[k] + 1] = "" + tablets;
+        }
+      }else{
+        for(var k = 0; k < medShedule[i].days.length; k++){
+          $scope.slots[i][medShedule[i].days[k] + 1] = "0";
+        }
+      }
+    }
+    if(sheduledMed.indexOf(med) == -1){
+      sheduledMed.push(med);
+    }
+  }
+
+  $scope.isSheduledlist = function(med){
+    if(sheduledMed.indexOf(med) == -1){
+      return false;
+    }else{
+      return true;
+    }
+  }
+})
