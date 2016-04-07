@@ -1,8 +1,10 @@
 angular.module('app.controllers')
 
-.controller('timelineCtrl', function($scope, $state, Card, CARD, Comment, MedicationSchedule, MeasurementSchedule) {
-  $scope.cards = Card.get();
+.controller('timelineCtrl', function($scope, $state, Card, CARD, Comment, Medication, MedicationSchedule, MeasurementSchedule, MedicationHistory) {
+  $scope.cards = Card.getByDay(new Date());
   $scope.CARD = CARD;
+  $scope.medSchedule = MedicationSchedule.get()
+  $scope.medHistory = MedicationHistory.getTodaysHistory()
   $scope.today = new Date().toDateString();; //to keep track of the current date.
 
   // TODO: Remove this inefficiency by moving the update/complete logic to the
@@ -17,7 +19,9 @@ angular.module('app.controllers')
    * TODO: use this to trigger generating all scheduled cards per day.
    */
   $scope.getDay = function() {
-    return (new Date());
+    //TODO Move generating all cards on timeline tab load for now
+    //MedicationSchedule.createTodaysCards();
+    return new Date();
   }
 
   $scope.getCardStatus = function(card) {
@@ -36,18 +40,16 @@ angular.module('app.controllers')
   $scope.getTime = function(timestamp) {
     return new Date(timestamp);
   }
-
-  $scope.getBody = function(card) {
-    var card;
-    for(var i = 0; i < $scope.cards.length; i++) {
-      if ($scope.cards[i].id === card.id)
-        card = $scope.cards[i]
-    }
-
-    switch(card.object_type) {
+  /*
+   * gets the body for each cardClass
+   * @param index: this is the medication_schedule ID essentailly
+   * TODO: fix medication_schedule ID to be actually ID in firebase, probbaly need to to do when we push med SCheudle to firebase during onboarding  
+   */
+  $scope.getBody = function(card, type, index) {
+    switch(type) {
       case CARD.CATEGORY.MEDICATIONS_SCHEDULE :
         // Get schedule associated with card
-        var schedule = MedicationSchedule.findByID(card.object_id);
+        var schedule = $scope.medSchedule[index]
         var medications = schedule.medications;
         var takeMeds = [];
         var skippedMeds = [];
@@ -55,15 +57,30 @@ angular.module('app.controllers')
 
         // Check history for each medication in the specified schedule
         // TODO: Refactor this to query against a MedicationHistory array.
-        medications.forEach( function(med) {
-          var history = MedicationHistory.findByMedicationIdAndScheduleId(med.id, schedule.id);
-          if (history == null)
-            takeMeds.push(med);
-          else if (history.taken_at != null) {
-            completedMeds.push(med);
-          } else if (history.skipped_at != null) {
-            skippedMeds.push(med);
+        medications.forEach( function(medication) {
+          var med = Medication.getByTradeName(medication);
+          var exists = false;
+          for(var i = 0; i < $scope.medHistory.length; i++) {
+            var hist = $scope.medHistory[i];
+            if (hist.medication_id==med.id && hist.medication_schedule_id==index) {
+              exists = true;
+              if(hist.taken_at != null)
+                completedMeds.push(med);
+              else if (hist.skipped_at != null)
+                skippedMeds.push(med);
+            }
           }
+          if (!exists)
+            takeMeds.push(med);
+
+          // var history = MedicationHistory.findByMedicationIdAndScheduleId(med.id, schedule.id);
+          // if (history == null)
+          //   takeMeds.push(med);
+          // else if (history.taken_at != null) {
+          //   completedMeds.push(med);
+          // } else if (history.skipped_at != null) {
+          //   skippedMeds.push(med);
+          // }
         })
 
         // Create a string for each line for Take/Skipped/Completed meds
@@ -82,7 +99,6 @@ angular.module('app.controllers')
         completedMeds.forEach( function(med) {
           completedString = completedString + " " + med.trade_name;
         })
-
         return [takeString, skippedString, completedString];
       case CARD.CATEGORY.MEASUREMENTS_SCHEDULE :
         return ["Take <measurements>"];
@@ -122,6 +138,8 @@ angular.module('app.controllers')
   }
 
   $scope.shouldDisplayCard = function(timestamp) {
+    return true;
+    //TODO: Fix this
     var cardDate = new Date(timestamp);
     var now      = new Date();
     if (cardDate.toDateString() == now.toDateString() && cardDate.toTimeString() <= now.toTimeString())

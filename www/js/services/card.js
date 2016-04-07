@@ -1,6 +1,6 @@
 angular.module('app.services')
 
-.factory("Card", ["CARD", "Patient", "MedicationSchedule", "MedicationHistory", "$firebaseArray", "$firebaseObject", function(CARD, Patient, MedicationSchedule, MedicationHistory, $firebaseArray, $firebaseObject) {
+.factory("Card", ["CARD", "Patient", "MedicationHistory", "$firebaseArray", "$firebaseObject", function(CARD, Patient, MedicationHistory, $firebaseArray, $firebaseObject) {
   // var cards = [{
   //   id: 0,
   //   created_at: "2016-03-15T10:00:00",
@@ -53,15 +53,25 @@ angular.module('app.services')
       var ref = this.ref();
       return $firebaseArray(ref)
     },
+    getByDay: function(date) {
+      var dateISO = date.toISOString().substring(0,10)  //Only get the date: YYYY-MM-DD
+      var ref = this.ref().child(dateISO);
+      return $firebaseArray(ref);
+    },
     ref: function() {
       var uid = Patient.uid();
       return Patient.ref(uid).child("cards");
     },
+
+    createCard: function(date, object, card) {
+      var ref = this.ref().child(date).child(object.type).child(object.id);
+      ref.set(card);
+    },
     find_or_create_by_object(object, cardObject) {
-      console.log("Object is: ")
-      console.log(object)
-      console.log("cardObject is: ")
-      console.log(cardObject)
+      // console.log("Object is: ")
+      // console.log(object)
+      // console.log("cardObject is: ")
+      // console.log(cardObject)
 
       var ref = this.ref().child(object.type).child(object.id)
       return ref.transaction(function(current) {
@@ -110,30 +120,30 @@ angular.module('app.services')
       // Check the latest timestamp for the card
       switch(card.object_type) {
         case CARD.CATEGORY.MEDICATIONS_SCHEDULE :
-          // Get schedule associated with card
-          var schedule = MedicationSchedule.findByID(card.object_id);
-          var medications = schedule.medications;
-
-          // Check history for each medication in the specified schedule
-          // Save timestamp of latest for the updated_at
-          var latestChange = card.updated_at;
-          medications.forEach( function(med) {
-            var history = MedicationHistory.findByMedicationIdAndScheduleId(med.id, schedule.id);
-            if (history != null) {
-              if (history.taken_at != null) {
-                if (Date.parse(history.taken_at) > Date.parse(latestChange)) {
-                  latestChange = history.taken_at;
-                }
-              }
-              if (history.skipped_at != null) {
-                if (Date.parse(history.skipped_at) > latestChange) {
-                  latestChange = history.skipped_at;
-                }
-              }
-            }
-          })
-
-          card.updated_at = latestChange != null ? latestChange : null;
+          // // Get schedule associated with card
+          // var schedule = MedicationSchedule.findByID(card.object_id);
+          // var medications = schedule.medications;
+          //
+          // // Check history for each medication in the specified schedule
+          // // Save timestamp of latest for the updated_at
+          // var latestChange = card.updated_at;
+          // medications.forEach( function(med) {
+          //   var history = MedicationHistory.findByMedicationIdAndScheduleId(med.id, schedule.id);
+          //   if (history != null) {
+          //     if (history.taken_at != null) {
+          //       if (Date.parse(history.taken_at) > Date.parse(latestChange)) {
+          //         latestChange = history.taken_at;
+          //       }
+          //     }
+          //     if (history.skipped_at != null) {
+          //       if (Date.parse(history.skipped_at) > latestChange) {
+          //         latestChange = history.skipped_at;
+          //       }
+          //     }
+          //   }
+          // })
+          //
+          // card.updated_at = latestChange != null ? latestChange : null;
 
           return;
         case CARD.CATEGORY.MEASUREMENTS_SCHEDULE :
@@ -154,30 +164,30 @@ angular.module('app.services')
 
       switch(card.object_type) {
         case CARD.CATEGORY.MEDICATIONS_SCHEDULE :
-          // Get schedule associated with card
-          var schedule = MedicationSchedule.findByID(card.object_id);
-          var medications = schedule.medications;
-          var takeMeds = [];
-          var skippedMeds = [];
-          var completedMeds = [];
-
-          // Check history for each medication in the specified schedule
-          medications.forEach( function(med) {
-            var history = MedicationHistory.findByMedicationIdAndScheduleId(med.id, schedule.id);
-            if (history == null)
-              takeMeds.push(med);
-            else if (history.taken_at != null) {
-              completedMeds.push(med);
-            } else if (history.skipped_at != null) {
-              skippedMeds.push(med);
-            }
-          })
-
-          // All meds are complete;
-          // TODO --> meds that can't be skipped should be forked off into separate card
-          if (takeMeds.length == 0) {
-            this.complete(card.id);
-          }
+          // // Get schedule associated with card
+          // var schedule = MedicationSchedule.findByID(card.object_id);
+          // var medications = schedule.medications;
+          // var takeMeds = [];
+          // var skippedMeds = [];
+          // var completedMeds = [];
+          //
+          // // Check history for each medication in the specified schedule
+          // medications.forEach( function(med) {
+          //   var history = MedicationHistory.findByMedicationIdAndScheduleId(med.id, schedule.id);
+          //   if (history == null)
+          //     takeMeds.push(med);
+          //   else if (history.taken_at != null) {
+          //     completedMeds.push(med);
+          //   } else if (history.skipped_at != null) {
+          //     skippedMeds.push(med);
+          //   }
+          // })
+          //
+          // // All meds are complete;
+          // // TODO --> meds that can't be skipped should be forked off into separate card
+          // if (takeMeds.length == 0) {
+          //   this.complete(card.id);
+          // }
           return;
         case CARD.CATEGORY.MEASUREMENTS_SCHEDULE :
           return;
