@@ -136,6 +136,8 @@ angular.module('app.controllers')
   }
 
   $scope.shouldDisplayCard = function(timestamp) {
+    return true;
+    //TODO: Fix this
     var cardDate = new Date(timestamp);
     var now      = new Date();
     if (cardDate.toDateString() == now.toDateString() && cardDate.toTimeString() <= now.toTimeString())
