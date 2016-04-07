@@ -40,7 +40,11 @@ angular.module('app.controllers')
   $scope.getTime = function(timestamp) {
     return new Date(timestamp);
   }
-
+  /*
+   * gets the body for each cardClass
+   * @param index: this is the medication_schedule ID essentailly
+   * TODO: fix medication_schedule ID to be actually ID in firebase, probbaly need to to do when we push med SCheudle to firebase during onboarding
+   */
   $scope.getBody = function(card, type, index) {
     switch(type) {
       case CARD.CATEGORY.MEDICATIONS_SCHEDULE :
@@ -108,14 +112,18 @@ angular.module('app.controllers')
     } // end switch
   }
 
-  $scope.openPage = function(card){
-    var index = $scope.cards.indexOf(card);
-    card = $scope.cards[index];
-
-    switch(card.object_type) {
+  /*
+   * gets the body for each cardClass
+   * @param index: this is the medication_schedule ID essentailly
+   * TODO: fix medication_schedule ID to be actually ID in firebase, probbaly need to to do when we push med SCheudle to firebase during onboarding
+   * TODO: fix other categories
+   */
+  $scope.openPage = function(card, type, index){
+    switch(type) {
       case CARD.CATEGORY.MEDICATIONS_SCHEDULE :
         // Take Medications --> Show Schedule
-        var schedule = MedicationSchedule.findByID(card.object_id);
+        // Get schedule associated with card
+        var schedule = $scope.medSchedule[index]
         action = {tab: 'tabsController.medicationsSchedule', params: {schedule_id: schedule.id}};
         return $state.go(action.tab, action.params);
       case CARD.CATEGORY.MEASUREMENTS_SCHEDULE:
