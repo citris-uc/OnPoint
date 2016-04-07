@@ -1,7 +1,7 @@
 angular.module('app.controllers')
 
 .controller('timelineCtrl', function($scope, $state, Card, CARD, Comment, MedicationSchedule, MeasurementSchedule) {
-  $scope.cards = Card.get();
+  $scope.cards = Card.getByDay(new Date());
   $scope.CARD = CARD;
   $scope.today; //to keep track of the current date.
 
@@ -136,6 +136,7 @@ angular.module('app.controllers')
   }
 
   $scope.shouldDisplayCard = function(timestamp) {
+    console.log("should display card");
     var cardDate = new Date(timestamp);
     var now      = new Date();
     if (cardDate.toDateString() == now.toDateString() && cardDate.toTimeString() <= now.toTimeString())
