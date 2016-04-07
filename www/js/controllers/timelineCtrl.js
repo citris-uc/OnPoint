@@ -20,6 +20,7 @@ angular.module('app.controllers')
     var today = new Date().toDateString();
     if ($scope.today != today) {
       $scope.today = today
+      MedicationSchedule.createTodaysCards();
       console.log("set new date")
     } else  {
       console.log("kept old date")

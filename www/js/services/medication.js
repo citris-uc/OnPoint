@@ -63,7 +63,7 @@ angular.module('app.services')
 
 // This factory is responsible for defining a Medication Schedule
 // that the patient usually adheres to.
-.factory('MedicationSchedule', ["Medication", "Patient","$firebaseObject", "$firebaseArray", function(Medication, Patient, $firebaseObject,$firebaseArray) {
+.factory('MedicationSchedule', ["Medication", "Patient","$firebaseObject", "$firebaseArray", "CARD", "Card", function(Medication, Patient, $firebaseObject,$firebaseArray, CARD, Card) {
   // morning   = ["Lasix", "Toprol XL", "Zestril", "Coumadin", "Riomet"]
   // afternoon = ["Lasix", "Toprol XL", "Zestril", "Riomet"]
   // evening   = ["Lipitor"]
@@ -145,6 +145,26 @@ angular.module('app.services')
     findByID: function(id) {
       var ref = this.ref().child("defaultSchedule").child(id)
       return $firebaseObject(ref);
+    },
+
+    createTodaysCards: function() {
+      var req = this.ref().child("defaultSchedule").once("value", function(snap) {
+        var schedule = snap.val();
+        var now    = (new Date()).toISOString();
+        var date = now.substring(0,10) //Only get the date: YYYY-MM-DD
+        for(var i = 0; i < schedule.length; i++) {
+          var card = {type: CARD.TYPE.ACTION,
+                            created_at: now,
+                            updated_at: now,
+                            completed_at: null,
+                            archived_at: null,
+                            shown_at: schedule[i].time};
+          var object = {type: CARD.CATEGORY.MEDICATIONS_SCHEDULE,
+                        id: schedule[i].id}
+          Card.createCard(date, object, card);
+
+        } //end for
+      }) //end req
     }
   };
 }])
@@ -224,7 +244,7 @@ angular.module('app.services')
       return history;
     },
     getTodaysHistory: function() {
-      var today = ((new Date()).toISOString()).substring(0,10)
+      var today = ((new Date()).toISOString()).substring(0,10) //Only get the date: YYYY-MM-DD
       var ref = this.ref().child(today);
       return $firebaseArray(ref);
     },
