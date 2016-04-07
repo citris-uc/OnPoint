@@ -27,7 +27,7 @@
         <!-- Card Title -->
 
         <div ng-class="['item', getCardStatus(c)]">
-          <a href="#">{{c.type == CARD.TYPE.ACTION ? 'Take ': c.type == CARD.TYPE.URGENT ? 'TODO: ': ''}}{{c.object_type}}{{c.type == CARD.TYPE.REMINDER ? ' Reminder':''}}</a>
+          <a href="#">{{c.type == CARD.TYPE.ACTION ? 'Take ': c.type == CARD.TYPE.URGENT ? 'TODO: ': ''}}{{type}}{{c.type == CARD.TYPE.REMINDER ? ' Reminder':''}}</a>
           <a style="float:right">{{getTime(c.shown_at) | date: 'h:mm a'}}</a>
         </div>
 
