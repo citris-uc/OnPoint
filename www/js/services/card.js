@@ -53,6 +53,11 @@ angular.module('app.services')
       var ref = this.ref();
       return $firebaseArray(ref)
     },
+    getByDay: function(date) {
+      var dateISO = date.toISOString().substring(0,10)  //Only get the date: YYYY-MM-DD
+      var ref = this.ref().child(dateISO);
+      return $firebaseArray(ref);
+    },
     ref: function() {
       var uid = Patient.uid();
       return Patient.ref(uid).child("cards");
