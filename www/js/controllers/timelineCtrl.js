@@ -1,9 +1,12 @@
 angular.module('app.controllers')
 
-.controller('timelineCtrl', function($scope, $state, Card, CARD, Comment, MedicationSchedule, MeasurementSchedule) {
+.controller('timelineCtrl', function($scope, $state, Card, CARD, Comment, Medication, MedicationSchedule, MeasurementSchedule, MedicationHistory) {
   $scope.cards = Card.getByDay(new Date());
   $scope.CARD = CARD;
   $scope.today; //to keep track of the current date.
+  $scope.medSchedule = MedicationSchedule.get()
+  $scope.medHistory = MedicationHistory.getTodaysHistory()
+
 
   // TODO: Remove this inefficiency by moving the update/complete logic to the
   // appropriate factory.
@@ -45,17 +48,11 @@ angular.module('app.controllers')
     return new Date(timestamp);
   }
 
-  $scope.getBody = function(card) {
-    var card;
-    for(var i = 0; i < $scope.cards.length; i++) {
-      if ($scope.cards[i].id === card.id)
-        card = $scope.cards[i]
-    }
-
-    switch(card.object_type) {
+  $scope.getBody = function(card, type, index) {
+    switch(type) {
       case CARD.CATEGORY.MEDICATIONS_SCHEDULE :
         // Get schedule associated with card
-        var schedule = MedicationSchedule.findByID(card.object_id);
+        var schedule = $scope.medSchedule[index]
         var medications = schedule.medications;
         var takeMeds = [];
         var skippedMeds = [];
@@ -63,15 +60,30 @@ angular.module('app.controllers')
 
         // Check history for each medication in the specified schedule
         // TODO: Refactor this to query against a MedicationHistory array.
-        medications.forEach( function(med) {
-          var history = MedicationHistory.findByMedicationIdAndScheduleId(med.id, schedule.id);
-          if (history == null)
-            takeMeds.push(med);
-          else if (history.taken_at != null) {
-            completedMeds.push(med);
-          } else if (history.skipped_at != null) {
-            skippedMeds.push(med);
+        medications.forEach( function(medication) {
+          var med = Medication.getByTradeName(medication);
+          var exists = false;
+          for(var i = 0; i < $scope.medHistory.length; i++) {
+            var hist = $scope.medHistory[i];
+            if (hist.medication_id==med.id && hist.medication_schedule_id==index) {
+              exists = true;
+              if(hist.taken_at != null)
+                completedMeds.push(med);
+              else if (hist.skipped_at != null)
+                skippedMeds.push(med);
+            }
           }
+          if (!exists)
+            takeMeds.push(med);
+
+          // var history = MedicationHistory.findByMedicationIdAndScheduleId(med.id, schedule.id);
+          // if (history == null)
+          //   takeMeds.push(med);
+          // else if (history.taken_at != null) {
+          //   completedMeds.push(med);
+          // } else if (history.skipped_at != null) {
+          //   skippedMeds.push(med);
+          // }
         })
 
         // Create a string for each line for Take/Skipped/Completed meds
@@ -90,7 +102,6 @@ angular.module('app.controllers')
         completedMeds.forEach( function(med) {
           completedString = completedString + " " + med.trade_name;
         })
-
         return [takeString, skippedString, completedString];
       case CARD.CATEGORY.MEASUREMENTS_SCHEDULE :
         return ["Take <measurements>"];
