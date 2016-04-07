@@ -3,6 +3,7 @@ angular.module('app.controllers')
 .controller('timelineCtrl', function($scope, $state, Card, CARD, Comment, MedicationSchedule, MeasurementSchedule) {
   $scope.cards = Card.get();
   $scope.CARD = CARD;
+  $scope.today = new Date().toDateString();; //to keep track of the current date.
 
   // TODO: Remove this inefficiency by moving the update/complete logic to the
   // appropriate factory.
@@ -10,6 +11,13 @@ angular.module('app.controllers')
     var card = $scope.cards[i];
     Card.checkCardUpdate(card);
     Card.checkCardComplete(card);
+  }
+
+  /* This function will return the current date
+   * TODO: use this to trigger generating all scheduled cards per day.
+   */
+  $scope.getDay = function() {
+    return (new Date());
   }
 
   $scope.getCardStatus = function(card) {
