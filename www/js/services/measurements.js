@@ -90,12 +90,20 @@ angular.module('app.services')
       id: 2,
       time: "16:00",
       days: [0,1,2,3,4,5,6],
-      measurements :["systolic", "diastolic", "heart_rate"]    
+      measurements :["systolic", "diastolic", "heart_rate"]
     }];
+
+  var input_schedule = [];
 
   return {
     get: function() {
       return schedule;
-    }
+    },
+    get_inputSchedule: function() {
+      return input_schedule;
+    },
+    add_inputSchedule: function(schedule){
+      input_schedule.push(schedule);
+    },
   };
-}) 
+})

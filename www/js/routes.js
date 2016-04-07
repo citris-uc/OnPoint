@@ -85,7 +85,7 @@ angular.module('app.routes', [])
     url: '/measurements',
     views: {
       'measurements-tab': {
-        templateUrl: 'templates/measurements.html',
+        templateUrl: 'templates/measurements/measurements.html',
         controller: 'measurementsCtrl'
       }
     }
@@ -95,7 +95,7 @@ angular.module('app.routes', [])
     url: '/measurement-add',
     views: {
       'measurements-tab': {
-        templateUrl: 'templates/measurements-add.html',
+        templateUrl: 'templates/measurements/measurements-add.html',
         controller: 'addMeasurementsCtrl'
       }
     }
@@ -105,12 +105,23 @@ angular.module('app.routes', [])
     url: '/measurement-tips',
     views: {
       'measurements-tab': {
-        templateUrl: 'templates/measurementTips.html',
+        templateUrl: 'templates/measurements/measurementTips.html',
         controller: 'measurementTipsCtrl'
       }
     }
   })
 
+  .state('measurementInput', {
+    url: '/measurement_input',
+    templateUrl: 'templates/measurements/input.html',
+    controller: 'addMeasurementScheduleCtrl'
+  })
+
+  .state('measurementList', {
+    url: '/measurement_list',
+    templateUrl: 'templates/measurements/schedule_list.html',
+    controller: 'measurementScheduleListCtrl'
+  })
 
   .state('tabsController.appointments', {
     url: '/appointments',
