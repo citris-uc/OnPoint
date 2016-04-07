@@ -80,6 +80,8 @@ angular.module('app.services')
 }] )
 
 
+
+
 .factory('MeasurementSchedule', function() {
   var schedule = [{
       id :1 ,
