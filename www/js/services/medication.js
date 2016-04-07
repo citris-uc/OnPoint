@@ -148,27 +148,33 @@ angular.module('app.services')
     },
 
     createTodaysCards: function() {
-      var req = this.ref().child("defaultSchedule").once("value", function(snap) {
-        var schedule = snap.val();
-        var now    = (new Date()).toISOString();
-        var date = now.substring(0,10) //Only get the date: YYYY-MM-DD
-        for(var i = 0; i < schedule.length; i++) {
-          var show = new Date()
-          show.setHours(parseInt(schedule[i].time.substring(0,2)));
-          show.setMinutes(parseInt(schedule[i].time.substring(3,5)));
-          var card = {type: CARD.TYPE.ACTION,
-                            created_at: now,
-                            updated_at: now,
-                            completed_at: null,
-                            archived_at: null,
-                            shown_at: show.toISOString()
-                          }
-          var object = {type: CARD.CATEGORY.MEDICATIONS_SCHEDULE,
-                        id: schedule[i].id}
-          Card.createCard(date, object, card);
+      var today = (new Date()).toISOString().substring(0,10)
+      var todaysCardsReq = Card.ref().child(today).child(CARD.CATEGORY.MEDICATIONS_SCHEDULE).once("value", function (snap) {
+        if (!snap.exists()) {
+          var req = this.ref().child("defaultSchedule").once("value", function(snap) {
+            var schedule = snap.val();
+            var now    = (new Date()).toISOString();
+            var date = now.substring(0,10) //Only get the date: YYYY-MM-DD
+            for(var i = 0; i < schedule.length; i++) {
+              var show = new Date()
+              show.setHours(parseInt(schedule[i].time.substring(0,2)));
+              show.setMinutes(parseInt(schedule[i].time.substring(3,5)));
+              var card = {type: CARD.TYPE.ACTION,
+                                created_at: now,
+                                updated_at: now,
+                                completed_at: null,
+                                archived_at: null,
+                                shown_at: show.toISOString()
+                              }
+              var object = {type: CARD.CATEGORY.MEDICATIONS_SCHEDULE,
+                            id: schedule[i].id}
+              Card.createCard(date, object, card);
 
-        } //end for
-      }) //end req
+            } //end for
+          }) //end req
+        }
+      }) //end todaysCardReq
+
     }
   };
 }])
