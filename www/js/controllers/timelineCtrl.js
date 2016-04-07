@@ -15,12 +15,12 @@ angular.module('app.controllers')
     Card.checkCardComplete(card);
   }
 
-  /* This function will return the current date
-   * TODO: use this to trigger generating all scheduled cards per day.
-   */
+  //TODO: use this to trigger generating all scheduled cards per day.
+  $scope.$on('$ionicView.enter', function(){
+    MedicationSchedule.createTodaysCards();
+  });
+
   $scope.getDay = function() {
-    //TODO Move generating all cards on timeline tab load for now
-    //MedicationSchedule.createTodaysCards();
     return new Date();
   }
 
