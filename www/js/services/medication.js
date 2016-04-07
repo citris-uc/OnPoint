@@ -153,12 +153,16 @@ angular.module('app.services')
         var now    = (new Date()).toISOString();
         var date = now.substring(0,10) //Only get the date: YYYY-MM-DD
         for(var i = 0; i < schedule.length; i++) {
+          var show = new Date()
+          show.setHours(parseInt(schedule[i].time.substring(0,2)));
+          show.setMinutes(parseInt(schedule[i].time.substring(3,5)));
           var card = {type: CARD.TYPE.ACTION,
                             created_at: now,
                             updated_at: now,
                             completed_at: null,
                             archived_at: null,
-                            shown_at: schedule[i].time};
+                            shown_at: show.toISOString()
+                          }
           var object = {type: CARD.CATEGORY.MEDICATIONS_SCHEDULE,
                         id: schedule[i].id}
           Card.createCard(date, object, card);
