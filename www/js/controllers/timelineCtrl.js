@@ -19,7 +19,8 @@ angular.module('app.controllers')
    * TODO: use this to trigger generating all scheduled cards per day.
    */
   $scope.getDay = function() {
-    MedicationSchedule.createTodaysCards();
+    //TODO Move generating all cards on timeline tab load for now
+    //MedicationSchedule.createTodaysCards();
     return new Date();
   }
 
