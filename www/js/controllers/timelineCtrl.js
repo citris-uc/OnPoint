@@ -13,12 +13,6 @@ angular.module('app.controllers')
   }
 
   $scope.getCardStatus = function(card) {
-    var card;
-    for(var i = 0; i < $scope.cards.length; i++) {
-      if ($scope.cards[i].id === card.id)
-        card = $scope.cards[i]
-    }
-
     // Return cardClass: urgent/active/completed
     if (card.completed_at == null) {
       if (card.type == CARD.TYPE.URGENT) {
