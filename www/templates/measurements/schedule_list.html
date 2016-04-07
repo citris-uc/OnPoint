@@ -1,0 +1,17 @@
+
+<ion-view title="Measurement Setup">
+    <ion-header-bar class="bar bar-subheader">
+        <h1 class="title">Measurement Schedules</h1>
+    </ion-header-bar>
+    <ion-content overflow-scroll="true" padding="true" class="has-header">
+
+        <div class="list">
+            <ion-item ng-repeat="shedule in Scheduledmeasurements">
+              {{shedule.name}}
+            </ion-item>
+        </div>
+
+        <button ui-sref="measurementInput" class="button button-positive  button-block" >Add another shedule</button>
+
+    </ion-content>
+</ion-view>
