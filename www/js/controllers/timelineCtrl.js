@@ -40,7 +40,11 @@ angular.module('app.controllers')
   $scope.getTime = function(timestamp) {
     return new Date(timestamp);
   }
-
+  /*
+   * gets the body for each cardClass
+   * @param index: this is the medication_schedule ID essentailly
+   * TODO: fix medication_schedule ID to be actually ID in firebase, probbaly need to to do when we push med SCheudle to firebase during onboarding  
+   */
   $scope.getBody = function(card, type, index) {
     switch(type) {
       case CARD.CATEGORY.MEDICATIONS_SCHEDULE :

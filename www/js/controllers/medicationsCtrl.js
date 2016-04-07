@@ -108,29 +108,58 @@ angular.module('app.controllers')
   };
 })
 
-.controller('medicationsSettingCtrl', function($scope, MedicationScheduleFB, Medication, MedicationSchedule, MedicationHistory) {
-  //$scope.schedule = MedicationSchedule.get();
-  var uid = JSON.parse(window.localStorage["authData"]).uid;
+.controller('medicationsSettingCtrl', function($scope, $ionicPopup, Patient, Medication, MedicationScheduleOLD, MedicationHistory) {
+
+  // TODO --> use MedicationSchedule and FB
+  $scope.schedule = MedicationScheduleOLD.get();
+  $scope.selected_med = null;
+  $scope.newSlotName = {text: ""};
+  $scope.showError = false;
+  $scope.addTimeSlot = function() {
+    var myPopup = $ionicPopup.show({
+      templateUrl: 'medSched-popup-template.html',
+      title: 'Add a time slot',
+      subTitle: 'Enter new time slot name',
+      attr:'data-ng-disabled=""!newSlotName.text"',
+      scope: $scope,
+      buttons: [
+        { text: 'Cancel' },
+        {
+          text: '<b>Add</b>',
+          onTap: function(e) {
+            if ($scope.newSlotName.text) {
+              MedicationScheduleOLD.addTimeSlot($scope.newSlotName.text, [0,1,2,3,4,5,6]);
+              $scope.newSlotName.text = "";
+              $scope.showError = false;
+            } else {
+              e.preventDefault();
+              $scope.showError = true;
+
+            }
+          }
+        }
+      ]
+    });
+  }
+  //var uid = JSON.parse(window.localStorage["authData"]).uid;
 
   //3 way data binding of medicationSchedule...
   //MedicationScheduleFB(uid).$bindTo($scope,"schedule");
 
-  $scope.schedule = MedicationScheduleFB(uid);
-  console.log(schedule);
-  $scope.saveMedicationSchedule = function() {
-    var firebaseRef = new Firebase("https://vivid-inferno-5187.firebaseio.com/");
-    console.log(JSON.parse(window.localStorage["authData"]).uid);
-    var userRef = firebaseRef.child("users").child(JSON.parse(window.localStorage["authData"]).uid);
-
-    console.log(schedule);
-
-  };
-   $scope.moveItem = function(slot, item, fromIndex, toIndex) {
-    console.log(fromIndex);
-    console.log(toIndex);
-    console.log(slot.medications);
+  // $scope.schedule = MedicationScheduleFB(uid);
+  // console.log(schedule);
+  // $scope.saveMedicationSchedule = function() {
+  //   var firebaseRef = new Firebase("https://vivid-inferno-5187.firebaseio.com/");
+  //   console.log(JSON.parse(window.localStorage["authData"]).uid);
+  //   var userRef = firebaseRef.child("users").child(JSON.parse(window.localStorage["authData"]).uid);
+  //
+  //   console.log(schedule);
+  //
+  // };
+   //$scope.moveItem = function(slot, item, fromIndex, toIndex) {
+    //console.log("Move from: " + fromIndex + " to: " + toIndex + " Med: " + item);
     //Move the item in the array
-    slot.medications.splice(fromIndex, 1);
-    slot.medications.splice(toIndex, 0, item);
-  };
+    //slot.medications.splice(fromIndex, 1);
+    //slot.medications.splice(toIndex, 0, item);
+  //};
 })
