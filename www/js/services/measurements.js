@@ -83,6 +83,8 @@ angular.module('app.services')
 }] )
 
 
+
+
 .factory('MeasurementSchedule', function() {
   var schedule = [{
       id :1 ,
@@ -93,7 +95,7 @@ angular.module('app.services')
       id: 2,
       time: "16:00",
       days: [0,1,2,3,4,5,6],
-      measurements :["systolic", "diastolic", "heart_rate"]    
+      measurements :["systolic", "diastolic", "heart_rate"]
     }];
 
   return {
@@ -101,4 +103,4 @@ angular.module('app.services')
       return schedule;
     }
   };
-}) 
+})

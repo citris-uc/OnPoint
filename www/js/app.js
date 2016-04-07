@@ -18,5 +18,6 @@ angular.module('app', ['ionic','firebase', 'app.controllers', 'app.routes', 'app
       // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
     }
+
   });
 })
