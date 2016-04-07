@@ -58,7 +58,7 @@ angular.module('app.services')
       return Patient.ref(uid).child("cards");
     },
 
-    createCard: function(date, object, card) {
+    create: function(date, object, card) {
       var ref = this.ref().child(date).child(object.type).child(object.id);
       ref.set(card);
     },
