@@ -4,8 +4,8 @@ angular.module('app.controllers')
   $scope.cards = Card.getByDay(new Date());
   $scope.CARD = CARD;
   $scope.medSchedule = MedicationSchedule.get()
-  $scope.medHistory = MedicationHistory.getTodaysHistory()
-  $scope.today = new Date().toDateString();; //to keep track of the current date.
+  $scope.medHistory  = MedicationHistory.getTodaysHistory()
+  $scope.today       = new Date();
 
   // TODO: Remove this inefficiency by moving the update/complete logic to the
   // appropriate factory.
@@ -19,10 +19,6 @@ angular.module('app.controllers')
   $scope.$on('$ionicView.enter', function(){
     MedicationSchedule.createTodaysCards();
   });
-
-  $scope.getDay = function() {
-    return new Date();
-  }
 
   $scope.getCardStatus = function(card) {
     // Return cardClass: urgent/active/completed
@@ -151,29 +147,26 @@ angular.module('app.controllers')
     return false;
   }
 
-  // TODO: Deprecate soon as we're moving to Firebase.
   $scope.generateCardsForToday = function() {
-   var measurementSchedule = MeasurementSchedule.get();
-   var today = new Date();
-   var currentDay = today.getDay();
+   var measurementSchedule = MeasurementSchedule.get()
+   measurementSchedule.$loaded().then( function(ref) {
+     for(var i = 0; i < measurementSchedule.length; i++) {
+       schedule = measurementSchedule[i];
 
-   for(var i = 0; i < measurementSchedule.length; i++) {
-     slot = measurementSchedule[i];
-     if (slot.days.includes(currentDay)) {
-       var cardObject = {type: CARD.TYPE.ACTION};
+       if (schedule.days.includes($scope.today.getDay())) {
+         var showAt = (new Date()).setHours(schedule.hour, schedule.minute);
+         showAt     = (new Date(showAt)).toISOString();
 
-       time = slot.time.split(":");
-       var showAt = (new Date()).setHours(time[0],time[1]);
-       showAt = (new Date(showAt)).toISOString();
+         var cardObject = {type: CARD.TYPE.ACTION, shown_at: showAt};
+         Card.find_or_create_by_object({id: schedule.$id, type: CARD.CATEGORY.MEASUREMENTS_SCHEDULE}, cardObject);
+       }
 
-       cardObject.shown_at = showAt;
-       Card.find_or_create_by_object({id: slot.id, type: CARD.CATEGORY.MEASUREMENTS_SCHEDULE}, cardObject);
+       $scope.cards = Card.get();
      }
-   }
-
-   $scope.cards = Card.get();
+   });
   }
 
+  // TODO: Comments should be part of a Card.
   $scope.getCommentsCount = function(card_id){
     return Comment.get_comments_count_by_id(card_id);
   }

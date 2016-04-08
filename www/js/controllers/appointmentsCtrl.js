@@ -1,4 +1,4 @@
-angular.module('app.controllers', ['ionic'])
+angular.module('app.controllers')
 
 .controller('appointmentCtrl', function($scope,$stateParams, Appointment) {
   var appointmentRecord = Appointment.get();

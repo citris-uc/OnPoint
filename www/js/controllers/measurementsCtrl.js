@@ -1,6 +1,6 @@
 angular.module('app.controllers')
 
-.controller('measurementScheduleCtrl', function($scope, $ionicPopup, MeasurementSchedule) {
+.controller('measurementScheduleCtrl', function($scope, $ionicPopup, $state, MeasurementSchedule) {
   $scope.measurement_schedule = MeasurementSchedule.get();
   $scope.newShedule = {time: new Date("2016-01-01 08:00")};
 
@@ -25,8 +25,9 @@ angular.module('app.controllers')
         displayAlert("Please select a reminder day");
     } else{
        var schedule = {};
-       schedule.name = $scope.newShedule.name;
-       schedule.time = $scope.newShedule.time.toISOString();
+       schedule.name   = $scope.newShedule.name;
+       schedule.hour   = $scope.newShedule.time.getHours();
+       schedule.minute = $scope.newShedule.time.getMinutes();
        schedule.days = [];
        if($scope.newShedule.days0 == true){
          schedule.days.push(0);
