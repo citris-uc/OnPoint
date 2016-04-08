@@ -1,24 +1,19 @@
 
-<ion-view title="Measurement Setup">
-  <ion-header-bar class="bar bar-subheader">
-    <h1 class="title">Create a new Measurement Schedule</h1>
-  </ion-header-bar>
-
+<ion-view title="Create a new measurement schedule">
   <ion-content overflow-scroll="true" padding="false" class="has-header">
     <form name = "newMeasurementForm" class="list">
-        <ion-list style = "text-align:center">
+        <ul>
           <label class="item item-input">
-            <span class="input-label"><strong>Shedule Name</strong></span>
-            <input class="input-label"  type="text" placeholder="daily schedule" ng-model="newShedule.name" ></input>
+            <span class="input-label"><strong>Schedule Name</strong></span>
+            <input class="input-label"  type="text" placeholder="E.g. My Daily Schedule" ng-model="newShedule.name" ></input>
           </label>
 
           <li class="item"><strong>Please select measurements</strong></li>
           <ion-checkbox ng-model="newShedule.weight">Weight</ion-checkbox>
-          <ion-checkbox ng-model="newShedule.systolicBP">Systolic Blood Pressure</ion-checkbox>
-          <ion-checkbox ng-model="newShedule.diastolicBP">Diastolic Blood Pressure</ion-checkbox>
+          <ion-checkbox ng-model="newShedule.blood_pressure">Blood Pressure</ion-checkbox>
           <ion-checkbox ng-model="newShedule.heartRate">Heart Rate</ion-checkbox>
 
-          <li class="item"><strong>Please select days of reminder</strong></li>
+          <li class="item"><strong>Please select days to be reminded</strong></li>
           <ion-checkbox ng-model="newShedule.days0">Sunday</ion-checkbox>
           <ion-checkbox ng-model="newShedule.days1">Monday</ion-checkbox>
           <ion-checkbox ng-model="newShedule.days2">Tuesday</ion-checkbox>
@@ -29,9 +24,9 @@
 
           <label class="item item-input">
             <span class="input-label"><strong>Remdinger Time</strong></span>
-            <input  type = "time"  ng-model="newShedule.time"></input>
+            <input type="time"  ng-model="newShedule.time"></input>
           </label>
-        </ion-list>
+        </ul>
         <button class="button button-positive button-block button-big" ng-click = "save()">Save</button>
     </form>
   </ion-content>
