@@ -1,6 +1,6 @@
 angular.module('app.controllers')
 
-.controller('measurementScheduleCtrl', function($scope, $ionicPopup, MeasurementSchedule) {
+.controller('measurementScheduleCtrl', function($scope, $ionicPopup, $state, MeasurementSchedule) {
   $scope.measurement_schedule = MeasurementSchedule.get();
   $scope.newShedule = {time: new Date("2016-01-01 08:00")};
 
