@@ -9,6 +9,9 @@
   <ion-content overflow-scroll="true" padding="true" class="has-header">
     <ion-refresher pulling-text="Pull to refresh" on-refresh="generateCardsForToday()">
     </ion-refresher>
+
+    <a ng-click="generateCardsForToday()" class="button button-positive">Generate</a>
+
     <!-- Text input for Symptoms Feeling tracker -->
     <!-- TODO: Save button on right? -->
     <!-- TODO: DO we really need this? @dman7 -->
