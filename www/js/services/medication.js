@@ -158,7 +158,7 @@ angular.module('app.services')
       };
       ref.$add(instanceFB);
     },
-    
+
     createTodaysCards: function() {
       var today = (new Date()).toISOString().substring(0,10)
       var todaysCardsReq = Card.ref().child(today).child(CARD.CATEGORY.MEDICATIONS_SCHEDULE).once("value", function (snap) {
