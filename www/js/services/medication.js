@@ -161,9 +161,12 @@ angular.module('app.services')
 
     createTodaysCards: function() {
       var today = (new Date()).toISOString().substring(0,10)
+
+      var that = this;
+
       var todaysCardsReq = Card.ref().child(today).child(CARD.CATEGORY.MEDICATIONS_SCHEDULE).once("value", function (snap) {
         if (!snap.exists()) {
-          var req = this.ref().child("defaultSchedule").once("value", function(snap) {
+          var req = that.ref().child("defaultSchedule").once("value", function(snap) {
             var schedule = snap.val();
             var now    = (new Date()).toISOString();
             var date = now.substring(0,10) //Only get the date: YYYY-MM-DD
