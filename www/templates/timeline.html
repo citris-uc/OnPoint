@@ -1,18 +1,17 @@
 <link type="text/css" rel="stylesheet" href="css/timelineStyle.css"/>
 
-<ion-view title="Home" class = "timeline">
+<ion-view title="{{ today | date:'MMMM dd, yyyy'}}" class = "timeline">
   <ion-nav-buttons side="left">
     <button class="button button-icon icon ion-ios-gear-outline button-positive button-clear"
     ui-sref="tabsController.settings"></button>
   </ion-nav-buttons>
 
   <ion-content overflow-scroll="true" padding="true" class="has-header">
-    <!-- Display Current Date -->
-    <center>{{getDay() | date}}</center>
     <ion-refresher pulling-text="Pull to refresh" on-refresh="generateCardsForToday()">
     </ion-refresher>
     <!-- Text input for Symptoms Feeling tracker -->
     <!-- TODO: Save button on right? -->
+    <!-- TODO: DO we really need this? @dman7 -->
     <div class="list list-inset">
       <label class="item item-input">
         <input type="text" placeholder="How are you feeling?">
@@ -21,7 +20,6 @@
 
     <!-- Create Cards -->
     <div ng-repeat="type in CARD.CATEGORY">
-
       <!-- TODO: Update this to filter by archived_at NULL -->
       <div class="card" ng-repeat="c in cards.$getRecord(type) | orderBy: 'updated_at'" ng-show="shouldDisplayCard(c.shown_at)" on-swipe-right="swipeCard(c)" on-swipe-left="swipeCard(c)">
         <!-- Card Title -->
