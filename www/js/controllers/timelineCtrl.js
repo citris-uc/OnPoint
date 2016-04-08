@@ -4,8 +4,8 @@ angular.module('app.controllers')
   $scope.cards = Card.getByDay(new Date());
   $scope.CARD = CARD;
   $scope.medSchedule = MedicationSchedule.get()
-  $scope.medHistory = MedicationHistory.getTodaysHistory()
-  $scope.today = new Date().toDateString();; //to keep track of the current date.
+  $scope.medHistory  = MedicationHistory.getTodaysHistory()
+  $scope.today       = new Date();
 
   // TODO: Remove this inefficiency by moving the update/complete logic to the
   // appropriate factory.
@@ -19,10 +19,6 @@ angular.module('app.controllers')
   $scope.$on('$ionicView.enter', function(){
     MedicationSchedule.createTodaysCards();
   });
-
-  $scope.getDay = function() {
-    return new Date();
-  }
 
   $scope.getCardStatus = function(card) {
     // Return cardClass: urgent/active/completed
@@ -154,9 +150,7 @@ angular.module('app.controllers')
   // TODO: Deprecate soon as we're moving to Firebase.
   $scope.generateCardsForToday = function() {
    var measurementSchedule = MeasurementSchedule.get();
-   var today = new Date();
-   var currentDay = today.getDay();
-
+   console.log(measurementSchedule);
    for(var i = 0; i < measurementSchedule.length; i++) {
      slot = measurementSchedule[i];
      if (slot.days.includes(currentDay)) {
