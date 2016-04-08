@@ -114,13 +114,13 @@ angular.module('app.routes', [])
   .state('measurementInput', {
     url: '/measurement_input',
     templateUrl: 'templates/measurements/input.html',
-    controller: 'addMeasurementScheduleCtrl'
+    controller: 'measurementScheduleCtrl'
   })
 
   .state('measurementList', {
     url: '/measurement_list',
     templateUrl: 'templates/measurements/schedule_list.html',
-    controller: 'measurementScheduleListCtrl'
+    controller: 'measurementScheduleCtrl'
   })
 
   .state('tabsController.appointments', {
