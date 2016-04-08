@@ -80,30 +80,18 @@ angular.module('app.services')
 }] )
 
 
-.factory('MeasurementSchedule', function() {
-  var schedule = [{
-      id :1 ,
-      time :"08:00",
-      days: [0,1,2,3,4,5,6],
-      measurements :["weight", "systolic", "diastolic", "heart_rate"]
-    }, {
-      id: 2,
-      time: "16:00",
-      days: [0,1,2,3,4,5,6],
-      measurements :["systolic", "diastolic", "heart_rate"]
-    }];
-
-  var input_schedule = [];
-
+.factory('MeasurementSchedule', ["Patient", "$firebaseArray", function(Patient, $firebaseArray) {
   return {
+    ref: function() {
+      var uid = Patient.uid();
+      return Patient.ref(uid).child("measurement_schedules")
+    },
     get: function() {
-      return schedule;
+      var ref = this.ref();
+      return $firebaseArray(ref);
     },
-    get_inputSchedule: function() {
-      return input_schedule;
-    },
-    add_inputSchedule: function(schedule){
-      input_schedule.push(schedule);
+    add: function(schedule){
+      this.get().$add(schedule);
     },
   };
-})
+}] )
