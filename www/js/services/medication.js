@@ -64,53 +64,7 @@ angular.module('app.services')
 // This factory is responsible for defining a Medication Schedule
 // that the patient usually adheres to.
 .factory('MedicationSchedule', ["Medication", "Patient","$firebaseObject", "$firebaseArray", "CARD", "Card", function(Medication, Patient, $firebaseObject,$firebaseArray, CARD, Card) {
-  // morning   = ["Lasix", "Toprol XL", "Zestril", "Coumadin", "Riomet"]
-  // afternoon = ["Lasix", "Toprol XL", "Zestril", "Riomet"]
-  // evening   = ["Lipitor"]
-  //
-  // schedule = [
-  //   {
-  //     id: 1,
-  //     time: "08:00",
-  //     slot: "morning",
-  //     days: [0,1,2,3,4,5,6], //array descirbing days of week to do this action
-  //     medications: morning.map( function(trade_name) { return Medication.getByTradeName(trade_name) } )
-  //   },
-  //   {
-  //     id: 2,
-  //     time: "13:00",
-  //     slot: "afternoon",
-  //     days: [0,1,2,3,4,5,6], //array descirbing days of week to do this action,
-  //     medications: afternoon.map( function(trade_name) { return Medication.getByTradeName(trade_name) } )
-  //   },
-  //   {
-  //     id: 3,
-  //     time: "19:00",
-  //     slot: "evening",
-  //     days: [0,1,2,3,4,5,6], //array descirbing days of week to do this action,
-  //     medications: evening.map( function(trade_name) { return Medication.getByTradeName(trade_name) } )
-  //   }
-  // ]
-
   return {
-
-    // NON FIREBASE METHODS
-    // get: function() {
-    //   return schedule;
-    // },
-    //
-    // findByID: function(id) {
-    //   var dateSchedule;
-    //   for (var i = 0; i < schedule.length; i++) {
-    //     if (schedule[i].id == id)
-    //       dateSchedule = schedule[i]
-    //   }
-    //   return dateSchedule;
-    // },
-
-    /*
-     * Returns a FB reference to this patients' medicationScheudle
-     */
     ref: function() {
       var uid = Patient.uid();
       return Patient.ref(uid).child("medicationSchedule")

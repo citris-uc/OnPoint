@@ -3,24 +3,6 @@ angular.module('app.services')
 // specific methods within the object literal to mimic API calls, e.g.
 // Measurement.get() will return all measurements associated with a user.
 .factory("Measurement", ["CARD", "Card", "Patient", "$firebaseArray", function(CARD, Card, Patient, $firebaseArray) {
-  var measurements = [
-    {
-      id: 1,
-      weight: "160",
-      systolic: "120",
-      diastolic: "112",
-      heartRate: "60",
-      created_at: "2016-03-01T10:00",
-    }, {
-      id: 2,
-      weight: "165",
-      systolic: "150",
-      diastolic: "130",
-      heartRate: "75",
-      created_at: "2016-03-02T10:00"
-    }
-  ];
-
   return {
     get: function() {
       var ref = this.ref();
