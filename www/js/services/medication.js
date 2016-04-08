@@ -61,55 +61,6 @@ angular.module('app.services')
   };
 })
 
-// TEMP --> temporary factory for medication schedule setup control
-.factory('MedicationScheduleOLD', ["Medication", "Patient","$firebaseObject", "$firebaseArray", function(Medication, Patient, $firebaseObject,$firebaseArray) {
-  morning   = ["Lasix", "Toprol XL", "Zestril", "Coumadin", "Riomet"]
-  afternoon = ["Lasix", "Toprol XL", "Zestril", "Riomet"]
-  evening   = ["Lipitor"]
-
-  schedule = [
-    {
-      id: 1,
-      time: "08:00",
-      slot: "morning",
-      days: [0,1,2,3,4,5,6], //array descirbing days of week to do this action
-      medications: morning.map( function(trade_name) { return Medication.getByTradeName(trade_name) } )
-    },
-    {
-      id: 2,
-      time: "13:00",
-      slot: "afternoon",
-      days: [0,1,2,3,4,5,6], //array descirbing days of week to do this action,
-      medications: afternoon.map( function(trade_name) { return Medication.getByTradeName(trade_name) } )
-    },
-    {
-      id: 3,
-      time: "19:00",
-      slot: "evening",
-      days: [0,1,2,3,4,5,6], //array descirbing days of week to do this action,
-      medications: evening.map( function(trade_name) { return Medication.getByTradeName(trade_name) } )
-    }
-  ]
-
-  return {
-    get: function() {
-      return schedule;
-    },
-    addTimeSlot: function(slotName, daysArray){
-      var instanceFB =  { //use this if adding new element
-        id: schedule.length+1, // replace in FB
-        time: "00:00",
-        slot: slotName,
-        days: daysArray,
-        medications: []
-      };
-      schedule.splice(0, 0, instanceFB);
-    }
-  };
-}])
-// END TEMP --> temporary factory for medication schedule setup control
-
-
 // This factory is responsible for defining a Medication Schedule
 // that the patient usually adheres to.
 .factory('MedicationSchedule', ["Medication", "Patient","$firebaseObject", "$firebaseArray", "CARD", "Card", function(Medication, Patient, $firebaseObject,$firebaseArray, CARD, Card) {
@@ -172,8 +123,9 @@ angular.module('app.services')
      */
     get: function() {
       var ref = this.ref().child("defaultSchedule");
-      return $firebaseArray(ref)
+      return $firebaseArray(ref);
     },
+
     /*
      * queries firebase data and returns the defaultSchedule from firebase
      * this method will return a PROMISE, so we can call the then method on the promise
@@ -196,11 +148,25 @@ angular.module('app.services')
       return $firebaseObject(ref);
     },
 
+    // Add a time slot to the schedule
+    addTimeSlot: function(slotName, daysArray){
+      var ref = this.get();
+      var instanceFB =  { //use this if adding new element
+        time: "00:00",
+        slot: slotName,
+        days: daysArray,
+      };
+      ref.$add(instanceFB);
+    },
+
     createTodaysCards: function() {
       var today = (new Date()).toISOString().substring(0,10)
+
+      var that = this;
+
       var todaysCardsReq = Card.ref().child(today).child(CARD.CATEGORY.MEDICATIONS_SCHEDULE).once("value", function (snap) {
         if (!snap.exists()) {
-          var req = this.ref().child("defaultSchedule").once("value", function(snap) {
+          var req = that.ref().child("defaultSchedule").once("value", function(snap) {
             var schedule = snap.val();
             var now    = (new Date()).toISOString();
             var date = now.substring(0,10) //Only get the date: YYYY-MM-DD
@@ -223,8 +189,8 @@ angular.module('app.services')
           }) //end req
         }
       }) //end todaysCardReq
-
     }
+
   };
 }])
 

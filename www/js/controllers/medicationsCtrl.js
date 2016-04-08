@@ -108,13 +108,38 @@ angular.module('app.controllers')
   };
 })
 
-.controller('medicationsSettingCtrl', function($scope, $ionicPopup, Patient, Medication, MedicationScheduleOLD, MedicationHistory) {
+.controller('medicationsSettingCtrl', function($scope, $ionicPopup, Patient, Medication, MedicationSchedule, MedicationHistory) {
 
   // TODO --> use MedicationSchedule and FB
-  $scope.schedule = MedicationScheduleOLD.get();
+  $scope.schedule = MedicationSchedule.get();
   $scope.selected_med = null;
   $scope.newSlotName = {text: ""};
   $scope.showError = false;
+
+  $scope.sortSchedule = function() {
+    $scope.schedule.sort(function(a, b){var dat1 = a.time.split(":"); var dat2 = b.time.split(":");
+                            return parseInt(dat1[0]+dat1[1]) - parseInt(dat2[0]+dat2[1])});
+  }
+
+  $scope.dropCallback = function(event, index, item, external, type, allowedType, list, listnull) {
+      // Check if medications list exists.  If not, create it.
+      if (listnull) {
+        list.medications = [];
+      }
+      // Check if med exists in medications array - if exists, prevent drop
+      for (var i = 0; i < list.medications.length; i++) {
+        if (list.medications[i] == item) return false;
+      }
+      if (external) {
+          if (allowedType === 'itemType' && !item.label) return false;
+          if (allowedType === 'containerType' && !angular.isArray(item)) return false;
+      }
+      return item;
+  };
+
+  // Show popup when user clicks on + Add Time Slow
+  // Allow user to input new name for timeslot
+  // TODO -- allow user to pick days of the week for schedule
   $scope.addTimeSlot = function() {
     var myPopup = $ionicPopup.show({
       templateUrl: 'medSched-popup-template.html',
@@ -127,8 +152,10 @@ angular.module('app.controllers')
         {
           text: '<b>Add</b>',
           onTap: function(e) {
+            // Make sure input field contains text.
             if ($scope.newSlotName.text) {
-              MedicationScheduleOLD.addTimeSlot($scope.newSlotName.text, [0,1,2,3,4,5,6]);
+              // TODO -> allow user to pick dates for schedule
+              MedicationSchedule.addTimeSlot($scope.newSlotName.text, [0,1,2,3,4,5,6]);
               $scope.newSlotName.text = "";
               $scope.showError = false;
             } else {
@@ -141,25 +168,12 @@ angular.module('app.controllers')
       ]
     });
   }
-  //var uid = JSON.parse(window.localStorage["authData"]).uid;
 
-  //3 way data binding of medicationSchedule...
-  //MedicationScheduleFB(uid).$bindTo($scope,"schedule");
+  $scope.saveMedicationSchedule = function() {
+    for(var i = 0; i < $scope.schedule.length; i++) {
+      $scope.schedule.$save($scope.schedule[i]);
+    }
+  }
 
-  // $scope.schedule = MedicationScheduleFB(uid);
-  // console.log(schedule);
-  // $scope.saveMedicationSchedule = function() {
-  //   var firebaseRef = new Firebase("https://vivid-inferno-5187.firebaseio.com/");
-  //   console.log(JSON.parse(window.localStorage["authData"]).uid);
-  //   var userRef = firebaseRef.child("users").child(JSON.parse(window.localStorage["authData"]).uid);
-  //
-  //   console.log(schedule);
-  //
-  // };
-   //$scope.moveItem = function(slot, item, fromIndex, toIndex) {
-    //console.log("Move from: " + fromIndex + " to: " + toIndex + " Med: " + item);
-    //Move the item in the array
-    //slot.medications.splice(fromIndex, 1);
-    //slot.medications.splice(toIndex, 0, item);
-  //};
+
 })
