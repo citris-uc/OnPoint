@@ -25,8 +25,9 @@ angular.module('app.controllers')
         displayAlert("Please select a reminder day");
     } else{
        var schedule = {};
-       schedule.name = $scope.newShedule.name;
-       schedule.time = $scope.newShedule.time.toISOString();
+       schedule.name   = $scope.newShedule.name;
+       schedule.hour   = $scope.newShedule.time.getHours();
+       schedule.minute = $scope.newShedule.time.getMinutes();
        schedule.days = [];
        if($scope.newShedule.days0 == true){
          schedule.days.push(0);
