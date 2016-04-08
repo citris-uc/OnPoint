@@ -147,27 +147,26 @@ angular.module('app.controllers')
     return false;
   }
 
-  // TODO: Deprecate soon as we're moving to Firebase.
   $scope.generateCardsForToday = function() {
-   var measurementSchedule = MeasurementSchedule.get();
-   console.log(measurementSchedule);
-   for(var i = 0; i < measurementSchedule.length; i++) {
-     slot = measurementSchedule[i];
-     if (slot.days.includes(currentDay)) {
-       var cardObject = {type: CARD.TYPE.ACTION};
+   var measurementSchedule = MeasurementSchedule.get()
+   measurementSchedule.$loaded().then( function(ref) {
+     for(var i = 0; i < measurementSchedule.length; i++) {
+       schedule = measurementSchedule[i];
 
-       time = slot.time.split(":");
-       var showAt = (new Date()).setHours(time[0],time[1]);
-       showAt = (new Date(showAt)).toISOString();
+       if (schedule.days.includes($scope.today.getDay())) {
+         var showAt = (new Date()).setHours(schedule.hour, schedule.minute);
+         showAt     = (new Date(showAt)).toISOString();
 
-       cardObject.shown_at = showAt;
-       Card.find_or_create_by_object({id: slot.id, type: CARD.CATEGORY.MEASUREMENTS_SCHEDULE}, cardObject);
+         var cardObject = {type: CARD.TYPE.ACTION, shown_at: showAt};
+         Card.find_or_create_by_object({id: schedule.$id, type: CARD.CATEGORY.MEASUREMENTS_SCHEDULE}, cardObject);
+       }
+
+       $scope.cards = Card.get();
      }
-   }
-
-   $scope.cards = Card.get();
+   });
   }
 
+  // TODO: Comments should be part of a Card.
   $scope.getCommentsCount = function(card_id){
     return Comment.get_comments_count_by_id(card_id);
   }

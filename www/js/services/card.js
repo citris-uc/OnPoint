@@ -1,66 +1,23 @@
 angular.module('app.services')
 
 .factory("Card", ["CARD", "Patient", "MedicationHistory", "$firebaseArray", "$firebaseObject", function(CARD, Patient, MedicationHistory, $firebaseArray, $firebaseObject) {
-  // var cards = [{
-  //   id: 0,
-  //   created_at: "2016-03-15T10:00:00",
-  //   updated_at: "2016-03-15T10:00:00", //should arrange timeline by this timestamp
-  //   completed_at: null,
-  //   archived_at: null,
-  //   type: CARD.TYPE.ACTION,
-  //   object_type: CARD.CATEGORY.MEDICATIONS_SCHEDULE,
-  //   object_id: 1
-  // }, {
-  //   id: 1,
-  //   created_at: "2016-03-15T11:00:00",
-  //   updated_at: "2016-03-15T11:00:00", //should arrange timeline by this timestamp
-  //   completed_at: null,
-  //   archived_at: null,
-  //   type: CARD.TYPE.URGENT,
-  //   object_type: CARD.CATEGORY.MEASUREMENTS_SCHEDULE,
-  //   object_id: 1
-  // }, {
-  //   id: 2,
-  //   created_at: "2016-03-15T11:30:00",
-  //   updated_at: "2016-03-15T11:30:00", //should arrange timeline by this timestamp
-  //   completed_at: null,
-  //   archived_at: null,
-  //   type: CARD.TYPE.REMINDER,
-  //   object_type: CARD.CATEGORY.APPOINTMENTS_SCHEDULE,
-  //   object_id: 1
-  // }, {
-  //   id: 3,
-  //   created_at: "2016-03-15T12:00:00",
-  //   updated_at: "2016-03-15T12:30:00", //should arrange timeline by this timestamp
-  //   completed_at: "2016-03-15T12:30:00",
-  //   archived_at: null,
-  //   type: CARD.TYPE.REMINDER,
-  //   object_type: CARD.CATEGORY.GOALS,
-  //   object_id: 1
-  // }, {
-  //   id: 4,
-  //   created_at: "2016-03-15T12:00:00",
-  //   updated_at: "2016-03-15T12:30:00", //should arrange timeline by this timestamp
-  //   completed_at: "2016-03-15T12:30:00",
-  //   archived_at: "2016-03-15T12:30:00",
-  //   type: CARD.TYPE.URGENT,
-  //   object_type: CARD.CATEGORY.SYMPTOMS_SCHEDULE,
-  //   object_id: 1
-  // }];
-
   return {
     get: function() {
       var ref = this.ref();
       return $firebaseArray(ref)
     },
     getByDay: function(date) {
-      var dateISO = date.toISOString().substring(0,10)  //Only get the date: YYYY-MM-DD
-      var ref = this.ref().child(dateISO);
+      var ref = this.todaysRef();
       return $firebaseArray(ref);
     },
     ref: function() {
       var uid = Patient.uid();
       return Patient.ref(uid).child("cards");
+    },
+    todaysRef: function() {
+      // TODO: No better way to get only the date from a Date object?
+      var dateISO = (new Date()).toISOString().substring(0,10)  //Only get the date: YYYY-MM-DD
+      return this.ref().child(dateISO);
     },
 
     create: function(date, object, card) {
@@ -68,12 +25,8 @@ angular.module('app.services')
       ref.set(card);
     },
     find_or_create_by_object(object, cardObject) {
-      // console.log("Object is: ")
-      // console.log(object)
-      // console.log("cardObject is: ")
-      // console.log(cardObject)
-
-      var ref = this.ref().child(object.type).child(object.id)
+      console.log(object)
+      var ref = this.todaysRef().child(object.type).child(object.id)
       return ref.transaction(function(current) {
         if (!current)
           current = {}
