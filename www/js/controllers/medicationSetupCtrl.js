@@ -34,7 +34,7 @@ angular.module('app.controllers')
         });
       }else{
          Medication.add_inputMed($scope.newMedication);
-         $state.go('medInputList');
+         $state.go('carePlan.medicationSchedules');
       }
 
     };
