@@ -224,6 +224,12 @@ angular.module('app.routes', [])
     templateUrl: 'templates/medications/fill_choice.html',
   })
 
+  .state('carePlan', {
+    url: '/careplan',
+    templateUrl: 'templates/carePlan.html',
+    abstract: true
+  })
+
 
   .state('onboardingMain', {
     url: '/onboarding-main',
