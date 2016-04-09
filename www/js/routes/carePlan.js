@@ -23,4 +23,22 @@ angular.module('app.routes')
       }
     }
   })
+
+  .state('carePlan.measurement-add', {
+    url: '/measurement_schedule/new',
+    views: {
+      'care-plan': {
+        templateUrl: 'templates/carePlan/new_measurement_schedule.html',
+        controller: 'measurementScheduleCtrl'
+      }
+    }
+  })
+
+  .state('measurementList', {
+    url: '/measurement_list',
+    templateUrl: 'templates/measurements/schedule_list.html',
+    controller: 'measurementScheduleCtrl'
+  })
+
+
 });
