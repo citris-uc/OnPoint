@@ -231,10 +231,14 @@ angular.module('app.routes', [])
   })
 
 
-  .state('onboardingMain', {
-    url: '/onboarding-main',
-    templateUrl: 'templates/onboardingMain.html',
-    controller: 'onboardingCtrl'
+  .state('carePlan.setup', {
+    url: '/setup',
+    views: {
+      'care-plan': {
+        templateUrl: 'templates/carePlan/setup.html',
+        controller: 'carePlanCtrl'
+      }
+    }
   })
 
   .state('medInputList', {

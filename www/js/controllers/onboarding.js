@@ -1,4 +1,4 @@
 angular.module('app.controllers')
 
-.controller('onboardingCtrl', function($scope, $state) {
+.controller('carePlanCtrl', function($scope, $state) {
 })
