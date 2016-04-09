@@ -49,7 +49,7 @@ angular.module('app.routes')
     url: '/medications',
     views: {
       'care-plan': {
-        templateUrl: 'templates/carePlan/medication_schedules.html',
+        templateUrl: 'templates/carePlan/medications.html',
         controller: 'medListCtrl'
       }
     }
