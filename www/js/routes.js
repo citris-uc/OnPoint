@@ -39,16 +39,6 @@ angular.module('app.routes', [])
     }
   })
 
-  .state('tabsController.settingsMedicationSchedule', {
-    url: '/settings/medicationSchedule',
-    views: {
-      'timeline-tab': {
-        templateUrl: 'templates/settingsMedicationSchedule.html',
-        controller: 'medicationsSettingCtrl'
-      }
-    }
-  })
-
   .state('tabsController.medications', {
     url: '/medications',
     views: {
@@ -59,7 +49,6 @@ angular.module('app.routes', [])
     }
   })
 
-  // NOTE: We're using ISO8601 format for the date here.
   .state('tabsController.medicationsSchedule', {
     url: '/medications/:schedule_id',
     views: {
@@ -70,7 +59,6 @@ angular.module('app.routes', [])
     }
   })
 
-  // NOTE: We're using ISO8601 format for the date here.
   .state('tabsController.medication', {
     url: '/medications/:schedule_id/:medicationName',
     views: {
@@ -187,29 +175,6 @@ angular.module('app.routes', [])
     url: '/symptoms-list-multiple',
     templateUrl: 'templates/symptomsListMultiple.html',
     controller: 'symptomsListMultipleCtrl'
-  })
-
-  .state('medInputMain', {
-    url: '/input_main',
-    templateUrl: 'templates/medications/input_main.html',
-    controller: 'medInputMainCtrl'
-  })
-
-  .state('medInputDetail', {
-    url: '/input_detail',
-    templateUrl: 'templates/medications/input_detail.html',
-    controller: 'medInputCtrl'
-  })
-
-  .state('fillMain', {
-    url: '/fill_main',
-    templateUrl: 'templates/medications/fill_main.html',
-    controller: 'medFillMainCtrl'
-  })
-
-  .state('fillChoice', {
-    url: '/fill_choice',
-    templateUrl: 'templates/medications/fill_choice.html',
   })
 
   $urlRouterProvider.otherwise('/login')

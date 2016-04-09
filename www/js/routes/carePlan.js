@@ -46,11 +46,51 @@ angular.module('app.routes')
 
 
   .state('carePlan.medicationSchedules', {
-    url: '/input_list',
+    url: '/medications',
     views: {
       'care-plan': {
-        templateUrl: 'templates/carePlan/medication_schedules.html',
+        templateUrl: 'templates/carePlan/medications.html',
         controller: 'medListCtrl'
+      }
+    }
+  })
+
+  .state('carePlan.newMedication', {
+    url: '/medications/new',
+    views: {
+      'care-plan': {
+        templateUrl: 'templates/carePlan/new_medication.html',
+        controller: 'medInputCtrl'
+      }
+    }
+  })
+
+  .state('carePlan.generatedMedSchedule', {
+    url: '/medication_schedules/generated',
+    views: {
+      'care-plan': {
+        templateUrl: 'templates/carePlan/generated_medication_schedule.html',
+        controller: 'medicationsSettingCtrl'
+      }
+    }
+  })
+
+
+  .state('carePlan.fillMain', {
+    url: '/fill_main',
+    views: {
+      'care-plan': {
+        templateUrl: 'templates/medications/fill_main.html',
+        controller: 'medFillMainCtrl'
+      }
+    }
+  })
+
+  .state('carePlan.fillChoice', {
+    url: '/fill_choice',
+    views: {
+      'care-plan': {
+        templateUrl: 'templates/medications/fill_choice.html'
       }
     }
   })

@@ -1,0 +1,23 @@
+<link type="text/css" rel="stylesheet" href="css/setupStyle.css"/>
+
+<ion-view title="Add your medications">
+  <ion-nav-buttons side="right">
+    <button class="button icon-right ion-ios-plus-empty button-clear button-positive" ui-sref="carePlan.newMedication"></button>
+  </ion-nav-buttons>
+
+  <ion-content overflow-scroll="true">
+    <ul class="list">
+      <li class="item" ng-show="Scheduledmedications.length === 0">
+        You haven't added any medications!
+      </li>
+
+      <li class="item" ng-repeat="med in Scheduledmedications">
+        {{med.name}}
+      </li>
+    </ul>
+
+    <div class="padding" ng-show="Scheduledmedications.length > 0">
+      <button class="button button-positive button-block" ui-sref="carePlan.generatedMedSchedule">Generate schedule for these medications</button>
+    </div>
+  </ion-content>
+</ion-view>

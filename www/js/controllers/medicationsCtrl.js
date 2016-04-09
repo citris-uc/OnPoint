@@ -108,7 +108,7 @@ angular.module('app.controllers')
   };
 })
 
-.controller('medicationsSettingCtrl', function($scope, $ionicPopup, Patient, Medication, MedicationSchedule, MedicationHistory) {
+.controller('medicationsSettingCtrl', function($scope, $state, $ionicPopup, Patient, Medication, MedicationSchedule, MedicationHistory) {
 
   // TODO --> use MedicationSchedule and FB
   $scope.schedule = MedicationSchedule.get();
@@ -173,6 +173,8 @@ angular.module('app.controllers')
     for(var i = 0; i < $scope.schedule.length; i++) {
       $scope.schedule.$save($scope.schedule[i]);
     }
+
+    $state.go("carePlan.fillChoice")
   }
 
 
