@@ -224,23 +224,6 @@ angular.module('app.routes', [])
     templateUrl: 'templates/medications/fill_choice.html',
   })
 
-  .state('carePlan', {
-    url: '/careplan',
-    templateUrl: 'templates/carePlan.html',
-    abstract: true
-  })
-
-
-  .state('carePlan.setup', {
-    url: '/setup',
-    views: {
-      'care-plan': {
-        templateUrl: 'templates/carePlan/setup.html',
-        controller: 'carePlanCtrl'
-      }
-    }
-  })
-
   .state('medInputList', {
     url: '/input_list',
     templateUrl: 'templates/medications/input_list.html',
