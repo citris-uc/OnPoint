@@ -189,18 +189,6 @@ angular.module('app.routes', [])
     controller: 'symptomsListMultipleCtrl'
   })
 
-  .state('medInputMain', {
-    url: '/input_main',
-    templateUrl: 'templates/medications/input_main.html',
-    controller: 'medInputMainCtrl'
-  })
-
-  .state('medInputDetail', {
-    url: '/input_detail',
-    templateUrl: 'templates/medications/input_detail.html',
-    controller: 'medInputCtrl'
-  })
-
   .state('fillMain', {
     url: '/fill_main',
     templateUrl: 'templates/medications/fill_main.html',

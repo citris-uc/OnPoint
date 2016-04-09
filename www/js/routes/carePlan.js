@@ -54,4 +54,17 @@ angular.module('app.routes')
       }
     }
   })
+
+  .state('carePlan.newMedication', {
+    url: '/medications/new',
+    views: {
+      'care-plan': {
+        templateUrl: 'templates/carePlan/new_medication.html',
+        controller: 'medInputCtrl'
+      }
+    }
+
+  })
+
+
 });
