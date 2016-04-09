@@ -34,10 +34,15 @@ angular.module('app.routes')
     }
   })
 
-  .state('measurementList', {
-    url: '/measurement_list',
-    templateUrl: 'templates/measurements/schedule_list.html',
-    controller: 'measurementScheduleCtrl'
+  .state('carePlan.measurementSchedules', {
+    url: '/measurement_schedules',
+    views: {
+      'care-plan': {
+        templateUrl: 'templates/carePlan/measurement_schedules.html',
+        controller: 'measurementScheduleCtrl'
+      }
+    }
+
   })
 
 
