@@ -63,8 +63,16 @@ angular.module('app.routes')
         controller: 'medInputCtrl'
       }
     }
-
   })
 
+  .state('carePlan.generatedMedSchedule', {
+    url: '/medication_schedules/generated',
+    views: {
+      'care-plan': {
+        templateUrl: 'templates/carePlan/generated_medication_schedule.html',
+        controller: 'medicationsSettingCtrl'
+      }
+    }
+  })
 
 });

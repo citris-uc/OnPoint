@@ -39,16 +39,6 @@ angular.module('app.routes', [])
     }
   })
 
-  .state('tabsController.settingsMedicationSchedule', {
-    url: '/settings/medicationSchedule',
-    views: {
-      'timeline-tab': {
-        templateUrl: 'templates/settingsMedicationSchedule.html',
-        controller: 'medicationsSettingCtrl'
-      }
-    }
-  })
-
   .state('tabsController.medications', {
     url: '/medications',
     views: {
@@ -59,7 +49,6 @@ angular.module('app.routes', [])
     }
   })
 
-  // NOTE: We're using ISO8601 format for the date here.
   .state('tabsController.medicationsSchedule', {
     url: '/medications/:schedule_id',
     views: {
@@ -70,7 +59,6 @@ angular.module('app.routes', [])
     }
   })
 
-  // NOTE: We're using ISO8601 format for the date here.
   .state('tabsController.medication', {
     url: '/medications/:schedule_id/:medicationName',
     views: {
