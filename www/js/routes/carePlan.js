@@ -46,7 +46,7 @@ angular.module('app.routes')
 
 
   .state('carePlan.medicationSchedules', {
-    url: '/input_list',
+    url: '/medications',
     views: {
       'care-plan': {
         templateUrl: 'templates/carePlan/medication_schedules.html',
