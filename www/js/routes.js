@@ -212,11 +212,5 @@ angular.module('app.routes', [])
     templateUrl: 'templates/medications/fill_choice.html',
   })
 
-  .state('medInputList', {
-    url: '/input_list',
-    templateUrl: 'templates/medications/input_list.html',
-    controller: 'medListCtrl'
-  })
-
   $urlRouterProvider.otherwise('/login')
 });

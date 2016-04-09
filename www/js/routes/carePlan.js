@@ -42,8 +42,16 @@ angular.module('app.routes')
         controller: 'measurementScheduleCtrl'
       }
     }
-
   })
 
 
+  .state('carePlan.medicationSchedules', {
+    url: '/input_list',
+    views: {
+      'care-plan': {
+        templateUrl: 'templates/carePlan/medication_schedules.html',
+        controller: 'medListCtrl'
+      }
+    }
+  })
 });
