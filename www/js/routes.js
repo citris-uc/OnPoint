@@ -111,18 +111,6 @@ angular.module('app.routes', [])
     }
   })
 
-  .state('measurementInput', {
-    url: '/measurement_input',
-    templateUrl: 'templates/measurements/input.html',
-    controller: 'measurementScheduleCtrl'
-  })
-
-  .state('measurementList', {
-    url: '/measurement_list',
-    templateUrl: 'templates/measurements/schedule_list.html',
-    controller: 'measurementScheduleCtrl'
-  })
-
   .state('tabsController.appointments', {
     url: '/appointments',
     views: {
@@ -222,12 +210,6 @@ angular.module('app.routes', [])
   .state('fillChoice', {
     url: '/fill_choice',
     templateUrl: 'templates/medications/fill_choice.html',
-  })
-
-  .state('medInputList', {
-    url: '/input_list',
-    templateUrl: 'templates/medications/input_list.html',
-    controller: 'medListCtrl'
   })
 
   $urlRouterProvider.otherwise('/login')

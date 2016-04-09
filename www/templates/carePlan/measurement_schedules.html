@@ -1,11 +1,11 @@
 <ion-view title="Measurement Schedules">
   <ion-nav-buttons side="right">
-    <button class="button icon-right ion-plus button-clear button-positive" ui-sref="measurementInput"></button>
+    <button class="button icon-right ion-ios-plus-empty button-clear button-positive" ui-sref="carePlan.measurement-add"></button>
   </ion-nav-buttons>
 
   <ion-content>
     <ul class="list">
-      <li class="item item-icon-right" ng-repeat="schedule in measurement_schedule" ui-sref="measurementInput">
+      <li class="item item-icon-right" ng-repeat="schedule in measurement_schedule" ui-sref="carePlan.measurement-add">
         {{schedule.name}}
         <i class="icon ion-ios-arrow-right"></i>
       </li>

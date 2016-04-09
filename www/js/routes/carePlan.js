@@ -23,4 +23,35 @@ angular.module('app.routes')
       }
     }
   })
+
+  .state('carePlan.measurement-add', {
+    url: '/measurement_schedule/new',
+    views: {
+      'care-plan': {
+        templateUrl: 'templates/carePlan/new_measurement_schedule.html',
+        controller: 'measurementScheduleCtrl'
+      }
+    }
+  })
+
+  .state('carePlan.measurementSchedules', {
+    url: '/measurement_schedules',
+    views: {
+      'care-plan': {
+        templateUrl: 'templates/carePlan/measurement_schedules.html',
+        controller: 'measurementScheduleCtrl'
+      }
+    }
+  })
+
+
+  .state('carePlan.medicationSchedules', {
+    url: '/input_list',
+    views: {
+      'care-plan': {
+        templateUrl: 'templates/carePlan/medication_schedules.html',
+        controller: 'medListCtrl'
+      }
+    }
+  })
 });

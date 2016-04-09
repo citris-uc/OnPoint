@@ -61,7 +61,7 @@ angular.module('app.controllers')
          schedule.measurements.push("heart_rate");
        }
        MeasurementSchedule.add(schedule);
-       $state.go('measurementList');
+       $state.go('carePlan.measurementSchedules');
     }
   }
 
