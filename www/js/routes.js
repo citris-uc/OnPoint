@@ -224,13 +224,6 @@ angular.module('app.routes', [])
     templateUrl: 'templates/medications/fill_choice.html',
   })
 
-
-  .state('onboardingMain', {
-    url: '/onboarding-main',
-    templateUrl: 'templates/onboardingMain.html',
-    controller: 'onboardingCtrl'
-  })
-
   .state('medInputList', {
     url: '/input_list',
     templateUrl: 'templates/medications/input_list.html',

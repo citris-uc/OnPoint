@@ -1,0 +1,23 @@
+<ion-view title="Set up your onPoint plan" >
+  <ion-nav-buttons side="left">
+    <button class="button button-icon icon ion-ios-home-outline button-positive button-clear"
+    ui-sref="tabsController.timeline"></button>
+  </ion-nav-buttons>
+
+
+  <ion-content overflow-scroll="true">
+     <div class="text-center">
+        <img class="icon ion-image" ng-src="img/onPoint_logo.png"></img>
+     </div>
+     <ul class="list">
+        <li class="item item-icon-right">
+          Medications
+          <i class="icon ion-ios-arrow-right"></i>
+        </li>
+        <li class="item item-icon-right" ui-sref="measurementList">
+          Measurements
+          <i class="icon ion-ios-arrow-right"></i>
+        </li>
+     </ul>
+  </ion-content>
+</ion-view>
