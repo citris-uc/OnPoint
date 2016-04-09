@@ -1,14 +1,14 @@
 <link type="text/css" rel="stylesheet" href="css/setupStyle.css"/>
 
 <ion-view title="New Medication">
-  <ion-content overflow-scroll="true" class="has-header">
+  <ion-content overflow-scroll="true">
     <div class="list text-center">
       <label class="item item-input">
         <input type="text" ng-model="newMedication.name" placeholder="Medication name (e.g. Lasix)"></input>
       </label>
 
       <label class="item item-input">
-        <input type="number" placeholder="Dosage (e.g. 25)" ng-model="newMedication.dosage" ></input>
+        <input type="number" min="0" placeholder="Dosage (e.g. 25)" ng-model="newMedication.dosage" ></input>
         <span>mg</span>
       </label>
 
@@ -32,8 +32,5 @@
     <div class="padding">
       <button class="button button-positive button-block" ng-click="saveMedication()">Save</button>
     </div>
-
-
-
   </ion-content>
 </ion-view>
