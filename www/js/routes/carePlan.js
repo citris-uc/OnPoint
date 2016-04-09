@@ -75,4 +75,23 @@ angular.module('app.routes')
     }
   })
 
+
+  .state('carePlan.fillMain', {
+    url: '/fill_main',
+    views: {
+      'care-plan': {
+        templateUrl: 'templates/medications/fill_main.html',
+        controller: 'medFillMainCtrl'
+      }
+    }
+  })
+
+  .state('carePlan.fillChoice', {
+    url: '/fill_choice',
+    views: {
+      'care-plan': {
+        templateUrl: 'templates/medications/fill_choice.html'
+      }
+    }
+  })
 });

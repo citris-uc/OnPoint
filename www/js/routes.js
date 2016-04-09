@@ -177,16 +177,5 @@ angular.module('app.routes', [])
     controller: 'symptomsListMultipleCtrl'
   })
 
-  .state('fillMain', {
-    url: '/fill_main',
-    templateUrl: 'templates/medications/fill_main.html',
-    controller: 'medFillMainCtrl'
-  })
-
-  .state('fillChoice', {
-    url: '/fill_choice',
-    templateUrl: 'templates/medications/fill_choice.html',
-  })
-
   $urlRouterProvider.otherwise('/login')
 });
