@@ -13,6 +13,13 @@ angular.module('app.routes', [])
     controller: 'loginCtrl'
   })
 
+  .state('registerScreen', {
+    url: '/register',
+    templateUrl: 'templates/register.html',
+    controller: 'registerCtrl'
+  })
+
+
   .state('tabsController', {
     url: '/tabs',
     templateUrl: 'templates/tabsController.html',
