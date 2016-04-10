@@ -13,10 +13,31 @@ angular.module('app.routes', [])
     controller: 'loginCtrl'
   })
 
-  .state('registerScreen', {
+
+  .state('register', {
     url: '/register',
-    templateUrl: 'templates/register.html',
-    controller: 'registerCtrl'
+    templateUrl: 'templates/register/register.html',
+    abstract:true
+  })
+
+  .state('register.stepOne', {
+    url: '/register',
+    views: {
+      'register': {
+        templateUrl: 'templates/register/registerStepOne.html',
+        controller: 'registerCtrl'
+      }
+    }
+  })
+
+  .state('register.stepTwo', {
+    url: '/register',
+    views: {
+      'register': {
+        templateUrl: 'templates/register/registerStepTwo.html',
+        controller: 'registerCtrl'
+      }
+    }
   })
 
 
