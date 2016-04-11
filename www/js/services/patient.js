@@ -18,13 +18,14 @@ angular.module('app.services')
       this.setToken(patient.token);
       $window.localStorage.setItem("patient", JSON.stringify(patient || {}));
     },
-    create: function(email, authData) {
-      // Create the patient, add to localstorage, and add the token.
-      patient = {email: email, uid: authData.uid, profileImageUrl: authData.profileImageUrl}
-      this.set(patient)
-      this.ref(authData.uid).set({email: email})
-      this.setToken(authData.token)
-    },
+    // DEPRECIATED: because moving to register screen
+    // create: function(email, authData) {
+    //   // Create the patient, add to localstorage, and add the token.
+    //   patient = {email: email, uid: authData.uid, profileImageUrl: authData.profileImageUrl}
+    //   //this.set(patient) //authData will only contain UID
+    //   this.ref(authData.uid).set({email: email})
+    //   //this.setToken(authData.token) //authData will only contain UID
+    // },
     setProfilePicture: function(profileImageUrl) {
       patient = this.get();
       patient.profileImageUrl = profileImageUrl;
@@ -39,7 +40,7 @@ angular.module('app.services')
     getToken: function() {
       return $window.localStorage.getItem("token");
     },
-    ref: function(uid) {
+    ref: function() {
       var patientRef = new Firebase("https://vivid-inferno-5187.firebaseio.com/patients/");
       var uid = this.uid();
       if (uid)

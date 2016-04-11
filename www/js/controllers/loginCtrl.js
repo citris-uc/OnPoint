@@ -42,18 +42,6 @@ angular.module('app.controllers')
     })
   }
 
-  $scope.register = function()   {
-    $scope.state.loading = true;
-
-    Patient.auth().$createUser($scope.user).then(function(authData) {
-      handleTransition()
-      Patient.create($scope.user.email, authData)
-      $state.go("tabsController.timeline");
-    }).catch(function(error) {
-      handleError(error)
-    })
-  }
-
   var handleError = function(error) {
     var alertPopup = $ionicPopup.alert({
       title: 'Error',
