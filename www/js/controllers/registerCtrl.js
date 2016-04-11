@@ -83,7 +83,7 @@ Source: http://codepen.io/niyando/pen/GpEeQR
   $scope.start = function() {
     var ref = Patient.ref();
     //Use UPDATE, to NOT OVERWRITE email address!
-    $scope.user['onboarding'] = {'completed':false,'step':'carePlan.setup'} 
+    $scope.user['onboarding'] = {'completed':false,'state':'carePlan.setup'} 
     var req = ref.update($scope.user) //Setting Patient Information.
     req.then(function(ref) {
 

@@ -119,7 +119,7 @@ angular.module('app.controllers')
   //Saving State of onboarding progress into firebase
   $scope.$on('$ionicView.afterEnter', function(){
     var ref = Patient.ref();
-    var req = ref.child('onboarding').update({'step':$state.current.name})
+    var req = ref.child('onboarding').update({'state':$state.current.name})
    });
 
   $scope.sortSchedule = function() {
@@ -181,7 +181,7 @@ angular.module('app.controllers')
     }
     //Done onboarding!
     var ref = Patient.ref();
-    var req = ref.child('onboarding').update({'completed':true,'step':null})
+    var req = ref.child('onboarding').update({'completed':true,'state':null})
     $state.go("carePlan.fillChoice")
   }
 })
