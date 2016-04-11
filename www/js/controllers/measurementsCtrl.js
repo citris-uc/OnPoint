@@ -66,7 +66,7 @@ angular.module('app.controllers')
   }
   //Done onboarding!
   var ref = Patient.ref();
-  var req = ref.child('onboarding').update({'completed':true,'state':null})
+  var req = ref.child('onboarding').update({'completed':true,'state':$state.current.name})
 
 })
 
