@@ -34,8 +34,12 @@ angular.module('app.controllers')
     $scope.state.loading = true;
 
     Patient.auth().$authWithPassword($scope.user).then(function(authData) {
-      handleTransition()
       Patient.set(authData); //this will also set the Token
+      req = Patient.ref().once("value", function(snapshot) {
+        console.log(snapshot.val())
+      });
+
+      handleTransition()
       $state.go("tabsController.timeline");
     }).catch(function(error) {
       handleError(error)
