@@ -181,7 +181,7 @@ angular.module('app.controllers')
     }
     //Done onboarding!
     var ref = Patient.ref();
-    var req = ref.update({'onboarding':false})
+    var req = ref.update({'onboarding':false,'onboarding_step':'completed'})
     $state.go("carePlan.fillChoice")
   }
 })
