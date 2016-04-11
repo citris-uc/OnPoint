@@ -117,7 +117,7 @@ angular.module('app.controllers')
   $scope.showError = false;
 
   //Saving State of onboarding progress into firebase
-  $scope.$on('$ionicView.beforeEnter', function(){
+  $scope.$on('$ionicView.afterEnter', function(){
     var ref = Patient.ref();
     var req = ref.child('onboarding').update({'step':$state.current.name})
    });
