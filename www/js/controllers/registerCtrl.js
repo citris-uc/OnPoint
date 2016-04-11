@@ -80,7 +80,7 @@ Source: http://codepen.io/niyando/pen/GpEeQR
     var req = ref.update($scope.user) //Setting Patient Information.
     req.then(function(ref) {
       //TODO: redirect to onboarding process
-      $state.go("tabsController.timeline");
+      $state.go("carePlan.setup");
     })
   }
   $scope.disableContinue = function() {
