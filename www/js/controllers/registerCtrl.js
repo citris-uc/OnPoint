@@ -41,6 +41,12 @@ Source: http://codepen.io/niyando/pen/GpEeQR
       Patient.auth().$authWithPassword($scope.user).then(function(authData) { //Then Log in
         console.log(authData)
         $scope.state.loading = false;
+        
+        $ionicHistory.nextViewOptions({
+          disableAnimate: true,
+          disableBack: true,
+        })
+
         Patient.set(authData); //this will also set the Token
         Patient.ref().set({email: $scope.user.email})
         $state.go("register.stepTwo");
@@ -79,6 +85,12 @@ Source: http://codepen.io/niyando/pen/GpEeQR
     //Use UPDATE, to NOT OVERWRITE email address!
     var req = ref.update($scope.user) //Setting Patient Information.
     req.then(function(ref) {
+
+      $ionicHistory.nextViewOptions({
+        disableAnimate: true,
+        disableBack: true,
+      })
+
       //TODO: redirect to onboarding process
       $state.go("tabsController.timeline");
     })
