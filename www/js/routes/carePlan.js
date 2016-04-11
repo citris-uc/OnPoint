@@ -50,7 +50,7 @@ angular.module('app.routes')
     views: {
       'care-plan': {
         templateUrl: 'templates/carePlan/medications.html',
-        controller: 'medListCtrl'
+        controller: 'carePlanMedListCtrl'
       }
     }
   })
