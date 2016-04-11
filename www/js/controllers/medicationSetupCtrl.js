@@ -29,12 +29,21 @@ angular.module('app.controllers')
          $state.go('carePlan.medicationSchedules');
       }
     };
+
+
 })
 
 
-.controller('medListCtrl', function($scope, Medication) {
+.controller('medListCtrl', function($scope, $state, Patient, Medication) {
    $scope.Scheduledmedications = Medication.get_inputList();
    $scope.test = Medication.get_inputList();
+
+   //Saving State of onboarding progress into firebase
+   $scope.$on('$ionicView.afterEnter', function(){
+     var ref = Patient.ref();
+     var req = ref.child('onboarding').update({'step':$state.current.name})
+    });
+
 })
 
 .controller('medInputMainCtrl', function($scope, Medication) {
@@ -87,4 +96,5 @@ angular.module('app.controllers')
       return true;
     }
   }
+
 })
