@@ -32,9 +32,14 @@ angular.module('app.controllers')
 })
 
 
-.controller('medListCtrl', function($scope, Medication) {
+.controller('medListCtrl', function($scope, $state, Medication, MedicationSchedule) {
    $scope.Scheduledmedications = Medication.get_inputList();
    $scope.test = Medication.get_inputList();
+
+   $scope.generate = function() {
+     MedicationSchedule.setDefaultSchedule();
+     $state.go("carePlan.generatedMedSchedule")
+   }
 })
 
 .controller('medInputMainCtrl', function($scope, Medication) {
