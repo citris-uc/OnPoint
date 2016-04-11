@@ -39,7 +39,11 @@ angular.module('app.controllers')
         var onboarding = snapshot.val();
         var nexState;
         if(!onboarding.completed) {
-          nextState = onboarding.state
+          if(onboarding.state == 'carePlan.setup' ||
+                onboarding.state == 'carePlan.medicationSchedules' ||
+                onboarding.state == 'carePlan.generatedMedSchedule') { // avoiding race conditions
+            nextState = onboarding.state
+          }
         }
         else {
           nextState = "tabsController.timeline"
