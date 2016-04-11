@@ -1,6 +1,6 @@
 angular.module('app.controllers')
 
-.controller('measurementScheduleCtrl', function($scope, $ionicPopup, $state, MeasurementSchedule) {
+.controller('measurementScheduleCtrl', function($scope, $ionicPopup, $state,Patient, MeasurementSchedule) {
   $scope.measurement_schedule = MeasurementSchedule.get();
   $scope.newShedule = {time: new Date("2016-01-01 08:00")};
 
@@ -64,6 +64,9 @@ angular.module('app.controllers')
        $state.go('carePlan.measurementSchedules');
     }
   }
+  //Done onboarding!
+  var ref = Patient.ref();
+  var req = ref.child('onboarding').update({'completed':true,'state':null})
 
 })
 

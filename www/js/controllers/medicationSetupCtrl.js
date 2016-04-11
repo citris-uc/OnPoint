@@ -29,6 +29,8 @@ angular.module('app.controllers')
          $state.go('carePlan.medicationSchedules');
       }
     };
+
+
 })
 
 
@@ -40,6 +42,12 @@ angular.module('app.controllers')
      MedicationSchedule.setDefaultSchedule();
      $state.go("carePlan.generatedMedSchedule")
    }
+   
+   //Saving State of onboarding progress into firebase
+   $scope.$on('$ionicView.afterEnter', function(){
+     var ref = Patient.ref();
+     var req = ref.child('onboarding').update({'state':$state.current.name})
+    });
 })
 
 .controller('medInputMainCtrl', function($scope, Medication) {
@@ -92,4 +100,5 @@ angular.module('app.controllers')
       return true;
     }
   }
+
 })

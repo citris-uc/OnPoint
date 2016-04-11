@@ -37,11 +37,11 @@ Source: http://codepen.io/niyando/pen/GpEeQR
     $scope.state.loading = true;
 
     Patient.auth().$createUser($scope.user).then(function(authData) { //Create User
-      console.log(authData)
+      //console.log(authData)
       Patient.auth().$authWithPassword($scope.user).then(function(authData) { //Then Log in
-        console.log(authData)
+        //console.log(authData)
         $scope.state.loading = false;
-        
+
         $ionicHistory.nextViewOptions({
           disableAnimate: true,
           disableBack: true,
@@ -83,6 +83,7 @@ Source: http://codepen.io/niyando/pen/GpEeQR
   $scope.start = function() {
     var ref = Patient.ref();
     //Use UPDATE, to NOT OVERWRITE email address!
+    $scope.user['onboarding'] = {'completed':false,'state':'carePlan.setup'} 
     var req = ref.update($scope.user) //Setting Patient Information.
     req.then(function(ref) {
 
@@ -92,7 +93,7 @@ Source: http://codepen.io/niyando/pen/GpEeQR
       })
 
       //TODO: redirect to onboarding process
-      $state.go("tabsController.timeline");
+      $state.go("carePlan.setup");
     })
   }
   $scope.disableContinue = function() {

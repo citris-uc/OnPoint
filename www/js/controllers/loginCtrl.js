@@ -34,9 +34,24 @@ angular.module('app.controllers')
     $scope.state.loading = true;
 
     Patient.auth().$authWithPassword($scope.user).then(function(authData) {
-      handleTransition()
       Patient.set(authData); //this will also set the Token
-      $state.go("tabsController.timeline");
+      req = Patient.ref().child('onboarding').once("value", function(snapshot) {
+        var onboarding = snapshot.val();
+        var nexState;
+        if(!onboarding.completed) {
+          if(onboarding.state == 'carePlan.setup' ||
+                onboarding.state == 'carePlan.medicationSchedules' ||
+                onboarding.state == 'carePlan.generatedMedSchedule') { // avoiding race conditions
+            nextState = onboarding.state
+          }
+        }
+        else {
+          nextState = "tabsController.timeline"
+        }
+        handleTransition()
+        $state.go(nextState);
+      }); //donr request for onboarding status
+
     }).catch(function(error) {
       handleError(error)
     })
