@@ -21,21 +21,21 @@ angular.module('app.routes', [])
   })
 
   .state('register.stepOne', {
-    url: '/register',
+    url: '/register/one',
     views: {
       'register': {
         templateUrl: 'templates/register/registerStepOne.html',
-        controller: 'registerCtrl'
+        controller: 'registerStepOneCtrl'
       }
     }
   })
 
   .state('register.stepTwo', {
-    url: '/register',
+    url: '/register/two',
     views: {
       'register': {
         templateUrl: 'templates/register/registerStepTwo.html',
-        controller: 'registerCtrl'
+        controller: 'registerStepTwoCtrl'
       }
     }
   })

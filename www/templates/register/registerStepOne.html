@@ -4,12 +4,17 @@
     <div class="list text-center">
       <h3 class ="text-center">Please enter an email and password</h3>
       <label class="item item-input">
-        <input type="text" placeholder="email"></input>
+        <input type="text" placeholder="email" ng-model="user.email"></input>
       </label>
       <label class="item item-input">
-        <input type="password" placeholder="password"></input>
+        <input type="password" placeholder="password" ng-model="user.password"></input>
       </label>
 
+      <button class="button button-positive button-block"
+       ng-click="register()" ng-disabled="disableContinue()">
+        <span ng-hide="state.loading">Register</span>
+        <ion-spinner icon="ios-small" class="spinner-stable" ng-show="state.loading"></ion-spinner>
+       </button>
 
 
   </ion-content>
