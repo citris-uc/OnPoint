@@ -39,7 +39,7 @@ angular.module('app.controllers')
         var onboarding = snapshot.val();
         var nexState;
         if(!onboarding.completed) {
-          nextState = onboarding.step
+          nextState = onboarding.state
         }
         else {
           nextState = "tabsController.timeline"
