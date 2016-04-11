@@ -35,12 +35,19 @@ angular.module('app.controllers')
 
     Patient.auth().$authWithPassword($scope.user).then(function(authData) {
       Patient.set(authData); //this will also set the Token
-      req = Patient.ref().once("value", function(snapshot) {
-        console.log(snapshot.val())
-      });
+      req = Patient.ref().child('status').once("value", function(snapshot) {
+        var status = snapshot.val();
+        var nexState;
+        if(status.onboarding==true) {
+          nextState = status.onboarding_step
+        }
+        else {
+          nextState = "tabsController.timeline"
+        }
+        handleTransition()
+        $state.go(nextState);
+      }); //donr request for onboarding status
 
-      handleTransition()
-      $state.go("tabsController.timeline");
     }).catch(function(error) {
       handleError(error)
     })
