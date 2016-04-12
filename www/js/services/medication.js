@@ -117,9 +117,14 @@ angular.module('app.services')
      */
     setDefaultSchedule: function() {
       var ref = this.ref().child("default")
-      for(var i = 0; i < schedule.length; i++) {
-        ref.push(schedule[i]);
-      }
+      ref.once("value", function(snapshot) {
+        if (!snapshot.exists()) { //only push default schedule once. 
+          for(var i = 0; i < schedule.length; i++) {
+            ref.push(schedule[i]);
+          }
+        }
+      })
+
     },
 
     ref: function() {
