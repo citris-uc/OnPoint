@@ -6,7 +6,6 @@ angular.module('app.controllers')
 
     $scope.medSelected= function(med) {
       console.log(med)
-
     }
 
     var displayAlert = function(message) {
@@ -19,20 +18,27 @@ angular.module('app.controllers')
     }
 
 
-    $scope.saveMedication = function(){
+    $scope.saveMedication = function(firebaseRecord){
       if (!$scope.newMedication.name)
         displayAlert("Medication name can't be blank");
       else if (!$scope.newMedication.dosage)
         displayAlert("Dosage can't be blank");
-      else if (!$scope.newMedication.timing)
+      else if (!$scope.newMedication.regimen)
         displayAlert("Regimen can't be blank");
       else if (!$scope.newMedication.instructions)
         displayAlert("Instructions can't be blank");
       else if (!$scope.newMedication.purpose)
         displayAlert("Purpose can't be blank");
       else {
-         Medication.add_inputMed($scope.newMedication);
-         $state.go('carePlan.medicationSchedules');
+        firebaseRecord['dose'] = $scope.newMedication.dosage
+        firebaseRecord['regimen'] = $scope.newMedication.regimen
+        firebaseRecord['instructions'] = $scope.newMedication.instructions
+        firebaseRecord['purpose'] = $scope.newMedication.purpose
+        firebaseRecord['notes'] = $scope.newMedication.notes
+        firebaseRecord['user_input'] =  true
+        $scope.medications.$save(firebaseRecord).then(function() {
+          $state.go('carePlan.medicationSchedules');
+        })
       }
     };
 

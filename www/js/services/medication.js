@@ -64,17 +64,18 @@ angular.module('app.services')
           return medications[i]
       }
     },
-    add_inputMed: function(newMed) {
-      m = {};
-      m.id = input_medications.length + 1;
-      m.name = newMed.name;
-      m.dosage = newMed.dosage;
-      m.timing = newMed.timing;
-      m.instructions = newMed.instructions;
-      m.purpose = newMed.purpose;
-      m.notes = newMed.notes;
-      input_medications.push(m);
-    },
+    // DEPRCIATED: moving to firebase.
+    // add_inputMed: function(newMed) {
+    //   m = {};
+    //   m.id = input_medications.length + 1;
+    //   m.name = newMed.name;
+    //   m.dosage = newMed.dosage;
+    //   m.timing = newMed.timing;
+    //   m.instructions = newMed.instructions;
+    //   m.purpose = newMed.purpose;
+    //   m.notes = newMed.notes;
+    //   input_medications.push(m);
+    // },
     getByTradeName: function(trade_name) {
       for (var i = 0; i < medications.length; i++) {
         if (medications[i].trade_name == trade_name)

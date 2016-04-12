@@ -21,7 +21,7 @@
 
       <label class="item item-input">
         <span class="input-label">Regimen</span>
-        <input type="text" placeholder="Regimen (e.g. twice a day, morning and night)" ng-model="newMedication.timing"></input>
+        <input type="text" placeholder="Regimen (e.g. twice a day, morning and night)" ng-model="newMedication.regimen"></input>
       </label>
 
       <label class="item item-input">
@@ -40,7 +40,7 @@
     </ion-list>
 
     <div class="padding">
-      <button class="button button-positive button-block" ng-click="saveMedication()">Save</button>
+      <button class="button button-positive button-block" ng-click="saveMedication(newMedication.name)">Save</button>
     </div>
   </ion-content>
 </ion-view>
