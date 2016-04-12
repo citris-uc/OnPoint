@@ -3,6 +3,7 @@ angular.module('app.services')
 .factory('Medication',["Patient","$firebaseObject", "$firebaseArray", function(Patient, $firebaseObject,$firebaseArray) {
   /*
    * These are default medcations set/instructions for testing purposes
+   * TODO: delete id field
    * TODO: (much later) delete this.
    */
   medications = [
@@ -34,7 +35,9 @@ angular.module('app.services')
     },
 
     get: function() {
-      return medications;
+      var ref = this.ref();
+      return $firebaseArray(ref);
+      //return medications;
     },
     get_inputList: function() {
       return input_medications;
