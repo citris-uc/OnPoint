@@ -318,7 +318,7 @@ angular.module('app.services')
       var updateObject; //use this if updating an element. see https://www.firebase.com/docs/web/api/firebase/update.html
       var instanceFB =  { //use this if adding new element
           medication_id: medication.id,
-          medication_schedule_id: schedule.id,
+          medication_schedule_id: schedule.$id,
       };
 
       if (choice == "take") {
@@ -336,7 +336,7 @@ angular.module('app.services')
           var updated = false;
           snapshot.forEach(function(data) { //find it
             var hist = data.val();
-            if (hist.medication_schedule_id ==  schedule.id && hist.medication_id == medication.id) {
+            if (hist.medication_schedule_id ==  schedule.$id && hist.medication_id == medication.id) {
               //found it, need to update it!
               updated = true;
               var medRef = data.ref();
