@@ -17,7 +17,7 @@
     </ul>
 
     <div class="padding" ng-show="scheduledMeds()">
-      <button class="button button-positive button-block" ng-click="generate()">Generate schedule for these medications</button>
+      <button class="button button-positive button-block" ng-click="generate()" ng-disabled="disableGenerate()">Generate schedule for these medications</button>
     </div>
   </ion-content>
 </ion-view>
