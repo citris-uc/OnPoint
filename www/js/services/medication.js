@@ -39,9 +39,7 @@ angular.module('app.services')
       return $firebaseArray(ref);
       //return medications;
     },
-    get_inputList: function() {
-      return input_medications;
-    },
+
     get_all_med_trade_name: function(){
       meds = [];
       for(var i = 0; i < medications.length; i++){
@@ -126,9 +124,14 @@ angular.module('app.services')
      */
     setDefaultSchedule: function() {
       var ref = this.ref().child("default")
-      for(var i = 0; i < schedule.length; i++) {
-        ref.push(schedule[i]);
-      }
+      ref.once("value", function(snapshot) {
+        if (!snapshot.exists()) { //only push default schedule once. 
+          for(var i = 0; i < schedule.length; i++) {
+            ref.push(schedule[i]);
+          }
+        }
+      })
+
     },
 
     ref: function() {
