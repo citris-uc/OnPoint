@@ -40,40 +40,13 @@ angular.module('app.services')
       //return medications;
     },
 
-    get_all_med_trade_name: function(){
-      meds = [];
-      for(var i = 0; i < medications.length; i++){
-        meds.push(medications[i].trade_name);
-      }
-      return meds;
-    },
-    get_name_by_trade_name: function(tradeName){
-      var name;
-      for(var i = 0; i < medications.length; i++){
-        if(tradeName == medications[i].trade_name){
-          name = medications[i].name;
-        }
-      }
-      return name;
-    },
     getByName: function(name) {
       for (var i = 0; i < medications.length; i++) {
         if (medications[i].name == name)
           return medications[i]
       }
     },
-    // DEPRCIATED: moving to firebase.
-    // add_inputMed: function(newMed) {
-    //   m = {};
-    //   m.id = input_medications.length + 1;
-    //   m.name = newMed.name;
-    //   m.dosage = newMed.dosage;
-    //   m.timing = newMed.timing;
-    //   m.instructions = newMed.instructions;
-    //   m.purpose = newMed.purpose;
-    //   m.notes = newMed.notes;
-    //   input_medications.push(m);
-    // },
+
     getByTradeName: function(trade_name) {
       for (var i = 0; i < medications.length; i++) {
         if (medications[i].trade_name == trade_name)
