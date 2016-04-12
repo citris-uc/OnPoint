@@ -120,7 +120,7 @@ angular.module('app.controllers')
         // Take Medications --> Show Schedule
         // Get schedule associated with card
         var schedule = $scope.medSchedule[index]
-        action = {tab: 'tabsController.medicationsSchedule', params: {schedule_id: schedule.id}};
+        action = {tab: 'tabsController.medicationsSchedule', params: {schedule_id: schedule.$id}};
         return $state.go(action.tab, action.params);
       case CARD.CATEGORY.MEASUREMENTS_SCHEDULE:
         action = {tab: 'tabsController.measurementAdd', params: {}}
