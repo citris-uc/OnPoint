@@ -8,7 +8,7 @@ angular.module('app.controllers')
     var match;
     var med = Medication.getByTradeName(medication)
     for(var i = 0; i < $scope.medicationHistory.length; i++) {
-      if ($scope.medicationHistory[i].medication_id == med.id && $scope.medicationHistory[i].medication_schedule_id == schedule.id) {
+      if ($scope.medicationHistory[i].medication_id == med.id && $scope.medicationHistory[i].medication_schedule_id == schedule.$id) {
         match = $scope.medicationHistory[i]
       }
     }
@@ -23,7 +23,7 @@ angular.module('app.controllers')
     var match;
     var med = Medication.getByTradeName(medication)
     for(var i = 0; i < $scope.medicationHistory.length; i++) {
-      if ($scope.medicationHistory[i].medication_id == med.id && $scope.medicationHistory[i].medication_schedule_id == schedule.id) {
+      if ($scope.medicationHistory[i].medication_id == med.id && $scope.medicationHistory[i].medication_schedule_id == schedule.$id) {
         match = $scope.medicationHistory[i]
       }
     }
