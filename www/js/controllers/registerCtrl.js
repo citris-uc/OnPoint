@@ -29,7 +29,7 @@ Source: http://codepen.io/niyando/pen/GpEeQR
   };
 })
 
-.controller('registerStepOneCtrl', function($scope, $state, $ionicHistory, Patient, $ionicPopup) {
+.controller('registerStepOneCtrl', function($scope, $state, $ionicHistory, $ionicPopup, Patient, Medication) {
   $scope.user = {email: "", password: ""};
   $scope.state = {loading: false}
 
@@ -37,11 +37,11 @@ Source: http://codepen.io/niyando/pen/GpEeQR
     $scope.state.loading = true;
 
     Patient.auth().$createUser($scope.user).then(function(authData) { //Create User
-      console.log(authData)
+      //console.log(authData)
       Patient.auth().$authWithPassword($scope.user).then(function(authData) { //Then Log in
-        console.log(authData)
+        //console.log(authData)
         $scope.state.loading = false;
-        
+
         $ionicHistory.nextViewOptions({
           disableAnimate: true,
           disableBack: true,
@@ -49,6 +49,10 @@ Source: http://codepen.io/niyando/pen/GpEeQR
 
         Patient.set(authData); //this will also set the Token
         Patient.ref().set({email: $scope.user.email})
+
+        //TODO: much later, delete this.
+        Medication.setDefaultMeds(); // Setting default meds/instructions for patient once they register
+
         $state.go("register.stepTwo");
       }).catch(function(error) {
         handleError(error)
