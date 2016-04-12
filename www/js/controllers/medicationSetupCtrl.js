@@ -57,7 +57,7 @@ angular.module('app.controllers')
 
    $scope.scheduledMeds = function() {
      for(var i = 0; i <$scope.scheduledMedications.length; i++ ) {
-       if($scope.scheduledMedications[i].user_input==true)
+       if($scope.scheduledMedications[i].user_input)
         return true
      }
      return false
