@@ -87,8 +87,8 @@ angular.module('app.controllers')
   var medShedule = MedicationSchedule.get();
   var sheduledMed = [];
   $scope.meds = Medication.get_all_med_trade_name();
-  console.log(medShedule[0].medications.name);
   $scope.slots = [];
+  $scope.medicationSchedule = MedicationSchedule.get();
 
   for(var i = 0; i < medShedule.length; i++){
     $scope.slots[i] = [];
