@@ -6,6 +6,7 @@ angular.module('app.controllers')
 
   $scope.didTakeMed = function(medication, schedule) {
     var match;
+
     var med = Medication.getByTradeName(medication)
     for(var i = 0; i < $scope.medicationHistory.length; i++) {
       if ($scope.medicationHistory[i].medication_id == med.id && $scope.medicationHistory[i].medication_schedule_id == schedule.$id) {
@@ -73,8 +74,11 @@ angular.module('app.controllers')
 
 .controller("medicationCtrl", function($scope, $stateParams,$ionicPopup,$ionicHistory, Medication, MedicationSchedule, MedicationDosage, MedicationHistory) {
   $scope.state = $stateParams;
-  $scope.medication = Medication.getByTradeName($stateParams.medicationName);
-  $scope.dosage     = MedicationDosage.getByName($stateParams.medicationName);
+  var req = Medication.getByTradeName($stateParams.medicationName)
+  req.then(function(snapshot) {
+    $scope.medication = snapshot.val()
+    $scope.medication["id"] =  snapshot.key()
+  })
   $scope.schedule   = MedicationSchedule.findByID($stateParams.schedule_id)
 
   $scope.takeMedication = function() {
