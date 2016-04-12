@@ -3,10 +3,18 @@ angular.module('app.controllers')
 .controller('medicationsCtrl', function($scope, Medication, MedicationSchedule, MedicationHistory) {
   $scope.schedule           = MedicationSchedule.get();
   $scope.medicationHistory  = MedicationHistory.getTodaysHistory();
-
+  $scope.medications        = Medication.get();
   $scope.didTakeMed = function(medication, schedule) {
     var match;
-    var med = Medication.getByTradeName(medication)
+    var med = {}
+    //Find the Med
+    for(var i = 0; i < $scope.medications.length; i++) {
+      if ($scope.medications[i].trade_name == medication) {
+        med.id = $scope.medications[i].$id;
+      }
+    }
+
+    //then find the history instance.
     for(var i = 0; i < $scope.medicationHistory.length; i++) {
       if ($scope.medicationHistory[i].medication_id == med.id && $scope.medicationHistory[i].medication_schedule_id == schedule.$id) {
         match = $scope.medicationHistory[i]
@@ -21,7 +29,15 @@ angular.module('app.controllers')
 
   $scope.didSkipMed = function(medication, schedule) {
     var match;
-    var med = Medication.getByTradeName(medication)
+    var med = {}
+    //Find the Med
+    for(var i = 0; i < $scope.medications.length; i++) {
+      if ($scope.medications[i].trade_name == medication) {
+        med.id = $scope.medications[i].$id;
+      }
+    }
+
+    //then find the history instance.
     for(var i = 0; i < $scope.medicationHistory.length; i++) {
       if ($scope.medicationHistory[i].medication_id == med.id && $scope.medicationHistory[i].medication_schedule_id == schedule.$id) {
         match = $scope.medicationHistory[i]
@@ -37,12 +53,20 @@ angular.module('app.controllers')
 
 .controller("medicationScheduleCtrl", function($scope, $stateParams, Medication, MedicationSchedule, MedicationDosage, MedicationHistory) {
   $scope.schedule = MedicationSchedule.findByID($stateParams.schedule_id);
-
   $scope.medicationHistory  = MedicationHistory.getTodaysHistory();
+  $scope.medications        = Medication.get();
 
   $scope.didTakeMed = function(medication) {
     var match;
-    var med = Medication.getByTradeName(medication)
+    var med = {}
+    //Find the Med
+    for(var i = 0; i < $scope.medications.length; i++) {
+      if ($scope.medications[i].trade_name == medication) {
+        med.id = $scope.medications[i].$id;
+      }
+    }
+
+    //then find the history instance.
     for(var i = 0; i < $scope.medicationHistory.length; i++) {
       if ($scope.medicationHistory[i].medication_id == med.id && $scope.medicationHistory[i].medication_schedule_id == $stateParams.schedule_id) {
         match = $scope.medicationHistory[i]
@@ -57,7 +81,15 @@ angular.module('app.controllers')
 
   $scope.didSkipMed = function(medication) {
     var match;
-    var med = Medication.getByTradeName(medication)
+    var med = {}
+    //Find the Med
+    for(var i = 0; i < $scope.medications.length; i++) {
+      if ($scope.medications[i].trade_name == medication) {
+        med.id = $scope.medications[i].$id;
+      }
+    }
+
+    //then find the history instance.
     for(var i = 0; i < $scope.medicationHistory.length; i++) {
       if ($scope.medicationHistory[i].medication_id == med.id && $scope.medicationHistory[i].medication_schedule_id == $stateParams.schedule_id) {
         match = $scope.medicationHistory[i]
@@ -73,8 +105,11 @@ angular.module('app.controllers')
 
 .controller("medicationCtrl", function($scope, $stateParams,$ionicPopup,$ionicHistory, Medication, MedicationSchedule, MedicationDosage, MedicationHistory) {
   $scope.state = $stateParams;
-  $scope.medication = Medication.getByTradeName($stateParams.medicationName);
-  $scope.dosage     = MedicationDosage.getByName($stateParams.medicationName);
+  var req = Medication.getByTradeName($stateParams.medicationName)
+  req.then(function(snapshot) {
+    $scope.medication = snapshot.val()
+    $scope.medication["id"] =  snapshot.key()
+  })
   $scope.schedule   = MedicationSchedule.findByID($stateParams.schedule_id)
 
   $scope.takeMedication = function() {

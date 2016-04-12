@@ -46,13 +46,31 @@ angular.module('app.controllers')
 })
 
 
-.controller('medListCtrl', function($scope, $state, Medication, MedicationSchedule) {
-   $scope.Scheduledmedications = Medication.get_inputList();
-   $scope.test = Medication.get_inputList();
+.controller('medListCtrl', function($scope, $state, Patient, Medication, MedicationSchedule) {
+   $scope.scheduledMedications = Medication.get();
+
 
    $scope.generate = function() {
      MedicationSchedule.setDefaultSchedule();
      $state.go("carePlan.generatedMedSchedule")
+   }
+
+   $scope.scheduledMeds = function() {
+     for(var i = 0; i <$scope.scheduledMedications.length; i++ ) {
+       if($scope.scheduledMedications[i].user_input)
+        return true
+     }
+     return false
+   }
+
+   $scope.disableGenerate = function() {
+     for(var i = 0; i <$scope.scheduledMedications.length; i++ ) {
+       if(!$scope.scheduledMedications[i].user_input) {
+         console.log("yo")
+        return true
+      }
+     }
+     return false
    }
 
    //Saving State of onboarding progress into firebase
@@ -66,47 +84,43 @@ angular.module('app.controllers')
 })
 
 .controller('medFillMainCtrl', function($scope, MedicationSchedule, Medication, MedicationDosage) {
-  var medShedule = MedicationSchedule.get();
-  var sheduledMed = [];
-  $scope.meds = Medication.get_all_med_trade_name();
-  console.log(medShedule[0].medications.name);
-  $scope.slots = [];
+  $scope.medicationSchedule = MedicationSchedule.get();
+  $scope.medications = Medication.get();
+  $scope.selectedMed;
+  $scope.completed = []
+  var emptySlots = [' ',' ',' ',' ',' ',' ',' '];
 
-  for(var i = 0; i < medShedule.length; i++){
-    $scope.slots[i] = [];
-    $scope.slots[i].push(medShedule[i].slot);
-    for(var j = 0; j < 7; j++){
-        $scope.slots[i].push(" ");
+  $scope.getSlots = function(schedule, med) {
+    var DAYS_OF_THE_WEEK = 7
+    var slots = [];
+    if (typeof(med) === 'undefined') { //has not selected a med yet
+      slots = emptySlots
+    }
+    else {
+      if(schedule.medications.indexOf(med.trade_name) != -1) {
+        for(var day = 0; day < DAYS_OF_THE_WEEK; day++) {
+          if (schedule.days.indexOf(day) != -1) {
+            slots.push(med.tablets);
+          } else {
+            slots.push(" ");
+          }
+        }
+      }
+      else {
+        slots = emptySlots //this med is not in this schedule slot
+      }
+    }
+    return slots
+  }
+  $scope.displaySchedule = function(med){
+    $scope.selectedMed = med //set the selected med
+    if($scope.completed.indexOf(med) == -1){
+      $scope.completed.push(med);
     }
   }
 
-  $scope.displayShedule = function(med){
-    var contains = false;
-    for(var i = 0; i < medShedule.length; i++){
-      for(var j = 0; j < medShedule[i].medications.length; j++){
-        if(medShedule[i].medications[j].trade_name == med){
-          contains = true;
-        }
-      }
-      if(contains){
-        var med_name = Medication.get_name_by_trade_name(med);
-        var tablets = MedicationDosage.getByName(med_name).tablets;
-        for(var k = 0; k < medShedule[i].days.length; k++){
-          $scope.slots[i][medShedule[i].days[k] + 1] = "" + tablets;
-        }
-      }else{
-        for(var k = 0; k < medShedule[i].days.length; k++){
-          $scope.slots[i][medShedule[i].days[k] + 1] = "0";
-        }
-      }
-    }
-    if(sheduledMed.indexOf(med) == -1){
-      sheduledMed.push(med);
-    }
-  }
-
-  $scope.isSheduledlist = function(med){
-    if(sheduledMed.indexOf(med) == -1){
+  $scope.hasCompleted = function(med){
+    if($scope.completed.indexOf(med) == -1){
       return false;
     }else{
       return true;

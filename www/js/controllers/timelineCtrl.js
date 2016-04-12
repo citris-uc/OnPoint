@@ -5,6 +5,7 @@ angular.module('app.controllers')
   $scope.CARD = CARD;
   $scope.medSchedule = MedicationSchedule.get()
   $scope.medHistory  = MedicationHistory.getTodaysHistory()
+  $scope.medications        = Medication.get();
   $scope.today       = new Date();
 
   // TODO: Remove this inefficiency by moving the update/complete logic to the
@@ -53,7 +54,15 @@ angular.module('app.controllers')
         // Check history for each medication in the specified schedule
         // TODO: Refactor this to query against a MedicationHistory array.
         medications.forEach( function(medication) {
-          var med = Medication.getByTradeName(medication);
+          var med = {}
+          //Find the Med
+          for(var i = 0; i < $scope.medications.length; i++) {
+            if ($scope.medications[i].trade_name == medication) {
+              med = $scope.medications[i]
+              med.id = $scope.medications[i].$id;
+            }
+          }
+
           var exists = false;
           for(var i = 0; i < $scope.medHistory.length; i++) {
             var hist = $scope.medHistory[i];
