@@ -1,7 +1,13 @@
 angular.module('app.controllers')
 
-.controller('medInputCtrl', function($scope, $state, $ionicPopup, $templateCache, Medication) {
+.controller('medInputCtrl', function($scope, $state, $ionicPopup, $templateCache, $ionicPopover, Medication) {
+    $scope.medications = Medication.get();
     $scope.newMedication = {};
+
+    $scope.medSelected= function(med) {
+      console.log(med)
+
+    }
 
     var displayAlert = function(message) {
       var myPopup = $ionicPopup.show({
@@ -42,7 +48,7 @@ angular.module('app.controllers')
      MedicationSchedule.setDefaultSchedule();
      $state.go("carePlan.generatedMedSchedule")
    }
-   
+
    //Saving State of onboarding progress into firebase
    $scope.$on('$ionicView.afterEnter', function(){
      var ref = Patient.ref();
