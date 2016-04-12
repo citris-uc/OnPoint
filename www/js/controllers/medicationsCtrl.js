@@ -79,8 +79,6 @@ angular.module('app.controllers')
     $scope.medication = snapshot.val()
     $scope.medication["id"] =  snapshot.key()
   })
-
-  $scope.medication = Medication.getByTradeName($stateParams.medicationName);
   $scope.schedule   = MedicationSchedule.findByID($stateParams.schedule_id)
 
   $scope.takeMedication = function() {
