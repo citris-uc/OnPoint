@@ -86,15 +86,15 @@ angular.module('app.controllers')
 .controller('medFillMainCtrl', function($scope, MedicationSchedule, Medication, MedicationDosage) {
   $scope.medicationSchedule = MedicationSchedule.get();
   $scope.medications = Medication.get();
-  $scope.emptySlots = [' ',' ',' ',' ',' ',' ',' ']; //array of empty strings to intialize table.
+  $scope.selectedMed;
   $scope.completed = []
-  $scope.currentMed;
+  var emptySlots = [' ',' ',' ',' ',' ',' ',' '];
 
   $scope.getSlots = function(schedule, med) {
     var DAYS_OF_THE_WEEK = 7
     var slots = [];
-    if (typeof(med) === 'undefined') {
-      slots = [' ',' ',' ',' ',' ',' ',' '];
+    if (typeof(med) === 'undefined') { //has not selected a med yet
+      slots = emptySlots
     }
     else {
       if(schedule.medications.indexOf(med.trade_name) != -1) {
@@ -107,15 +107,15 @@ angular.module('app.controllers')
         }
       }
       else {
-        slots = [' ',' ',' ',' ',' ',' ',' '];
+        slots = emptySlots //this med is not in this schedule slot
       }
     }
     return slots
   }
   $scope.displaySchedule = function(med){
-    $scope.currentMed=med
-    if(completed.indexOf(med) == -1){
-      completed.push(med);
+    $scope.selectedMed = med //set the selected med
+    if($scope.completed.indexOf(med) == -1){
+      $scope.completed.push(med);
     }
   }
 

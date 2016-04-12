@@ -23,7 +23,7 @@
           <tr ng-repeat="schedule in medicationSchedule">
 
             <td>{{schedule.slot}}</td>
-            <td ng-repeat="count in getSlots(schedule, currentMed) track by $index" >
+            <td ng-repeat="count in getSlots(schedule, selectedMed) track by $index" >
               {{count}}
             </td>
           </tr>
