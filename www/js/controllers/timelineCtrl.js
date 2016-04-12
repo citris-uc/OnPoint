@@ -44,7 +44,6 @@ angular.module('app.controllers')
   $scope.getBody = function(card, type, index) {
     switch(type) {
       case CARD.CATEGORY.MEDICATIONS_SCHEDULE :
-        // Get schedule associated with card
         var schedule = $scope.medSchedule[index]
         var medications = schedule.medications;
         var takeMeds = [];
@@ -58,7 +57,8 @@ angular.module('app.controllers')
           var exists = false;
           for(var i = 0; i < $scope.medHistory.length; i++) {
             var hist = $scope.medHistory[i];
-            if (hist.medication_id==med.id && hist.medication_schedule_id==index) {
+            console.log(hist)
+            if (hist.medication_id==med.id && hist.medication_schedule_id==schedule.$id) {
               exists = true;
               if(hist.taken_at != null)
                 completedMeds.push(med);
