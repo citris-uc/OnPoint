@@ -116,6 +116,12 @@ angular.module('app.controllers')
   $scope.newSlotName = {text: ""};
   $scope.showError = false;
 
+  //Saving State of onboarding progress into firebase
+  $scope.$on('$ionicView.afterEnter', function(){
+    var ref = Patient.ref();
+    var req = ref.child('onboarding').update({'state':$state.current.name})
+   });
+
   $scope.sortSchedule = function() {
     $scope.schedule.sort(function(a, b){var dat1 = a.time.split(":"); var dat2 = b.time.split(":");
                             return parseInt(dat1[0]+dat1[1]) - parseInt(dat2[0]+dat2[1])});
@@ -173,9 +179,9 @@ angular.module('app.controllers')
     for(var i = 0; i < $scope.schedule.length; i++) {
       $scope.schedule.$save($scope.schedule[i]);
     }
-
+    //Done onboarding!
+    var ref = Patient.ref();
+    var req = ref.child('onboarding').update({'completed':true,'state':$state.current.name})
     $state.go("carePlan.fillChoice")
   }
-
-
 })
