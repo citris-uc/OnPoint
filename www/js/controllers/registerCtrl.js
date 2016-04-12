@@ -40,9 +40,6 @@ Source: http://codepen.io/niyando/pen/GpEeQR
       //console.log(authData)
       Patient.auth().$authWithPassword($scope.user).then(function(authData) { //Then Log in
         //console.log(authData)
-
-        //TODO: much later, delete this.
-        Medication.setDefaultMeds(); // Setting default meds/instructions for patient once they register
         $scope.state.loading = false;
 
         $ionicHistory.nextViewOptions({
@@ -52,6 +49,10 @@ Source: http://codepen.io/niyando/pen/GpEeQR
 
         Patient.set(authData); //this will also set the Token
         Patient.ref().set({email: $scope.user.email})
+
+        //TODO: much later, delete this.
+        Medication.setDefaultMeds(); // Setting default meds/instructions for patient once they register
+
         $state.go("register.stepTwo");
       }).catch(function(error) {
         handleError(error)
