@@ -46,7 +46,7 @@ angular.module('app.controllers')
 })
 
 
-.controller('medListCtrl', function($scope, $state, Medication, MedicationSchedule) {
+.controller('medListCtrl', function($scope, $state, Patient, Medication, MedicationSchedule) {
    $scope.scheduledMedications = Medication.get();
 
 
@@ -59,6 +59,16 @@ angular.module('app.controllers')
      for(var i = 0; i <$scope.scheduledMedications.length; i++ ) {
        if($scope.scheduledMedications[i].user_input)
         return true
+     }
+     return false
+   }
+
+   $scope.disableGenerate = function() {
+     for(var i = 0; i <$scope.scheduledMedications.length; i++ ) {
+       if(!$scope.scheduledMedications[i].user_input) {
+         console.log("yo")
+        return true
+      }
      }
      return false
    }
