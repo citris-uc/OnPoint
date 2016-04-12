@@ -162,10 +162,10 @@ angular.module('app.services')
     },
 
     // Add a time slot to the schedule
-    addTimeSlot: function(slotName, daysArray){
+    addTimeSlot: function(slotName, daysArray, time){
       var ref = this.get();
       var instanceFB =  { //use this if adding new element
-        time: "00:00",
+        time: time,
         slot: slotName,
         days: daysArray,
       };

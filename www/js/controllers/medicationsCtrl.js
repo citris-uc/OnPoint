@@ -113,7 +113,7 @@ angular.module('app.controllers')
   // TODO --> use MedicationSchedule and FB
   $scope.schedule = MedicationSchedule.get();
   $scope.selected_med = null;
-  $scope.newSlotName = {text: ""};
+  $scope.newSlotName = {text: "", hour: "", minute: "", morning: ""};
   $scope.showError = false;
 
   //Saving State of onboarding progress into firebase
@@ -161,7 +161,8 @@ angular.module('app.controllers')
             // Make sure input field contains text.
             if ($scope.newSlotName.text) {
               // TODO -> allow user to pick dates for schedule
-              MedicationSchedule.addTimeSlot($scope.newSlotName.text, [0,1,2,3,4,5,6]);
+              var time = (($scope.newSlotName.morning == "AM") ? $scope.newSlotName.hour : parseInt($scope.newSlotName.hour) + 12) + ":" + $scope.newSlotName.minute;
+              MedicationSchedule.addTimeSlot($scope.newSlotName.text, [0,1,2,3,4,5,6], time);
               $scope.newSlotName.text = "";
               $scope.showError = false;
             } else {

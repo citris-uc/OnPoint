@@ -2,8 +2,52 @@
 
 <!-- Template for popup TODO: move somewhere else? -->
 <script id="medSched-popup-template.html" type="text/ng-template">
-  <input type="password" ng-model="newSlotName.text" placeholder="Time Slot e.g. Noon">
-  <p ng-if="showError">Please enter a name</p>
+  <input type="text" ng-model="newSlotName.text" placeholder="Time Slot e.g. Noon">
+  <p ng-if="showError"><font color="red">Please enter a name</font></p>
+  <br>
+  <div>Enter time for new time slot</div>
+  <div class="list">
+
+    <label class="item item-input item-select">
+      <div class="input-label">
+        Hour
+      </div>
+      <select ng-model="newSlotName.hour">
+        <option selected>1</option>
+        <option>2</option>
+        <option>3</option>
+        <option>4</option>
+        <option>5</option>
+        <option>6</option>
+        <option>7</option>
+        <option>8</option>
+        <option>9</option>
+        <option>10</option>
+        <option>11</option>
+        <option>12</option>
+      </select>
+    </label>
+    <label class="item item-input item-select">
+      <div class="input-label">
+        Minute
+      </div>
+      <select ng-model="newSlotName.minute">
+        <option selected>00</option>
+        <option>15</option>
+        <option>30</option>
+        <option>45</option>
+      </select>
+    </label>
+    <label class="item item-input item-select">
+      <div class="input-label">
+        AM/PM
+      </div>
+      <select ng-model="newSlotName.morning">
+        <option selected>AM</option>
+        <option>PM</option>
+      </select>
+    </label>
+  </div>
 </script>
 
 <ion-view title="Medications Schedule" class="medsched">
@@ -29,18 +73,19 @@
          transfer the object that was assigned to it. If an element was
          dragged away, you have to remove it from the original list
          yourself using the dnd-moved attribute -->
+         <!-- dnd-type="'timeSlotType'"
+         dnd-draggable="dateSchedule"
+         dnd-moved="schedule.splice($index, 1)"
+         dnd-effect-allowed="move" -->
 
     <ul dnd-list="schedule"
         dnd-allowed-types="['timeSlotType']"
         >
         <li class = "card item"
             ng-repeat="dateSchedule in schedule"
-            dnd-type="'timeSlotType'"
-            dnd-draggable="dateSchedule"
-            dnd-moved="schedule.splice($index, 1)"
-            dnd-effect-allowed="move"
             >
-            {{dateSchedule.slot | uppercase}}
+            <a>{{dateSchedule.slot | uppercase}}</a>
+            <a style="float:right">{{dateSchedule.time | date: 'h:mm a'}}</a>
             <ul dnd-list="dateSchedule.medications"
                 dnd-horizontal-list="true"
                 dnd-allowed-types="['medType']"
