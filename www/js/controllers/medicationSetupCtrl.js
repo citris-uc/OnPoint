@@ -34,7 +34,7 @@ angular.module('app.controllers')
         firebaseRecord['regimen'] = $scope.newMedication.regimen
         firebaseRecord['instructions'] = $scope.newMedication.instructions
         firebaseRecord['purpose'] = $scope.newMedication.purpose
-        firebaseRecord['notes'] = $scope.newMedication.notes
+        firebaseRecord['notes'] = typeof($scope.newMedication.notes)==='undefined' ? null : $scope.newMedication.notes;
         firebaseRecord['user_input'] =  true
         $scope.medications.$save(firebaseRecord).then(function() {
           $state.go('carePlan.medicationSchedules');
