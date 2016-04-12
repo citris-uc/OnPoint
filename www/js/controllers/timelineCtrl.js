@@ -57,7 +57,6 @@ angular.module('app.controllers')
           var exists = false;
           for(var i = 0; i < $scope.medHistory.length; i++) {
             var hist = $scope.medHistory[i];
-            console.log(hist)
             if (hist.medication_id==med.id && hist.medication_schedule_id==schedule.$id) {
               exists = true;
               if(hist.taken_at != null)
