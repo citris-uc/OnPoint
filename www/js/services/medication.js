@@ -1,6 +1,6 @@
 angular.module('app.services')
 
-.factory('Medication',function() {
+.factory('Medication',["Patient","$firebaseObject", "$firebaseArray", function(Patient, $firebaseObject,$firebaseArray) {
   /*
    * These are default medcations set/instructions for testing purposes
    * TODO: (much later) delete this.
@@ -79,7 +79,7 @@ angular.module('app.services')
       }
     }
   };
-})
+}])
 
 // This factory is responsible for defining a Medication Schedule
 // that the patient usually adheres to.
