@@ -46,13 +46,31 @@ angular.module('app.controllers')
 })
 
 
-.controller('medListCtrl', function($scope, $state, Medication, MedicationSchedule) {
-   $scope.Scheduledmedications = Medication.get_inputList();
-   $scope.test = Medication.get_inputList();
+.controller('medListCtrl', function($scope, $state, Patient, Medication, MedicationSchedule) {
+   $scope.scheduledMedications = Medication.get();
+
 
    $scope.generate = function() {
      MedicationSchedule.setDefaultSchedule();
      $state.go("carePlan.generatedMedSchedule")
+   }
+
+   $scope.scheduledMeds = function() {
+     for(var i = 0; i <$scope.scheduledMedications.length; i++ ) {
+       if($scope.scheduledMedications[i].user_input)
+        return true
+     }
+     return false
+   }
+
+   $scope.disableGenerate = function() {
+     for(var i = 0; i <$scope.scheduledMedications.length; i++ ) {
+       if(!$scope.scheduledMedications[i].user_input) {
+         console.log("yo")
+        return true
+      }
+     }
+     return false
    }
 
    //Saving State of onboarding progress into firebase

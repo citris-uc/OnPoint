@@ -39,9 +39,7 @@ angular.module('app.services')
       return $firebaseArray(ref);
       //return medications;
     },
-    get_inputList: function() {
-      return input_medications;
-    },
+
     get_all_med_trade_name: function(){
       meds = [];
       for(var i = 0; i < medications.length; i++){
