@@ -5,6 +5,7 @@
     <h1 class="title">Step 5 of 5 Fill pillbox</h1>
   </ion-header-bar>
   <ion-content overflow-scroll="true" padding="true" class="has-header">
+    {{createSlots()}}
     <table class = "center">
       <thead>
           <tr>
@@ -19,19 +20,21 @@
           </tr>
         </thead>
         <tbody>
-          <tr ng-repeat="slot in slots">
-            <td ng-repeat="count in slot track by $index" >
+          <tr ng-repeat="schedule in medicationSchedule">
+
+            <td>{{schedule.slot}}</td>
+            <td ng-repeat="count in getSlots(schedule, selectedMed) track by $index" >
               {{count}}
             </td>
           </tr>
       </tbody>
     </table>
     <h3 class = "title" style="text-align: center;">
-      Select medicaiton to begin:
+      Select Medication to Begin:
     </h3>
-    <div ng-repeat="med in meds" style="float:left">
-        <button ng-class = "isSheduledlist(med)? 'button button-calm' : 'button button-balanced' ", ng-click="displayShedule(med);">{{med}}</button>
+    <div ng-repeat="med in medications" style="float:left">
+        <button ng-class = "hasCompleted(med)? 'button button-calm' : 'button button-balanced' ", ng-click="displaySchedule(med)" >{{med.trade_name}}</button>
     </div>
-    <button ui-sref="tabsController.timeline" class="button button-positive  button-block" >Down</button>
+    <button ui-sref="tabsController.timeline" class="button button-positive  button-block" >Done</button>
   </ion-ontent>
 </ion-view>
