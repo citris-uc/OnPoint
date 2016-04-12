@@ -76,11 +76,18 @@ angular.module('app.services')
     //   m.notes = newMed.notes;
     //   input_medications.push(m);
     // },
+
+    /*
+     * Returns a PROMISE
+     */
     getByTradeName: function(trade_name) {
-      for (var i = 0; i < medications.length; i++) {
-        if (medications[i].trade_name == trade_name)
-          return medications[i]
-      }
+      // for (var i = 0; i < medications.length; i++) {
+      //   if (medications[i].trade_name == trade_name)
+      //     return medications[i]
+      // }
+      var ref = this.ref()
+      var req = ref.orderByChild('trade_name').equalTo(trade_name).once("child_added");
+      return req;
     }
   };
 }])
