@@ -74,10 +74,10 @@ angular.module('app.controllers')
    }
 
    //Saving State of onboarding progress into firebase
-   $scope.$on('$ionicView.afterEnter', function(){
-     var ref = Patient.ref();
-     var req = ref.child('onboarding').update({'state':$state.current.name})
-    });
+  //  $scope.$on('$ionicView.afterEnter', function(){
+  //    var ref = Patient.ref();
+  //    var req = ref.child('onboarding').update({'state':$state.current.name})
+  //   });
 })
 
 .controller('medInputMainCtrl', function($scope, Medication) {
