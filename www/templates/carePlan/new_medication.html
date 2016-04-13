@@ -2,16 +2,14 @@
 
 <ion-view title="New Medication">
   <ion-content overflow-scroll="true">
-
-    <div class="item item-input item-select">
-        <div class="input-label">
-          Medication Name
-        </div>
+    <div class="list">
+      <label class="item item-input item-select">
+        <div class="input-label">Medication Name</div>
           <select ng-model="newMedication.name"
                   ng-change="medSelected(newMedication.name)"
                   ng-options = "med.trade_name for med in medications">
           </select>
-      </div>
+      </label>
 
       <label class="item item-input">
          <span class="input-label">Dosage</span>
@@ -37,8 +35,7 @@
       <label class="item item-input">
         <input type="text" placeholder="Any other notes?" ng-model="newMedication.notes"></input>
       </label>
-    </ion-list>
-
+    </div>
     <div class="padding">
       <button class="button button-positive button-block" ng-click="saveMedication(newMedication.name)">Save</button>
     </div>
