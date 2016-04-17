@@ -148,7 +148,7 @@ angular.module('app.controllers')
   // TODO --> use MedicationSchedule and FB
   $scope.schedule = MedicationSchedule.get();
   $scope.selected_med = null;
-  $scope.newSlotName = {text: "", hour: "", minute: "", morning: ""};
+  $scope.slot = {};
   $scope.showError = false;
 
   //Saving State of onboarding progress into firebase
@@ -182,33 +182,20 @@ angular.module('app.controllers')
   // Allow user to input new name for timeslot
   // TODO -- allow user to pick days of the week for schedule
   $scope.addTimeSlot = function() {
-    var myPopup = $ionicPopup.show({
-      templateUrl: 'medSched-popup-template.html',
-      title: 'Add a time slot',
-      subTitle: 'Enter new time slot name',
-      attr:'data-ng-disabled=""!newSlotName.text"',
-      scope: $scope,
-      buttons: [
-        { text: 'Cancel' },
-        {
-          text: '<b>Add</b>',
-          onTap: function(e) {
-            // Make sure input field contains text.
-            if ($scope.newSlotName.text) {
-              // TODO -> allow user to pick dates for schedule
-              var time = (($scope.newSlotName.morning == "AM") ? $scope.newSlotName.hour : parseInt($scope.newSlotName.hour) + 12) + ":" + $scope.newSlotName.minute;
-              MedicationSchedule.addTimeSlot($scope.newSlotName.text, [0,1,2,3,4,5,6], time);
-              $scope.newSlotName.text = "";
-              $scope.showError = false;
-            } else {
-              e.preventDefault();
-              $scope.showError = true;
-
-            }
-          }
-        }
-      ]
-    });
+    if ($scope.slot.text && $scope.slot.time) {
+      hours = $scope.slot.time.getHours();
+      mins  = $scope.slot.time.getMinutes();
+      hours = ( String(hours).length == 1 ? "0" + String(hours) : String(hours) )
+      mins  = ( String(mins).length == 1 ? "0" + String(mins) : String(mins) )
+      MedicationSchedule.addTimeSlot($scope.slot.text, [0,1,2,3,4,5,6], hours + ":" + mins);
+      $state.go("carePlan.generatedMedSchedule")
+    } else {
+      $ionicPopup.show({
+        title: "Invalid input",
+        subTitle: "You have to enter both name and time for the new slot",
+        buttons: [{text: 'OK'}]
+      });
+    }
   }
 
   $scope.saveMedicationSchedule = function() {
