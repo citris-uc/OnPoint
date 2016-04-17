@@ -1,0 +1,39 @@
+<ion-view title="Register">
+  <ion-content overflow-scroll="true">
+    <div class="list">
+      <label class="item item-input">
+        <input type="email" placeholder="Email" ng-model="user.email"></input>
+      </label>
+      <label class="item item-input">
+        <input type="password" placeholder="Password" ng-model="user.password"></input>
+      </label>
+      <label class="item item-input">
+        <input type="text" placeholder="First Name" ng-model="user.first_name"></input>
+      </label>
+      <label class="item item-input">
+        <input type="text" placeholder="Last Name" ng-model="user.last_name"></input>
+      </label>
+      <label class="item item-input">
+        <input type="number" min="0" placeholder="Age" ng-model="user.age"></input>
+      </label>
+
+      <div class="button-bar padding">
+        <a grouped-radio="'male'" ng-model="user.gender">Male</a>
+        <a grouped-radio="'female'" ng-model="user.gender">Female</a>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <button class="button button-positive button-block" ng-click="register()" ng-disabled="!user.email || !user.password || !user.first_name || !user.last_name || !user.age || !user.gender">
+            Register
+            <ion-spinner icon="ios-small" class="spinner-stable" ng-show="state.loading"></ion-spinner>
+          </button>
+        </div>
+        <div class="col">
+          <button class="button button-light button-block" ui-sref="login">Login</button>
+        </div>
+      </div>
+
+
+  </ion-content>
+</ion-view>
