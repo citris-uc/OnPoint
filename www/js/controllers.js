@@ -33,6 +33,6 @@ angular.module('app.controllers', [])
       disableBack: true,
       historyRoot: true
     })
-    $state.go("loginScreen");
+    $state.go("login");
   }
 })

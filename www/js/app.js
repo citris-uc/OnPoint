@@ -28,7 +28,7 @@ angular.module('app', ['ionic','firebase', 'app.controllers', 'app.routes', 'app
   // state transition and go to the login screen.
   $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams, options) {
     var token = Patient.getToken();
-    if (!token && toState.name !== "loginScreen" && toState.name !== "register.stepOne" && toState.name !== "register.stepTwo") {
+    if (!token && toState.name !== "login" && toState.name !== "register") {
       //console.log(toState.name)
       event.preventDefault();
       $ionicHistory.nextViewOptions({
@@ -36,7 +36,7 @@ angular.module('app', ['ionic','firebase', 'app.controllers', 'app.routes', 'app
         disableBack: true,
         historyRoot: true
       })
-      $state.go("loginScreen");
+      $state.go("login");
     }
   });
 })

@@ -1,45 +1,25 @@
 angular.module('app.routes', [])
 
 .config(function($stateProvider, $urlRouterProvider) {
+  $urlRouterProvider.otherwise('/login')
+
   // Ionic uses AngularUI Router which uses the concept of states
   // Learn more here: https://github.com/angular-ui/ui-router
   // Set up the various states which the app can be in.
   // Each state's controller can be found in controllers.js
   $stateProvider
 
-  .state('loginScreen', {
+  .state('login', {
     url: '/login',
-    templateUrl: 'templates/login.html',
+    templateUrl: 'templates/session/login.html',
     controller: 'loginCtrl'
   })
 
-
   .state('register', {
     url: '/register',
-    templateUrl: 'templates/register/register.html',
-    abstract:true
+    templateUrl: 'templates/session/register.html',
+    controller: 'registrationCtrl'
   })
-
-  .state('register.stepOne', {
-    url: '/register/one',
-    views: {
-      'register': {
-        templateUrl: 'templates/register/registerStepOne.html',
-        controller: 'registerStepOneCtrl'
-      }
-    }
-  })
-
-  .state('register.stepTwo', {
-    url: '/register/two',
-    views: {
-      'register': {
-        templateUrl: 'templates/register/registerStepTwo.html',
-        controller: 'registerStepTwoCtrl'
-      }
-    }
-  })
-
 
   .state('tabsController', {
     url: '/tabs',
@@ -204,6 +184,4 @@ angular.module('app.routes', [])
     templateUrl: 'templates/symptomsListMultiple.html',
     controller: 'symptomsListMultipleCtrl'
   })
-
-  $urlRouterProvider.otherwise('/login')
 });

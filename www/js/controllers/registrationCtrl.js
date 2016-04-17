@@ -29,8 +29,8 @@ Source: http://codepen.io/niyando/pen/GpEeQR
   };
 })
 
-.controller('registerStepOneCtrl', function($scope, $state, $ionicHistory, $ionicPopup, Patient, Medication) {
-  $scope.user = {email: "", password: ""};
+.controller('registrationCtrl', function($scope, $state, $ionicHistory, $ionicPopup, Patient, Medication) {
+  $scope.user  = {};
   $scope.state = {loading: false}
 
   $scope.register = function()   {
@@ -39,37 +39,36 @@ Source: http://codepen.io/niyando/pen/GpEeQR
     Patient.auth().$createUser($scope.user).then(function(authData) { //Create User
       //console.log(authData)
       Patient.auth().$authWithPassword($scope.user).then(function(authData) { //Then Log in
-        //console.log(authData)
         $scope.state.loading = false;
 
-        $ionicHistory.nextViewOptions({
-          disableAnimate: true,
-          disableBack: true,
-        })
-
         Patient.set(authData); //this will also set the Token
-        Patient.ref().set({email: $scope.user.email})
+
+        var ref = Patient.ref();
+        ref.set({email: $scope.user.email})
 
         //TODO: much later, delete this.
         Medication.setDefaultMeds(); // Setting default meds/instructions for patient once they register
 
-        $state.go("register.stepTwo");
+        //Use UPDATE, to NOT OVERWRITE email address!
+        $scope.user['onboarding'] = {'completed':false,'state':'carePlan.setup'}
+        var req = ref.update($scope.user) //Setting Patient Information.
+        req.then(function(ref) {
+          $ionicHistory.nextViewOptions({
+            disableAnimate: true,
+            disableBack: true,
+          })
+
+          //TODO: redirect to onboarding process
+          $state.go("carePlan.setup");
+        })
+
       }).catch(function(error) {
         handleError(error)
       })
 
-
-
     }).catch(function(error) {
       handleError(error)
     })
-  }
-
-  $scope.disableContinue = function() {
-    if ($scope.user.email=="" || $scope.user.password =="")
-      return true;
-    else
-      return false;
   }
 
   var handleError = function(error) {
@@ -78,33 +77,6 @@ Source: http://codepen.io/niyando/pen/GpEeQR
       template: error
     });
     $scope.state.loading = false;
-  }
-})
-
-.controller('registerStepTwoCtrl', function($scope, $state, $ionicHistory, Patient, $ionicPopup) {
-  $scope.user = {};
-
-  $scope.start = function() {
-    var ref = Patient.ref();
-    //Use UPDATE, to NOT OVERWRITE email address!
-    $scope.user['onboarding'] = {'completed':false,'state':'carePlan.setup'} 
-    var req = ref.update($scope.user) //Setting Patient Information.
-    req.then(function(ref) {
-
-      $ionicHistory.nextViewOptions({
-        disableAnimate: true,
-        disableBack: true,
-      })
-
-      //TODO: redirect to onboarding process
-      $state.go("carePlan.setup");
-    })
-  }
-  $scope.disableContinue = function() {
-    if ($scope.user.first_name==null || $scope.user.last_name == null || $scope.user.age == null || $scope.user.gender == null)
-      return true;
-    else
-      return false;
   }
 
 })
