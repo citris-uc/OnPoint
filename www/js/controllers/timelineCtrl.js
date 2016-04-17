@@ -155,24 +155,25 @@ angular.module('app.controllers')
     return false;
   }
 
-  $scope.generateCardsForToday = function() {
-   var measurementSchedule = MeasurementSchedule.get()
-   measurementSchedule.$loaded().then( function(ref) {
-     for(var i = 0; i < measurementSchedule.length; i++) {
-       schedule = measurementSchedule[i];
-
-       if (schedule.days.includes($scope.today.getDay())) {
-         var showAt = (new Date()).setHours(schedule.hour, schedule.minute);
-         showAt     = (new Date(showAt)).toISOString();
-
-         var cardObject = {type: CARD.TYPE.ACTION, shown_at: showAt};
-         Card.find_or_create_by_object({id: schedule.$id, type: CARD.CATEGORY.MEASUREMENTS_SCHEDULE}, cardObject);
-       }
-
-       $scope.cards = Card.get();
-     }
-   });
-  }
+  //TODO: Move creating ALL cards to '$ionicView.enter'
+  // $scope.generateCardsForToday = function() {
+  //  var measurementSchedule = MeasurementSchedule.get()
+  //  measurementSchedule.$loaded().then( function(ref) {
+  //    for(var i = 0; i < measurementSchedule.length; i++) {
+  //      schedule = measurementSchedule[i];
+  //
+  //      if (schedule.days.includes($scope.today.getDay())) {
+  //        var showAt = (new Date()).setHours(schedule.hour, schedule.minute);
+  //        showAt     = (new Date(showAt)).toISOString();
+  //
+  //        var cardObject = {type: CARD.TYPE.ACTION, shown_at: showAt};
+  //        Card.find_or_create_by_object({id: schedule.$id, type: CARD.CATEGORY.MEASUREMENTS_SCHEDULE}, cardObject);
+  //      }
+  //
+  //      $scope.cards = Card.get();
+  //    }
+  //  });
+  // }
 
   // TODO: Comments should be part of a Card.
   $scope.getCommentsCount = function(card_id){
