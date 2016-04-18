@@ -20,9 +20,13 @@ angular.module('app.services')
       return this.ref().child(dateISO);
     },
 
-    create: function(date, object, card) {
-      var ref = this.ref().child(date).child(object.type).child(object.id);
-      ref.set(card);
+    create: function(date, card) {
+      // DEPRECIATED: do NOT want to set the id of each card to be the object_id, want a unique_id and have child object_id!
+      // var ref = this.ref().child(date).child(object.type).child(object.id);
+      // ref.set(card);
+
+      var ref = this.ref().child(date);
+      ref.push(card); //use push to generate a UNIQUE card ID for each firebase card. 
     },
     find_or_create_by_object(object, cardObject) {
       console.log(object)
