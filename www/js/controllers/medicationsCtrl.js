@@ -214,7 +214,7 @@ angular.module('app.controllers')
           text: '<b>Save</b>',
           onTap: function(e) {
             // Make sure input field contains text.
-            if ($scope.slot.text) {
+            if ($scope.slot.text && $scope.slot.time) {
               // TODO -> allow user to pick dates for schedule
               hours = $scope.slot.time.getHours();
               mins  = $scope.slot.time.getMinutes();
@@ -225,6 +225,7 @@ angular.module('app.controllers')
                 if ($scope.slot.day[i])
                   daysArray.push(i);
               }
+
               $scope.schedule[index].slot = $scope.slot.text;
               $scope.schedule[index].days = daysArray;
               $scope.schedule[index].time = hours + ":" + mins;
@@ -239,6 +240,15 @@ angular.module('app.controllers')
         }
       ]
     });
+  }
+
+  $scope.timeDisplayFormat = function(timestring) {
+    [hours, mins] = timestring.split(':');
+    hours = parseInt(hours);
+    ampm = (hours > 12) ? "PM" : "AM";
+    hours = (hours > 12) ? hours - 12 : hours;
+    newtime = hours + ":" + mins + " " + ampm;
+    return newtime;
   }
 
   $scope.saveMedicationSchedule = function() {

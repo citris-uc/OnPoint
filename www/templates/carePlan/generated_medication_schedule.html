@@ -57,7 +57,7 @@
             >
             <a class="item">{{dateSchedule.slot | uppercase}}
               <i class="item-small item-icon-right" style="float:right">
-              {{dateSchedule.time | date: 'h:mm a'}}
+              {{timeDisplayFormat(dateSchedule.time)}}
                 <i class="icon ion-edit button button-clear button-positive" ng-click="editSlot(dateSchedule)"></i>
               </i>
            </a>
