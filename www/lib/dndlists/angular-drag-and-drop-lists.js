@@ -72,6 +72,11 @@ angular.module('dndLists', [])
       // Set the HTML5 draggable attribute on the element
       element.attr("draggable", "true");
 
+      // dndDragTypeWorkaround.debounceDelay = 200;
+      // dndDragTypeWorkaround.timeStampStart = 0;
+      // dndDragTypeWorkaround.timeStampEnd   = 0;
+      // dndDragTypeWorkaround.timeStampDrop  = 0;
+
       // If the dnd-disable-if attribute is set, we have to watch that
       if (attr.dndDisableIf) {
         scope.$watch(attr.dndDisableIf, function(disabled) {
@@ -83,14 +88,26 @@ angular.module('dndLists', [])
        * When the drag operation is started we have to prepare the dataTransfer object,
        * which is the primary way we communicate with the target element
        */
-      element.on('dragstart', function(event) {
+      element.on('dragstart2', function(event) {
+        // if (event.timeStamp - dndDragTypeWorkaround.timeStampStart < dndDragTypeWorkaround.debounceDelay ) {
+        //    dndDragTypeWorkaround.timeStampStart = event.timeStamp;
+        //   return;
+        // }
+        // dndDragTypeWorkaround.timeStampStart = event.timeStamp;
+
+        // console.log("======DND DRAG START=====: " + event.timeStamp);
+        // console.log("dragstart event: " + event.type);
+        // console.log("event.originalEvent: " +event.originalEvent);
+        //
         event = event.originalEvent || event;
 
+        // console.log("event: " + event.type);
         // Check whether the element is draggable, since dragstart might be triggered on a child.
         if (element.attr('draggable') == 'false') return true;
 
         // Serialize the data associated with this element. IE only supports the Text drag type
         event.dataTransfer.setData("Text", angular.toJson(scope.$eval(attr.dndDraggable)));
+        dndDropEffectWorkaround.data = angular.toJson(scope.$eval(attr.dndDraggable));
 
         // Only allow actions specified in dnd-effect-allowed attribute
         event.dataTransfer.effectAllowed = attr.dndEffectAllowed || "move";
@@ -116,6 +133,8 @@ angular.module('dndLists', [])
         $parse(attr.dndDragstart)(scope, {event: event});
 
         event.stopPropagation();
+
+        // console.log("dndList dragStart dropEffect: " + event.dataTransfer.dropEffect + " isdraggong: " + dndDragTypeWorkaround.isDragging);
       });
 
       /**
@@ -123,7 +142,15 @@ angular.module('dndLists', [])
        * operation was aborted (e.g. hit escape button). Depending on the executed action
        * we will invoke the callbacks specified with the dnd-moved or dnd-copied attribute.
        */
-      element.on('dragend', function(event) {
+      element.on('dragend2', function(event) {
+        // if (event.timeStamp - dndDragTypeWorkaround.timeStampEnd < dndDragTypeWorkaround.debounceDelay ) {
+        //    dndDragTypeWorkaround.timeStampEnd = event.timeStamp;
+        //   return;
+        // }
+        // dndDragTypeWorkaround.timeStampEnd = event.timeStamp;
+
+        // console.log("======DND DRAG END=====" + event.timeStamp);
+
         event = event.originalEvent || event;
 
         // Invoke callbacks. Usually we would use event.dataTransfer.dropEffect to determine
@@ -131,6 +158,9 @@ angular.module('dndLists', [])
         // it always sets it to 'none', while Chrome on Linux sometimes sets it to something
         // else when it's supposed to send 'none' (drag operation aborted).
         var dropEffect = dndDropEffectWorkaround.dropEffect;
+        var data = dndDropEffectWorkaround.data;
+        //var dropEffect = "move";
+        // console.log("dndList dragend: eventtype: " + event.type + " dropEffect: " + dropEffect  + " data: " + dndDropEffectWorkaround.data);
         scope.$apply(function() {
           switch (dropEffect) {
             case "move":
@@ -149,6 +179,7 @@ angular.module('dndLists', [])
         // Clean up
         element.removeClass("dndDragging");
         $timeout(function() { element.removeClass("dndDraggingSource"); }, 0);
+        // console.log("Reset isdragging");
         dndDragTypeWorkaround.isDragging = false;
         event.stopPropagation();
       });
@@ -335,19 +366,29 @@ angular.module('dndLists', [])
        * position where we insert the transferred data. This assumes that the list has exactly
        * one child element per array element.
        */
-      element.on('drop', function(event) {
-        event = event.originalEvent || event;
+      element.on('drop2', function(event) {
+        // if (event.timeStamp - dndDragTypeWorkaround.timeStampDrop < dndDragTypeWorkaround.debounceDelay ) {
+        //    dndDragTypeWorkaround.timeStampDrop = event.timeStamp;
+        //   return;
+        // }
+        // dndDragTypeWorkaround.timeStampDrop = event.timeStamp;
 
+        // console.log("======DND LIST ITEM DROP=====");
+        event = event.originalEvent || event;
+        // console.log("dndList drop " + event.type + " drop allowed: " + isDropAllowed(event));
         if (!isDropAllowed(event)) return true;
 
+        // console.log("dndList drop 2 " + event.type);
         // The default behavior in Firefox is to interpret the dropped element as URL and
         // forward to it. We want to prevent that even if our drop is aborted.
         event.preventDefault();
 
+        // console.log("dndList drop 3" + event.type);
         // Unserialize the data that was serialized in dragstart. According to the HTML5 specs,
         // the "Text" drag type will be converted to text/plain, but IE does not do that.
-        var data = event.dataTransfer.getData("Text") || event.dataTransfer.getData("text/plain");
+        var data = event.dataTransfer.getData("Text") || event.dataTransfer.getData("text/plain") || dndDropEffectWorkaround.data;
         var transferredObject;
+        // console.log("data: " +data);
         try {
           transferredObject = JSON.parse(data);
         } catch(e) {
@@ -383,7 +424,6 @@ angular.module('dndLists', [])
         } else {
           dndDropEffectWorkaround.dropEffect = event.dataTransfer.dropEffect;
         }
-
         // Clean up
         stopDragover();
         event.stopPropagation();
@@ -446,7 +486,8 @@ angular.module('dndLists', [])
        * object needs to be inserted
        */
       function getPlaceholderIndex() {
-        return Array.prototype.indexOf.call(listNode.children, placeholderNode);
+        var index = Array.prototype.indexOf.call(listNode.children, placeholderNode);
+        return index;
       }
 
       /**
@@ -454,11 +495,11 @@ angular.module('dndLists', [])
        */
       function isDropAllowed(event) {
         // Disallow drop from external source unless it's allowed explicitly.
-        if (!dndDragTypeWorkaround.isDragging && !externalSources) return false;
+          if (!dndDragTypeWorkaround.isDragging && !externalSources) { return false;}
 
         // Check mimetype. Usually we would use a custom drag type instead of Text, but IE doesn't
         // support that.
-        if (!hasTextMimetype(event.dataTransfer.types)) return false;
+        if (!hasTextMimetype(event.dataTransfer.types)) { return false; }
 
         // Now check the dnd-allowed-types against the type of the incoming element. For drops from
         // external sources we don't know the type, so it will need to be checked via dnd-drop.
@@ -520,6 +561,8 @@ angular.module('dndLists', [])
    */
   .directive('dndNodrag', function() {
     return function(scope, element, attr) {
+      this.tapDelay = 200;
+      this.lastClickTime = 0;
       // Set as draggable so that we can cancel the events explicitly
       element.attr("draggable", "true");
 
@@ -528,6 +571,14 @@ angular.module('dndLists', [])
        * We will prevent that and also stop the event from bubbling up.
        */
       element.on('dragstart', function(event) {
+        if ((event.timeStamp - this.lastClickTime) < this.tapDelay) {
+          this.lastClickTime = event.timeStamp;
+          event.preventDefault();
+          event.stopPropagation();
+
+        }
+
+        // console.log("======DND LIST ITEM DRAG START=====");
         event = event.originalEvent || event;
 
         if (!event._dndHandle) {
@@ -545,6 +596,7 @@ angular.module('dndLists', [])
        * would be removed.
        */
       element.on('dragend', function(event) {
+        // console.log("======DND LIST ITEM DRAG END=====");
         event = event.originalEvent || event;
         if (!event._dndHandle) {
           event.stopPropagation();
