@@ -182,9 +182,10 @@ angular.module('app.controllers')
   //  });
   // }
 
-  // TODO: Comments should be part of a Card.
-  $scope.getCommentsCount = function(card_id){
-    return Comment.get_comments_count_by_id(card_id);
+  // TODO: Need to think of a way tod o this cleanly.
+  $scope.getCommentsCount = function(card_id, comment_id){
+    console.log(card_id  + " " + comment_id)
+    //return Comment.get_comments_count_by_id(card_id);
   }
 
   $scope.swipeCard = function(card) {

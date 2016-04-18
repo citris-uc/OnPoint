@@ -6,7 +6,7 @@ angular.module('app.controllers')
   $scope.newComment = {};
 
   $scope.card = Card.getById($stateParams.card_id)
-  //console.log($scope.comments)
+  console.log($scope.comments)
   //console.log($stateParams)
 
   $scope.reply = function(){
