@@ -18,7 +18,14 @@ angular.module('app.controllers')
 
   //TODO: use this to trigger generating all scheduled cards per day.
   $scope.$on('$ionicView.enter', function(){
-    MedicationSchedule.createTodaysCards();
+    var today = (new Date()).toISOString().substring(0,10)
+    var todaysCardReq = Card.ref().child(today).once("value", function (snap) { //only do this once per day
+      if (!snap.exists()) {
+        MedicationSchedule.createTodaysCards();
+        //TODO: need to add measurementSchedule
+      }
+    }) //end todaysCard Req
+
   });
 
   $scope.getCardStatus = function(card) {
