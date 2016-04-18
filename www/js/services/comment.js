@@ -1,6 +1,6 @@
 angular.module('app.services')
 
-.factory('Comment', function() {
+.factory('Comment',["Patient", "Card", "$firebaseArray", function(Patient, Card, $firebaseArray) {
   comments = [
     {card_id: "6", created_at: "2016-03-15T12:00:00", user_name: "Son", content: "I will pick you up tomorrow at 10 AM mom."},
     {card_id: "6", created_at: "2016-03-15T12:30:00", user_name: "Mr.A", content: "Thanks, see you tomorrow."},
@@ -14,6 +14,27 @@ angular.module('app.services')
   return {
     get: function() {
       return comments;
+    },
+    ref: function() {
+      var uid = Patient.uid();
+      return Patient.ref(uid).child("comments");
+    },
+    create: function(card, userParam, msg, date) {
+      var comment = {card_id: card}; //create the new comment object
+      var ref = this.ref().push(comment); //push it to firebase
+      var comment_key = ref.key(); //get the comment_key
+      this.ref().child(comment_key).child('messages').push({user:userParam, message:msg, timestamp: date})
+      Card.todaysRef().child(card).update({"comment_id": comment_key}) //add comment_id to card
+      return comment_key
+    },
+    getById: function(id) {
+      //console.log(id)
+      if(id == "") {
+        return null
+      }
+      //console.log("return the comments")
+      var ref = this.ref().child(id).child('messages');
+      return $firebaseArray(ref);
     },
     getByCardId: function(id) {
       cardcomments = [];
@@ -38,4 +59,4 @@ angular.module('app.services')
       return counts;
     }
   };
-})
+}])
