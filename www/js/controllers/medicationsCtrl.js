@@ -148,7 +148,7 @@ angular.module('app.controllers')
   // TODO --> use MedicationSchedule and FB
   $scope.schedule = MedicationSchedule.get();
   $scope.selected_med = null;
-  $scope.slot = {};
+  $scope.slot = {day:[]};
   $scope.showError = false;
 
   //Saving State of onboarding progress into firebase
@@ -196,6 +196,49 @@ angular.module('app.controllers')
         buttons: [{text: 'OK'}]
       });
     }
+  }
+
+  $scope.editSlot = function(slot) {
+    var index = $scope.schedule.indexOf(slot);
+    $scope.slot.text = slot.slot;
+    $scope.slot.idx = index;
+    var myPopup = $ionicPopup.show({
+      templateUrl: 'medSched-popup-template.html',
+      title: 'Edit time slot',
+      subTitle: 'Enter new time slot name and reminder time',
+      attr:'data-ng-disabled=""!newSlotName.text"',
+      scope: $scope,
+      buttons: [
+        { text: 'Cancel' },
+        {
+          text: '<b>Save</b>',
+          onTap: function(e) {
+            // Make sure input field contains text.
+            if ($scope.slot.text) {
+              // TODO -> allow user to pick dates for schedule
+              hours = $scope.slot.time.getHours();
+              mins  = $scope.slot.time.getMinutes();
+              hours = ( String(hours).length == 1 ? "0" + String(hours) : String(hours) );
+              mins  = ( String(mins).length == 1 ? "0" + String(mins) : String(mins) );
+              var daysArray = [];
+              for (var i = 0; i < 7; i++) {
+                if ($scope.slot.day[i])
+                  daysArray.push(i);
+              }
+              $scope.schedule[index].slot = $scope.slot.text;
+              $scope.schedule[index].days = daysArray;
+              $scope.schedule[index].time = hours + ":" + mins;
+              $scope.slot.text = "";
+              $scope.showError = false;
+            } else {
+              e.preventDefault();
+              $scope.showError = true;
+
+            }
+          }
+        }
+      ]
+    });
   }
 
   $scope.saveMedicationSchedule = function() {
