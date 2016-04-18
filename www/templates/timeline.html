@@ -9,7 +9,7 @@
   <ion-content overflow-scroll="true" padding="true" class="has-header">
     <ion-refresher pulling-text="Pull to refresh" on-refresh="generateCardsForToday()">
     </ion-refresher>
-    
+
     <!-- Text input for Symptoms Feeling tracker -->
     <!-- TODO: Save button on right? -->
     <!-- TODO: DO we really need this? @dman7 -->
@@ -34,10 +34,9 @@
         <div class="item item-text-wrap" >
           <div ng-repeat="line in getBody(c, type, $index) track by $index">{{line}}</div>
         </div>
-
         <!-- Card Buttons -->
         <div class="button-bar">
-          <a class="button button-small icon ion-ios-chatboxes-outline" ui-sref="tabsController.comments({id:c.id})"> Comments  ({{getCommentsCount(c.id)}})</a>
+          <a class="button button-small icon ion-ios-chatboxes-outline"  ui-sref="tabsController.comments({type: type, date: c.created_at, id:'-KFbXJLAn9qDJMWB9tVL'})"> Comments  ({{getCommentsCount(c)}})</a>
           <a class="button button-small" ng-click="openPage(c, type, $index)">Action</a>
         </div>
       </div>
