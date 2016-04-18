@@ -26,7 +26,7 @@
         dnd-allowed-types="['timeSlotType']"
         >
         <li class = "card item"
-            ng-repeat="dateSchedule in schedule"
+            ng-repeat="dateSchedule in schedule | orderBy: 'time'"
             >
             <a>{{dateSchedule.slot | uppercase}}</a>
             <a style="float:right">{{dateSchedule.time | date: 'h:mm a'}}</a>
