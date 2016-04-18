@@ -1,41 +1,28 @@
 angular.module('app.services')
 
-.factory('Comment', function() {
-  comments = [
-    {card_id: "6", created_at: "2016-03-15T12:00:00", user_name: "Son", content: "I will pick you up tomorrow at 10 AM mom."},
-    {card_id: "6", created_at: "2016-03-15T12:30:00", user_name: "Mr.A", content: "Thanks, see you tomorrow."},
-    {card_id: "6", created_at: "2016-03-15T12:33:00", user_name: "Daughter", content: "Don't forget to bring your ID."},
-    {card_id: "1", created_at: "2016-03-15T13:00:00", user_name: "Son", content: "Mom, how do you feel? Are you okay now? Do I need to call nurse?"},
-    {card_id: "1", created_at: "2016-03-15T13:30:00", user_name: "Mr.A", content: "I will take my measurement one hour later and let you know."},
-    {card_id: "0", created_at: "2016-03-15T20:00:00", user_name: "Son", content: "Wy did you skipped Lasix today ?"},
-    {card_id: "0", created_at: "2016-03-15T20:30:00", user_name: "Mr.A", content: "Lasix makes me pee a lot. I can't sleep well."},
-  ]
+.factory("Comment", ["Patient","$firebaseArray", function(Patient, $firebaseArray) {
 
   return {
-    get: function() {
-      return comments;
+    ref: function() {
+      var uid = Patient.uid();
+      return Patient.ref(uid).child("cards");
     },
-    getByCardId: function(id) {
-      cardcomments = [];
-      for (var i = 0; i < comments.length; i++) {
-        if (comments[i].card_id == id){
-          cardcomments.push(comments[i]);
-        }
-      }
-      return cardcomments;
+    get_comments: function(time,type,id){
+      return $firebaseArray(this.ref().child(time).child(type).child(id).child("comments"));
     },
-    add: function(comment) {
+    add: function(comment,time,type,id) {
       comment.created_at = (new Date()).toISOString()
-      comments.push(comment);
-    },
-    get_comments_count_by_id: function(id){
-      counts = 0;
-      for (var i = 0; i < comments.length; i++) {
-        if (comments[i].card_id == id){
-          counts = counts + 1 ;
-        }
+      var comments = this.get_comments(time,type,id);
+      if (comments.length == 0){
+  //      console.log(this.ref().child(time).child(type).child(id));
+  //      this.ref().child(time).child(type).child(id).push({'comments', comment});
+      }else{
+        comments.push(comment);
       }
-      return counts;
+    },
+    getCard: function(time,type,id) {
+
+      return this.ref().child(time).child(type).child(id);
     }
   };
-})
+}])

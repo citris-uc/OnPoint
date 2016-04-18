@@ -34,13 +34,11 @@
         <div class="item item-text-wrap" >
           <div ng-repeat="line in getBody(c, type, $index) track by $index">{{line}}</div>
         </div>
-
         <!-- Card Buttons -->
         <div class="button-bar">
-          <a class="button button-small icon ion-ios-chatboxes-outline" ui-sref="tabsController.comments({id:c.id})"> Comments  ({{getCommentsCount(c.id)}})</a>
+          <a class="button button-small icon ion-ios-chatboxes-outline"  ui-sref="tabsController.comments({type: type, date: c.created_at, id:'-KFbXJLAn9qDJMWB9tVL'})"> Comments  ({{getCommentsCount(c)}})</a>
           <a class="button button-small" ng-click="openPage(c, type, $index)">Action</a>
         </div>
-        card id is {{c.$id}} ;type is  {{type}} ;created time is {{c.created_at}}
       </div>
     </div>
   </ion-content>

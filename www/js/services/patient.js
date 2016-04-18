@@ -1,10 +1,3 @@
-/*
-This factory abstracts the interaction with the persistence layer to
-fetch the Patient object. The Patient object is *mostly* Firebase data that
-is returned via password authentication:
-
-https://www.firebase.com/docs/web/guide/login/password.html
-*/
 angular.module('app.services')
 .factory('Patient', function($window, $firebaseAuth) {
   return {
@@ -54,6 +47,9 @@ angular.module('app.services')
     logout: function() {
       this.auth().$unauth();
       this.setToken(null);
+    },
+    get_name: function(){
+        return "Amy";
     }
   };
 })
