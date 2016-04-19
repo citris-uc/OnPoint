@@ -138,7 +138,7 @@ angular.module('app.routes', [])
   })
 
   .state('tabsController.comments', {
-    url: '/cards/:id/comments',
+    url: '/cards/:card_id/comments/:comment_id',
     views: {
       'timeline-tab': {
         templateUrl: 'templates/comments.html',

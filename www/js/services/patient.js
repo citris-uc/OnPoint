@@ -6,7 +6,7 @@ is returned via password authentication:
 https://www.firebase.com/docs/web/guide/login/password.html
 */
 angular.module('app.services')
-.factory('Patient', function($window, $firebaseAuth) {
+.factory('Patient', function($window, $firebaseAuth, $firebaseObject) {
   return {
     uid: function() {
       return this.get().uid;
@@ -26,6 +26,15 @@ angular.module('app.services')
     //   this.ref(authData.uid).set({email: email})
     //   //this.setToken(authData.token) //authData will only contain UID
     // },
+    getFirstName: function() {
+      ref = this.ref().child('first_name')
+      return $firebaseObject(ref)
+    },
+
+    getLastName: function() {
+      ref = this.ref().child('last_name')
+      return $firebaseObject(ref)
+    },
     setProfilePicture: function(profileImageUrl) {
       patient = this.get();
       patient.profileImageUrl = profileImageUrl;

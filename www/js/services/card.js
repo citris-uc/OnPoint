@@ -10,6 +10,10 @@ angular.module('app.services')
       var ref = this.todaysRef();
       return $firebaseArray(ref);
     },
+    getById: function(id) {
+      var ref = this.todaysRef().child(id)
+      return $firebaseObject(ref)
+    },
     ref: function() {
       var uid = Patient.uid();
       return Patient.ref(uid).child("cards");
@@ -26,7 +30,7 @@ angular.module('app.services')
       // ref.set(card);
 
       var ref = this.ref().child(date);
-      ref.push(card); //use push to generate a UNIQUE card ID for each firebase card. 
+      ref.push(card); //use push to generate a UNIQUE card ID for each firebase card.
     },
     find_or_create_by_object(object, cardObject) {
       console.log(object)
