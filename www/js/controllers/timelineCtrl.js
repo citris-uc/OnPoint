@@ -103,6 +103,12 @@ angular.module('app.controllers')
     return fstr;
   }
 
+  $scope.formatTitle = function(str) {
+    var fstr = str.replace("_schedule","");
+    fstr = fstr.charAt(0).toUpperCase() + fstr.slice(1);
+    return fstr;
+  }
+
   /*
    * gets the body for each cardClass
    * @param index: this is the medication_schedule ID essentailly
