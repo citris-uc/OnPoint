@@ -14,7 +14,7 @@ angular.module('app.services')
       var ref = this.ref().push(comment); //push it to firebase
       var comment_key = ref.key(); //get the comment_key
       this.ref().child(comment_key).child('messages').push({user:userParam, message:msg, timestamp: date})
-      Card.todaysRef().child(card).update({"comment_id": comment_key}) //add comment_id to card
+      Card.todaysRef().child(card).update({"comment_id": comment_key, "num_comments": 1}) //add comment_id to card
       return comment_key
     },
     getById: function(id) {
