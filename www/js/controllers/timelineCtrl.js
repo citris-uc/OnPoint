@@ -8,6 +8,7 @@ angular.module('app.controllers')
   $scope.medications = Medication.get();
   $scope.today       = new Date();
   $scope.numComments = new Array($scope.cards.length)
+  $scope.measurementSchedule = MeasurementSchedule.get();
 
   // TODO: Remove this inefficiency by moving the update/complete logic to the
   // appropriate factory.
@@ -23,7 +24,6 @@ angular.module('app.controllers')
     var todaysCardReq = Card.ref().child(today).once("value", function (snap) { //only do this once per day
       if (!snap.exists()) {
         MedicationSchedule.createTodaysCards();
-        MeasurementSchedule.createTodaysCards();
         //TODO: need to add measurementSchedule
       }
     }) //end todaysCard Req
@@ -174,7 +174,22 @@ angular.module('app.controllers')
         })
         return [takeString, skippedString, completedString];
       case CARD.CATEGORY.MEASUREMENTS_SCHEDULE :
-        return ["Take <measurements>"];
+        var schedule;
+        var measurementString = "Take: ";
+
+        for (var i = 0; i < $scope.measurementSchedule.length; i++) {
+          if ($scope.measurementSchedule[i].$id == card.object_id) {
+            schedule = $scope.measurementSchedule[i];
+          }
+        }
+        if (schedule == null) return;
+
+        var measurements  = schedule.measurements;
+        measurements.forEach( function(meas) {
+          measurementString += " " + meas;
+        });
+
+        return [measurementString];
       case CARD.CATEGORY.APPOINTMENTS_SCHEDULE :
         return ["Appointment Information"];
       case CARD.CATEGORY.GOALS :
