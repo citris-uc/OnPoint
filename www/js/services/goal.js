@@ -13,7 +13,7 @@ angular.module('app.services')
     },
     ref: function() {
       var uid = Patient.uid();
-      return Patient.ref(uid).child("appointments")
+      return Patient.ref(uid).child("goals")
     },
     add: function(goal) {
       // Replace with Firebase
