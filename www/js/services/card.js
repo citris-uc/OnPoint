@@ -49,33 +49,67 @@ angular.module('app.services')
         return current
       })
     },
-    complete: function(cardID) {
-      var card;
-      for(var i = 0; i < cards.length; i++) {
-        if (cards[i].id === cardID)
-          card = cards[i]
-      }
+    complete: function(card) {
+      // var card;
+      // for(var i = 0; i < cards.length; i++) {
+      //   if (cards[i].id === cardID)
+      //     card = cards[i]
+      // }
+      //
+      // if (card) {
+      //   now = (new Date()).toISOString();
+      //   card.updated_at   = now;
+      //   card.completed_at = now;
+      // }
+      // return card;
+      var ref = this.todaysRef().child(card.$id);
+      var now = (new Date()).toTimeString();
 
-      if (card) {
-        now = (new Date()).toISOString();
-        card.updated_at   = now;
-        card.completed_at = now;
-      }
-      return card;
+      var updateObject; //use this if updating an element. see https://www.firebase.com/docs/web/api/firebase/update.html
+      updateObject = {updated_at: now,
+                      completed_at: now};
+
+      //Add to or update firebase
+      var req = ref.once('value', function(snapshot) {
+        if(snapshot.exists()) { //this date child exists
+          var card = snapshot.val();
+          var cardRef = snapshot.ref();
+          cardRef.update(updateObject);
+        }
+      })
+      return req;
     },
-    archive: function(cardID) {
-      var card;
-      for(var i = 0; i < cards.length; i++) {
-        if (cards[i].id === cardID)
-          card = cards[i]
-      }
 
-      if (card) {
-        now = (new Date()).toISOString();
-        card.updated_at  = now;
-        card.archived_at = now;
-      }
-      return card;
+
+    archive: function(card) {
+      // var card;
+      // for(var i = 0; i < cards.length; i++) {
+      //   if (cards[i].id === cardID)
+      //     card = cards[i]
+      // }
+      //
+      // if (card) {
+      //   now = (new Date()).toISOString();
+      //   card.updated_at  = now;
+      //   card.archived_at = now;
+      // }
+      // return card;
+      var ref = this.todaysRef().child(card.$id);
+      var now = (new Date()).toTimeString();
+
+      var updateObject; //use this if updating an element. see https://www.firebase.com/docs/web/api/firebase/update.html
+      updateObject = {updated_at: now,
+                      archived_at: now};
+
+      //Add to or update firebase
+      var req = ref.once('value', function(snapshot) {
+        if(snapshot.exists()) { //this date child exists
+          var card = snapshot.val();
+          var cardRef = snapshot.ref();
+          cardRef.update(updateObject);
+        }
+      })
+      return req;
     },
     checkCardUpdate: function(card){
       // Check the latest timestamp for the card
@@ -125,7 +159,7 @@ angular.module('app.services')
 
       switch(card.object_type) {
         case CARD.CATEGORY.MEDICATIONS_SCHEDULE :
-          // // Get schedule associated with card
+          // Get schedule associated with card
           // var schedule = MedicationSchedule.findByID(card.object_id);
           // var medications = schedule.medications;
           // var takeMeds = [];
@@ -143,9 +177,8 @@ angular.module('app.services')
           //     skippedMeds.push(med);
           //   }
           // })
-          //
-          // // All meds are complete;
-          // // TODO --> meds that can't be skipped should be forked off into separate card
+          // All meds are complete;
+          // TODO --> meds that can't be skipped should be forked off into separate card
           // if (takeMeds.length == 0) {
           //   this.complete(card.id);
           // }
