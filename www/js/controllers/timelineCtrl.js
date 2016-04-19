@@ -31,51 +31,93 @@ angular.module('app.controllers')
   });
 
   $scope.checkCardComplete = function(card) {
-    if (card.object_type == CARD.CATEGORY.MEDICATIONS_SCHEDULE) {
-      if (card.completed_at != null || card.archived_at != null) return;
-      var schedule;
-      for (var i = 0; i < $scope.medSchedule.length; i++) {
-        if ($scope.medSchedule[i].$id == card.object_id) {
-          schedule = $scope.medSchedule[i];
-        }
-      }
-      if (schedule == null) return;
-      var medications = schedule.medications;
-      var now    = (new Date()).toISOString();
-      var takeMeds = [];
-      var skippedMeds = [];
-      var completedMeds = [];
-
-      medications.forEach( function(medication) {
-        var med = {}
-        //Find the Med
-        for(var i = 0; i < $scope.medications.length; i++) {
-          if ($scope.medications[i].trade_name == medication) {
-            med = $scope.medications[i]
-            med.id = $scope.medications[i].$id;
+    switch(card.object_type) {
+      case CARD.CATEGORY.MEDICATIONS_SCHEDULE :
+        if (card.completed_at != null || card.archived_at != null) return;
+        var schedule;
+        for (var i = 0; i < $scope.medSchedule.length; i++) {
+          if ($scope.medSchedule[i].$id == card.object_id) {
+            schedule = $scope.medSchedule[i];
           }
         }
+        if (schedule == null) return;
+        var medications = schedule.medications;
+        var now    = (new Date()).toISOString();
+        var takeMeds = [];
+        var skippedMeds = [];
+        var completedMeds = [];
 
-        var exists = false;
-        for(var i = 0; i < $scope.medHistory.length; i++) {
-          var hist = $scope.medHistory[i];
-          if (hist.medication_id==med.id && hist.medication_schedule_id==schedule.$id) {
-            exists = true;
-            if(hist.taken_at != null)
-              completedMeds.push(med);
-            else if (hist.skipped_at != null)
-              skippedMeds.push(med);
-            else {
-              takeMeds.push(med);
+        medications.forEach( function(medication) {
+          var med = {}
+          //Find the Med
+          for(var i = 0; i < $scope.medications.length; i++) {
+            if ($scope.medications[i].trade_name == medication) {
+              med = $scope.medications[i]
+              med.id = $scope.medications[i].$id;
             }
           }
+
+          var exists = false;
+          for(var i = 0; i < $scope.medHistory.length; i++) {
+            var hist = $scope.medHistory[i];
+            if (hist.medication_id==med.id && hist.medication_schedule_id==schedule.$id) {
+              exists = true;
+              if(hist.taken_at != null)
+                completedMeds.push(med);
+              else if (hist.skipped_at != null)
+                skippedMeds.push(med);
+              else {
+                takeMeds.push(med);
+              }
+            }
+          }
+          if (!exists)
+            takeMeds.push(med);
+        })
+        if (takeMeds.length == 0) {
+          Card.complete(card);
         }
-        if (!exists)
-          takeMeds.push(med);
-      })
-      if (takeMeds.length == 0) {
-        Card.complete(card);
-      }
+        break;
+      case CARD.CATEGORY.MEDICATIONS_SCHEDULE :
+        if (card.completed_at != null || card.archived_at != null) return;
+        var schedule;
+        for (var i = 0; i < $scope.measurementSchedule.length; i++) {
+          if ($scope.measurementSchedule[i].$id == card.object_id) {
+            schedule = $scope.measurementSchedule[i];
+          }
+        }
+        if (schedule == null) return;
+        var medications = schedule.measurements;
+        var now    = (new Date()).toISOString();
+        var takeMeas = [];
+        var skippedMeas = [];
+        var completedMeas = [];
+
+        measurements.forEach( function(meas) {
+          var exists = false;
+          // TODO -> need Measurements History to be implemented to determine card completion
+          // for(var i = 0; i < $scope.medHistory.length; i++) {
+          //   var hist = $scope.medHistory[i];
+          //   if (hist.medication_id==med.id && hist.medication_schedule_id==schedule.$id) {
+          //     exists = true;
+          //     if(hist.taken_at != null)
+          //       completedMeds.push(med);
+          //     else if (hist.skipped_at != null)
+          //       skippedMeds.push(med);
+          //     else {
+          //       takeMeds.push(med);
+          //     }
+          //   }
+          // }
+          if (!exists)
+            incompleteMeas.push(meas);
+        })
+        if (incompleteMeas.length == 0) {
+          Card.complete(card);
+        }
+        break;
+      default:
+        break;
     }
   }
 
@@ -197,6 +239,7 @@ angular.module('app.controllers')
         }
         if (schedule == null) return;
 
+        // TODO -> figure out if measurements are completed when Measurements History is implemented
         var measurements  = schedule.measurements;
         var i = 0;
         measurements.forEach( function(meas) {
