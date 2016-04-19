@@ -39,12 +39,9 @@ angular.module('app.services')
       return $firebaseArray(ref);
       //return medications;
     },
-
-    getByName: function(name) {
-      for (var i = 0; i < medications.length; i++) {
-        if (medications[i].name == name)
-          return medications[i]
-      }
+    getById: function(med_id){
+       console.log(med_id);
+      return $firebaseObject(this.ref().child(med_id));
     },
     getByTradeName: function(trade_name) {
       // for (var i = 0; i < medications.length; i++) {

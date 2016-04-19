@@ -50,6 +50,11 @@ angular.module('app.controllers')
 })
 
 
+.controller('medicationViewCtrl', function($scope, $stateParams, Medication) {
+   $scope.med = Medication.getById($stateParams.medication_id);
+})
+
+
 .controller('medListCtrl', function($scope, $state, Patient, Medication, MedicationSchedule) {
    $scope.scheduledMedications = Medication.get();
 

@@ -1,0 +1,38 @@
+<ion-view title="view Medication">
+  <ion-content>
+    <div class="list">
+      <label class="item item-input item-select">
+        <span class="input-label">Medication Name</span>
+          <input type="text" placeholder="metoprolol" ng-model="med.trade_name"></input>
+      </label>
+
+      <label class="item item-input">
+         <span class="input-label">Dosage</span>
+        <input type="number" min="0" placeholder="Dosage (e.g. 25)" ng-model="med.dose" ></input>
+        <span>mg</span>
+      </label>
+
+      <label class="item item-input">
+        <span class="input-label">Regimen</span>
+        <input type="text" placeholder="Regimen (e.g. twice a day, morning and night)" ng-model="med.regimen"></input>
+      </label>
+
+      <label class="item item-input">
+        <span class="input-label">Instructions</span>
+        <input type="text" placeholder="Instructions (e.g. orally)" ng-model="med.instructions"></input>
+      </label>
+
+      <label class="item item-input">
+        <span class="input-label">Purpose</span>
+        <input type="text" placeholder="Purpose (e.g. used to treat heart failure)" ng-model="med.purpose"></input>
+      </label>
+
+      <label class="item item-input">
+        <input type="text" placeholder="Any other notes?" ng-model="med.notes"></input>
+      </label>
+    </div>
+    <div class="padding">
+      <button class="button button-positive button-block" ng-click="med.$save()" ui-sref ="carePlan.medicationSchedules">Update</button>
+    </div>
+  </ion-content>
+</ion-view>
