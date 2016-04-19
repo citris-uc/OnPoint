@@ -25,17 +25,6 @@ angular.module('app.services')
       //console.log("return the comments")
       var ref = this.ref().child(id).child('messages');
       return $firebaseArray(ref);
-    },
-
-
-    get_comments_count_by_id: function(id){
-      counts = 0;
-      for (var i = 0; i < comments.length; i++) {
-        if (comments[i].card_id == id){
-          counts = counts + 1 ;
-        }
-      }
-      return counts;
     }
   };
 }])

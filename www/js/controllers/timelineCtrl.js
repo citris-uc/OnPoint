@@ -183,13 +183,6 @@ angular.module('app.controllers')
   //  });
   // }
 
-  // DEPRCIATED: Just store number of comments with card
-  // $scope.getCommentsCount = function(card_id, comment_id){
-  //
-  //   console.log($scope.numComments)
-  //   //return Comment.get_comments_count_by_id(card_id);
-  // }
-
 
   $scope.swipeCard = function(card) {
     if (card.completed_at != null) {
