@@ -8,9 +8,14 @@ angular.module('app.services')
       var ref = this.ref();
       return $firebaseArray(ref)
     },
+    getTodaysHistory: function() {
+      var today = ((new Date()).toISOString()).substring(0,10) //Only get the date: YYYY-MM-DD
+      var ref = this.ref().child('measurement_histories').child(today)
+      return $firebaseArray(ref);
+    },
     ref: function() {
       var uid = Patient.uid();
-      return Patient.ref(uid).child("measurements")
+      return Patient.ref(uid).child("measurement_histories")
     },
     hasHighBP: function(measurement) {
       if ( !(measurement.systolic && measurement.diastolic) )
@@ -20,43 +25,55 @@ angular.module('app.services')
         return true;
     },
 
-    add: function(measurement) {
-      now = (new Date()).toISOString();
+    add: function(measurement, schedule_id) {
+      console.log(schedule_id)
+      var today = ((new Date()).toISOString()).substring(0,10)
+      var ref = this.ref().child(today);
+      var time_now = (new Date()).toTimeString();
 
-      // Replace with Firebase
-      var m = {
+      var instance = {
         weight: measurement.weight,
         systolic: measurement.systolic,
         diastolic: measurement.diastolic,
         heart_rate: measurement.heartRate,
-        created_at: now
+        taken_at: time_now,
+        measurement_schedule_id: schedule_id
       }
+
+        //Add new measurement to firebase
+        var req = ref.once('value', function(snapshot) {
+            var measurementsRef = snapshot.ref();
+            measurementsRef.push(instance);
+        })
+        return req;
+
 
       // TODO: Remove this ugliness. We're doing this to reference
       // the current scope before we enter the `then` scope below.
-      var that = this;
+      // var that = this;
+      //
+      // var measurements = this.get();
+      // var req = measurements.$add(m);
 
-      var measurements = this.get();
-      var req = measurements.$add(m);
-
-      // Once we've persisted the measurement to Firebase, let's create an associated card
-      // in Firebase.
-      req.then(function(ref) {
-        m.id = ref.key(); // Return the ID to persist it further.
-
-        // Construct the object and card object.
-        var object     = {id: ref.key(), type: CARD.CATEGORY.MEASUREMENTS_SCHEDULE};
-        var cardObject = { type: CARD.TYPE.ACTION};
-        if (m.weight || (m.systolic && m.diastolic) || m.heartRate)
-          cardObject.completed_at = now
-        if (that.hasHighBP(m))
-          cardProp.type = CARD.TYPE.URGENT
-
-        // Finally, find or update the corresponding card.
-        Card.find_or_create_by_object(object, cardObject);
-      });
-
-      return m;
+      // DEPRECIATED
+      // // Once we've persisted the measurement to Firebase, let's create an associated card
+      // // in Firebase.
+      // req.then(function(ref) {
+      //   m.id = ref.key(); // Return the ID to persist it further.
+      //
+      //   // Construct the object and card object.
+      //   var object     = {id: ref.key(), type: CARD.CATEGORY.MEASUREMENTS_SCHEDULE};
+      //   var cardObject = { type: CARD.TYPE.ACTION};
+      //   if (m.weight || (m.systolic && m.diastolic) || m.heartRate)
+      //     cardObject.completed_at = now
+      //   if (that.hasHighBP(m))
+      //     cardProp.type = CARD.TYPE.URGENT
+      //
+      //   // Finally, find or update the corresponding card.
+      //   Card.find_or_create_by_object(object, cardObject);
+      // });
+      //
+      // return m;
     }
   };
 }] )
