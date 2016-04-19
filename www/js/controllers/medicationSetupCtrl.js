@@ -5,11 +5,11 @@ angular.module('app.controllers')
     $scope.newMedication = {};
 
     $scope.medSelected= function(med) {
-      $scope.newMedication.dosage = med.dose;
-      $scope.newMedication.regimen = med.regimen;
+      $scope.newMedication.dose = med.dose;
       $scope.newMedication.instructions = med.instructions;
       $scope.newMedication.purpose = med.purpose;
       console.log(med)
+      console.log("inside med selected ");
     }
 
     var displayAlert = function(message) {
@@ -25,18 +25,15 @@ angular.module('app.controllers')
     $scope.saveMedication = function(firebaseRecord){
       if (!$scope.newMedication.name)
         displayAlert("Medication name can't be blank");
-      else if (!$scope.newMedication.dosage)
+      else if (!$scope.newMedication.dose)
         displayAlert("Dosage can't be blank");
-      else if (!$scope.newMedication.regimen)
-        displayAlert("Regimen can't be blank");
       else if (!$scope.newMedication.instructions)
         displayAlert("Instructions can't be blank");
       else if (!$scope.newMedication.purpose)
         displayAlert("Purpose can't be blank");
       else {
-        firebaseRecord['dose'] = $scope.newMedication.dosage
-        firebaseRecord['regimen'] = $scope.newMedication.regimen
         firebaseRecord['instructions'] = $scope.newMedication.instructions
+        firebaseRecord['dose'] = $scope.newMedication.dose
         firebaseRecord['purpose'] = $scope.newMedication.purpose
         firebaseRecord['notes'] = typeof($scope.newMedication.notes)==='undefined' ? null : $scope.newMedication.notes;
         firebaseRecord['user_input'] =  true
