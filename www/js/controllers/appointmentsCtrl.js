@@ -1,13 +1,12 @@
 angular.module('app.controllers')
 
 .controller('appointmentCtrl', function($scope,$stateParams, Appointment) {
-  var appointmentRecord = Appointment.get();
-  $scope.appointment = appointmentRecord[parseInt($stateParams.appointmentId)];
+  $scope.appointment = Appointment.getById($stateParams.appointment_id);
 })
 
 .controller('addAppointmentCtrl', function($scope,$state,$stateParams,$ionicPopup, Appointment) {
    $scope.newAppointment = {};
-   $scope.newAppointment.timestamp = new Date();
+   $scope.newAppointment.time = new Date();
    $scope.save = function(){
      var message = "";
      if(typeof $scope.newAppointment.title === 'undefined'){
@@ -27,7 +26,7 @@ angular.module('app.controllers')
        });
      }else{
       if(typeof $scope.newAppointment.note === 'undefined'){
-        $scope.newAppointment.note = "";
+        $scope.newAppointment.note = null;
       }
       Appointment.add($scope.newAppointment);
       $state.transitionTo('tabsController.appointments', {reload: true});
