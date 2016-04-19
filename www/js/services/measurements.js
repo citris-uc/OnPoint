@@ -62,7 +62,7 @@ angular.module('app.services')
 }] )
 
 
-.factory('MeasurementSchedule', ["Patient", "$firebaseArray", function(Patient, $firebaseArray) {
+.factory('MeasurementSchedule', ["Patient", "$firebaseArray", "$firebaseObject", function(Patient, $firebaseArray, $firebaseObject) {
   return {
     ref: function() {
       var uid = Patient.uid();
@@ -75,5 +75,8 @@ angular.module('app.services')
     add: function(schedule){
       this.get().$add(schedule);
     },
+    getById: function(id){
+      return $firebaseObject(this.ref().child(id));
+    }
   };
 }] )

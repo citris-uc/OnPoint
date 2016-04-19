@@ -55,6 +55,17 @@ angular.module('app.routes')
     }
   })
 
+  .state('carePlan.viewMeasurementSchedule', {
+    url: '/measurementSchedule/:measuremnt_schedule_id',
+    views: {
+      'care-plan': {
+        templateUrl: 'templates/carePlan/view_measurement_schedule.html',
+        controller: 'measurementViewCtrl'
+      }
+    }
+  })
+
+
   .state('carePlan.newMedication', {
     url: '/medications/new',
     views: {

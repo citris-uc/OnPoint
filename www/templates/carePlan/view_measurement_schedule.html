@@ -1,0 +1,32 @@
+<ion-view title="Create a new measurement schedule">
+  <ion-content overflow-scroll="true" padding="false" class="has-header">
+    <form name = "newMeasurementForm" class="list">
+        <ul>
+          <label class="item item-input">
+            <span class="input-label"><strong>Schedule Name</strong></span>
+            <input class="input-label"  type="text" placeholder="E.g. My Daily Schedule" ng-model="schedule.name" ></input>
+          </label>
+
+          <li class="item"><strong>Please select measurements</strong></li>
+          <ion-checkbox ng-model="schedule.weight">Weight</ion-checkbox>
+          <ion-checkbox ng-model="schedule.blood_pressure">Blood Pressure</ion-checkbox>
+          <ion-checkbox ng-model="schedule.heartRate">Heart Rate</ion-checkbox>
+
+          <li class="item"><strong>Please select days to be reminded</strong></li>
+          <ion-checkbox ng-model="schedule.days0">Sunday</ion-checkbox>
+          <ion-checkbox ng-model="schedule.days1">Monday</ion-checkbox>
+          <ion-checkbox ng-model="schedule.days2">Tuesday</ion-checkbox>
+          <ion-checkbox ng-model="schedule.days3">Wednesday</ion-checkbox>
+          <ion-checkbox ng-model="schedule.days4">Thursday</ion-checkbox>
+          <ion-checkbox ng-model="schedule.days5">Friday</ion-checkbox>
+          <ion-checkbox ng-model="schedule.days6">Saturday</ion-checkbox>
+
+          <label class="item item-input">
+            <span class="input-label"><strong>Reminder Time</strong></span>
+            <input type="time"  ng-model="schedule.time"></input>
+          </label>
+        </ul>
+        <button class="button button-positive button-block button-big" ng-click = "update()">Update</button>
+    </form>
+  </ion-content>
+</ion-view>
