@@ -43,14 +43,18 @@ Source: http://codepen.io/niyando/pen/GpEeQR
 
         Patient.set(authData); //this will also set the Token
 
-        var ref = Patient.ref();
+        var ref = Patient.ref().child('profile');
         ref.set({email: $scope.user.email})
 
         //TODO: much later, delete this.
         Medication.setDefaultMeds(); // Setting default meds/instructions for patient once they register
 
+
+
+        var onboardingRef = Patient.ref().child('onboarding');
+        onboardingRef.set({'completed':false,'state':'carePlan.setup'})
+
         //Use UPDATE, to NOT OVERWRITE email address!
-        $scope.user['onboarding'] = {'completed':false,'state':'carePlan.setup'}
         var req = ref.update($scope.user) //Setting Patient Information.
         req.then(function(ref) {
           $ionicHistory.nextViewOptions({
