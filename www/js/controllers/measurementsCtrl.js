@@ -70,16 +70,19 @@ angular.module('app.controllers')
 
 })
 
-.controller('measurementsCtrl', function($scope, Measurement) {
+.controller('measurementsCtrl', function($scope, Measurement, MeasurementSchedule) {
   $scope.measurements = Measurement.get();
+  $scope.schedule = MeasurementSchedule.get();
 })
 
-.controller('addMeasurementsCtrl', function($scope, $state, Measurement, $ionicPopup, $ionicHistory) {
+.controller('addMeasurementsCtrl', function($scope, $state, $stateParams, Measurement, $ionicPopup, $ionicHistory) {
   $scope.newMeasurement = {};
   $scope.newMeasurement.bpcolor = 'black';
-
+  //TODO: need to lookup actaul scheudle by schedule_id passed in
+  console.log($stateParams.schedule_id)
   $scope.addMeasurement = function() {
-    Measurement.add($scope.newMeasurement);
+    console.log($stateParams.schedule_id)
+    Measurement.add($scope.newMeasurement, $stateParams.schedule_id);
     $state.go('tabsController.measurements');
   };
 
