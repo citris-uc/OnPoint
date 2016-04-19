@@ -5,7 +5,7 @@
         <div class="input-label">Medication Name</div>
           <select ng-model="newMedication.name"
                   ng-change="medSelected(newMedication.name)"
-                  ng-options = "med.trade_name for med in medications">
+                  ng-options = "med.trade_name for med in medications | filter: {user_input: '!true'}">
           </select>
       </label>
 

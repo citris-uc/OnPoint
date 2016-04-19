@@ -5,6 +5,10 @@ angular.module('app.controllers')
     $scope.newMedication = {};
 
     $scope.medSelected= function(med) {
+      $scope.newMedication.dosage = med.dose;
+      $scope.newMedication.regimen = med.regimen;
+      $scope.newMedication.instructions = med.instructions;
+      $scope.newMedication.purpose = med.purpose;
       console.log(med)
     }
 
@@ -43,6 +47,11 @@ angular.module('app.controllers')
     };
 
 
+})
+
+
+.controller('medicationViewCtrl', function($scope, $stateParams, Medication) {
+   $scope.med = Medication.getById($stateParams.medication_id);
 })
 
 

@@ -65,6 +65,16 @@ angular.module('app.routes')
     }
   })
 
+  .state('carePlan.viewMedication', {
+    url: '/medication/:medication_id',
+    views: {
+      'care-plan': {
+        templateUrl: 'templates/carePlan/view_medication.html',
+        controller: 'medicationViewCtrl'
+      }
+    }
+  })
+
   .state('carePlan.generatedMedSchedule', {
     url: '/medication_schedules/generated',
     views: {
