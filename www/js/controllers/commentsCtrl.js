@@ -20,6 +20,8 @@ angular.module('app.controllers')
     }
     else {
       var newMessage =  {user:name, message: $scope.newComment.content, timestamp: today}
+      $scope.card.num_comments++
+      $scope.card.$save() //update firebase
       $scope.comments.$add(newMessage)
     }
     $scope.newComment.content = "";
