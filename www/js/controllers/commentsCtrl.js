@@ -6,7 +6,6 @@ angular.module('app.controllers')
   $scope.newComment = {};
 
   $scope.card = Card.getById($stateParams.card_id)
-  console.log($scope.comments)
   //console.log($stateParams)
 
   $scope.reply = function(){
@@ -21,6 +20,8 @@ angular.module('app.controllers')
     else {
       var newMessage =  {user:name, message: $scope.newComment.content, timestamp: today}
       $scope.comments.$add(newMessage)
+      $scope.card.num_comments++
+      $scope.card.$save() //update firebase
     }
     $scope.newComment.content = "";
   }

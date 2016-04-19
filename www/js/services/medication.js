@@ -164,6 +164,7 @@ angular.module('app.services')
                             completed_at: null,
                             archived_at: null,
                             shown_at: show.toISOString(),
+                            num_comments: 0,
                             object_type: CARD.CATEGORY.MEDICATIONS_SCHEDULE,
                             object_id: childSnap.key() // setting the ID to the firebase reference key!
                           }

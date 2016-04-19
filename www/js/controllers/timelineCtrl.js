@@ -7,6 +7,7 @@ angular.module('app.controllers')
   $scope.medHistory  = MedicationHistory.getTodaysHistory()
   $scope.medications        = Medication.get();
   $scope.today       = new Date();
+  $scope.numComments = new Array($scope.cards.length)
 
   // TODO: Remove this inefficiency by moving the update/complete logic to the
   // appropriate factory.
@@ -182,11 +183,6 @@ angular.module('app.controllers')
   //  });
   // }
 
-  // TODO: Need to think of a way tod o this cleanly.
-  $scope.getCommentsCount = function(card_id, comment_id){
-    //console.log(card_id  + " " + comment_id)
-    //return Comment.get_comments_count_by_id(card_id);
-  }
 
   $scope.swipeCard = function(card) {
     if (card.completed_at != null) {
