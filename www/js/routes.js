@@ -88,7 +88,7 @@ angular.module('app.routes', [])
   })
 
   .state('tabsController.measurementAdd', {
-    url: '/measurement-add',
+    url: '/measurement-add/:schedule_id',
     views: {
       'measurements-tab': {
         templateUrl: 'templates/measurements/measurements-add.html',
