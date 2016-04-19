@@ -24,7 +24,8 @@ angular.module('app.controllers')
     var todaysCardReq = Card.ref().child(today).once("value", function (snap) { //only do this once per day
       if (!snap.exists()) {
         MedicationSchedule.createTodaysCards();
-        //TODO: need to add measurementSchedule
+        MeasurementSchedule.createTodaysCards();
+        //TODO: need to do apointments  and goals?
       }
     }) //end todaysCard Req
 
