@@ -148,14 +148,13 @@ angular.module('app.services')
     },
 
     createTodaysCards: function() {
-
       var req = this.ref().child("default").once("value", function(snap) {
         var now    = (new Date()).toISOString();
         var date = now.substring(0,10) //Only get the date: YYYY-MM-DD
         snap.forEach(function(childSnap) {
-          console.log()
           schedule = childSnap.val();
           var show = new Date()
+          //TODO: update these to be minutes from midnight.
           show.setHours(parseInt(schedule.time.substring(0,2)));
           show.setMinutes(parseInt(schedule.time.substring(3,5)));
           var card = {type: CARD.TYPE.ACTION,
@@ -168,8 +167,6 @@ angular.module('app.services')
                             object_type: CARD.CATEGORY.MEDICATIONS_SCHEDULE,
                             object_id: childSnap.key() // setting the ID to the firebase reference key!
                           }
-          // var object = {type: CARD.CATEGORY.MEDICATIONS_SCHEDULE,
-          //               id: childSnap.key()} // setting the ID to the firebase reference key!
           Card.create(date, card);
         })
 

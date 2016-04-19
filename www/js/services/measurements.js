@@ -62,7 +62,7 @@ angular.module('app.services')
 }] )
 
 
-.factory('MeasurementSchedule', ["Patient", "$firebaseArray", "$firebaseObject", function(Patient, $firebaseArray, $firebaseObject) {
+.factory('MeasurementSchedule', ["Patient", "$firebaseArray", "$firebaseObject","CARD", "Card", function(Patient, $firebaseArray, $firebaseObject, CARD, Card) {
   return {
     ref: function() {
       var uid = Patient.uid();
@@ -77,6 +77,31 @@ angular.module('app.services')
     },
     getById: function(id){
       return $firebaseObject(this.ref().child(id));
+    },
+
+    createTodaysCards: function() {
+      var req = this.ref().once("value", function(snap) {
+        var now    = (new Date()).toISOString();
+        var date = now.substring(0,10) //Only get the date: YYYY-MM-DD
+        snap.forEach(function(childSnap) {
+          schedule = childSnap.val();
+          var show = new Date()
+          //TODO: update these to be minutes from midnight
+          show.setHours(schedule.hour);
+          show.setMinutes(schedule.minute);
+          var card = {type: CARD.TYPE.ACTION,
+                            created_at: now,
+                            updated_at: now,
+                            completed_at: null,
+                            archived_at: null,
+                            shown_at: show.toISOString(),
+                            num_comments: 0,
+                            object_type: CARD.CATEGORY.MEASUREMENTS_SCHEDULE,
+                            object_id: childSnap.key() // setting the ID to the firebase reference key!
+                          }
+          Card.create(date, card);
+        })//end snap.forEach
+      })// end req
     }
   };
 }] )
