@@ -23,7 +23,7 @@
     <div class="card" ng-repeat="c in cards | orderBy: '-updated_at' | filter: {archived_at: '!'}" on-swipe-right="swipeCard(c)" on-swipe-left="swipeCard(c)">
       <!-- Card Title -->
       <div ng-class="['item', getCardStatus(c)]">
-        <a>{{c.type == CARD.TYPE.ACTION ? 'Take ': c.type == CARD.TYPE.URGENT ? 'TODO: ': ''}}{{c.object_type}}{{c.type == CARD.TYPE.REMINDER ? ' Reminder':''}}</a>
+        <a>{{c.type == CARD.TYPE.ACTION ? 'Take ': c.type == CARD.TYPE.URGENT ? 'TODO: ': ''}}{{formatTitle(c.object_type)}}{{c.type == CARD.TYPE.REMINDER ? ' Reminder':''}}</a>
         <a style="float:right">{{getTime(c.shown_at) | date: 'h:mm a'}}</a>
       </div>
 

@@ -96,6 +96,19 @@ angular.module('app.controllers')
   $scope.getTime = function(timestamp) {
     return new Date(timestamp);
   }
+
+  $scope.formatStr = function(str) {
+    var fstr = str.replace(/_/g, " ");
+    fstr = fstr.charAt(0).toUpperCase() + fstr.slice(1);
+    return fstr;
+  }
+
+  $scope.formatTitle = function(str) {
+    var fstr = str.replace("_schedule","");
+    fstr = fstr.charAt(0).toUpperCase() + fstr.slice(1);
+    return fstr;
+  }
+
   /*
    * gets the body for each cardClass
    * @param index: this is the medication_schedule ID essentailly
@@ -185,8 +198,11 @@ angular.module('app.controllers')
         if (schedule == null) return;
 
         var measurements  = schedule.measurements;
+        var i = 0;
         measurements.forEach( function(meas) {
-          measurementString += " " + meas;
+          if (i > 0) measurementString += ",";
+          measurementString += " " + $scope.formatStr(meas);
+          i++;
         });
 
         return [measurementString];
