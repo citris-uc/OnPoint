@@ -7,8 +7,12 @@
 
     <link href="lib/ionic/css/ionic.css" rel="stylesheet">
     <script src="lib/ionic/js/ionic.bundle.js"></script>
-    <script src="lib/dndlists/angular-drag-and-drop-lists.min.js"></script>
+    <script src="lib/dndlists/angular-drag-and-drop-lists.js"></script>
+    <script>
+      var iosDragDropShim = { enableEnterLeave: true }
+    </script>
 
+    <script src="lib/dndLists/ios-drag-drop.js"></script>
     <!-- cordova script (this will be a 404 during development) -->
     <script src="cordova.js"></script>
 

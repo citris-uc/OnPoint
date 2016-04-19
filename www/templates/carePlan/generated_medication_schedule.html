@@ -1,5 +1,32 @@
 <link type="text/css" rel="stylesheet" href="css/settingsMedSchedStyle.css"/>
 
+<!-- Edit Time Slot Popup Dialog -->
+<!-- TODO: Move this somewhere else -->
+<script id="medSched-popup-template.html" type="text/ng-template">
+  <div class="list">
+    <label class="item item-input">
+      <span class="input-label">Slot Name</span>
+      <input type="text" ng-model="slot.text" placeholder="E.g. Noon"></input>
+    </label>
+
+    <label class="item item-input">
+      <span class="input-label">Reminder Time</span>
+      <input type="time"  ng-model="slot.time"></input>
+    </label>
+
+    <ion-list>
+      <ion-item class="input-label">Day of the Week</span>
+      <ion-checkbox ng-model="slot.day[1]">Monday</ion-checkbox>
+      <ion-checkbox ng-model="slot.day[2]">Tuesday</ion-checkbox>
+      <ion-checkbox ng-model="slot.day[3]">Wednesday</ion-checkbox>
+      <ion-checkbox ng-model="slot.day[4]">Thursday</ion-checkbox>
+      <ion-checkbox ng-model="slot.day[5]">Friday</ion-checkbox>
+      <ion-checkbox ng-model="slot.day[6]">Saturday</ion-checkbox>
+      <ion-checkbox ng-model="slot.day[0]">Sunday</ion-checkbox>
+    </ion-list>
+  </div>
+</script>
+
 
 <ion-view title="Medications Schedule" class="medsched">
   <ion-nav-buttons side="right">
@@ -26,10 +53,18 @@
         dnd-allowed-types="['timeSlotType']"
         >
         <li class = "card item"
-            ng-repeat="dateSchedule in schedule"
+            ng-repeat="dateSchedule in schedule | orderBy: 'time'"
             >
-            <a>{{dateSchedule.slot | uppercase}}</a>
-            <a style="float:right">{{dateSchedule.time | date: 'h:mm a'}}</a>
+            <a class="item">{{dateSchedule.slot | uppercase}}
+              <i class="item-small item-icon-right" style="float:right">
+              {{timeDisplayFormat(dateSchedule.time)}}
+                <i class="icon ion-edit button button-clear button-positive" ng-click="editSlot(dateSchedule)"></i>
+              </i>
+           </a>
+
+
+
+
             <ul dnd-list="dateSchedule.medications"
                 dnd-horizontal-list="true"
                 dnd-allowed-types="['medType']"

@@ -9,7 +9,7 @@
         You haven't added any medications!
       </li>
 
-      <li class="item" ng-repeat="med in scheduledMedications" ng-show="med.user_input">
+      <li class="item" ng-repeat="med in scheduledMedications" ng-show="med.user_input" ui-sref="carePlan.viewMedication({medication_id: med.$id})">
         {{med.trade_name}}
       </li>
     </ul>
