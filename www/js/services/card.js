@@ -32,23 +32,24 @@ angular.module('app.services')
       var ref = this.ref().child(date);
       ref.push(card); //use push to generate a UNIQUE card ID for each firebase card.
     },
-    find_or_create_by_object(object, cardObject) {
-      console.log(object)
-      var ref = this.todaysRef().child(object.type).child(object.id)
-      return ref.transaction(function(current) {
-        if (!current)
-          current = {}
-
-        var now    = (new Date()).toISOString();
-        current.created_at   = now;
-        current.updated_at   = now;
-        current.shown_at     = cardObject.shown_at || (new Date()).toISOString();
-        current.completed_at = cardObject.completed_at || null;
-        current.archived_at  = null;
-        current.type         = cardObject.type
-        return current
-      })
-    },
+    // DEPRECIATED
+    // find_or_create_by_object(object, cardObject) {
+    //   console.log(object)
+    //   var ref = this.todaysRef().child(object.type).child(object.id)
+    //   return ref.transaction(function(current) {
+    //     if (!current)
+    //       current = {}
+    //
+    //     var now    = (new Date()).toISOString();
+    //     current.created_at   = now;
+    //     current.updated_at   = now;
+    //     current.shown_at     = cardObject.shown_at || (new Date()).toISOString();
+    //     current.completed_at = cardObject.completed_at || null;
+    //     current.archived_at  = null;
+    //     current.type         = cardObject.type
+    //     return current
+    //   })
+    // },
     complete: function(card) {
       // var card;
       // for(var i = 0; i < cards.length; i++) {
