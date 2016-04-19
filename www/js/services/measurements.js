@@ -10,7 +10,7 @@ angular.module('app.services')
     },
     getTodaysHistory: function() {
       var today = ((new Date()).toISOString()).substring(0,10) //Only get the date: YYYY-MM-DD
-      var ref = this.ref().child('measurement_histories').child(today)
+      var ref = this.ref().child(today)
       return $firebaseArray(ref);
     },
     ref: function() {
