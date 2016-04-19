@@ -8,9 +8,14 @@ angular.module('app.services')
       var ref = this.ref();
       return $firebaseArray(ref)
     },
+    getTodaysHistory: function() {
+      var today = ((new Date()).toISOString()).substring(0,10) //Only get the date: YYYY-MM-DD
+      var ref = this.ref().child('measurement_histories').child(today)
+      return $firebaseArray(ref);
+    },
     ref: function() {
       var uid = Patient.uid();
-      return Patient.ref(uid).child("measurements_history")
+      return Patient.ref(uid).child("measurement_histories")
     },
     hasHighBP: function(measurement) {
       if ( !(measurement.systolic && measurement.diastolic) )
