@@ -10,10 +10,6 @@ angular.module('app.services')
       var ref = this.todaysRef();
       return $firebaseArray(ref);
     },
-    getCommentId: function(id) {
-      var ref = this.todaysRef().child(id).child('comment_id');
-      return $firebaseObject(ref)
-    },
     getById: function(id) {
       var ref = this.todaysRef().child(id)
       return $firebaseObject(ref)
