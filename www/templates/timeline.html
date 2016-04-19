@@ -20,17 +20,16 @@
     </div>
 
     <!-- Create Cards -->
-    <!-- TODO: Update this to filter by archived_at NULL -->
-    <div class="card" ng-repeat="c in cards | orderBy: 'updated_at'" ng-show="shouldDisplayCard(c.shown_at)" on-swipe-right="swipeCard(c)" on-swipe-left="swipeCard(c)">
+    <div class="card" ng-repeat="c in cards | orderBy: '-updated_at' | filter: {archived_at: '!'}" on-swipe-right="swipeCard(c)" on-swipe-left="swipeCard(c)">
       <!-- Card Title -->
       <div ng-class="['item', getCardStatus(c)]">
-        <a href="#">{{c.type == CARD.TYPE.ACTION ? 'Take ': c.type == CARD.TYPE.URGENT ? 'TODO: ': ''}}{{c.object_type}}{{c.type == CARD.TYPE.REMINDER ? ' Reminder':''}}</a>
+        <a>{{c.type == CARD.TYPE.ACTION ? 'Take ': c.type == CARD.TYPE.URGENT ? 'TODO: ': ''}}{{c.object_type}}{{c.type == CARD.TYPE.REMINDER ? ' Reminder':''}}</a>
         <a style="float:right">{{getTime(c.shown_at) | date: 'h:mm a'}}</a>
       </div>
 
       <!-- Card Body -->
       <div class="item item-text-wrap" >
-        <div ng-repeat="line in getBody(c, c.object_type, $index) track by $index">{{line}}</div>
+        <div ng-repeat="line in getBody(c, c.object_type) track by $index">{{line}}</div>
       </div>
 
       <!-- Card Buttons -->

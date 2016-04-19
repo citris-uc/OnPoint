@@ -1,13 +1,16 @@
 /* Empty. Add your own CSS if you like */
 
 .timeline .urgentCard {
-	background-color: #ffd9cc;
+	color: #fff;
+	background-color: #FBB917; 
 }
 
 .timeline .activeCard {
-	background-color: #cffcf3;
+	color: #fff;
+	background-color: #11c1f3;
 }
 
 .timeline .completedCard{
-	background-color: #D1D0CE;
+	color: #fff;
+	background-color: #B6B6B4;
 }
