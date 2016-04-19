@@ -26,15 +26,6 @@ angular.module('app.services')
     //   this.ref(authData.uid).set({email: email})
     //   //this.setToken(authData.token) //authData will only contain UID
     // },
-    getFirstName: function() {
-      ref = this.ref().child('first_name')
-      return $firebaseObject(ref)
-    },
-
-    getLastName: function() {
-      ref = this.ref().child('last_name')
-      return $firebaseObject(ref)
-    },
     getProfile: function() {
       ref = this.ref().child('profile')
       return $firebaseObject(ref)
