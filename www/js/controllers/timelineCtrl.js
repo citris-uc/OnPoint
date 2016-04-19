@@ -1,6 +1,6 @@
 angular.module('app.controllers')
 
-.controller('timelineCtrl', function($scope, $state, Card, CARD, Comment, Medication, MedicationSchedule, MeasurementSchedule, MedicationHistory) {
+.controller('timelineCtrl', function($scope, $state, Card, CARD, Comment, Medication, MedicationSchedule, Measurement, MeasurementSchedule, MedicationHistory) {
   $scope.cards = Card.getByDay(new Date());
   $scope.CARD = CARD;
   $scope.medSchedule = MedicationSchedule.get()
@@ -9,6 +9,7 @@ angular.module('app.controllers')
   $scope.today       = new Date();
   $scope.numComments = new Array($scope.cards.length)
   $scope.measurementSchedule = MeasurementSchedule.get();
+  $scope.measHistory = Measurement.getTodaysHistory(); // Measurement History
 
   // TODO: Remove this inefficiency by moving the update/complete logic to the
   // appropriate factory.
@@ -78,7 +79,7 @@ angular.module('app.controllers')
           Card.complete(card);
         }
         break;
-      case CARD.CATEGORY.MEDICATIONS_SCHEDULE :
+      case CARD.CATEGORY.MEASUREMENTS_SCHEDULE :
         if (card.completed_at != null || card.archived_at != null) return;
         var schedule;
         for (var i = 0; i < $scope.measurementSchedule.length; i++) {
@@ -87,28 +88,24 @@ angular.module('app.controllers')
           }
         }
         if (schedule == null) return;
-        var medications = schedule.measurements;
+        var measurements = schedule.measurements;
         var now    = (new Date()).toISOString();
-        var takeMeas = [];
-        var skippedMeas = [];
+        var incompleteMeas = [];
         var completedMeas = [];
-
         measurements.forEach( function(meas) {
           var exists = false;
-          // TODO -> need Measurements History to be implemented to determine card completion
-          // for(var i = 0; i < $scope.medHistory.length; i++) {
-          //   var hist = $scope.medHistory[i];
-          //   if (hist.medication_id==med.id && hist.medication_schedule_id==schedule.$id) {
-          //     exists = true;
-          //     if(hist.taken_at != null)
-          //       completedMeds.push(med);
-          //     else if (hist.skipped_at != null)
-          //       skippedMeds.push(med);
-          //     else {
-          //       takeMeds.push(med);
-          //     }
-          //   }
-          // }
+          for(var i = 0; i < $scope.measHistory.length; i++) {
+            var hist = $scope.measHistory[i];
+
+            if (hist.measurement_schedule_id==schedule.$id) {
+              exists = true;
+              if(typeof(hist[meas]) === null)
+                incompleteMeas.push(meas);
+              else {
+                completedMeas.push(meas);
+              }
+            }
+          }
           if (!exists)
             incompleteMeas.push(meas);
         })
