@@ -2,7 +2,7 @@
 
 .timeline .urgentCard {
 	color: #fff;
-	background-color: #FBB917; 
+	background-color: #FBB917;
 }
 
 .timeline .activeCard {
@@ -13,4 +13,8 @@
 .timeline .completedCard{
 	color: #fff;
 	background-color: #B6B6B4;
+}
+
+.timeline .background{
+	background-color: #E5E4E2; //#f8f8f8;
 }
