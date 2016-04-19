@@ -35,7 +35,7 @@
 
       <!-- Card Buttons -->
       <div class="button-bar">
-        <a class="button button-small icon ion-ios-chatboxes-outline" ui-sref="tabsController.comments({card_id:c.$id, comment_id: c.comment_id})"> Comments  ({{getCommentsCount(c.$id, c.comment_id)}})</a>
+        <a class="button button-small icon ion-ios-chatboxes-outline" ui-sref="tabsController.comments({card_id:c.$id, comment_id: c.comment_id})"> Comments  ({{c.num_comments}})</a>
         <a class="button button-small" ng-click="openPage(c, c.object_type, $index)">Action</a>
       </div>
     </div>
