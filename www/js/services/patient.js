@@ -35,6 +35,10 @@ angular.module('app.services')
       ref = this.ref().child('last_name')
       return $firebaseObject(ref)
     },
+    getProfile: function() {
+      ref = this.ref().child('profile')
+      return $firebaseObject(ref)
+    },
     setProfilePicture: function(profileImageUrl) {
       patient = this.get();
       patient.profileImageUrl = profileImageUrl;

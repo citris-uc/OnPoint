@@ -1,7 +1,8 @@
 angular.module('app.controllers')
 
 .controller('commentsCtrl', function($scope, $stateParams, Patient, Comment, Card) {
-  $scope.user = {first_name: Patient.getFirstName(), last_name: Patient.getLastName()}
+  //$scope.user = {first_name: Patient.getFirstName(), last_name: Patient.getLastName()}
+  $scope.user = Patient.getProfile();
   $scope.comments  = Comment.getById($stateParams.comment_id);
   $scope.newComment = {};
 
@@ -9,7 +10,7 @@ angular.module('app.controllers')
   //console.log($stateParams)
 
   $scope.reply = function(){
-    var name = $scope.user.first_name.$value + " " + $scope.user.last_name.$value
+    var name = $scope.user.first_name + " " + $scope.user.last_name
     var today = new Date().toISOString()
     if(typeof($scope.card.comment_id)==='undefined') { //no comments have been made to this card yet.
       //TODO: replace this with uid, for now just add a name for easy to display
