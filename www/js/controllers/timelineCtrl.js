@@ -190,6 +190,7 @@ angular.module('app.controllers')
   //   //return Comment.get_comments_count_by_id(card_id);
   // }
 
+
   $scope.swipeCard = function(card) {
     if (card.completed_at != null) {
       Card.archive(card.id);

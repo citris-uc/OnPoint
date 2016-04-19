@@ -119,3 +119,7 @@ $scope.bpAlert = function(value) {
   // We inject the Measurement Tips factory so that we view tips
   $scope.measurementsTips = TIPS;
 })
+
+.controller('measurementViewCtrl', function($scope, $stateParams, MeasurementSchedule) {
+   $scope.schedule = MeasurementSchedule.getById($stateParams.measuremnt_schedule_id);
+})
