@@ -7,7 +7,7 @@
       <div ng-if="comment.user_name == 'Son' ">
         <img class = "avatar" ng-src="img/son_avatar.png"/>
       </div>
-        {{comment.timestamp}} &nbsp {{comment.user_name}} said :  {{comment.content}}
+        {{comment.timestamp | date}} {{comment.user}} said :  {{comment.message}}
       </ion-item>
 
       <br></br>
