@@ -1,22 +1,20 @@
-<link type="text/css" rel="stylesheet" href="css/commmentsStyle.css"/>
-
 <ion-view title="Comments">
-  <ion-content overflow-scroll="true" padding="false" class="has-header">
-    <ion-list>
-      <ion-item ng-repeat="comment in comments">
-      <div ng-if="comment.user_name == 'Son' ">
-        <img class = "avatar" ng-src="img/son_avatar.png"/>
+  <ion-content>
+    <div class="row" ng-repeat="comment in comments">
+      <div class="list-inset list col-75" ng-class="{'col-offset-25': belongsToPatient(comment)}" style="">
+        <div class="item padding" ng-class="{'text-right': belongsToPatient(comment)}">
+          {{comment.message}}
+          <p class="stable">
+            {{comment.timestamp | date:"hh:mma, MMM d"}}
+          </p>
+        </div>
       </div>
-        {{comment.timestamp | date}} {{comment.user}} said :  {{comment.message}}
-      </ion-item>
-
-      <br></br>
-      <form class="list">
-        <label class="item item-input">
-          <input type="text" placeholder="type to reply" ng-model="newComment.content" required>
-        </label>
-        <button class="button button-positive button-block" ng-click="reply()">reply</button>
-      </form>
-    </ion-list>
+    </div>
   </ion-content>
+
+  <ion-footer-bar class="bar bar-footer item-input-inset">
+    <label class="item-input-wrapper">
+       <input type="text" ng-model="comment.content" placeholder="Write a message..." ng-keypress="trackEnterKey($event)">
+     </label>
+  </ion-footer-bar>
 </ion-view>
