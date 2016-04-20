@@ -120,6 +120,9 @@ angular.module('app.controllers')
     $ionicHistory.goBack();
   }
   $scope.containMeds = function(){
+    if( typeof $scope.schedule.medications === "undefined"){
+      return false;
+    }
     for(var i = 0; i < $scope.schedule.medications.length; i++ ) {
       if(this.didTakeMed($scope.schedule.medications[i]) == false){
         return true;
