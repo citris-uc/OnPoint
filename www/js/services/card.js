@@ -15,6 +15,13 @@ angular.module('app.services')
       var ref = this.todaysRef().child(id)
       return $firebaseObject(ref)
     },
+    getHistory: function() {
+      yesterday = new Date;
+      yesterday.setDate( (new Date()).getDate() - 1 );
+      var dateISO = yesterday.toISOString().substring(0,10)
+      var ref = this.ref().orderByKey().endAt(dateISO).limitToLast(7);
+      return $firebaseArray(ref);
+    },
     ref: function() {
       var uid = Patient.uid();
       return Patient.ref(uid).child("cards");
