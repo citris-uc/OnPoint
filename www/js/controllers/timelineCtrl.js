@@ -1,26 +1,36 @@
 angular.module('app.controllers')
 
 .controller('timelineCtrl', function($scope, $state, Card, CARD, Comment, Medication, MedicationSchedule, Measurement, MeasurementSchedule, MedicationHistory) {
-  $scope.cards = [];
-  $scope.cards[0] = Card.getByDay(new Date());
-  var manana = new Date();
-  manana.setDate(manana.getDate() + 1);
-  $scope.cards[1] = Card.getByDay(manana);
-  //$scope.cards = Card.getCurrentCards(new Date());
-  //$scope.futureCards = Card.getUpcomingCards();
-  $scope.CARD = CARD;
-  $scope.medSchedule = MedicationSchedule.get();
-  $scope.medHistory  = MedicationHistory.getTodaysHistory();
-  $scope.medications = Medication.get();
-  $scope.today       = new Date();
-  $scope.numComments = new Array($scope.cards.length);
-  $scope.measurementSchedule = MeasurementSchedule.get();
-  $scope.measHistory = Measurement.getTodaysHistory(); // Measurement History
 
-  //TODO: use this to trigger generating all scheduled cards per day.
+  // See
+  // http://www.gajotres.net/understanding-ionic-view-lifecycle/
+  // to understand why we're doing everything in a beforeEnter event. Essentially,
+  // we avoid stale data.
   $scope.$on('$ionicView.enter', function(){
-    // Get Today's Cards
-    var today = (new Date()).toISOString().substring(0,10);
+    $scope.cards = [];
+    $scope.cards[0] = Card.getByDay(new Date());
+    var manana = new Date();
+    manana.setDate(manana.getDate() + 1);
+    $scope.cards[1] = Card.getByDay(manana);
+
+    $scope.CARD = CARD;
+    $scope.medSchedule = MedicationSchedule.get()
+    $scope.medHistory  = MedicationHistory.getTodaysHistory()
+    $scope.medications = Medication.get();
+    $scope.today       = new Date();
+    $scope.numComments = new Array($scope.cards.length)
+    $scope.measurementSchedule = MeasurementSchedule.get();
+    $scope.measHistory = Measurement.getTodaysHistory(); // Measurement History
+
+    // TODO: Remove this inefficiency by moving the update/complete logic to the
+    // appropriate factory.
+    for(var i = 0; i < $scope.cards.length; i++) {
+      var card = $scope.cards[i];
+      Card.checkCardUpdate(card);
+      Card.checkCardComplete(card);
+    }
+
+    var today = (new Date()).toISOString().substring(0,10)
     var todaysCardReq = Card.ref().child(today).once("value", function (snap) { //only do this once per day
       if (!snap.exists()) {
         MedicationSchedule.createTodaysCards();
@@ -39,9 +49,8 @@ angular.module('app.controllers')
         //TODO: need to do apointments  and goals?
       }
     }) //end todaysCard Req
-
   });
-
+  
   $scope.checkCardComplete = function(card) {
     switch(card.object_type) {
       case CARD.CATEGORY.MEDICATIONS_SCHEDULE :
