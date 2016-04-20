@@ -125,26 +125,28 @@
 
 
       <ion-slide>
-        <div class="card-section history">
-          <hr class="responsive-col"></hr>
-          <h4 class="text-center">History</h4>
-        </div>
+        <div ng-repeat="cards in history">
+          <div class="card-section history">
+            <hr class="responsive-col"></hr>
+            <h4 class="text-center">{{cards.$id | date:'MMMM dd, yyyy'}}</h4>
+          </div>
 
-        <div class="row" style="justify-content: center;" ng-repeat="c in cards | orderBy: 'shown_at'">
-          <div class="col responsive-col">
-            <div class="list card">
-              <div class="item item-icon-left">
-                <i class="icon {{iconClass(c)}}"></i>
-                <h2>{{formatTitle(c.object_type)}}</h2>
-                <p>{{getTime(c.shown_at) | date: 'EEEE hh:mma, MMMM dd'}}</p>
+          <div class="row" style="justify-content: center;" ng-repeat="c in cards | orderBy: 'shown_at'">
+            <div class="col responsive-col">
+              <div class="list card">
+                <div class="item item-icon-left">
+                  <i class="icon {{iconClass(c)}}"></i>
+                  <h2>{{formatTitle(c.object_type)}}</h2>
+                  <p>{{getTime(c.shown_at) | date: 'EEEE hh:mma, MMMM dd'}}</p>
+                </div>
+
+                <div class="item item-body">
+                  <!-- Your weigh in is at 09:00 AM -->
+                  {{description(c)}}
+                </div>
               </div>
 
-              <div class="item item-body">
-                <!-- Your weigh in is at 09:00 AM -->
-                {{description(c)}}
-              </div>
             </div>
-
           </div>
         </div>
       </ion-slide>
