@@ -5,7 +5,6 @@ angular.module('app.controllers')
 
   $scope.changeTimeline = function(pageIndex) {
     $scope.timeline.pageIndex = pageIndex;
-    $scope.loadCards()
   }
 
   $scope.transitionToPageIndex = function(pageIndex) {
@@ -32,7 +31,11 @@ angular.module('app.controllers')
   // to understand why we're doing everything in a beforeEnter event. Essentially,
   // we avoid stale data.
   $scope.$on('$ionicView.enter', function(){
+
+    // We load cards and history in one cycle. Any changes will be reflected
+    // thanks to Firebase's 3-way data binding.
     $scope.loadCards();
+    $scope.history = Card.getHistory();
     $scope.CARD = CARD;
     $scope.medSchedule = MedicationSchedule.get()
     $scope.medHistory  = MedicationHistory.getTodaysHistory()
