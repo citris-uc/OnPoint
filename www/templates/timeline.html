@@ -13,8 +13,8 @@
   </div>
   <div class="bar bar-subheader item-input-inset" style="justify-content: center;">
     <div class="col-25 button-bar bar-light">
-      <a class="button button-small button-positive">Today</a>
-      <a class="button button-small">History</a>
+      <a class="button button-small" ng-click="transitionToPageIndex(0)" ng-class="{'button-positive': timeline.pageIndex === 0}">Today</a>
+      <a class="button button-small" ng-click="transitionToPageIndex(1)" ng-class="{'button-positive': timeline.pageIndex === 1}">History</a>
     </div>
   </div>
 

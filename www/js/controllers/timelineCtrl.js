@@ -1,6 +1,15 @@
 angular.module('app.controllers')
 
-.controller('timelineCtrl', function($scope, $state, Card, CARD, Comment, Medication, MedicationSchedule, Measurement, MeasurementSchedule, MedicationHistory) {
+.controller('timelineCtrl', function($scope, $state, Card, CARD, Comment, Medication, MedicationSchedule, Measurement, MeasurementSchedule, MedicationHistory, $ionicSlideBoxDelegate) {
+  $scope.timeline = {pageIndex: 0}
+
+  $scope.changeTimeline = function(pageIndex) {
+    $scope.timeline.pageIndex = pageIndex;
+  }
+
+  $scope.transitionToPageIndex = function(pageIndex) {
+    $ionicSlideBoxDelegate.slide(pageIndex);
+  }
 
   // See
   // http://www.gajotres.net/understanding-ionic-view-lifecycle/
