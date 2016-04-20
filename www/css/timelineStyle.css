@@ -14,7 +14,21 @@
 	color: #fff;
 	background-color: #B6B6B4;
 }
+.timeline .divtext {
+	margin: 0 auto;
+	width: 50%;
+	color: #C0C0C0;
+	font-size:12px;
+}
+.timeline .divline {
+	margin: 0 auto;
+	margin-top: 10px;
+	width:50%;
+	height:0;
+	border-top:2px solid #C0C0C0;
+	font-size:0;
+}
 
-.timeline .background{
-	background-color: #E5E4E2; //#f8f8f8;
+.timeline .buttonText {
+	color: #0C090A;
 }
