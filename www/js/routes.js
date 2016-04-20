@@ -37,6 +37,27 @@ angular.module('app.routes', [])
     }
   })
 
+  .state('tabsController.measurementAction', {
+    url: '/timeline/measurement-action/:schedule_id',
+    views: {
+      'timeline-tab': {
+        templateUrl: 'templates/measurements/measurements-add.html',
+        controller: 'addMeasurementsCtrl'
+      }
+    }
+  })
+
+  .state('tabsController.measurementActionTips', {
+    url: '/measurement-tips',
+    views: {
+      'timeline-tab': {
+        templateUrl: 'templates/measurements/measurementTips.html',
+        controller: 'measurementTipsCtrl'
+      }
+    }
+  })
+
+
   .state('tabsController.settings', {
     url: '/settings',
     views: {
