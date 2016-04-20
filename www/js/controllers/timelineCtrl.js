@@ -41,28 +41,6 @@ angular.module('app.controllers')
     $scope.measurementSchedule = MeasurementSchedule.get();
     $scope.measHistory = Measurement.getTodaysHistory(); // Measurement History
 
-    $scope.findMedicationScheduleForCard = function(card) {
-      var schedule = null;
-
-      for (var i = 0; i < $scope.medSchedule.length; i++) {
-        if ($scope.medSchedule[i].$id == card.object_id) {
-          schedule = $scope.medSchedule[i];
-        }
-      }
-      return schedule;
-    }
-
-    $scope.findMeasurementScheduleForCard = function(card) {
-      var schedule = null;
-
-      for (var i = 0; i < $scope.measurementSchedule.length; i++) {
-        if ($scope.measurementSchedule[i].$id == card.object_id) {
-          schedule = $scope.measurementSchedule[i];
-        }
-      }
-      return schedule;
-    }
-
     // TODO: Remove this inefficiency by moving the update/complete logic to the
     // appropriate factory.
     for(var i = 0; i < $scope.cards.length; i++) {
@@ -91,6 +69,30 @@ angular.module('app.controllers')
       }
     }) //end todaysCard Req
   });
+
+
+  $scope.findMedicationScheduleForCard = function(card) {
+    var schedule = null;
+
+    for (var i = 0; i < $scope.medSchedule.length; i++) {
+      if ($scope.medSchedule[i].$id == card.object_id) {
+        schedule = $scope.medSchedule[i];
+      }
+    }
+    return schedule;
+  }
+
+  $scope.findMeasurementScheduleForCard = function(card) {
+    var schedule = null;
+
+    for (var i = 0; i < $scope.measurementSchedule.length; i++) {
+      if ($scope.measurementSchedule[i].$id == card.object_id) {
+        schedule = $scope.measurementSchedule[i];
+      }
+    }
+    return schedule;
+  }
+
 
   $scope.checkCardComplete = function(card) {
     switch(card.object_type) {
