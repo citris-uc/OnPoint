@@ -79,18 +79,24 @@ angular.module('app.controllers')
 
 .controller('addMeasurementsCtrl', function($scope, $state, $stateParams, Measurement, MeasurementSchedule, $ionicPopup, $ionicHistory) {
   $scope.newMeasurement = {};
-  $scope.newMeasurement.bpcolor = 'black';
   $scope.schedule = MeasurementSchedule.findByID($stateParams.schedule_id);
+  var bpcolor = 'black'
   $scope.schedule.$loaded().then(function() {
     console.log($scope.schedule)
   })
   //TODO: need to lookup actaul scheudle by schedule_id passed in
   $scope.addMeasurement = function() {
-    Measurement.add($scope.newMeasurement, $stateParams.schedule_id);
-    $ionicHistory.goBack(); // go back to wherever we came from, could be timeline could be measurements tab
+    console.log($scope.newMeasurement)
+    //Measurement.add($scope.newMeasurement, $stateParams.schedule_id);
+    //$ionicHistory.goBack(); // go back to wherever we came from, could be timeline could be measurements tab
     //$state.go('tabsController.measurements');
   };
-
+  $scope.setColor = function(measurement_name) {
+    if(measurement_name.includes('blood pressure')) {
+      return bpcolor;
+    }
+    return 'black';
+  };
   $scope.disableDone = function() {
     if ($scope.newMeasurement.weight!=null || $scope.newMeasurement.heartRate!=null || $scope.newMeasurement.systolic!=null || $scope.newMeasurement.diastolic!=null)
       return false;
@@ -98,10 +104,14 @@ angular.module('app.controllers')
       return true;
   };
 
-  $scope.checkBP = function() {
-    if (Measurement.hasHighBP($scope.newMeasurement)) {
-      $scope.newMeasurement.bpcolor = 'red';
-      $scope.bpAlert('Blood Pressure High');
+  $scope.check = function(measurement_name) {
+    if(measurement_name.includes('blood pressure')) {
+      if(Measurement.hasHighBP($scope.newMeasurement)) {
+        bpcolor = 'red';
+        $scope.bpAlert('Blood Pressure High');
+      } else {
+        bpcolor = 'black';
+      }
     }
   };
 

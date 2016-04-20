@@ -18,10 +18,10 @@ angular.module('app.services')
       return Patient.ref(uid).child("measurement_histories")
     },
     hasHighBP: function(measurement) {
-      if ( !(measurement.systolic && measurement.diastolic) )
+      if ( !(measurement["systolic blood pressure"] && measurement["diastolic blood pressure"]) )
         return false;
 
-      if (measurement.systolic > 160 || measurement.systolic < 90)
+      if (measurement["systolic blood pressure"] > 160 || measurement["diastolic blood pressure"] < 90)
         return true;
     },
 
@@ -92,7 +92,7 @@ angular.module('app.services')
     add: function(schedule){
       this.get().$add(schedule);
     },
-    getById: function(id){
+    findByID: function(id){
       return $firebaseObject(this.ref().child(id));
     },
 
