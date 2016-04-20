@@ -19,13 +19,6 @@
 .card-section {
   margin-top: 40px;
 }
-.card-section hr {
-	margin: 0 auto;
-	margin-top: 10px;
-	width:50%;
-	height:0;
-	font-size:0;
-}
 .card-section.current h4 {
 	color: #28a54c;
 }

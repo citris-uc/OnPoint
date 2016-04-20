@@ -7,11 +7,10 @@ angular.module('app.controllers')
   // to understand why we're doing everything in a beforeEnter event. Essentially,
   // we avoid stale data.
   $scope.$on('$ionicView.enter', function(){
-    $scope.cards = [];
-    $scope.cards[0] = Card.getByDay(new Date());
+    $scope.cards = Card.getByDay(new Date());
     var manana = new Date();
     manana.setDate(manana.getDate() + 1);
-    $scope.cards[1] = Card.getByDay(manana);
+    $scope.tomorrowCards = Card.getByDay(manana);
 
     $scope.CARD = CARD;
     $scope.medSchedule = MedicationSchedule.get()
@@ -21,6 +20,28 @@ angular.module('app.controllers')
     $scope.numComments = new Array($scope.cards.length)
     $scope.measurementSchedule = MeasurementSchedule.get();
     $scope.measHistory = Measurement.getTodaysHistory(); // Measurement History
+
+    $scope.findMedicationScheduleForCard = function(card) {
+      var schedule = null;
+
+      for (var i = 0; i < $scope.medSchedule.length; i++) {
+        if ($scope.medSchedule[i].$id == card.object_id) {
+          schedule = $scope.medSchedule[i];
+        }
+      }
+      return schedule;
+    }
+
+    $scope.findMeasurementScheduleForCard = function(card) {
+      var schedule = null;
+
+      for (var i = 0; i < $scope.measurementSchedule.length; i++) {
+        if ($scope.measurementSchedule[i].$id == card.object_id) {
+          schedule = $scope.measurementSchedule[i];
+        }
+      }
+      return schedule;
+    }
 
     // TODO: Remove this inefficiency by moving the update/complete logic to the
     // appropriate factory.
@@ -50,18 +71,15 @@ angular.module('app.controllers')
       }
     }) //end todaysCard Req
   });
-  
+
   $scope.checkCardComplete = function(card) {
     switch(card.object_type) {
       case CARD.CATEGORY.MEDICATIONS_SCHEDULE :
         if (card.completed_at != null || card.archived_at != null) return;
-        var schedule;
-        for (var i = 0; i < $scope.medSchedule.length; i++) {
-          if ($scope.medSchedule[i].$id == card.object_id) {
-            schedule = $scope.medSchedule[i];
-          }
-        }
+
+        var schedule = $scope.findMedicationScheduleForCard(card)
         if (schedule == null) return;
+
         var medications = schedule.medications;
         var now    = (new Date()).toISOString();
         var takeMeds = [];
@@ -101,13 +119,10 @@ angular.module('app.controllers')
         break;
       case CARD.CATEGORY.MEASUREMENTS_SCHEDULE :
         if (card.completed_at != null || card.archived_at != null) return;
-        var schedule;
-        for (var i = 0; i < $scope.measurementSchedule.length; i++) {
-          if ($scope.measurementSchedule[i].$id == card.object_id) {
-            schedule = $scope.measurementSchedule[i];
-          }
-        }
+
+        var schedule = $scope.findMeasurementScheduleForCard(card)
         if (schedule == null) return;
+
         var measurements = schedule.measurements;
         var now    = (new Date()).toISOString();
         var incompleteMeas = [];
@@ -138,20 +153,40 @@ angular.module('app.controllers')
     }
   }
 
-  $scope.getCardStatus = function(card, index) {
-    if (index == 1) {
-      return "futureCard";
-    }
+  $scope.statusClass = function(card) {
     this.checkCardComplete(card);
     // Return cardClass: urgent/active/completed
     if (card.completed_at == null) {
       if (card.type == CARD.TYPE.URGENT) {
-        return "urgentCard";
+        return "badge-assertive";
       } else {
-        return "activeCard";
+        return "badge-energized";
       }
     } else {
-      return "completedCard";
+      return "badge-balanced";
+    }
+  }
+
+  $scope.iconClass = function(card) {
+    if (card.object_type == CARD.CATEGORY.MEDICATIONS_SCHEDULE)
+      return "ion-ios-medkit-outline";
+    if (card.object_type == CARD.CATEGORY.APPOINTMENTS_SCHEDULE)
+      return "ion-ios-calendar-outline";
+    if (card.object_type == CARD.CATEGORY.MEASUREMENTS_SCHEDULE)
+      return "ion-arrow-graph-up-right";
+  }
+
+  $scope.statusText = function(card) {
+    this.checkCardComplete(card);
+    // Return cardClass: urgent/active/completed
+    if (card.completed_at == null) {
+      if (card.type == CARD.TYPE.URGENT) {
+        return "Needs attention";
+      } else {
+        return "In progress";
+      }
+    } else {
+      return "Completed";
     }
   }
 
@@ -176,109 +211,106 @@ angular.module('app.controllers')
    * @param index: this is the medication_schedule ID essentailly
    * TODO: fix medication_schedule ID to be actually ID in firebase, probbaly need to to do when we push med SCheudle to firebase during onboarding
    */
-  $scope.getBody = function(card, type, index) {
-    switch(type) {
-      case CARD.CATEGORY.MEDICATIONS_SCHEDULE :
-        var schedule;
-        for (var i = 0; i < $scope.medSchedule.length; i++) {
-          if ($scope.medSchedule[i].$id == card.object_id) {
-            schedule = $scope.medSchedule[i];
-          }
+   $scope.description = function(card) {
+     type = card.object_type
+     switch(type) {
+       case CARD.CATEGORY.MEDICATIONS_SCHEDULE:
+         var schedule = $scope.findMedicationScheduleForCard(card)
+         if (schedule == null) return;
+
+         var medications   = schedule.medications;
+         var takeMeds      = [];
+         var skippedMeds   = [];
+         var completedMeds = [];
+
+         // Check history for each medication in the specified schedule.
+         medications.forEach( function(medication) {
+           var med = {}
+           //Find the Med
+           for(var i = 0; i < $scope.medications.length; i++) {
+             if ($scope.medications[i].trade_name == medication) {
+               med = $scope.medications[i]
+               med.id = $scope.medications[i].$id;
+             }
+           }
+
+           var exists = false;
+           for(var i = 0; i < $scope.medHistory.length; i++) {
+             var hist = $scope.medHistory[i];
+             if (hist.medication_id==med.id && hist.medication_schedule_id==schedule.$id) {
+               exists = true;
+               if(hist.taken_at != null)
+                 completedMeds.push(med);
+               else if (hist.skipped_at != null)
+                 skippedMeds.push(med);
+               else {
+                 takeMeds.push(med);
+               }
+             }
+           }
+           if (!exists) takeMeds.push(med);
+         })
+
+         // Create a string for each line for Take/Skipped/Completed meds
+         // TODO -- is there a clean way to do this in the UI to filter?
+         //         possible to have different UI templates depending on card category?
+         string = ""
+         if (takeMeds.length > 0) {
+          string += "You need to take "
+          takeMeds.forEach( function(med) {
+            string += med.trade_name + ", "
+          })
+
+          string += ". "
+
         }
-        if (schedule == null) return;
 
-        // var schedule = $scope.medSchedule[index];
-        var medications = schedule.medications;
-        var takeMeds = [];
-        var skippedMeds = [];
-        var completedMeds = [];
+        if (completedMeds.length > 0) {
+         string += "So far, you've taken "
+         completedMeds.forEach( function(med) {
+           string += med.trade_name + ", "
+         })
+       }
 
-        // Check history for each medication in the specified schedule
-        // TODO: Refactor this to query against a MedicationHistory array.
-        medications.forEach( function(medication) {
-          var med = {}
-          //Find the Med
-          for(var i = 0; i < $scope.medications.length; i++) {
-            if ($scope.medications[i].trade_name == medication) {
-              med = $scope.medications[i]
-              med.id = $scope.medications[i].$id;
-              if (index == 1) takeMeds.push(med);
-            }
-          }
-          if (index == 0) {
-            var exists = false;
-            for(var i = 0; i < $scope.medHistory.length; i++) {
-              var hist = $scope.medHistory[i];
-              if (hist.medication_id==med.id && hist.medication_schedule_id==schedule.$id) {
-                exists = true;
-                if(hist.taken_at != null)
-                  completedMeds.push(med);
-                else if (hist.skipped_at != null)
-                  skippedMeds.push(med);
-                else {
-                  takeMeds.push(med);
-                }
-              }
-            }
-            if (!exists) takeMeds.push(med);
-          }
-          // var history = MedicationHistory.findByMedicationIdAndScheduleId(med.id, schedule.id);
-          // if (history == null)
-          //   takeMeds.push(med);
-          // else if (history.taken_at != null) {
-          //   completedMeds.push(med);
-          // } else if (history.skipped_at != null) {
-          //   skippedMeds.push(med);
-          // }
-        })
+       if (skippedMeds.length > 0) {
+         if (completedMeds.length > 0)
+          string += " and you've skipped "
+         else
+          string += " You've skipped "
 
-        // Create a string for each line for Take/Skipped/Completed meds
-        // TODO -- is there a clean way to do this in the UI to filter?
-        //         possible to have different UI templates depending on card category?
-        var takeString = takeMeds.length > 0 ? "Take:" : null;
-        var skippedString = skippedMeds.length > 0 ? "Skipped:" : null;
-        var completedString = completedMeds.length > 0 ? "Completed:" : null;
+          skippedMeds.forEach( function(med) {
+            string += " " + med.trade_name;
+          })
+       }
 
-        takeMeds.forEach( function(med) {
-          takeString = takeString + " " + med.trade_name;
-        })
-        skippedMeds.forEach( function(med) {
-          skippedString = skippedString + " " + med.trade_name;
-        })
-        completedMeds.forEach( function(med) {
-          completedString = completedString + " " + med.trade_name;
-        })
-        return [takeString, skippedString, completedString];
-      case CARD.CATEGORY.MEASUREMENTS_SCHEDULE :
-        var schedule;
-        var measurementString = "Take: ";
+         return string;
+       case CARD.CATEGORY.MEASUREMENTS_SCHEDULE :
+         var schedule;
+         var measurementString = "Take: ";
 
-        for (var i = 0; i < $scope.measurementSchedule.length; i++) {
-          if ($scope.measurementSchedule[i].$id == card.object_id) {
-            schedule = $scope.measurementSchedule[i];
-          }
-        }
-        if (schedule == null) return;
+         schedule = $scope.findMeasurementScheduleForCard(card)
+         if (schedule == null) return;
 
-        // TODO -> figure out if measurements are completed when Measurements History is implemented
-        var measurements  = schedule.measurements;
-        var i = 0;
-        measurements.forEach( function(meas) {
-          if (i > 0) measurementString += ",";
-          measurementString += " " + $scope.formatStr(meas.name);
-          i++;
-        });
+         // TODO -> figure out if measurements are completed when Measurements History is implemented
+         var measurements  = schedule.measurements;
+         var i = 0;
+         measurements.forEach( function(meas) {
+           if (i > 0) measurementString += ",";
+           measurementString += " " + $scope.formatStr(meas.name);
+           i++;
+         });
 
-        return [measurementString];
-      case CARD.CATEGORY.APPOINTMENTS_SCHEDULE :
-        return ["Appointment Information"];
-      case CARD.CATEGORY.GOALS :
-        return ["View Goals"];
-      //case CARD.CATEGORY.SYMPTOMS :
-      default:
-        return [""];
-    } // end switch
-  }
+         return [measurementString];
+       case CARD.CATEGORY.APPOINTMENTS_SCHEDULE :
+         return ["Appointment Information"];
+       case CARD.CATEGORY.GOALS :
+         return ["View Goals"];
+       //case CARD.CATEGORY.SYMPTOMS :
+       default:
+         return [""];
+     } // end switch
+   }
+
 
 
   /*
@@ -304,12 +336,7 @@ angular.module('app.controllers')
          action = {tab: 'tabsController.medicationAction', params: {schedule_id: schedule.$id}};
         return $state.go(action.tab, action.params);
       case CARD.CATEGORY.MEASUREMENTS_SCHEDULE:
-        var schedule;
-        for(var i = 0; i < $scope.measurementSchedule.length; i++) {
-          if($scope.measurementSchedule[i].$id == card.object_id) {
-            schedule = $scope.measurementSchedule[i];
-          }
-        }
+        var schedule = $scope.findMeasurementScheduleForCard(card)
         action = {tab: 'tabsController.measurementAction', params: {schedule_id: schedule.$id}}
         return $state.go(action.tab, action.params);
       case CARD.CATEGORY.APPOINTMENTS_SCHEDULE :
