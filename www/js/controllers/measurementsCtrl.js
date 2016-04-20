@@ -82,6 +82,10 @@ angular.module('app.controllers')
       return true;
     }
   }
+
+  $scope.slideHasChanged = function(index) {
+    console.log(index)
+  }
 })
 
 .controller('addMeasurementsCtrl', function($scope, $state, $stateParams, Measurement, MeasurementSchedule, $ionicPopup, $ionicHistory) {

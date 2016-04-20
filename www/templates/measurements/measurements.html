@@ -4,8 +4,32 @@
     <ion-nav-buttons side="right">
         <button class="button icon-right ion-ios-plus-empty button-clear button-positive" ui-sref="tabsController.measurementAdd({schedule_id: schedule[0].$id})"></button>
     </ion-nav-buttons>
-    <ion-content has-header="true" overflow-scroll="true" scroll="true" padding="true" class="has-header">
-      <li class="item" ng-hide="hasMeasurement()">
+
+    <div class="bar bar-subheader item-input-inset" style="justify-content: center;">
+      <div class="col-50 button-bar bar-light">
+        <a class="button button-small button-positive">Schedule</a>
+        <a class="button button-small">History</a>
+        <a class="button button-small">Add</a>
+      </div>
+    </div>
+
+
+    <!-- Stuff after here will scroll -->
+
+    <ion-content has-header="true" overflow-scroll="true" scroll="true" padding="true" class="has-header has-subheader">
+      <ion-slide-box on-slide-changed="slideHasChanged($index)">
+        <ion-slide>
+          <div class="box blue"><h1>BLUE</h1></div>
+        </ion-slide>
+        <ion-slide>
+          <div class="box yellow"><h1>YELLOW</h1></div>
+        </ion-slide>
+        <ion-slide>
+          <div class="box pink"><h1>PINK</h1></div>
+        </ion-slide>
+      </ion-slide-box>
+
+      <!-- <li class="item" ng-hide="hasMeasurement()">
         You haven't added any measurements, click the add buttom on the header to add one.
       </li>
       <ion-list class = "measurement-list">
@@ -14,13 +38,15 @@
           <p>Weight: {{m.weight}} lbs</p>
           <p>Blood Pressure: {{m.systolic}}/{{m.diastolic}} mmHg</p>
           <p>Heart Rate: {{m.heart_rate}} bpm</p>
-          <!--- SHOULD WE DELETE A MEASUREMENT?
-          <ion-option-button class="button-assertive" ng-click="remove(chat)">
-            Delete
-          </ion-option-button>
-          -->
+
         </ion-item>
 
-      </ion-list>
+      </ion-list> -->
     </ion-content>
   </ion-view>
+
+  <!--- SHOULD WE DELETE A MEASUREMENT?
+  <ion-option-button class="button-assertive" ng-click="remove(chat)">
+    Delete
+  </ion-option-button>
+  -->
