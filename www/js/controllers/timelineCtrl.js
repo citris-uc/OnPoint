@@ -61,8 +61,8 @@ angular.module('app.controllers')
         var measExists = false;
         var medsExists = false;
         snap.forEach(function(childSnap) {
-          if (childSnap.objectType == CARD.CATEGORY.MEASUREMENTS_SCHEDULE) measExists = true;
-          if (childSnap.objectType == CARD.CATEGORY.MEDICATIONS_SCHEDULE) medsExists = true;
+          if (childSnap.val().object_type == CARD.CATEGORY.MEASUREMENTS_SCHEDULE) measExists = true;
+          if (childSnap.val().object_type == CARD.CATEGORY.MEDICATIONS_SCHEDULE) medsExists = true;
         });
         if (!measExists) MeasurementSchedule.createTodaysCards();
         if (!medsExists) MedicationSchedule.createTodaysCards();
@@ -82,8 +82,8 @@ angular.module('app.controllers')
         var measExists = false;
         var medsExists = false;
         snap.forEach(function(childSnap) {
-          if (childSnap.objectType == CARD.CATEGORY.MEASUREMENTS_SCHEDULE) measExists = true;
-          if (childSnap.objectType == CARD.CATEGORY.MEDICATIONS_SCHEDULE) medsExists = true;
+          if (childSnap.val().object_type == CARD.CATEGORY.MEASUREMENTS_SCHEDULE) measExists = true;
+          if (childSnap.val().object_type == CARD.CATEGORY.MEDICATIONS_SCHEDULE) medsExists = true;
         });
         if (!measExists) MeasurementSchedule.createTomorrowsCards();
         if (!medsExists) MedicationSchedule.createTomorrowsCards();
@@ -114,88 +114,108 @@ angular.module('app.controllers')
     return schedule;
   }
 
+  $scope.getMedsStatusArrays = function(schedule, medications) {
+    var takeMeds = [];
+    var skippedMeds = [];
+    var completedMeds = [];
+    medications.forEach( function(medication) {
+      var med = {}
+      //Find the Med
+      for(var i = 0; i < $scope.medications.length; i++) {
+        if ($scope.medications[i].trade_name == medication) {
+          med = $scope.medications[i]
+          med.id = $scope.medications[i].$id;
+        }
+      }
+
+      var exists = false;
+      for(var i = 0; i < $scope.medHistory.length; i++) {
+        var hist = $scope.medHistory[i];
+        if (hist.medication_id==med.id && hist.medication_schedule_id==schedule.$id) {
+          exists = true;
+          if(hist.taken_at != null)
+            completedMeds.push(med);
+          else if (hist.skipped_at != null)
+            skippedMeds.push(med);
+          else {
+            takeMeds.push(med);
+          }
+        }
+      }
+      if (!exists)
+        takeMeds.push(med);
+    })
+    return {unfinished: takeMeds, skipped: skippedMeds, done: completedMeds};
+  }
+
+  $scope.getMeasStatusArrays = function(schedule, measurements) {
+    var incompleteMeas = [];
+    var completedMeas = [];
+
+    measurements.forEach( function(meas) {
+      var exists = false;
+      for(var i = 0; i < $scope.measHistory.length; i++) {
+        var hist = $scope.measHistory[i];
+        if (hist.measurement_schedule_id==schedule.$id) {
+          if(typeof(hist.measurements[meas.name]) != 'undefined') {
+            exists= true;
+            completedMeas.push(meas.name);
+          }
+        }
+      }  //end historys
+      if (!exists) {
+        incompleteMeas.push(meas.name);
+      }
+    })
+    return {incomplete: incompleteMeas, complete: completedMeas};
+  }
 
   $scope.checkCardComplete = function(card) {
     switch(card.object_type) {
       case CARD.CATEGORY.MEDICATIONS_SCHEDULE :
-        if (card.completed_at != null || card.archived_at != null) return;
-
-        var schedule = $scope.findMedicationScheduleForCard(card)
-        if (schedule == null) return;
-
-        var medications = schedule.medications;
-        var now    = (new Date()).toISOString();
-        var takeMeds = [];
-        var skippedMeds = [];
-        var completedMeds = [];
-
-        medications.forEach( function(medication) {
-          var med = {}
-          //Find the Med
-          for(var i = 0; i < $scope.medications.length; i++) {
-            if ($scope.medications[i].trade_name == medication) {
-              med = $scope.medications[i]
-              med.id = $scope.medications[i].$id;
-            }
-          }
-
-          var exists = false;
-          for(var i = 0; i < $scope.medHistory.length; i++) {
-            var hist = $scope.medHistory[i];
-            if (hist.medication_id==med.id && hist.medication_schedule_id==schedule.$id) {
-              exists = true;
-              if(hist.taken_at != null)
-                completedMeds.push(med);
-              else if (hist.skipped_at != null)
-                skippedMeds.push(med);
-              else {
-                takeMeds.push(med);
-              }
-            }
-          }
-          if (!exists)
-            takeMeds.push(med);
-        })
-        if (takeMeds.length == 0) {
-          Card.complete(card);
-        }
+        $scope.checkMedsCardComplete(card);
         break;
       case CARD.CATEGORY.MEASUREMENTS_SCHEDULE :
-
-        if (card.completed_at != null || card.archived_at != null) return;
-
-        var schedule = $scope.findMeasurementScheduleForCard(card)
-
-        if (schedule == null) return;
-
-        var measurements = schedule.measurements;
-        var now    = (new Date()).toISOString();
-        var incompleteMeas = [];
-        var completedMeas = [];
-
-        measurements.forEach( function(meas) {
-          var exists = false;
-          for(var i = 0; i < $scope.measHistory.length; i++) {
-            var hist = $scope.measHistory[i];
-            if (hist.measurement_schedule_id==schedule.$id) {
-              if(typeof(hist.measurements[meas.name]) != 'undefined') {
-                exists= true;
-                completedMeas.push(meas.name);
-              }
-            }
-          }  //end historys
-          if (!exists) {
-            incompleteMeas.push(meas.name);
-          }
-        })
-        //console.log(incompleteMeas.length)
-        if (incompleteMeas.length == 0) {
-          console.log("all measurements completed")
-          Card.complete(card);
-        }
+        $scope.checkMeasCardComplete(card);
         break;
       default:
         break;
+    }
+  }
+
+  $scope.checkMedsCardComplete = function(card) {
+    if (card.completed_at != null || card.archived_at != null) return;
+
+    var schedule = $scope.findMedicationScheduleForCard(card)
+    if (schedule == null) return;
+
+    var medications = schedule.medications;
+    var now    = (new Date()).toISOString();
+
+    var medStatus = $scope.getMedsStatusArrays(schedule, medications);
+    var takeMeds = medStatus.unfinished;
+    var skippedMeds = medStatus.skipped;
+    var completedMeds = medStatus.done;
+
+    if (takeMeds.length == 0) {
+      Card.complete(card);
+    }
+  }
+
+  $scope.checkMeasCardComplete = function(card) {
+    if (card.completed_at != null || card.archived_at != null) return;
+
+    var schedule = $scope.findMeasurementScheduleForCard(card)
+    if (schedule == null) return;
+
+    var measurements = schedule.measurements;
+    var now    = (new Date()).toISOString();
+    var measStatus = $scope.getMeasStatusArrays(schedule, measurements);
+    var incompleteMeas = measStatus.incomplete;
+
+    //console.log(incompleteMeas.length)
+    if (incompleteMeas.length == 0) {
+      Card.complete(card);
     }
   }
 
@@ -289,38 +309,11 @@ angular.module('app.controllers')
      var schedule = $scope.findMedicationScheduleForCard(card);
      if (schedule == null) return;
 
-     var medications   = schedule.medications;
-     var takeMeds      = [];
-     var skippedMeds   = [];
-     var completedMeds = [];
-
-     // Check history for each medication in the specified schedule.
-     medications.forEach( function(medication) {
-       var med = {};
-       //Find the Med
-       for(var i = 0; i < $scope.medications.length; i++) {
-         if ($scope.medications[i].trade_name == medication) {
-           med = $scope.medications[i];
-           med.id = $scope.medications[i].$id;
-         }
-       }
-
-       var exists = false;
-       for(var i = 0; i < $scope.medHistory.length; i++) {
-         var hist = $scope.medHistory[i];
-         if (hist.medication_id==med.id && hist.medication_schedule_id==schedule.$id) {
-           exists = true;
-           if(hist.taken_at != null)
-             completedMeds.push(med);
-           else if (hist.skipped_at != null)
-             skippedMeds.push(med);
-           else {
-             takeMeds.push(med);
-           }
-         }
-       }
-       if (!exists) takeMeds.push(med);
-     })
+     var medications = schedule.medications;
+     var medStatus = $scope.getMedsStatusArrays(schedule, medications);
+     var takeMeds = medStatus.unfinished;
+     var skippedMeds = medStatus.skipped;
+     var completedMeds = medStatus.done;
 
      // Create a string for each line for Take/Skipped/Completed meds
      // TODO -- is there a clean way to do this in the UI to filter?
@@ -365,25 +358,11 @@ angular.module('app.controllers')
     schedule = $scope.findMeasurementScheduleForCard(card)
     if (schedule == null) return;
 
-    var incompleteMeas = [];
-    var completedMeas = [];
-
     var measurements  = schedule.measurements;
-    measurements.forEach( function(meas) {
-      var exists = false;
-      for(var i = 0; i < $scope.measHistory.length; i++) {
-        var hist = $scope.measHistory[i];
-        if (hist.measurement_schedule_id==schedule.$id) {
-          if(typeof(hist.measurements[meas.name]) != 'undefined') {
-            exists= true;
-            completedMeas.push(meas.name);
-          }
-        }
-      }  //end historys
-      if (!exists) {
-        incompleteMeas.push(meas.name);
-      }
-    });
+    var measStatus = $scope.getMeasStatusArrays(schedule, measurements);
+    var incompleteMeas = measStatus.incomplete;
+    var completedMeas = measStatus.complete;
+
     // Create a string for each line for Completed/Incomplete Measurements
     // TODO -- is there a clean way to do this in the UI to filter?
     //         possible to have different UI templates depending on card category?
@@ -408,24 +387,14 @@ angular.module('app.controllers')
    * TODO: fix medication_schedule ID to be actually ID in firebase, probbaly need to to do when we push med SCheudle to firebase during onboarding
    * TODO: fix other categories
    */
-  $scope.openPage = function(card, type, index){
-    if (index == 1) return;
+  $scope.openPage = function(card, type){
     switch(type) {
       case CARD.CATEGORY.MEDICATIONS_SCHEDULE :
-        var schedule;
-        for (var i = 0; i < $scope.medSchedule.length; i++) {
-          if ($scope.medSchedule[i].$id == card.object_id) {
-            schedule = $scope.medSchedule[i];
-          }
-        }
-        // Take Medications --> Show Schedule
-        // Get schedule associated with card
-        //var schedule = $scope.medSchedule[index]
-        // action = {tab: 'tabsController.medicationsSchedule', params: {schedule_id: schedule.$id}};
-         action = {tab: 'tabsController.medicationCardAction', params: {schedule_id: schedule.$id}};
+        var schedule = $scope.findMedicationScheduleForCard(card);
+        action = {tab: 'tabsController.medicationCardAction', params: {schedule_id: schedule.$id}};
         return $state.go(action.tab, action.params);
       case CARD.CATEGORY.MEASUREMENTS_SCHEDULE:
-        var schedule = $scope.findMeasurementScheduleForCard(card)
+        var schedule = $scope.findMeasurementScheduleForCard(card);
         action = {tab: 'tabsController.measurementAction', params: {schedule_id: schedule.$id}}
         return $state.go(action.tab, action.params);
       case CARD.CATEGORY.APPOINTMENTS_SCHEDULE :
