@@ -44,14 +44,6 @@ angular.module('app.controllers')
     $scope.measurementSchedule = MeasurementSchedule.get();
     $scope.measHistory = Measurement.getTodaysHistory(); // Measurement History
 
-    // TODO: Remove this inefficiency by moving the update/complete logic to the
-    // appropriate factory.
-    for(var i = 0; i < $scope.cards.length; i++) {
-      var card = $scope.cards[i];
-      Card.checkCardUpdate(card);
-      Card.checkCardComplete(card);
-    }
-
     var today = (new Date()).toISOString().substring(0,10)
     var todaysCardReq = Card.ref().child(today).once("value", function (snap) { //only do this once per day
       if (!snap.exists()) {

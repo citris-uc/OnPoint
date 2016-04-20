@@ -89,18 +89,6 @@ angular.module('app.services')
 
 
     archive: function(card) {
-      // var card;
-      // for(var i = 0; i < cards.length; i++) {
-      //   if (cards[i].id === cardID)
-      //     card = cards[i]
-      // }
-      //
-      // if (card) {
-      //   now = (new Date()).toISOString();
-      //   card.updated_at  = now;
-      //   card.archived_at = now;
-      // }
-      // return card;
       var ref = this.todaysRef().child(card.$id);
       var now = (new Date()).toTimeString();
 
@@ -117,91 +105,7 @@ angular.module('app.services')
         }
       })
       return req;
-    },
-    checkCardUpdate: function(card){
-      // Check the latest timestamp for the card
-      switch(card.object_type) {
-        case CARD.CATEGORY.MEDICATIONS_SCHEDULE :
-          // // Get schedule associated with card
-          // var schedule = MedicationSchedule.findByID(card.object_id);
-          // var medications = schedule.medications;
-          //
-          // // Check history for each medication in the specified schedule
-          // // Save timestamp of latest for the updated_at
-          // var latestChange = card.updated_at;
-          // medications.forEach( function(med) {
-          //   var history = MedicationHistory.findByMedicationIdAndScheduleId(med.id, schedule.id);
-          //   if (history != null) {
-          //     if (history.taken_at != null) {
-          //       if (Date.parse(history.taken_at) > Date.parse(latestChange)) {
-          //         latestChange = history.taken_at;
-          //       }
-          //     }
-          //     if (history.skipped_at != null) {
-          //       if (Date.parse(history.skipped_at) > latestChange) {
-          //         latestChange = history.skipped_at;
-          //       }
-          //     }
-          //   }
-          // })
-          //
-          // card.updated_at = latestChange != null ? latestChange : null;
-
-          return;
-        case CARD.CATEGORY.MEASUREMENTS_SCHEDULE :
-          return;
-        case CARD.CATEGORY.APPOINTMENTS_SCHEDULE :
-          return;
-        case CARD.CATEGORY.GOALS :
-          return;
-        //case CARD.CATEGORY.SYMPTOMS :
-        default:
-          return;
-      } // end switch
-
-    },
-    checkCardComplete: function(card) {
-      // Check if this card is completed and update completed_at
-      if (card.completed_at != null) return;
-
-      switch(card.object_type) {
-        case CARD.CATEGORY.MEDICATIONS_SCHEDULE :
-          // Get schedule associated with card
-          // var schedule = MedicationSchedule.findByID(card.object_id);
-          // var medications = schedule.medications;
-          // var takeMeds = [];
-          // var skippedMeds = [];
-          // var completedMeds = [];
-          //
-          // // Check history for each medication in the specified schedule
-          // medications.forEach( function(med) {
-          //   var history = MedicationHistory.findByMedicationIdAndScheduleId(med.id, schedule.id);
-          //   if (history == null)
-          //     takeMeds.push(med);
-          //   else if (history.taken_at != null) {
-          //     completedMeds.push(med);
-          //   } else if (history.skipped_at != null) {
-          //     skippedMeds.push(med);
-          //   }
-          // })
-          // All meds are complete;
-          // TODO --> meds that can't be skipped should be forked off into separate card
-          // if (takeMeds.length == 0) {
-          //   this.complete(card.id);
-          // }
-          return;
-        case CARD.CATEGORY.MEASUREMENTS_SCHEDULE :
-          return;
-        case CARD.CATEGORY.APPOINTMENTS_SCHEDULE :
-          return;
-        case CARD.CATEGORY.GOALS :
-          return;
-        //case CARD.CATEGORY.SYMPTOMS :
-        default:
-          return;
-      } // end switch
     }
-
   };
 
 
