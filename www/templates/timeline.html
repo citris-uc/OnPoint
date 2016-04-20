@@ -6,25 +6,33 @@
     ui-sref="tabsController.settings"></button>
   </ion-nav-buttons>
 
-  <ion-content overflow-scroll="true" padding="true" class="has-header background">
+  <!-- Text input for Symptoms Feeling tracker -->
+  <!-- TODO: Save button on right? -->
+  <!-- TODO: DO we really need this? @dman7 -->
+  <div class="bar bar-subheader item-input-inset">
+      <label class="item-input-wrapper">
+        <input type="text" placeholder="How are you feeling?">
+      </label>
+      <button class="button button-small button-clear buttonText" disabled>
+        Save
+      </button>
+  </div>
+
+  <!-- Stuff after here will scroll -->
+  <ion-content overflow-scroll="true" padding="true" class="has-header has-subheader">
     <ion-refresher pulling-text="Pull to refresh" on-refresh="generateCardsForToday()">
     </ion-refresher>
 
-    <!-- Text input for Symptoms Feeling tracker -->
-    <!-- TODO: Save button on right? -->
-    <!-- TODO: DO we really need this? @dman7 -->
-    <div class="list list-inset">
-      <label class="item item-input">
-        <input type="text" placeholder="How are you feeling?">
-      </label>
-    </div>
+    <!-- Divider for Current Cards-->
+    <div class="divline">-</div>
+    <center class="divtext">Current Cards</center>
 
-    <!-- Create Cards -->
-    <div class="card" ng-repeat="c in cards | orderBy: '-updated_at' | filter: {archived_at: '!'}" on-swipe-right="swipeCard(c)" on-swipe-left="swipeCard(c)">
+    <!-- Create Current Cards -->
+    <div class="card" ng-repeat="c in cards | orderBy: 'shown_at' | filter: {archived_at: '!'}" on-swipe-right="swipeCard(c)" on-swipe-left="swipeCard(c)">
       <!-- Card Title -->
       <div ng-class="['item', getCardStatus(c)]">
         <a>{{c.type == CARD.TYPE.ACTION ? 'Take ': c.type == CARD.TYPE.URGENT ? 'TODO: ': ''}}{{formatTitle(c.object_type)}}{{c.type == CARD.TYPE.REMINDER ? ' Reminder':''}}</a>
-        <a style="float:right">{{getTime(c.shown_at) | date: 'h:mm a'}}</a>
+        <a style="float:right">{{getTime(c.shown_at) | date: 'M/d h:mm a'}}</a>
       </div>
 
       <!-- Card Body -->
@@ -34,9 +42,17 @@
 
       <!-- Card Buttons -->
       <div class="button-bar">
-        <a class="button button-small icon ion-ios-chatboxes-outline" ui-sref="tabsController.comments({card_id:c.$id, comment_id: c.comment_id})"> Comments  ({{c.num_comments}})</a>
-        <a class="button button-small" ng-click="openPage(c, c.object_type, $index)">Action</a>
+        <a class="button button-small button-clear icon ion-ios-chatboxes-outline buttonText" ui-sref="tabsController.comments({card_id:c.$id, comment_id: c.comment_id})"> Comments  ({{c.num_comments}})</a>
+        <a class="button button-small button-clear buttonText" ng-click="openPage(c, c.object_type, $index)" style="border-left: 1px solid #C0C0C0;">Go to {{formatTitle(c.object_type)}}</a>
       </div>
     </div>
+
+    <!-- Divider for Upcoming Cards-->
+    <div class="divline">-</div>
+    <center class="divtext">Upcoming Cards</center>
+
+
+
+
   </ion-content>
 </ion-view>
