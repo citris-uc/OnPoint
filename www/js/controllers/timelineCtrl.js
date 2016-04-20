@@ -7,7 +7,12 @@ angular.module('app.controllers')
   // to understand why we're doing everything in a beforeEnter event. Essentially,
   // we avoid stale data.
   $scope.$on('$ionicView.enter', function(){
-    $scope.cards = Card.getByDay(new Date());
+    $scope.cards = [];
+    $scope.cards[0] = Card.getByDay(new Date());
+    var manana = new Date();
+    manana.setDate(manana.getDate() + 1);
+    $scope.cards[1] = Card.getByDay(manana);
+
     $scope.CARD = CARD;
     $scope.medSchedule = MedicationSchedule.get()
     $scope.medHistory  = MedicationHistory.getTodaysHistory()
@@ -34,9 +39,18 @@ angular.module('app.controllers')
       }
     }) //end todaysCard Req
 
-
-   });
-
+    var tomorrowDate = new Date();
+    tomorrowDate.setDate(tomorrowDate.getDate()+1);
+    var tomorrow = tomorrowDate.toISOString().substring(0,10);
+    var tomorrowsCardReq = Card.ref().child(tomorrow).once("value", function (snap) { //only do this once per day
+      if (!snap.exists()) {
+        MedicationSchedule.createTomorrowsCards();
+        MeasurementSchedule.createTomorrowsCards();
+        //TODO: need to do apointments  and goals?
+      }
+    }) //end todaysCard Req
+  });
+  
   $scope.checkCardComplete = function(card) {
     switch(card.object_type) {
       case CARD.CATEGORY.MEDICATIONS_SCHEDULE :
@@ -124,7 +138,10 @@ angular.module('app.controllers')
     }
   }
 
-  $scope.getCardStatus = function(card) {
+  $scope.getCardStatus = function(card, index) {
+    if (index == 1) {
+      return "futureCard";
+    }
     this.checkCardComplete(card);
     // Return cardClass: urgent/active/completed
     if (card.completed_at == null) {
@@ -159,7 +176,7 @@ angular.module('app.controllers')
    * @param index: this is the medication_schedule ID essentailly
    * TODO: fix medication_schedule ID to be actually ID in firebase, probbaly need to to do when we push med SCheudle to firebase during onboarding
    */
-  $scope.getBody = function(card, type) {
+  $scope.getBody = function(card, type, index) {
     switch(type) {
       case CARD.CATEGORY.MEDICATIONS_SCHEDULE :
         var schedule;
@@ -185,25 +202,26 @@ angular.module('app.controllers')
             if ($scope.medications[i].trade_name == medication) {
               med = $scope.medications[i]
               med.id = $scope.medications[i].$id;
+              if (index == 1) takeMeds.push(med);
             }
           }
-
-          var exists = false;
-          for(var i = 0; i < $scope.medHistory.length; i++) {
-            var hist = $scope.medHistory[i];
-            if (hist.medication_id==med.id && hist.medication_schedule_id==schedule.$id) {
-              exists = true;
-              if(hist.taken_at != null)
-                completedMeds.push(med);
-              else if (hist.skipped_at != null)
-                skippedMeds.push(med);
-              else {
-                takeMeds.push(med);
+          if (index == 0) {
+            var exists = false;
+            for(var i = 0; i < $scope.medHistory.length; i++) {
+              var hist = $scope.medHistory[i];
+              if (hist.medication_id==med.id && hist.medication_schedule_id==schedule.$id) {
+                exists = true;
+                if(hist.taken_at != null)
+                  completedMeds.push(med);
+                else if (hist.skipped_at != null)
+                  skippedMeds.push(med);
+                else {
+                  takeMeds.push(med);
+                }
               }
             }
+            if (!exists) takeMeds.push(med);
           }
-          if (!exists) takeMeds.push(med);
-
           // var history = MedicationHistory.findByMedicationIdAndScheduleId(med.id, schedule.id);
           // if (history == null)
           //   takeMeds.push(med);
@@ -270,6 +288,7 @@ angular.module('app.controllers')
    * TODO: fix other categories
    */
   $scope.openPage = function(card, type, index){
+    if (index == 1) return;
     switch(type) {
       case CARD.CATEGORY.MEDICATIONS_SCHEDULE :
         var schedule;
@@ -281,7 +300,8 @@ angular.module('app.controllers')
         // Take Medications --> Show Schedule
         // Get schedule associated with card
         //var schedule = $scope.medSchedule[index]
-        action = {tab: 'tabsController.medicationsSchedule', params: {schedule_id: schedule.$id}};
+        // action = {tab: 'tabsController.medicationsSchedule', params: {schedule_id: schedule.$id}};
+         action = {tab: 'tabsController.medicationAction', params: {schedule_id: schedule.$id}};
         return $state.go(action.tab, action.params);
       case CARD.CATEGORY.MEASUREMENTS_SCHEDULE:
         var schedule;
