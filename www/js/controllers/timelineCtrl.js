@@ -199,26 +199,18 @@ angular.module('app.controllers')
    * TODO: fix medication_schedule ID to be actually ID in firebase, probbaly need to to do when we push med SCheudle to firebase during onboarding
    */
    $scope.description = function(card) {
-     console.log(card)
      type = card.object_type
      switch(type) {
-       case CARD.CATEGORY.MEDICATIONS_SCHEDULE :
-         var schedule;
-         for (var i = 0; i < $scope.medSchedule.length; i++) {
-           if ($scope.medSchedule[i].$id == card.object_id) {
-             schedule = $scope.medSchedule[i];
-           }
-         }
+       case CARD.CATEGORY.MEDICATIONS_SCHEDULE:
+         var schedule = $scope.findMedicationScheduleForCard(card)
          if (schedule == null) return;
 
-         // var schedule = $scope.medSchedule[index];
-         var medications = schedule.medications;
-         var takeMeds = [];
-         var skippedMeds = [];
+         var medications   = schedule.medications;
+         var takeMeds      = [];
+         var skippedMeds   = [];
          var completedMeds = [];
 
-         // Check history for each medication in the specified schedule
-         // TODO: Refactor this to query against a MedicationHistory array.
+         // Check history for each medication in the specified schedule.
          medications.forEach( function(medication) {
            var med = {}
            //Find the Med
@@ -244,34 +236,40 @@ angular.module('app.controllers')
              }
            }
            if (!exists) takeMeds.push(med);
-
-           // var history = MedicationHistory.findByMedicationIdAndScheduleId(med.id, schedule.id);
-           // if (history == null)
-           //   takeMeds.push(med);
-           // else if (history.taken_at != null) {
-           //   completedMeds.push(med);
-           // } else if (history.skipped_at != null) {
-           //   skippedMeds.push(med);
-           // }
          })
 
          // Create a string for each line for Take/Skipped/Completed meds
          // TODO -- is there a clean way to do this in the UI to filter?
          //         possible to have different UI templates depending on card category?
-         var takeString = takeMeds.length > 0 ? "Take:" : null;
-         var skippedString = skippedMeds.length > 0 ? "Skipped:" : null;
-         var completedString = completedMeds.length > 0 ? "Completed:" : null;
+         string = ""
+         if (takeMeds.length > 0) {
+          string += "You need to take "
+          takeMeds.forEach( function(med) {
+            string += med.trade_name + ", "
+          })
 
-         takeMeds.forEach( function(med) {
-           takeString = takeString + " " + med.trade_name;
-         })
-         skippedMeds.forEach( function(med) {
-           skippedString = skippedString + " " + med.trade_name;
-         })
+          string += ". "
+        }
+
+        if (completedMeds.length > 0) {
+         string += "So far, you've taken "
          completedMeds.forEach( function(med) {
-           completedString = completedString + " " + med.trade_name;
+           string += med.trade_name + ", "
          })
-         return [takeString, skippedString, completedString];
+       }
+
+       if (skippedMeds.length > 0) {
+         if (completedMeds.length > 0)
+          string += " and you've skipped "
+         else
+          string += " You've skipped "
+
+          skippedMeds.forEach( function(med) {
+            string += " " + med.trade_name;
+          })
+       }
+
+         return string;
        case CARD.CATEGORY.MEASUREMENTS_SCHEDULE :
          var schedule;
          var measurementString = "Take: ";
