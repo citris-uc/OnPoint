@@ -75,7 +75,7 @@
           <h4 class="text-center">Upcoming Cards</h4>
         </div>
 
-        <div class="row" style="justify-content: center;" ng-repeat="c in cards | orderBy: 'shown_at' | filter: {archived_at: '!'}" on-swipe-right="swipeCard(c)" on-swipe-left="swipeCard(c)">
+        <div class="row" style="justify-content: center;" ng-repeat="c in tomorrowCards | orderBy: 'shown_at' | filter: {archived_at: '!'}" on-swipe-right="swipeCard(c)" on-swipe-left="swipeCard(c)">
           <div class="col col-75">
 
             <div class="list card">
