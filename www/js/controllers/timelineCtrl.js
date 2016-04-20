@@ -84,8 +84,8 @@ angular.module('app.controllers')
         var measExists = false;
         var medsExists = false;
         snap.forEach(function(childSnap) {
-          if (childSnap.objectType == CARD.CATEGORY.MEASUREMENTS_SCHEDULE) measExists = true;
-          if (childSnap.objectType == CARD.CATEGORY.MEDICATIONS_SCHEDULE) medsExists = true;
+          if (childSnap.val().object_type == CARD.CATEGORY.MEASUREMENTS_SCHEDULE) measExists = true;
+          if (childSnap.val().object_type == CARD.CATEGORY.MEDICATIONS_SCHEDULE) medsExists = true;
         });
         if (!measExists) MeasurementSchedule.createTomorrowsCards();
         if (!medsExists) MedicationSchedule.createTomorrowsCards();
