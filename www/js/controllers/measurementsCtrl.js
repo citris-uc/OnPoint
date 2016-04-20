@@ -110,7 +110,8 @@ $scope.bpAlert = function(value) {
     buttons: [
       {
         text: 'View Tips',
-        onTap: function(e) { $state.go('tabsController.measurementTips'); }
+        //TODO: go to tabsController.measurementTips if came to the tips screen from measurements tab
+        onTap: function(e) { $state.go('tabsController.measurementActionTips'); }
       },
       {text: '<b>OK</b>'}
     ]
