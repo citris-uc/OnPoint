@@ -10,4 +10,10 @@ make the responsive-col be at most 75% of the viewport. */
     flex: 0 0 75%;
     max-width: 75%;
   }
+
+  .responsive-col-sm-25 {
+    -webkit-box-flex: 0;
+    flex: 0 0 25%;
+    max-width: 25%;
+  }
 }

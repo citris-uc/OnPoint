@@ -5,6 +5,7 @@ angular.module('app.controllers')
 
   $scope.changeTimeline = function(pageIndex) {
     $scope.timeline.pageIndex = pageIndex;
+    $scope.loadCards()
   }
 
   $scope.transitionToPageIndex = function(pageIndex) {
@@ -21,7 +22,7 @@ angular.module('app.controllers')
       manana.setDate(manana.getDate() + 1);
       $scope.tomorrowCards = Card.getByDay(manana);
     } else {
-      console.log("TODO")
+      $scope.history = Card.getHistory();
     }
     $scope.$broadcast('scroll.refreshComplete');
   }
