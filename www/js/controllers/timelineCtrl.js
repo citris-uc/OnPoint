@@ -242,7 +242,7 @@ angular.module('app.controllers')
         var i = 0;
         measurements.forEach( function(meas) {
           if (i > 0) measurementString += ",";
-          measurementString += " " + $scope.formatStr(meas);
+          measurementString += " " + $scope.formatStr(meas.name);
           i++;
         });
 
