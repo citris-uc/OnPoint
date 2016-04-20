@@ -29,9 +29,6 @@
       <h4 class="text-center">Current Cards</h4>
     </div>
 
-
-
-
     <div class="row" style="justify-content: center;" ng-repeat="c in cards | orderBy: 'shown_at' | filter: {archived_at: '!'}" on-swipe-right="swipeCard(c)" on-swipe-left="swipeCard(c)">
       <div class="col col-75">
 
@@ -64,10 +61,10 @@
               </a>
             </div>
           </div>
-
         </div>
       </div>
     </div>
+
 
 
 
@@ -75,6 +72,42 @@
     <div class="card-section upcoming">
       <hr class="col-75"></hr>
       <h4 class="text-center">Upcoming Cards</h4>
+    </div>
+
+    <div class="row" style="justify-content: center;" ng-repeat="c in cards | orderBy: 'shown_at' | filter: {archived_at: '!'}" on-swipe-right="swipeCard(c)" on-swipe-left="swipeCard(c)">
+      <div class="col col-75">
+
+        <div class="list card">
+
+          <div class="item item-icon-left">
+            <i class="icon {{iconClass(c)}}"></i>
+            <h2>{{formatTitle(c.object_type)}}</h2>
+            <p>{{getTime(c.shown_at) | date: 'EEEE hh:mma, MMMM dd'}}</p>
+
+            <span class="badge {{statusClass(c)}}">{{statusText(c)}}</span>
+          </div>
+
+          <div class="item item-body">
+            <!-- Your weigh in is at 09:00 AM -->
+            {{description(c)}}
+          </div>
+
+          <div class="row">
+            <div class="col">
+              <a class="item item-icon-left">
+                <i class="icon ion-ios-eye"></i>
+                View card
+              </a>
+            </div>
+            <div class="col">
+              <a class="item item-icon-left">
+                <i class="icon ion-ios-chatbubble-outline"></i>
+                {{c.num_comments}} Comments
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
 

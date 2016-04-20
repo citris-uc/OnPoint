@@ -8,6 +8,10 @@ angular.module('app.controllers')
   // we avoid stale data.
   $scope.$on('$ionicView.enter', function(){
     $scope.cards = Card.getByDay(new Date());
+    var manana = new Date();
+    manana.setDate(manana.getDate() + 1);
+    $scope.tomorrowCards = Card.getByDay(manana);
+
     $scope.CARD = CARD;
     $scope.medSchedule = MedicationSchedule.get()
     $scope.medHistory  = MedicationHistory.getTodaysHistory()
@@ -56,8 +60,17 @@ angular.module('app.controllers')
       }
     }) //end todaysCard Req
 
-
-   });
+    var tomorrowDate = new Date();
+    tomorrowDate.setDate(tomorrowDate.getDate()+1);
+    var tomorrow = tomorrowDate.toISOString().substring(0,10);
+    var tomorrowsCardReq = Card.ref().child(tomorrow).once("value", function (snap) { //only do this once per day
+      if (!snap.exists()) {
+        MedicationSchedule.createTomorrowsCards();
+        MeasurementSchedule.createTomorrowsCards();
+        //TODO: need to do apointments  and goals?
+      }
+    }) //end todaysCard Req
+  });
 
   $scope.checkCardComplete = function(card) {
     switch(card.object_type) {
@@ -249,6 +262,7 @@ angular.module('app.controllers')
           })
 
           string += ". "
+
         }
 
         if (completedMeds.length > 0) {
@@ -306,6 +320,7 @@ angular.module('app.controllers')
    * TODO: fix other categories
    */
   $scope.openPage = function(card, type, index){
+    if (index == 1) return;
     switch(type) {
       case CARD.CATEGORY.MEDICATIONS_SCHEDULE :
         var schedule;
@@ -317,7 +332,8 @@ angular.module('app.controllers')
         // Take Medications --> Show Schedule
         // Get schedule associated with card
         //var schedule = $scope.medSchedule[index]
-        action = {tab: 'tabsController.medicationsSchedule', params: {schedule_id: schedule.$id}};
+        // action = {tab: 'tabsController.medicationsSchedule', params: {schedule_id: schedule.$id}};
+         action = {tab: 'tabsController.medicationAction', params: {schedule_id: schedule.$id}};
         return $state.go(action.tab, action.params);
       case CARD.CATEGORY.MEASUREMENTS_SCHEDULE:
         var schedule = $scope.findMeasurementScheduleForCard(card)
