@@ -22,7 +22,7 @@
 
   <!-- Stuff after here will scroll -->
   <ion-content overflow-scroll="true" padding="true" class="has-header has-subheader">
-    <ion-refresher pulling-text="Pull to refresh" on-refresh="generateCardsForToday()" pulling-icon="ion-ios-refresh-empty"></ion-refresher>
+    <ion-refresher pulling-text="Pull to refresh" on-refresh="loadCards()" pulling-icon="ion-ios-refresh-empty"></ion-refresher>
 
     <ion-slide-box on-slide-changed="changeTimeline($index)" does-continue="false" show-pager="false">
       <ion-slide>

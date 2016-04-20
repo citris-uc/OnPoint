@@ -11,16 +11,27 @@ angular.module('app.controllers')
     $ionicSlideBoxDelegate.slide(pageIndex);
   }
 
+  // This loads cards depending on the page we're currently on. For instance,
+  // if we're on Today view, then we'll load cards for today/tomorrow. On the
+  // History view, we'll load all cards.
+  $scope.loadCards = function() {
+    if ($scope.timeline.pageIndex === 0) {
+      $scope.cards = Card.getByDay(new Date());
+      var manana = new Date();
+      manana.setDate(manana.getDate() + 1);
+      $scope.tomorrowCards = Card.getByDay(manana);
+    } else {
+      console.log("TODO")
+    }
+    $scope.$broadcast('scroll.refreshComplete');
+  }
+
   // See
   // http://www.gajotres.net/understanding-ionic-view-lifecycle/
   // to understand why we're doing everything in a beforeEnter event. Essentially,
   // we avoid stale data.
   $scope.$on('$ionicView.enter', function(){
-    $scope.cards = Card.getByDay(new Date());
-    var manana = new Date();
-    manana.setDate(manana.getDate() + 1);
-    $scope.tomorrowCards = Card.getByDay(manana);
-
+    $scope.loadCards();
     $scope.CARD = CARD;
     $scope.medSchedule = MedicationSchedule.get()
     $scope.medHistory  = MedicationHistory.getTodaysHistory()
