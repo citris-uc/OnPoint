@@ -28,7 +28,7 @@
     <center class="divtext">Current Cards</center>
 
     <!-- Create Current Cards -->
-    <div class="card" ng-repeat="c in cards | orderBy: 'shown_at' | filter: {archived_at: '!'}" on-swipe-right="swipeCard(c)" on-swipe-left="swipeCard(c)">
+    <div class="card" ng-repeat="c in cards | orderBy: 'shown_at' | filter: {archived_at: '!'}" ng-show="shouldDisplayCard(c.shown_at)" on-swipe-right="swipeCard(c)" on-swipe-left="swipeCard(c)">
       <!-- Card Title -->
       <div ng-class="['item', getCardStatus(c)]">
         <a>{{c.type == CARD.TYPE.ACTION ? 'Take ': c.type == CARD.TYPE.URGENT ? 'TODO: ': ''}}{{formatTitle(c.object_type)}}{{c.type == CARD.TYPE.REMINDER ? ' Reminder':''}}</a>

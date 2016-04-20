@@ -2,30 +2,36 @@ angular.module('app.controllers')
 
 .controller('timelineCtrl', function($scope, $state, Card, CARD, Comment, Medication, MedicationSchedule, Measurement, MeasurementSchedule, MedicationHistory) {
   $scope.cards = Card.getByDay(new Date());
+  //$scope.cards = Card.getCurrentCards(new Date());
+  //$scope.futureCards = Card.getUpcomingCards();
   $scope.CARD = CARD;
-  $scope.medSchedule = MedicationSchedule.get()
-  $scope.medHistory  = MedicationHistory.getTodaysHistory()
+  $scope.medSchedule = MedicationSchedule.get();
+  $scope.medHistory  = MedicationHistory.getTodaysHistory();
   $scope.medications = Medication.get();
   $scope.today       = new Date();
-  $scope.numComments = new Array($scope.cards.length)
+  $scope.numComments = new Array($scope.cards.length);
   $scope.measurementSchedule = MeasurementSchedule.get();
   $scope.measHistory = Measurement.getTodaysHistory(); // Measurement History
 
-  // TODO: Remove this inefficiency by moving the update/complete logic to the
-  // appropriate factory.
-  for(var i = 0; i < $scope.cards.length; i++) {
-    var card = $scope.cards[i];
-    Card.checkCardUpdate(card);
-    Card.checkCardComplete(card);
-  }
-
   //TODO: use this to trigger generating all scheduled cards per day.
   $scope.$on('$ionicView.enter', function(){
-    var today = (new Date()).toISOString().substring(0,10)
+    // Get Today's Cards
+    var today = (new Date()).toISOString().substring(0,10);
     var todaysCardReq = Card.ref().child(today).once("value", function (snap) { //only do this once per day
       if (!snap.exists()) {
         MedicationSchedule.createTodaysCards();
         MeasurementSchedule.createTodaysCards();
+        //TODO: need to do apointments  and goals?
+      }
+    }) //end todaysCard Req
+
+    var tomorrowDate = new Date();
+    tomorrowDate.setDate(tomorrowDate.getDate()+1);
+    var tomorrow = tomorrowDate.toISOString().substring(0,10);
+    var tomorrowsCardReq = Card.ref().child(tomorrow).once("value", function (snap) { //only do this once per day
+      if (!snap.exists()) {
+        MedicationSchedule.createTomorrowsCards();
+        MeasurementSchedule.createTomorrowsCards();
         //TODO: need to do apointments  and goals?
       }
     }) //end todaysCard Req
