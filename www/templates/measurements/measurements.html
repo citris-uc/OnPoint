@@ -5,6 +5,9 @@
         <button class="button icon-right ion-ios-plus-empty button-clear button-positive" ui-sref="tabsController.measurementAdd({schedule_id: schedule[0].$id})"></button>
     </ion-nav-buttons>
     <ion-content has-header="true" overflow-scroll="true" scroll="true" padding="true" class="has-header">
+      <li class="item" ng-hide="hasMeasurement()">
+        You haven't added any measurements, click the add buttom on the header to add one.
+      </li>
       <ion-list class = "measurement-list">
         <ion-item class="view-measurement" ng-repeat="m in measurements | orderBy:m.timestamp: 'true'">
           <p>{{m.timestamp | date:'MMM d, y h:mm a'}}</p>
