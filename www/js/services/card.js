@@ -7,7 +7,8 @@ angular.module('app.services')
       return $firebaseArray(ref)
     },
     getByDay: function(date) {
-      var ref = this.todaysRef();
+      var dateISO = date.toISOString().substring(0,10)
+      var ref = this.ref().child(dateISO);
       return $firebaseArray(ref);
     },
     getById: function(id) {
