@@ -118,25 +118,26 @@ angular.module('app.routes', [])
     }
   })
 
-  .state('tabsController.measurementAdd', {
-    url: '/measurement-add/:schedule_id',
-    views: {
-      'measurements-tab': {
-        templateUrl: 'templates/measurements/measurements-add.html',
-        controller: 'addMeasurementsCtrl'
-      }
-    }
-  })
-
-  .state('tabsController.measurementTips', {
-    url: '/measurement-tips',
-    views: {
-      'measurements-tab': {
-        templateUrl: 'templates/measurements/measurementTips.html',
-        controller: 'measurementTipsCtrl'
-      }
-    }
-  })
+  // DEPRECIATED: Making measurements tab a segmenetd control
+  // .state('tabsController.measurementAdd', {
+  //   url: '/measurement-add/:schedule_id',
+  //   views: {
+  //     'measurements-tab': {
+  //       templateUrl: 'templates/measurements/measurements-add.html',
+  //       controller: 'addMeasurementsCtrl'
+  //     }
+  //   }
+  // })
+  //
+  // .state('tabsController.measurementTips', {
+  //   url: '/measurement-tips',
+  //   views: {
+  //     'measurements-tab': {
+  //       templateUrl: 'templates/measurements/measurementTips.html',
+  //       controller: 'measurementTipsCtrl'
+  //     }
+  //   }
+  // })
 
   .state('tabsController.appointments', {
     url: '/appointments',

@@ -72,15 +72,22 @@ angular.module('app.controllers')
 
 })
 
-.controller('measurementsCtrl', function($scope, Measurement, MeasurementSchedule) {
+.controller('measurementsCtrl', function($scope, $ionicSlideBoxDelegate,Measurement, MeasurementSchedule) {
+  $scope.measurementTab = {pageIndex: 0}
   $scope.measurements = Measurement.get();
   $scope.schedule = MeasurementSchedule.get();
-  $scope.hasMeasurement = function(){
-    if($scope.measurements.length == 0){
-      return false;
-    }else{
-      return true;
-    }
+  $scope.schedule.$loaded().then(function() {
+    console.log($scope.schedule)
+  })
+
+
+  $scope.slideHasChanged = function(pageIndex) {
+    $scope.measurementTab.pageIndex = pageIndex;
+  }
+
+  $scope.transitionToPageIndex = function(pageIndex) {
+    $scope.measurementTab.pageIndex = pageIndex;
+    $ionicSlideBoxDelegate.slide(pageIndex);
   }
 })
 
