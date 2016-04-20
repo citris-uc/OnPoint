@@ -1,11 +1,15 @@
 angular.module('app.controllers')
 
 .controller('commentsCtrl', function($scope, $stateParams, Patient, Comment, Card) {
-  //$scope.user = {first_name: Patient.getFirstName(), last_name: Patient.getLastName()}
-  $scope.user       = Patient.getProfile();
-  $scope.comments   = Comment.getById($stateParams.comment_id);
-  $scope.comment = {};
-  $scope.card       = Card.getById($stateParams.card_id);
+  $scope.user     = Patient.getProfile();
+  $scope.comment  = {};
+  $scope.card     = Card.getById($stateParams.card_id);
+  $scope.comments = Comment.getById($stateParams.comment_id);
+
+  $scope.refreshComments = function() {
+    $scope.comments = Comment.getById($stateParams.comment_id);
+    $scope.$broadcast('scroll.refreshComplete');
+  }
 
   $scope.trackEnterKey = function(event) {
     if (event.charCode === 13)
