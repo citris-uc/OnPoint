@@ -2,29 +2,37 @@ angular.module('app.controllers')
 
 .controller('commentsCtrl', function($scope, $stateParams, Patient, Comment, Card) {
   //$scope.user = {first_name: Patient.getFirstName(), last_name: Patient.getLastName()}
-  $scope.user = Patient.getProfile();
-  $scope.comments  = Comment.getById($stateParams.comment_id);
-  $scope.newComment = {};
+  $scope.user       = Patient.getProfile();
+  $scope.comments   = Comment.getById($stateParams.comment_id);
+  $scope.comment = {};
+  $scope.card       = Card.getById($stateParams.card_id);
 
-  $scope.card = Card.getById($stateParams.card_id)
-  //console.log($stateParams)
+  $scope.trackEnterKey = function(event) {
+    if (event.charCode === 13)
+      $scope.reply()
+  }
+
+  $scope.belongsToPatient = function(comment) {
+    return (comment.user === $scope.user.first_name + " " + $scope.user.last_name)
+  }
 
   $scope.reply = function(){
     var name = $scope.user.first_name + " " + $scope.user.last_name
     var today = new Date().toISOString()
-    if(typeof($scope.card.comment_id)==='undefined') { //no comments have been made to this card yet.
+    if(!$scope.card.comment_id) { //no comments have been made to this card yet.
       //TODO: replace this with uid, for now just add a name for easy to display
       //TODO: will add other types of uses in future and then will lookup name by uid
-      var comment_key = Comment.create($stateParams.card_id, name, $scope.newComment.content, today);
+      var comment_key = Comment.create($stateParams.card_id, name, $scope.comment.content, today);
       $scope.comments = Comment.getById(comment_key)
     }
     else {
-      var newMessage =  {user:name, message: $scope.newComment.content, timestamp: today}
+      var newMessage =  {user: name, message: $scope.comment.content, timestamp: today}
       $scope.comments.$add(newMessage)
       $scope.card.num_comments++
       $scope.card.$save() //update firebase
     }
-    $scope.newComment.content = "";
+
+    $scope.comment.content = "";
   }
 
 })
