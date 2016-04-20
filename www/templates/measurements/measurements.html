@@ -1,9 +1,9 @@
   <!-- Measurements CSS File-->
   <link type="text/css" rel="stylesheet" href="css/measurementStyle.css"/>
   <ion-view title="Measurements"> <!-- header title -->
-    <ion-nav-buttons side="right">
+    <!-- <ion-nav-buttons side="right">
         <button class="button icon-right ion-ios-plus-empty button-clear button-positive" ui-sref="tabsController.measurementAdd({schedule_id: schedule[0].$id})"></button>
-    </ion-nav-buttons>
+    </ion-nav-buttons> -->
 
     <div class="bar bar-subheader item-input-inset" style="justify-content: center;">
       <div class="col-50 button-bar bar-light">
@@ -26,7 +26,7 @@
             <ion-list>
               <span ng-repeat = "s in schedule">
                 <a class="item item-divider item-icon-right" >
-                  {{s.name}} 
+                  {{s.name}}
                 </a>
                 <ion-item ng-repeat="m in s.measurements">
                   {{m}}
