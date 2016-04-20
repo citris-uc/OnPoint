@@ -51,25 +51,6 @@ angular.module('app.controllers')
     tomorrowDate.setDate(tomorrowDate.getDate()+1);
     var tomorrow = tomorrowDate.toISOString().substring(0,10);
     Card.generateCardsFor(tomorrow);
-
-
-    // var tomorrowsCardReq = Card.ref().child(tomorrow).once("value", function (snap) { //only do this once per day
-    //   if (!snap.exists()) {
-    //     MedicationSchedule.createTomorrowsCards();
-    //     MeasurementSchedule.createTomorrowsCards();
-    //     //TODO: need to do apointments  and goals?
-    //   } else {
-    //     // Check to make sure each has been generated
-    //     var measExists = false;
-    //     var medsExists = false;
-    //     snap.forEach(function(childSnap) {
-    //       if (childSnap.val().object_type == CARD.CATEGORY.MEASUREMENTS_SCHEDULE) measExists = true;
-    //       if (childSnap.val().object_type == CARD.CATEGORY.MEDICATIONS_SCHEDULE) medsExists = true;
-    //     });
-    //     if (!measExists) MeasurementSchedule.createTomorrowsCards();
-    //     if (!medsExists) MedicationSchedule.createTomorrowsCards();
-    //   }
-    // }) //end todaysCard Req
   });
 
 
