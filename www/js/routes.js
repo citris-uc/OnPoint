@@ -37,6 +37,26 @@ angular.module('app.routes', [])
     }
   })
 
+  .state('tabsController.medicationCardAction', {
+    url: '/timeline/medication-card-action/:schedule_id',
+    views: {
+      'timeline-tab': {
+        templateUrl: 'templates/medications/schedule.html',
+        controller: 'medicationScheduleCtrl'
+      }
+    }
+  })
+
+  .state('tabsController.medicationAction', {
+    url: '/timeline/medication-card-action/:schedule_id/medication-action/:medicationName',
+    views: {
+      'timeline-tab': {
+        templateUrl: 'templates/medications/show.html',
+        controller: 'medicationCtrl'
+      }
+    }
+  })
+
   .state('tabsController.measurementAction', {
     url: '/timeline/measurement-action/:schedule_id',
     views: {
@@ -68,6 +88,7 @@ angular.module('app.routes', [])
     }
   })
 
+  //TODO: update medications tab to have segmented views
   .state('tabsController.medications', {
     url: '/medications',
     views: {
@@ -88,25 +109,7 @@ angular.module('app.routes', [])
     }
   })
 
-  .state('tabsController.medication', {
-    url: '/medications/:schedule_id/:medicationName',
-    views: {
-      'medications-tab': {
-        templateUrl: 'templates/medications/show.html',
-        controller: 'medicationCtrl'
-      }
-    }
-  })
 
-  .state('tabsController.medicationAction', {
-    url: '/timeline/medication-action/:schedule_id',
-    views: {
-      'timeline-tab': {
-        templateUrl: 'templates/medications/schedule.html',
-        controller: 'medicationScheduleCtrl'
-      }
-    }
-  })
 
   .state('tabsController.measurements', {
     url: '/measurements',
