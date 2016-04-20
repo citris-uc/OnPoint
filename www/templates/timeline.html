@@ -29,6 +29,42 @@
       <h4 class="text-center">Current Cards</h4>
     </div>
 
+    <div class="row" style="justify-content: center;">
+      <div class="col col-75">
+
+        <div class="list card">
+
+          <div class="item item-icon-left">
+            <i class="icon ion-arrow-graph-up-right"></i>
+            <h2>Measurements</h2>
+            <p>09:00AM, April 21</p>
+
+            <span class="badge badge-energized">In progress</span>
+          </div>
+
+          <div class="item item-body">
+            Your weigh in is at 09:00 AM
+          </div>
+
+          <div class="row">
+            <div class="col">
+              <a class="item item-icon-left" href="#">
+                <i class="icon ion-ios-eye"></i>
+                View card
+              </a>
+            </div>
+            <div class="col">
+              <a class="item item-icon-left" href="#">
+                <i class="icon ion-ios-chatbubble-outline"></i>
+                5 Comments
+              </a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
     <!-- Create Current Cards -->
     <div class="card" ng-repeat="c in cards | orderBy: 'shown_at' | filter: {archived_at: '!'}" on-swipe-right="swipeCard(c)" on-swipe-left="swipeCard(c)">
       <!-- Card Title -->

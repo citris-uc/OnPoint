@@ -24,9 +24,7 @@
 .card-section hr {
 	margin: 0 auto;
 	margin-top: 10px;
-	width:50%;
-	height:0;
-	font-size:0;
+	width: 75%;
 }
 .card-section.current h4 {
 	color: #28a54c;
