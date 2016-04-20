@@ -51,7 +51,7 @@ angular.module('app.controllers')
   }
 })
 
-.controller("medicationScheduleCtrl", function($scope, $stateParams, Medication, MedicationSchedule, MedicationDosage, MedicationHistory) {
+.controller("medicationScheduleCtrl", function($scope, $state, $stateParams, Medication, MedicationSchedule, MedicationDosage, MedicationHistory) {
   $scope.schedule = MedicationSchedule.findByID($stateParams.schedule_id);
   $scope.medicationHistory  = MedicationHistory.getTodaysHistory();
   $scope.medications        = Medication.get();
@@ -105,9 +105,15 @@ angular.module('app.controllers')
   $scope.takeAll = function(){
     for(var i = 0; i < $scope.schedule.medications.length; i++){
       if(this.didTakeMed($scope.schedule.medications[i]) == false){
-          MedicationHistory.takeByName($scope.schedule.$id, $scope.schedule.medications[i]);
+        var req = Medication.getByTradeName($scope.schedule.medications[i])
+        req.then(function(snapshot) {
+          $scope.medication = snapshot.val()
+          $scope.medication["id"] =  snapshot.key()
+           var req = MedicationHistory.create_or_update($scope.medication, $scope.schedule, "take");
+        })
       }
     }
+    $state.go("tabsController.medications")
   }
 })
 
