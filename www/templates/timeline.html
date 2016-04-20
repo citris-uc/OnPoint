@@ -47,19 +47,30 @@
               <div class="item item-body">
                 <!-- Your weigh in is at 09:00 AM -->
                 {{description(c)}}
-              </div>
 
-              <div class="row">
-                <div class="col">
-                  <a class="item item-icon-left" ng-click="openPage(c, c.object_type, $index)">
+                <!-- <p style="font-size:18px;">
+                  <a ng-click="openPage(c, c.object_type, $index)">
                     <i class="icon ion-ios-eye"></i>
                     View card
                   </a>
-                </div>
-                <div class="col">
-                  <a class="item item-icon-left" ui-sref="tabsController.comments({card_id:c.$id, comment_id: c.comment_id})">
+                  <a class="subdued" ui-sref="tabsController.comments({card_id:c.$id, comment_id: c.comment_id})">
                     <i class="icon ion-ios-chatbubble-outline"></i>
                     {{c.num_comments}} Comments
+                  </a>
+                </p> -->
+              </div>
+
+              <div class="row">
+                <div class="col responsive-col-sm-25">
+                  <a class="item item-icon-left" ng-click="openPage(c, c.object_type, $index)">
+                    <i class="icon ion-ios-eye"></i>
+                    View
+                  </a>
+                </div>
+                <div class="col responsive-col-sm-25">
+                  <a class="item item-icon-left" ui-sref="tabsController.comments({card_id:c.$id, comment_id: c.comment_id})">
+                    <i class="icon ion-ios-chatbubble-outline"></i>
+                    {{c.num_comments > 0 ? c.num_comments : 'Comment'}}
                   </a>
                 </div>
               </div>
