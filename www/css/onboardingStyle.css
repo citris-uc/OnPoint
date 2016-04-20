@@ -1,23 +1,23 @@
-.onboarding table {
+ table {
     border-collapse: collapse;
     border: 3px ;
     border-style: solid;
     background-color:#CCC;
 }
 
-.onboarding th {
+ th {
     border-collapse: collapse;
     border: 2px ;
     border-style: solid;
 }
 
-.onboarding td {
+ td {
     border-collapse: collapse;
     border: 2px ;
     border-style: solid;
 }
 
-.onboarding .center {
+ .center {
    margin: auto;
    width: 80%;
    text-align: center;

@@ -37,6 +37,26 @@ angular.module('app.routes', [])
     }
   })
 
+  .state('tabsController.medicationCardAction', {
+    url: '/timeline/medication-card-action/:schedule_id',
+    views: {
+      'timeline-tab': {
+        templateUrl: 'templates/medications/schedule.html',
+        controller: 'medicationScheduleCtrl'
+      }
+    }
+  })
+
+  .state('tabsController.medicationAction', {
+    url: '/timeline/medication-card-action/:schedule_id/medication-action/:medicationName',
+    views: {
+      'timeline-tab': {
+        templateUrl: 'templates/medications/show.html',
+        controller: 'medicationCtrl'
+      }
+    }
+  })
+
   .state('tabsController.measurementAction', {
     url: '/timeline/measurement-action/:schedule_id',
     views: {
@@ -68,6 +88,7 @@ angular.module('app.routes', [])
     }
   })
 
+  //TODO: update medications tab to have segmented views
   .state('tabsController.medications', {
     url: '/medications',
     views: {
@@ -89,7 +110,7 @@ angular.module('app.routes', [])
   })
 
   .state('tabsController.medication', {
-    url: '/medications/:schedule_id/:medicationName',
+    url: '/medications/schedule/:schedule_id/medication/:medicationName',
     views: {
       'medications-tab': {
         templateUrl: 'templates/medications/show.html',
@@ -98,15 +119,6 @@ angular.module('app.routes', [])
     }
   })
 
-  .state('tabsController.medicationAction', {
-    url: '/timeline/medication-action/:schedule_id',
-    views: {
-      'timeline-tab': {
-        templateUrl: 'templates/medications/schedule.html',
-        controller: 'medicationScheduleCtrl'
-      }
-    }
-  })
 
   .state('tabsController.measurements', {
     url: '/measurements',
@@ -118,25 +130,26 @@ angular.module('app.routes', [])
     }
   })
 
-  .state('tabsController.measurementAdd', {
-    url: '/measurement-add/:schedule_id',
-    views: {
-      'measurements-tab': {
-        templateUrl: 'templates/measurements/measurements-add.html',
-        controller: 'addMeasurementsCtrl'
-      }
-    }
-  })
-
-  .state('tabsController.measurementTips', {
-    url: '/measurement-tips',
-    views: {
-      'measurements-tab': {
-        templateUrl: 'templates/measurements/measurementTips.html',
-        controller: 'measurementTipsCtrl'
-      }
-    }
-  })
+  // DEPRECIATED: Making measurements tab a segmenetd control
+  // .state('tabsController.measurementAdd', {
+  //   url: '/measurement-add/:schedule_id',
+  //   views: {
+  //     'measurements-tab': {
+  //       templateUrl: 'templates/measurements/measurements-add.html',
+  //       controller: 'addMeasurementsCtrl'
+  //     }
+  //   }
+  // })
+  //
+  // .state('tabsController.measurementTips', {
+  //   url: '/measurement-tips',
+  //   views: {
+  //     'measurements-tab': {
+  //       templateUrl: 'templates/measurements/measurementTips.html',
+  //       controller: 'measurementTipsCtrl'
+  //     }
+  //   }
+  // })
 
   .state('tabsController.appointments', {
     url: '/appointments',

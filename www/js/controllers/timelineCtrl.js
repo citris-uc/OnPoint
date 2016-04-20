@@ -56,6 +56,16 @@ angular.module('app.controllers')
         MedicationSchedule.createTodaysCards();
         MeasurementSchedule.createTodaysCards();
         //TODO: need to do apointments  and goals?
+      } else {
+        // Check to make sure each has been generated
+        var measExists = false;
+        var medsExists = false;
+        snap.forEach(function(childSnap) {
+          if (childSnap.objectType == CARD.CATEGORY.MEASUREMENTS_SCHEDULE) measExists = true;
+          if (childSnap.objectType == CARD.CATEGORY.MEDICATIONS_SCHEDULE) medsExists = true;
+        });
+        if (!measExists) MeasurementSchedule.createTodaysCards();
+        if (!medsExists) MedicationSchedule.createTodaysCards();
       }
     }) //end todaysCard Req
 
@@ -67,6 +77,16 @@ angular.module('app.controllers')
         MedicationSchedule.createTomorrowsCards();
         MeasurementSchedule.createTomorrowsCards();
         //TODO: need to do apointments  and goals?
+      } else {
+        // Check to make sure each has been generated
+        var measExists = false;
+        var medsExists = false;
+        snap.forEach(function(childSnap) {
+          if (childSnap.objectType == CARD.CATEGORY.MEASUREMENTS_SCHEDULE) measExists = true;
+          if (childSnap.objectType == CARD.CATEGORY.MEDICATIONS_SCHEDULE) medsExists = true;
+        });
+        if (!measExists) MeasurementSchedule.createTomorrowsCards();
+        if (!medsExists) MedicationSchedule.createTomorrowsCards();
       }
     }) //end todaysCard Req
   });
@@ -388,7 +408,7 @@ angular.module('app.controllers')
         // Get schedule associated with card
         //var schedule = $scope.medSchedule[index]
         // action = {tab: 'tabsController.medicationsSchedule', params: {schedule_id: schedule.$id}};
-         action = {tab: 'tabsController.medicationAction', params: {schedule_id: schedule.$id}};
+         action = {tab: 'tabsController.medicationCardAction', params: {schedule_id: schedule.$id}};
         return $state.go(action.tab, action.params);
       case CARD.CATEGORY.MEASUREMENTS_SCHEDULE:
         var schedule = $scope.findMeasurementScheduleForCard(card)
