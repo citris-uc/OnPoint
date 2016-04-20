@@ -5,7 +5,6 @@ angular.module('app.controllers')
 
   $scope.changeTimeline = function(pageIndex) {
     $scope.timeline.pageIndex = pageIndex;
-    $scope.loadCards()
   }
 
   $scope.transitionToPageIndex = function(pageIndex) {
@@ -32,7 +31,10 @@ angular.module('app.controllers')
   // to understand why we're doing everything in a beforeEnter event. Essentially,
   // we avoid stale data.
   $scope.$on('$ionicView.enter', function(){
+    // We load cards and history in one cycle. Any changes will be reflected
+    // thanks to Firebase's 3-way data binding.
     $scope.loadCards();
+    $scope.history = Card.getHistory();
     $scope.CARD = CARD;
     $scope.medSchedule = MedicationSchedule.get()
     $scope.medHistory  = MedicationHistory.getTodaysHistory()
@@ -41,54 +43,13 @@ angular.module('app.controllers')
     $scope.numComments = new Array($scope.cards.length)
     $scope.measurementSchedule = MeasurementSchedule.get();
     $scope.measHistory = Measurement.getTodaysHistory(); // Measurement History
-
-    // TODO: Remove this inefficiency by moving the update/complete logic to the
-    // appropriate factory.
-    for(var i = 0; i < $scope.cards.length; i++) {
-      var card = $scope.cards[i];
-      Card.checkCardUpdate(card);
-      Card.checkCardComplete(card);
-    }
-
-    var today = (new Date()).toISOString().substring(0,10)
-    var todaysCardReq = Card.ref().child(today).once("value", function (snap) { //only do this once per day
-      if (!snap.exists()) {
-        MedicationSchedule.createTodaysCards();
-        MeasurementSchedule.createTodaysCards();
-        //TODO: need to do apointments  and goals?
-      } else {
-        // Check to make sure each has been generated
-        var measExists = false;
-        var medsExists = false;
-        snap.forEach(function(childSnap) {
-          if (childSnap.val().object_type == CARD.CATEGORY.MEASUREMENTS_SCHEDULE) measExists = true;
-          if (childSnap.val().object_type == CARD.CATEGORY.MEDICATIONS_SCHEDULE) medsExists = true;
-        });
-        if (!measExists) MeasurementSchedule.createTodaysCards();
-        if (!medsExists) MedicationSchedule.createTodaysCards();
-      }
-    }) //end todaysCard Req
+    var today = (new Date()).toISOString().substring(0,10);
+    Card.generateCardsFor(today);
 
     var tomorrowDate = new Date();
     tomorrowDate.setDate(tomorrowDate.getDate()+1);
     var tomorrow = tomorrowDate.toISOString().substring(0,10);
-    var tomorrowsCardReq = Card.ref().child(tomorrow).once("value", function (snap) { //only do this once per day
-      if (!snap.exists()) {
-        MedicationSchedule.createTomorrowsCards();
-        MeasurementSchedule.createTomorrowsCards();
-        //TODO: need to do apointments  and goals?
-      } else {
-        // Check to make sure each has been generated
-        var measExists = false;
-        var medsExists = false;
-        snap.forEach(function(childSnap) {
-          if (childSnap.val().object_type == CARD.CATEGORY.MEASUREMENTS_SCHEDULE) measExists = true;
-          if (childSnap.val().object_type == CARD.CATEGORY.MEDICATIONS_SCHEDULE) medsExists = true;
-        });
-        if (!measExists) MeasurementSchedule.createTomorrowsCards();
-        if (!medsExists) MedicationSchedule.createTomorrowsCards();
-      }
-    }) //end todaysCard Req
+    Card.generateCardsFor(tomorrow);
   });
 
 
