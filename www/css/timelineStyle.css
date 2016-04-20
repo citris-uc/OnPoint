@@ -31,3 +31,9 @@
 .card-section.upcoming hr {
   border: 1px solid #e6b500;
 }
+.card-section.history h4 {
+	color: #387ef5;
+}
+.card-section.history hr {
+  border: 1px solid #387ef5;
+}
