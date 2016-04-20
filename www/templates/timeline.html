@@ -49,13 +49,13 @@
               </div>
 
               <div class="row">
-                <div class="col responsive-col-sm-25">
+                <div class="col responsive-col-md-25">
                   <a class="item item-icon-left" ng-click="openPage(c, c.object_type, $index)">
                     <i class="icon ion-ios-eye"></i>
                     View
                   </a>
                 </div>
-                <div class="col responsive-col-sm-25">
+                <div class="col responsive-col-md-25">
                   <a class="item item-icon-left" ui-sref="tabsController.comments({card_id:c.$id, comment_id: c.comment_id})">
                     <i class="icon ion-ios-chatbubble-outline"></i>
                     {{c.num_comments > 0 ? c.num_comments : 'Comment'}}
