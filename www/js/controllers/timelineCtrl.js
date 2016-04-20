@@ -279,7 +279,13 @@ angular.module('app.controllers')
         action = {tab: 'tabsController.medicationsSchedule', params: {schedule_id: schedule.$id}};
         return $state.go(action.tab, action.params);
       case CARD.CATEGORY.MEASUREMENTS_SCHEDULE:
-        action = {tab: 'tabsController.measurementAdd', params: {}}
+        var schedule;
+        for(var i = 0; i < $scope.measurementSchedule.length; i++) {
+          if($scope.measurementSchedule[i].$id == card.object_id) {
+            schedule = $scope.measurementSchedule[i];
+          }
+        }
+        action = {tab: 'tabsController.measurementAction', params: {schedule_id: schedule.$id}}
         return $state.go(action.tab, action.params);
       case CARD.CATEGORY.APPOINTMENTS_SCHEDULE :
         action = {tab: 'tabsController.appointments', params: {}}
@@ -302,26 +308,6 @@ angular.module('app.controllers')
       return true;
     return false;
   }
-
-  //TODO: Move creating ALL cards to '$ionicView.enter'
-  // $scope.generateCardsForToday = function() {
-  //  var measurementSchedule = MeasurementSchedule.get()
-  //  measurementSchedule.$loaded().then( function(ref) {
-  //    for(var i = 0; i < measurementSchedule.length; i++) {
-  //      schedule = measurementSchedule[i];
-  //
-  //      if (schedule.days.includes($scope.today.getDay())) {
-  //        var showAt = (new Date()).setHours(schedule.hour, schedule.minute);
-  //        showAt     = (new Date(showAt)).toISOString();
-  //
-  //        var cardObject = {type: CARD.TYPE.ACTION, shown_at: showAt};
-  //        Card.find_or_create_by_object({id: schedule.$id, type: CARD.CATEGORY.MEASUREMENTS_SCHEDULE}, cardObject);
-  //      }
-  //
-  //      $scope.cards = Card.get();
-  //    }
-  //  });
-  // }
 
 
   $scope.swipeCard = function(card) {
