@@ -98,7 +98,7 @@ angular.module('app.controllers')
     return 'black';
   };
   $scope.disableDone = function() {
-    if ($scope.newMeasurement.weight!=null || $scope.newMeasurement.heartRate!=null || $scope.newMeasurement.systolic!=null || $scope.newMeasurement.diastolic!=null)
+    if(Object.keys($scope.newMeasurement).length > 0) 
       return false;
     else
       return true;
