@@ -85,8 +85,7 @@ angular.module('app.controllers')
     console.log($scope.schedule)
   })
   $scope.addMeasurement = function() {
-    Measurement.add($scope.newMeasurement, $stateParams.schedule_id);
-    //$ionicHistory.goBack(); // go back to wherever we came from, could be timeline could be measurements tab
+    Measurement.add($scope.newMeasurement, $scope.schedule);
     if($ionicHistory.backView()==null)
       $state.go('tabsController.timeline') //by default go to timeline
     else

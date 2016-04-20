@@ -25,25 +25,40 @@ angular.module('app.services')
         return true;
     },
 
-    add: function(measurement, schedule_id) {
-      console.log(schedule_id)
+    add: function(measurement, schedule) {
       var today = ((new Date()).toISOString()).substring(0,10)
       var ref = this.ref().child(today);
       var time_now = (new Date()).toTimeString();
 
-      var instance = {
-        weight: measurement.weight,
-        systolic: measurement.systolic,
-        diastolic: measurement.diastolic,
-        heart_rate: measurement.heartRate,
-        taken_at: time_now,
-        measurement_schedule_id: schedule_id
-      }
+      var instance = measurement;
+      instance.taken_at = time_now;
+      instance.measurement_schedule_id = schedule.$id
 
         //Add new measurement to firebase
         var req = ref.once('value', function(snapshot) {
+          if(snapshot.exists()) { //this date child exists
+            snapshot.forEach(function(data) { //find it
+              var hist = data.val();
+              if (hist.measurement_schedule_id ==  schedule.$id) {
+                //found it, need to update it!
+                console.log("updating");
+                updated = true;
+                var measurementsRef = data.ref();
+                measurementsRef.update(instance);
+              }
+            });
+            if(!updated) {
+                console.log("pushing 1")
+                //need to push a new one.
+                var measurementsRef = snapshot.ref();
+                measurementsRef.push(instance);
+            }
+          } else { //this date child does not exist, push it!
+            console.log("pushing 2")
             var measurementsRef = snapshot.ref();
             measurementsRef.push(instance);
+          }
+
         })
         return req;
 
