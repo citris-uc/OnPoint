@@ -7,9 +7,9 @@
 
     <div class="bar bar-subheader item-input-inset" style="justify-content: center;">
       <div class="col-50 button-bar bar-light">
-        <a class="button button-small button-positive">Schedule</a>
-        <a class="button button-small">History</a>
-        <a class="button button-small">Add</a>
+        <a class="button button-small" ng-click="transitionToPageIndex(0)" ng-class="{'button-positive': measurementTab.pageIndex === 0}">Schedule</a>
+        <a class="button button-small" ng-click="transitionToPageIndex(1)" ng-class="{'button-positive': measurementTab.pageIndex === 1}">History</a>
+        <a class="button button-small" ng-click="transitionToPageIndex(2)" ng-class="{'button-positive': measurementTab.pageIndex === 2}">Add</a>
       </div>
     </div>
 
@@ -19,13 +19,13 @@
     <ion-content has-header="true" overflow-scroll="true" scroll="true" padding="true" class="has-header has-subheader">
       <ion-slide-box on-slide-changed="slideHasChanged($index)">
         <ion-slide>
-          <div class="box blue"><h1>BLUE</h1></div>
+          <div class="box blue"><h1>SCHEDULE</h1></div>
         </ion-slide>
         <ion-slide>
-          <div class="box yellow"><h1>YELLOW</h1></div>
+          <div class="box yellow"><h1>HISTORY</h1></div>
         </ion-slide>
         <ion-slide>
-          <div class="box pink"><h1>PINK</h1></div>
+          <div class="box pink"><h1>ADD</h1></div>
         </ion-slide>
       </ion-slide-box>
 
