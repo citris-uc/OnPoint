@@ -72,7 +72,7 @@ angular.module('app.routes', [])
     url: '/medications',
     views: {
       'medications-tab': {
-        templateUrl: 'templates/medications.html',
+        templateUrl: 'templates/medications/medications.html',
         controller: 'medicationsCtrl'
       }
     }
@@ -94,6 +94,16 @@ angular.module('app.routes', [])
       'medications-tab': {
         templateUrl: 'templates/medications/show.html',
         controller: 'medicationCtrl'
+      }
+    }
+  })
+
+  .state('tabsController.medicationAction', {
+    url: '/timeline/medication-action/:schedule_id',
+    views: {
+      'timeline-tab': {
+        templateUrl: 'templates/medications/schedule.html',
+        controller: 'medicationScheduleCtrl'
       }
     }
   })

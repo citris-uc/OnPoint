@@ -75,6 +75,13 @@ angular.module('app.controllers')
 .controller('measurementsCtrl', function($scope, Measurement, MeasurementSchedule) {
   $scope.measurements = Measurement.get();
   $scope.schedule = MeasurementSchedule.get();
+  $scope.hasMeasurement = function(){
+    if($scope.measurements.length == 0){
+      return false;
+    }else{
+      return true;
+    }
+  }
 })
 
 .controller('addMeasurementsCtrl', function($scope, $state, $stateParams, Measurement, MeasurementSchedule, $ionicPopup, $ionicHistory) {

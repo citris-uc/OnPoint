@@ -15,6 +15,19 @@
 	background-color: #B6B6B4;
 }
 
-.timeline .background{
-	background-color: #E5E4E2; //#f8f8f8;
+
+.card-section {
+  margin-top: 40px;
+}
+.card-section.current h4 {
+	color: #28a54c;
+}
+.card-section.current hr {
+  border: 1px solid #28a54c;
+}
+.card-section.upcoming h4 {
+	color: #e6b500;
+}
+.card-section.upcoming hr {
+  border: 1px solid #e6b500;
 }
