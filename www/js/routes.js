@@ -51,7 +51,7 @@ angular.module('app.routes', [])
     url: '/medications',
     views: {
       'medications-tab': {
-        templateUrl: 'templates/medications.html',
+        templateUrl: 'templates/medications/medications.html',
         controller: 'medicationsCtrl'
       }
     }
