@@ -129,7 +129,10 @@ angular.module('app.controllers')
     }
   }
 
-  $scope.getCardStatus = function(card) {
+  $scope.getCardStatus = function(card, index) {
+    if (index == 1) {
+      return "futureCard";
+    }
     this.checkCardComplete(card);
     // Return cardClass: urgent/active/completed
     if (card.completed_at == null) {
@@ -164,7 +167,7 @@ angular.module('app.controllers')
    * @param index: this is the medication_schedule ID essentailly
    * TODO: fix medication_schedule ID to be actually ID in firebase, probbaly need to to do when we push med SCheudle to firebase during onboarding
    */
-  $scope.getBody = function(card, type) {
+  $scope.getBody = function(card, type, index) {
     switch(type) {
       case CARD.CATEGORY.MEDICATIONS_SCHEDULE :
         var schedule;
@@ -190,25 +193,26 @@ angular.module('app.controllers')
             if ($scope.medications[i].trade_name == medication) {
               med = $scope.medications[i]
               med.id = $scope.medications[i].$id;
+              if (index == 1) takeMeds.push(med);
             }
           }
-
-          var exists = false;
-          for(var i = 0; i < $scope.medHistory.length; i++) {
-            var hist = $scope.medHistory[i];
-            if (hist.medication_id==med.id && hist.medication_schedule_id==schedule.$id) {
-              exists = true;
-              if(hist.taken_at != null)
-                completedMeds.push(med);
-              else if (hist.skipped_at != null)
-                skippedMeds.push(med);
-              else {
-                takeMeds.push(med);
+          if (index == 0) {
+            var exists = false;
+            for(var i = 0; i < $scope.medHistory.length; i++) {
+              var hist = $scope.medHistory[i];
+              if (hist.medication_id==med.id && hist.medication_schedule_id==schedule.$id) {
+                exists = true;
+                if(hist.taken_at != null)
+                  completedMeds.push(med);
+                else if (hist.skipped_at != null)
+                  skippedMeds.push(med);
+                else {
+                  takeMeds.push(med);
+                }
               }
             }
+            if (!exists) takeMeds.push(med);
           }
-          if (!exists) takeMeds.push(med);
-
           // var history = MedicationHistory.findByMedicationIdAndScheduleId(med.id, schedule.id);
           // if (history == null)
           //   takeMeds.push(med);
@@ -275,6 +279,7 @@ angular.module('app.controllers')
    * TODO: fix other categories
    */
   $scope.openPage = function(card, type, index){
+    if (index == 1) return;
     switch(type) {
       case CARD.CATEGORY.MEDICATIONS_SCHEDULE :
         var schedule;

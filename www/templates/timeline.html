@@ -32,20 +32,20 @@
 
       <div class="card" ng-repeat="c in dayCards | orderBy: 'shown_at' | filter: {archived_at: '!'}" on-swipe-right="swipeCard(c)" on-swipe-left="swipeCard(c)">
         <!-- Card Title -->
-        <div ng-class="['item', getCardStatus(c)]">
+        <div ng-class="['item', getCardStatus(c, $parent.$index)]">
           <a>{{c.type == CARD.TYPE.ACTION ? 'Take ': c.type == CARD.TYPE.URGENT ? 'TODO: ': ''}}{{formatTitle(c.object_type)}}{{c.type == CARD.TYPE.REMINDER ? ' Reminder':''}}</a>
           <a style="float:right">{{getTime(c.shown_at) | date: 'M/d h:mm a'}}</a>
         </div>
 
         <!-- Card Body -->
         <div class="item item-text-wrap" >
-          <div ng-repeat="line in getBody(c, c.object_type) track by $index">{{line}}</div>
+          <div ng-repeat="line in getBody(c, c.object_type, $parent.$index) track by $index">{{line}}</div>
         </div>
 
         <!-- Card Buttons -->
         <div class="button-bar">
           <a class="button button-small button-clear icon ion-ios-chatboxes-outline buttonText" ui-sref="tabsController.comments({card_id:c.$id, comment_id: c.comment_id})"> Comments  ({{c.num_comments}})</a>
-          <a class="button button-small button-clear buttonText" ng-click="openPage(c, c.object_type, $index)" style="border-left: 1px solid #C0C0C0;">Go to {{formatTitle(c.object_type)}}</a>
+          <a class="button button-small button-clear buttonText" ng-click="openPage(c, c.object_type, $parent.$index)" style="border-left: 1px solid #C0C0C0;">Go to {{formatTitle(c.object_type)}}</a>
         </div>
       </div>
     </div>
