@@ -11,16 +11,27 @@ angular.module('app.controllers')
     $ionicSlideBoxDelegate.slide(pageIndex);
   }
 
+  // This loads cards depending on the page we're currently on. For instance,
+  // if we're on Today view, then we'll load cards for today/tomorrow. On the
+  // History view, we'll load all cards.
+  $scope.loadCards = function() {
+    if ($scope.timeline.pageIndex === 0) {
+      $scope.cards = Card.getByDay(new Date());
+      var manana = new Date();
+      manana.setDate(manana.getDate() + 1);
+      $scope.tomorrowCards = Card.getByDay(manana);
+    } else {
+      console.log("TODO")
+    }
+    $scope.$broadcast('scroll.refreshComplete');
+  }
+
   // See
   // http://www.gajotres.net/understanding-ionic-view-lifecycle/
   // to understand why we're doing everything in a beforeEnter event. Essentially,
   // we avoid stale data.
   $scope.$on('$ionicView.enter', function(){
-    $scope.cards = Card.getByDay(new Date());
-    var manana = new Date();
-    manana.setDate(manana.getDate() + 1);
-    $scope.tomorrowCards = Card.getByDay(manana);
-
+    $scope.loadCards();
     $scope.CARD = CARD;
     $scope.medSchedule = MedicationSchedule.get()
     $scope.medHistory  = MedicationHistory.getTodaysHistory()
@@ -29,28 +40,6 @@ angular.module('app.controllers')
     $scope.numComments = new Array($scope.cards.length)
     $scope.measurementSchedule = MeasurementSchedule.get();
     $scope.measHistory = Measurement.getTodaysHistory(); // Measurement History
-
-    $scope.findMedicationScheduleForCard = function(card) {
-      var schedule = null;
-
-      for (var i = 0; i < $scope.medSchedule.length; i++) {
-        if ($scope.medSchedule[i].$id == card.object_id) {
-          schedule = $scope.medSchedule[i];
-        }
-      }
-      return schedule;
-    }
-
-    $scope.findMeasurementScheduleForCard = function(card) {
-      var schedule = null;
-
-      for (var i = 0; i < $scope.measurementSchedule.length; i++) {
-        if ($scope.measurementSchedule[i].$id == card.object_id) {
-          schedule = $scope.measurementSchedule[i];
-        }
-      }
-      return schedule;
-    }
 
     // TODO: Remove this inefficiency by moving the update/complete logic to the
     // appropriate factory.
@@ -80,6 +69,30 @@ angular.module('app.controllers')
       }
     }) //end todaysCard Req
   });
+
+
+  $scope.findMedicationScheduleForCard = function(card) {
+    var schedule = null;
+
+    for (var i = 0; i < $scope.medSchedule.length; i++) {
+      if ($scope.medSchedule[i].$id == card.object_id) {
+        schedule = $scope.medSchedule[i];
+      }
+    }
+    return schedule;
+  }
+
+  $scope.findMeasurementScheduleForCard = function(card) {
+    var schedule = null;
+
+    for (var i = 0; i < $scope.measurementSchedule.length; i++) {
+      if ($scope.measurementSchedule[i].$id == card.object_id) {
+        schedule = $scope.measurementSchedule[i];
+      }
+    }
+    return schedule;
+  }
+
 
   $scope.checkCardComplete = function(card) {
     switch(card.object_type) {

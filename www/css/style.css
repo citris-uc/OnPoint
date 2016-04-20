@@ -1,15 +1,13 @@
 /* Empty. Add your own CSS if you like */
-body {
-    background-color: lightgrey;
+.segmented-control {
+  justify-content: center;
 }
-table, th , td  {
-  border: 0px 
-  border-collapse: collapse;
-  padding: 5px;
-}
-table tr	{
-  background-color: #ffffff;
-}
-table tr .hasEvent{
-  background-color: lightblue; 
+/* For all screens larger than an iPhone 6 plus, let's
+make the responsive-col be at most 75% of the viewport. */
+@media (min-width: 768px) {
+  .responsive-col {
+    -webkit-box-flex: 0;
+    flex: 0 0 75%;
+    max-width: 75%;
+  }
 }
