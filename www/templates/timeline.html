@@ -21,12 +21,13 @@
 
 
   <!-- Stuff after here will scroll -->
-  <ion-content overflow-scroll="true" padding="true" class="has-header has-subheader" style="margin-top: 50px;">
+  <ion-content overflow-scroll="true" padding="true" class="has-header has-subheader">
     <ion-refresher pulling-text="Pull to refresh" on-refresh="generateCardsForToday()" pulling-icon="ion-ios-refresh-empty"></ion-refresher>
 
-    <!-- Divider for Current Cards-->
-    <div class="divline">-</div>
-    <center class="divtext">Current Cards</center>
+    <div class="card-section current">
+      <hr></hr>
+      <h4 class="text-center">Current Cards</h4>
+    </div>
 
     <!-- Create Current Cards -->
     <div class="card" ng-repeat="c in cards | orderBy: 'shown_at' | filter: {archived_at: '!'}" on-swipe-right="swipeCard(c)" on-swipe-left="swipeCard(c)">
@@ -49,8 +50,10 @@
     </div>
 
     <!-- Divider for Upcoming Cards-->
-    <div class="divline">-</div>
-    <center class="divtext">Upcoming Cards</center>
+    <div class="card-section upcoming">
+      <hr></hr>
+      <h4 class="text-center">Upcoming Cards</h4>
+    </div>
 
 
 
