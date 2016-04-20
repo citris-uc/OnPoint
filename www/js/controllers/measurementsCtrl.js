@@ -76,8 +76,8 @@ angular.module('app.controllers')
   $scope.measurementTab = {pageIndex: 0}
   $scope.measurements = Measurement.get();
   $scope.schedule = MeasurementSchedule.get();
-  $scope.measurements.$loaded().then(function() {
-    console.log($scope.measurements)
+  $scope.schedule.$loaded().then(function() {
+    console.log($scope.schedule)
   })
 
 
