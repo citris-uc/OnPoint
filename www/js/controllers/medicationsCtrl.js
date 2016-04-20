@@ -115,6 +115,15 @@ angular.module('app.controllers')
     }
     $state.go("tabsController.medications")
   }
+
+  $scope.containMeds = function(){
+    for(var i = 0; i < $scope.schedule.medications.length; i++ ) {
+      if(this.didTakeMed($scope.schedule.medications[i]) == false){
+        return true;
+      }
+    }
+    return false;
+  }
 })
 
 .controller("medicationCtrl", function($scope, $stateParams,$ionicPopup,$ionicHistory, Medication, MedicationSchedule, MedicationDosage, MedicationHistory) {
