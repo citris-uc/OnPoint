@@ -35,40 +35,12 @@ angular.module('app.services')
       instance.taken_at = time_now;
       instance.measurement_schedule_id = schedule.$id
 
-        //Add new measurement to firebase
-        var req = ref.once('value', function(snapshot) {
-            var measurementsRef = snapshot.ref();
-            measurementsRef.push(instance);
-        })
-        return req;
-
-
-      // TODO: Remove this ugliness. We're doing this to reference
-      // the current scope before we enter the `then` scope below.
-      // var that = this;
-      //
-      // var measurements = this.get();
-      // var req = measurements.$add(m);
-
-      // DEPRECIATED
-      // // Once we've persisted the measurement to Firebase, let's create an associated card
-      // // in Firebase.
-      // req.then(function(ref) {
-      //   m.id = ref.key(); // Return the ID to persist it further.
-      //
-      //   // Construct the object and card object.
-      //   var object     = {id: ref.key(), type: CARD.CATEGORY.MEASUREMENTS_SCHEDULE};
-      //   var cardObject = { type: CARD.TYPE.ACTION};
-      //   if (m.weight || (m.systolic && m.diastolic) || m.heartRate)
-      //     cardObject.completed_at = now
-      //   if (that.hasHighBP(m))
-      //     cardProp.type = CARD.TYPE.URGENT
-      //
-      //   // Finally, find or update the corresponding card.
-      //   Card.find_or_create_by_object(object, cardObject);
-      // });
-      //
-      // return m;
+      //Add new measurement to firebase
+      var req = ref.once('value', function(snapshot) {
+          var measurementsRef = snapshot.ref();
+          measurementsRef.push(instance);
+      })
+      return req;
     }
   };
 }] )
