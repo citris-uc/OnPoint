@@ -103,10 +103,9 @@ angular.module('app.controllers')
   }
 
   $scope.takeAll = function(){
-
     for(var i = 0; i < $scope.schedule.medications.length; i++){
       if(this.didTakeMed($scope.schedule.medications[i]) == false){
-          console.log($scope.schedule.medications[i]);
+          MedicationHistory.takeByName($scope.schedule.$id, $scope.schedule.medications[i]);
       }
     }
   }
