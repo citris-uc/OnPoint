@@ -57,7 +57,7 @@ angular.module('app.services')
 
 // This factory is responsible for defining a Medication Schedule
 // that the patient usually adheres to.
-.factory('MedicationSchedule', ["Medication", "Patient","$firebaseObject", "$firebaseArray", "CARD", "Card", function(Medication, Patient, $firebaseObject,$firebaseArray, CARD, Card) {
+.factory('MedicationSchedule', ["Medication", "Patient","$firebaseObject", "$firebaseArray", function(Medication, Patient, $firebaseObject,$firebaseArray) {
   /*
    * This is default schedule for testing purposes
    * TODO: (much later) delete this.
@@ -145,62 +145,7 @@ angular.module('app.services')
         days: daysArray,
       };
       ref.$add(instanceFB);
-    },
-
-    createTodaysCards: function(timestamp) {
-      var req = this.ref().child("default").once("value", function(snap) {
-        var now  = (new Date()).toISOString();
-        var date = now.substring(0,10) //Only get the date: YYYY-MM-DD
-        snap.forEach(function(childSnap) {
-          schedule = childSnap.val();
-          var show = new Date()
-          //TODO: update these to be minutes from midnight.
-          show.setHours(parseInt(schedule.time.substring(0,2)));
-          show.setMinutes(parseInt(schedule.time.substring(3,5)));
-          var card = {type: CARD.TYPE.ACTION,
-                            created_at: now,
-                            updated_at: now,
-                            completed_at: null,
-                            archived_at: null,
-                            shown_at: show.toISOString(),
-                            num_comments: 0,
-                            object_type: CARD.CATEGORY.MEDICATIONS_SCHEDULE,
-                            object_id: childSnap.key() // setting the ID to the firebase reference key!
-                          }
-          Card.create(date, card);
-        })
-
-      })
-    },
-
-    createTomorrowsCards: function(timestamp) {
-      var req = this.ref().child("default").once("value", function(snap) {
-        var now = new Date();
-        var tomorrow = new Date();
-        tomorrow.setDate(tomorrow.getDate() + 1);
-        var date = tomorrow.toISOString().substring(0,10) //Only get the date: YYYY-MM-DD
-        snap.forEach(function(childSnap) {
-          schedule = childSnap.val();
-          var show = new Date();
-          show.setDate(show.getDate()+1);
-          //TODO: update these to be minutes from midnight.
-          show.setHours(parseInt(schedule.time.substring(0,2)));
-          show.setMinutes(parseInt(schedule.time.substring(3,5)));
-          var card = {type: CARD.TYPE.ACTION,
-                            created_at: now.toISOString(),
-                            updated_at: now.toISOString(),
-                            completed_at: null,
-                            archived_at: null,
-                            shown_at: show.toISOString(),
-                            num_comments: 0,
-                            object_type: CARD.CATEGORY.MEDICATIONS_SCHEDULE,
-                            object_id: childSnap.key() // setting the ID to the firebase reference key!
-                          }
-          Card.create(date, card);
-        }) // end snap foreach
-      }) //end req
     }
-
   };
 }])
 
