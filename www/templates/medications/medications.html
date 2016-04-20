@@ -1,3 +1,5 @@
+<link type="text/css" rel="stylesheet" href="css/onboardingStyle.css"/>
+
 <ion-view title="Medications">
 
   <div class="bar bar-subheader item-input-inset segmented-control" style="justify-content: center;">
@@ -46,6 +48,40 @@
           <hr class="responsive-col"></hr>
           <h4 class="text-center">Fill Pillbox</h4>
         </div>
+
+        <!--COPY AND PASTED THIS FRMO fill_main.html -->
+        <table class = "center">
+          <thead>
+              <tr>
+                <th>Slots</th>
+                <th>S</th>
+                <th>M</th>
+                <th>T</th>
+                <th>W</th>
+                <th>T</th>
+                <th>F</th>
+                <th>S</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="s in schedule">
+
+                <td>{{s.slot}}</td>
+                <td ng-repeat="count in getSlots(s, selectedMed) track by $index" >
+                  {{count}}
+                </td>
+              </tr>
+          </tbody>
+        </table>
+        <h3 class = "title" style="text-align: center;">
+          Select Medication to Begin:
+        </h3>
+        <div ng-repeat="med in medications" style="float:left">
+            <button ng-class = "hasCompleted(med)? 'button button-calm' : 'button button-balanced' ", ng-click="displaySchedule(med)" >{{med.trade_name}}</button>
+        </div>
+        <button ui-sref="tabsController.timeline" class="button button-positive  button-block" >Done</button>
+
+
       </ion-slide>
     </ion-slide-box>
 
