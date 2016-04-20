@@ -97,7 +97,7 @@
 
 
       <ion-slide>
-        <div ng-repeat="cards in history">
+        <div ng-repeat="cards in history | orderBy:'-'">
           <div class="card-section history">
             <hr class="responsive-col"></hr>
             <h4 class="text-center">{{cards.$id | date:'MMMM dd, yyyy'}}</h4>
