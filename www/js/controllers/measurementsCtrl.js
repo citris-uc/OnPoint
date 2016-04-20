@@ -80,10 +80,9 @@ angular.module('app.controllers')
 .controller('addMeasurementsCtrl', function($scope, $state, $stateParams, Measurement, MeasurementSchedule, $ionicPopup, $ionicHistory) {
   $scope.newMeasurement = {};
   $scope.schedule = MeasurementSchedule.findByID($stateParams.schedule_id);
+  $scope.measurementHistory = Measurement.getTodaysHistory();
   var bpcolor = 'black'
-  $scope.schedule.$loaded().then(function() {
-    console.log($scope.schedule)
-  })
+
   $scope.addMeasurement = function() {
     Measurement.add($scope.newMeasurement, $scope.schedule);
     if($ionicHistory.backView()==null)
@@ -98,10 +97,29 @@ angular.module('app.controllers')
     return 'black';
   };
   $scope.disableDone = function() {
-    if(Object.keys($scope.newMeasurement).length > 0) 
+    if(Object.keys($scope.newMeasurement).length > 0)
       return false;
     else
       return true;
+  };
+  $scope.didTakeMeasurement = function(measurement_name) {
+    for(var i = 0; i < $scope.measurementHistory.length; i++) {
+      var measurements = $scope.measurementHistory[i].measurements;
+        if(typeof(measurements[measurement_name]) != 'undefined') {
+          return true
+        }
+    }
+    return false
+  };
+
+  $scope.getMeasurementValue = function(measurement_name) {
+    for(var i = 0; i < $scope.measurementHistory.length; i++) {
+      var measurements = $scope.measurementHistory[i].measurements;
+        if(typeof(measurements[measurement_name]) != 'undefined') {
+          return measurements[measurement_name]
+        }
+    }
+    return false
   };
 
   $scope.check = function(measurement_name) {
