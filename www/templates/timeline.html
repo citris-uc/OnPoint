@@ -11,8 +11,8 @@
     </label>
     <button class="button button-small button-clear buttonText" disabled>Save</button>
   </div>
-  <div class="bar bar-subheader item-input-inset" style="justify-content: center;">
-    <div class="col-25 button-bar bar-light">
+  <div class="bar bar-subheader item-input-inset segmented-control">
+    <div class="button-bar bar-light responsive-col">
       <a class="button button-small" ng-click="transitionToPageIndex(0)" ng-class="{'button-positive': timeline.pageIndex === 0}">Today</a>
       <a class="button button-small" ng-click="transitionToPageIndex(1)" ng-class="{'button-positive': timeline.pageIndex === 1}">History</a>
     </div>
@@ -27,13 +27,13 @@
     <ion-slide-box on-slide-changed="changeTimeline($index)" does-continue="false" show-pager="false">
       <ion-slide>
         <div class="card-section current">
-          <hr class="col-75"></hr>
+          <hr class="responsive-col"></hr>
           <h4 class="text-center">Current Cards</h4>
         </div>
 
 
         <div class="row" style="justify-content: center;" ng-repeat="c in cards | orderBy: 'shown_at' | filter: {archived_at: '!'}" on-swipe-right="swipeCard(c)" on-swipe-left="swipeCard(c)">
-          <div class="col col-75">
+          <div class="col responsive-col">
             <div class="list card">
 
               <div class="item item-icon-left">
@@ -71,12 +71,12 @@
 
         <!-- Divider for Upcoming Cards-->
         <div class="card-section upcoming">
-          <hr class="col-75"></hr>
+          <hr class="responsive-col"></hr>
           <h4 class="text-center">Upcoming Cards</h4>
         </div>
 
         <div class="row" style="justify-content: center;" ng-repeat="c in cards | orderBy: 'shown_at' | filter: {archived_at: '!'}" on-swipe-right="swipeCard(c)" on-swipe-left="swipeCard(c)">
-          <div class="col col-75">
+          <div class="col responsive-col">
 
             <div class="list card">
 
@@ -115,12 +115,12 @@
 
       <ion-slide>
         <div class="card-section history">
-          <hr class="col-75"></hr>
+          <hr class="responsive-col"></hr>
           <h4 class="text-center">History</h4>
         </div>
 
         <div class="row" style="justify-content: center;" ng-repeat="c in cards | orderBy: 'shown_at'">
-          <div class="col col-75">
+          <div class="col responsive-col">
             <div class="list card">
               <div class="item item-icon-left">
                 <i class="icon {{iconClass(c)}}"></i>
