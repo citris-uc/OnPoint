@@ -24,92 +24,120 @@
   <ion-content overflow-scroll="true" padding="true" class="has-header has-subheader">
     <ion-refresher pulling-text="Pull to refresh" on-refresh="generateCardsForToday()" pulling-icon="ion-ios-refresh-empty"></ion-refresher>
 
-    <div class="card-section current">
-      <hr class="col-75"></hr>
-      <h4 class="text-center">Current Cards</h4>
-    </div>
+    <ion-slide-box on-slide-changed="changeTimeline($index)" does-continue="false" show-pager="false">
+      <ion-slide>
+        <div class="card-section current">
+          <hr class="col-75"></hr>
+          <h4 class="text-center">Current Cards</h4>
+        </div>
 
-    <div class="row" style="justify-content: center;" ng-repeat="c in cards | orderBy: 'shown_at' | filter: {archived_at: '!'}" on-swipe-right="swipeCard(c)" on-swipe-left="swipeCard(c)">
-      <div class="col col-75">
 
-        <div class="list card">
+        <div class="row" style="justify-content: center;" ng-repeat="c in cards | orderBy: 'shown_at' | filter: {archived_at: '!'}" on-swipe-right="swipeCard(c)" on-swipe-left="swipeCard(c)">
+          <div class="col col-75">
+            <div class="list card">
 
-          <div class="item item-icon-left">
-            <i class="icon {{iconClass(c)}}"></i>
-            <h2>{{formatTitle(c.object_type)}}</h2>
-            <p>{{getTime(c.shown_at) | date: 'EEEE hh:mma, MMMM dd'}}</p>
+              <div class="item item-icon-left">
+                <i class="icon {{iconClass(c)}}"></i>
+                <h2>{{formatTitle(c.object_type)}}</h2>
+                <p>{{getTime(c.shown_at) | date: 'EEEE hh:mma, MMMM dd'}}</p>
 
-            <span class="badge {{statusClass(c)}}">{{statusText(c)}}</span>
-          </div>
+                <span class="badge {{statusClass(c)}}">{{statusText(c)}}</span>
+              </div>
 
-          <div class="item item-body">
-            <!-- Your weigh in is at 09:00 AM -->
-            {{description(c)}}
-          </div>
+              <div class="item item-body">
+                <!-- Your weigh in is at 09:00 AM -->
+                {{description(c)}}
+              </div>
 
-          <div class="row">
-            <div class="col">
-              <a class="item item-icon-left" ng-click="openPage(c, c.object_type, $index)">
-                <i class="icon ion-ios-eye"></i>
-                View card
-              </a>
+              <div class="row">
+                <div class="col">
+                  <a class="item item-icon-left" ng-click="openPage(c, c.object_type, $index)">
+                    <i class="icon ion-ios-eye"></i>
+                    View card
+                  </a>
+                </div>
+                <div class="col">
+                  <a class="item item-icon-left" ui-sref="tabsController.comments({card_id:c.$id, comment_id: c.comment_id})">
+                    <i class="icon ion-ios-chatbubble-outline"></i>
+                    {{c.num_comments}} Comments
+                  </a>
+                </div>
+              </div>
             </div>
-            <div class="col">
-              <a class="item item-icon-left" ui-sref="tabsController.comments({card_id:c.$id, comment_id: c.comment_id})">
-                <i class="icon ion-ios-chatbubble-outline"></i>
-                {{c.num_comments}} Comments
-              </a>
+
+          </div>
+        </div>
+
+
+        <!-- Divider for Upcoming Cards-->
+        <div class="card-section upcoming">
+          <hr class="col-75"></hr>
+          <h4 class="text-center">Upcoming Cards</h4>
+        </div>
+
+        <div class="row" style="justify-content: center;" ng-repeat="c in cards | orderBy: 'shown_at' | filter: {archived_at: '!'}" on-swipe-right="swipeCard(c)" on-swipe-left="swipeCard(c)">
+          <div class="col col-75">
+
+            <div class="list card">
+
+              <div class="item item-icon-left">
+                <i class="icon {{iconClass(c)}}"></i>
+                <h2>{{formatTitle(c.object_type)}}</h2>
+                <p>{{getTime(c.shown_at) | date: 'EEEE hh:mma, MMMM dd'}}</p>
+
+                <!-- <span class="badge {{statusClass(c)}}">{{statusText(c)}}</span> -->
+              </div>
+
+              <div class="item item-body">
+                <!-- Your weigh in is at 09:00 AM -->
+                {{description(c)}}
+              </div>
+
+              <!-- <div class="row">
+                <div class="col">
+                  <a class="item item-icon-left">
+                    <i class="icon ion-ios-eye"></i>
+                    View card
+                  </a>
+                </div>
+                <div class="col">
+                  <a class="item item-icon-left">
+                    <i class="icon ion-ios-chatbubble-outline"></i>
+                    {{c.num_comments}} Comments
+                  </a>
+                </div> -->
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
+      </ion-slide>
 
 
+      <ion-slide>
+        <div class="card-section history">
+          <hr class="col-75"></hr>
+          <h4 class="text-center">History</h4>
+        </div>
 
+        <div class="row" style="justify-content: center;" ng-repeat="c in cards | orderBy: 'shown_at'">
+          <div class="col col-75">
+            <div class="list card">
+              <div class="item item-icon-left">
+                <i class="icon {{iconClass(c)}}"></i>
+                <h2>{{formatTitle(c.object_type)}}</h2>
+                <p>{{getTime(c.shown_at) | date: 'EEEE hh:mma, MMMM dd'}}</p>
+              </div>
 
-    <!-- Divider for Upcoming Cards-->
-    <div class="card-section upcoming">
-      <hr class="col-75"></hr>
-      <h4 class="text-center">Upcoming Cards</h4>
-    </div>
-
-    <div class="row" style="justify-content: center;" ng-repeat="c in cards | orderBy: 'shown_at' | filter: {archived_at: '!'}" on-swipe-right="swipeCard(c)" on-swipe-left="swipeCard(c)">
-      <div class="col col-75">
-
-        <div class="list card">
-
-          <div class="item item-icon-left">
-            <i class="icon {{iconClass(c)}}"></i>
-            <h2>{{formatTitle(c.object_type)}}</h2>
-            <p>{{getTime(c.shown_at) | date: 'EEEE hh:mma, MMMM dd'}}</p>
-
-            <span class="badge {{statusClass(c)}}">{{statusText(c)}}</span>
-          </div>
-
-          <div class="item item-body">
-            <!-- Your weigh in is at 09:00 AM -->
-            {{description(c)}}
-          </div>
-
-          <div class="row">
-            <div class="col">
-              <a class="item item-icon-left">
-                <i class="icon ion-ios-eye"></i>
-                View card
-              </a>
+              <div class="item item-body">
+                <!-- Your weigh in is at 09:00 AM -->
+                {{description(c)}}
+              </div>
             </div>
-            <div class="col">
-              <a class="item item-icon-left">
-                <i class="icon ion-ios-chatbubble-outline"></i>
-                {{c.num_comments}} Comments
-              </a>
-            </div>
+
           </div>
         </div>
-      </div>
-    </div>
-
+      </ion-slide>
+    </ion-slide-box>
 
 
 
