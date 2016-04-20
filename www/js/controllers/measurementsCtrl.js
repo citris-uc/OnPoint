@@ -59,7 +59,7 @@ angular.module('app.controllers')
          schedule.measurements.push({'name':'systolic blood pressure','unit':'mmHg'});
          schedule.measurements.push({'name':'diastolic blood pressure','unit':'mmHg'});
        }
-       if($scope.newShedule.heartRate == true){
+       if($scope.newShedule.heart_rate == true){
          schedule.measurements.push({'name':'heart rate','unit':'bpm'});
        }
        MeasurementSchedule.add(schedule);
