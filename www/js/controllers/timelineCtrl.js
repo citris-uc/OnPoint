@@ -31,7 +31,6 @@ angular.module('app.controllers')
   // to understand why we're doing everything in a beforeEnter event. Essentially,
   // we avoid stale data.
   $scope.$on('$ionicView.enter', function(){
-
     // We load cards and history in one cycle. Any changes will be reflected
     // thanks to Firebase's 3-way data binding.
     $scope.loadCards();
@@ -64,8 +63,8 @@ angular.module('app.controllers')
         var measExists = false;
         var medsExists = false;
         snap.forEach(function(childSnap) {
-          if (childSnap.objectType == CARD.CATEGORY.MEASUREMENTS_SCHEDULE) measExists = true;
-          if (childSnap.objectType == CARD.CATEGORY.MEDICATIONS_SCHEDULE) medsExists = true;
+          if (childSnap.val().object_type == CARD.CATEGORY.MEASUREMENTS_SCHEDULE) measExists = true;
+          if (childSnap.val().object_type == CARD.CATEGORY.MEDICATIONS_SCHEDULE) medsExists = true;
         });
         if (!measExists) MeasurementSchedule.createTodaysCards();
         if (!medsExists) MedicationSchedule.createTodaysCards();

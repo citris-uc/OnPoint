@@ -45,19 +45,7 @@
               </div>
 
               <div class="item item-body">
-                <!-- Your weigh in is at 09:00 AM -->
                 {{description(c)}}
-
-                <!-- <p style="font-size:18px;">
-                  <a ng-click="openPage(c, c.object_type, $index)">
-                    <i class="icon ion-ios-eye"></i>
-                    View card
-                  </a>
-                  <a class="subdued" ui-sref="tabsController.comments({card_id:c.$id, comment_id: c.comment_id})">
-                    <i class="icon ion-ios-chatbubble-outline"></i>
-                    {{c.num_comments}} Comments
-                  </a>
-                </p> -->
               </div>
 
               <div class="row">
@@ -95,28 +83,12 @@
                 <i class="icon {{iconClass(c)}}"></i>
                 <h2>{{formatTitle(c.object_type)}}</h2>
                 <p>{{getTime(c.shown_at) | date: 'EEEE hh:mma, MMMM dd'}}</p>
-
-                <!-- <span class="badge {{statusClass(c)}}">{{statusText(c)}}</span> -->
               </div>
 
               <div class="item item-body">
                 <!-- Your weigh in is at 09:00 AM -->
                 {{description(c)}}
               </div>
-
-              <!-- <div class="row">
-                <div class="col">
-                  <a class="item item-icon-left">
-                    <i class="icon ion-ios-eye"></i>
-                    View card
-                  </a>
-                </div>
-                <div class="col">
-                  <a class="item item-icon-left">
-                    <i class="icon ion-ios-chatbubble-outline"></i>
-                    {{c.num_comments}} Comments
-                  </a>
-                </div> -->
               </div>
             </div>
           </div>
@@ -141,7 +113,6 @@
                 </div>
 
                 <div class="item item-body">
-                  <!-- Your weigh in is at 09:00 AM -->
                   {{description(c)}}
                 </div>
               </div>
