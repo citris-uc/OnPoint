@@ -9,7 +9,7 @@
       </div>
       <li class="item" ng-hide="containMeds()">
         You have took all meds for this time slot!
-        <button class="button button-positive button-block" ui-sref="tabsController.medications" >Okay</button>
+        <button class="button button-positive button-block" ng-click="goBack()" >Okay</button>
       </li>
 
       <div ng-hide="!containMeds()" >
