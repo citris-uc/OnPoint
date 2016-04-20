@@ -1,5 +1,6 @@
 angular.module('app.controllers')
 
+//TODO: Clean this up...very ugly use ng repeat in the new_measurement_schedule.html
 .controller('measurementScheduleCtrl', function($scope, $ionicPopup, $state,Patient, MeasurementSchedule) {
   $scope.measurement_schedule = MeasurementSchedule.get();
   $scope.newShedule = {time: new Date("2016-01-01 08:00")};
@@ -52,13 +53,14 @@ angular.module('app.controllers')
        }
        schedule.measurements = [];
        if($scope.newShedule.weight == true){
-         schedule.measurements.push("weight");
+         schedule.measurements.push({'name':'weight','unit':'lbs'});
        }
        if($scope.newShedule.blood_pressure == true){
-         schedule.measurements.push("blood_pressure");
+         schedule.measurements.push({'name':'systolic blood pressure','unit':'mmHg'});
+         schedule.measurements.push({'name':'diastolic blood pressure','unit':'mmHg'});
        }
        if($scope.newShedule.heartRate == true){
-         schedule.measurements.push("heart_rate");
+         schedule.measurements.push({'name':'heart rate','unit':'bpm'});
        }
        MeasurementSchedule.add(schedule);
        $state.go('carePlan.measurementSchedules');
@@ -75,12 +77,15 @@ angular.module('app.controllers')
   $scope.schedule = MeasurementSchedule.get();
 })
 
-.controller('addMeasurementsCtrl', function($scope, $state, $stateParams, Measurement, $ionicPopup, $ionicHistory) {
+.controller('addMeasurementsCtrl', function($scope, $state, $stateParams, Measurement, MeasurementSchedule, $ionicPopup, $ionicHistory) {
   $scope.newMeasurement = {};
   $scope.newMeasurement.bpcolor = 'black';
+  $scope.schedule = MeasurementSchedule.findByID($stateParams.schedule_id);
+  $scope.schedule.$loaded().then(function() {
+    console.log($scope.schedule)
+  })
   //TODO: need to lookup actaul scheudle by schedule_id passed in
   $scope.addMeasurement = function() {
-    console.log($stateParams.schedule_id)
     Measurement.add($scope.newMeasurement, $stateParams.schedule_id);
     $ionicHistory.goBack(); // go back to wherever we came from, could be timeline could be measurements tab
     //$state.go('tabsController.measurements');
@@ -125,5 +130,5 @@ $scope.bpAlert = function(value) {
 })
 
 .controller('measurementViewCtrl', function($scope, $stateParams, MeasurementSchedule) {
-   $scope.schedule = MeasurementSchedule.getById($stateParams.measuremnt_schedule_id);
+   $scope.schedule = MeasurementSchedule.findByID($stateParams.measuremnt_schedule_id);
 })
