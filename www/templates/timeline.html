@@ -1,27 +1,28 @@
 <link type="text/css" rel="stylesheet" href="css/timelineStyle.css"/>
 
 <ion-view title="{{ today | date:'MMMM dd, yyyy'}}" class = "timeline">
-  <ion-nav-buttons side="left">
-    <button class="button button-icon icon ion-ios-gear-outline button-positive button-clear"
-    ui-sref="tabsController.settings"></button>
+  <ion-nav-buttons side="primary">
+    <button class="button button-icon icon ion-ios-gear-outline button-positive button-clear" ui-sref="tabsController.settings"></button>
   </ion-nav-buttons>
 
-  <!-- Text input for Symptoms Feeling tracker -->
-  <!-- TODO: Save button on right? -->
-  <!-- TODO: DO we really need this? @dman7 -->
   <div class="bar bar-subheader item-input-inset">
-      <label class="item-input-wrapper">
-        <input type="text" placeholder="How are you feeling?">
-      </label>
-      <button class="button button-small button-clear buttonText" disabled>
-        Save
-      </button>
+    <label class="item-input-wrapper">
+      <input type="text" placeholder="How are you feeling?">
+    </label>
+    <button class="button button-small button-clear buttonText" disabled>Save</button>
+  </div>
+  <div class="bar bar-subheader item-input-inset" style="justify-content: center;">
+    <ti-segmented-control on-select="buttonClicked($index)" style="width: 200px;">
+      <ti-segmented-control-button class="button-positive" title="'Today'" selected></ti-segmented-control-button>
+      <ti-segmented-control-button class="button-positive" title="'History'"></ti-segmented-control-button>
+    </ti-segmented-control>
   </div>
 
+
+
   <!-- Stuff after here will scroll -->
-  <ion-content overflow-scroll="true" padding="true" class="has-header has-subheader">
-    <ion-refresher pulling-text="Pull to refresh" on-refresh="generateCardsForToday()">
-    </ion-refresher>
+  <ion-content overflow-scroll="true" padding="true" class="has-header has-subheader" style="margin-top: 50px;">
+    <ion-refresher pulling-text="Pull to refresh" on-refresh="generateCardsForToday()" pulling-icon="ion-ios-refresh-empty"></ion-refresher>
 
     <!-- Divider for Current Cards-->
     <div class="divline">-</div>
