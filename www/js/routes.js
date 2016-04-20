@@ -98,6 +98,16 @@ angular.module('app.routes', [])
     }
   })
 
+  .state('tabsController.medicationAction', {
+    url: '/timeline/medication-action/:schedule_id',
+    views: {
+      'timeline-tab': {
+        templateUrl: 'templates/medications/schedule.html',
+        controller: 'medicationScheduleCtrl'
+      }
+    }
+  })
+
   .state('tabsController.measurements', {
     url: '/measurements',
     views: {
