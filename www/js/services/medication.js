@@ -282,26 +282,8 @@ angular.module('app.services')
 }])
 
 .factory('MedicationHistory', ["Patient", "$firebaseArray", function(Patient, $firebaseArray) {
-  var count = 1;
-  var history = [{
-      id: 0,
-      medication_id: 1,
-      medication_schedule_id: 1,
-      taken_at: "2016-03-15T08:01:00",
-      skipped_at: null
-    }, {
-      id: 1,
-      medication_id: 7,
-      medication_schedule_id: 3,
-      taken_at: null,
-      skipped_at: "2016-03-21T19:00:00"
-    }
-  ]
 
   return {
-    get: function() {
-      return history;
-    },
     getTodaysHistory: function() {
       var today = ((new Date()).toISOString()).substring(0,10) //Only get the date: YYYY-MM-DD
       var ref = this.ref().child(today);
@@ -357,7 +339,6 @@ angular.module('app.services')
       })
       return req;
     },
-
     findByMedicationIdAndScheduleId: function(med_id, schedule_id) {
       var match;
       for(var i = 0; i < history.length; i++) {
