@@ -1,7 +1,6 @@
 <ion-view title="Comments">
-  <ion-content has-header="true">
+  <ion-content>
     <ion-refresher pulling-text="Pull to refresh..." on-refresh="refreshComments()" pulling-icon="ion-ios-refresh-empty"></ion-refresher>
-
     <div class="row" ng-repeat="comment in comments">
       <div class="list-inset list col-75" ng-class="{'col-offset-25': belongsToPatient(comment)}" style="">
         <div class="item padding" ng-class="{'text-right': belongsToPatient(comment)}">

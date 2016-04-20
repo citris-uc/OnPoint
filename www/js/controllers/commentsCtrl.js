@@ -1,14 +1,18 @@
 angular.module('app.controllers')
 
-.controller('commentsCtrl', function($scope, $stateParams, Patient, Comment, Card) {
-  $scope.user     = Patient.getProfile();
+.controller('commentsCtrl', function($scope, $stateParams, Patient, Comment, Card, $ionicScrollDelegate) {
   $scope.comment  = {};
-  $scope.card     = Card.getById($stateParams.card_id);
-  $scope.comments = Comment.getById($stateParams.comment_id);
+
+  $scope.$on('$ionicView.enter', function() {
+    $scope.user     = Patient.getProfile();
+    $scope.card     = Card.getById($stateParams.card_id);
+    $scope.refreshComments()
+  })
 
   $scope.refreshComments = function() {
     $scope.comments = Comment.getById($stateParams.comment_id);
     $scope.$broadcast('scroll.refreshComplete');
+    $ionicScrollDelegate.scrollBottom();
   }
 
   $scope.trackEnterKey = function(event) {
@@ -37,6 +41,7 @@ angular.module('app.controllers')
     }
 
     $scope.comment.content = "";
+    $ionicScrollDelegate.scrollBottom();
   }
 
 })
