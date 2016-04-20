@@ -14,10 +14,16 @@
 	color: #fff;
 	background-color: #B6B6B4;
 }
+
+.timeline .futureCard{
+	color: #adadad;
+	background-color: #ededed;
+}
+
 .timeline .divtext {
 	margin: 0 auto;
 	width: 50%;
-	color: #C0C0C0;
+	color: #886aea;
 	font-size:12px;
 }
 .timeline .divline {
@@ -25,7 +31,7 @@
 	margin-top: 10px;
 	width:50%;
 	height:0;
-	border-top:2px solid #C0C0C0;
+	border-top:2px solid #886aea;
 	font-size:0;
 }
 

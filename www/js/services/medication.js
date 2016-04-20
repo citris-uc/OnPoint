@@ -147,9 +147,9 @@ angular.module('app.services')
       ref.$add(instanceFB);
     },
 
-    createTodaysCards: function() {
+    createTodaysCards: function(timestamp) {
       var req = this.ref().child("default").once("value", function(snap) {
-        var now    = (new Date()).toISOString();
+        var now  = (new Date()).toISOString();
         var date = now.substring(0,10) //Only get the date: YYYY-MM-DD
         snap.forEach(function(childSnap) {
           schedule = childSnap.val();
@@ -170,59 +170,35 @@ angular.module('app.services')
           Card.create(date, card);
         })
 
+      })
+    },
+
+    createTomorrowsCards: function(timestamp) {
+      var req = this.ref().child("default").once("value", function(snap) {
+        var now = new Date();
+        var tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        var date = tomorrow.toISOString().substring(0,10) //Only get the date: YYYY-MM-DD
+        snap.forEach(function(childSnap) {
+          schedule = childSnap.val();
+          var show = new Date();
+          show.setDate(show.getDate()+1);
+          //TODO: update these to be minutes from midnight.
+          show.setHours(parseInt(schedule.time.substring(0,2)));
+          show.setMinutes(parseInt(schedule.time.substring(3,5)));
+          var card = {type: CARD.TYPE.ACTION,
+                            created_at: now.toISOString(),
+                            updated_at: now.toISOString(),
+                            completed_at: null,
+                            archived_at: null,
+                            shown_at: show.toISOString(),
+                            num_comments: 0,
+                            object_type: CARD.CATEGORY.MEDICATIONS_SCHEDULE,
+                            object_id: childSnap.key() // setting the ID to the firebase reference key!
+                          }
+          Card.create(date, card);
+        }) // end snap foreach
       }) //end req
-
-
-
-      // var today = (new Date()).toISOString().substring(0,10)
-      //
-      // var that = this;
-      //
-      // var todaysCardsReq = Card.ref().child(today).child(CARD.CATEGORY.MEDICATIONS_SCHEDULE).once("value", function (snap) {
-      //   if (!snap.exists()) {
-      //     var req = that.ref().child("default").once("value", function(snap) {
-      //       var now    = (new Date()).toISOString();
-      //       var date = now.substring(0,10) //Only get the date: YYYY-MM-DD
-      //       snap.forEach(function(childSnap) {
-      //         console.log()
-      //         schedule = childSnap.val();
-      //         var show = new Date()
-      //         show.setHours(parseInt(schedule.time.substring(0,2)));
-      //         show.setMinutes(parseInt(schedule.time.substring(3,5)));
-      //         var card = {type: CARD.TYPE.ACTION,
-      //                           created_at: now,
-      //                           updated_at: now,
-      //                           completed_at: null,
-      //                           archived_at: null,
-      //                           shown_at: show.toISOString()
-      //                         }
-      //         var object = {type: CARD.CATEGORY.MEDICATIONS_SCHEDULE,
-      //                       id: childSnap.key()} // setting the ID to the firebase reference key!
-      //         Card.create(date, object, card);
-      //       })
-      //       //
-      //       // var schedule = snap.val();
-      //       // var now    = (new Date()).toISOString();
-      //       // var date = now.substring(0,10) //Only get the date: YYYY-MM-DD
-      //       // for(var i = 0; i < schedule.length; i++) {
-      //       //   var show = new Date()
-      //       //   show.setHours(parseInt(schedule[i].time.substring(0,2)));
-      //       //   show.setMinutes(parseInt(schedule[i].time.substring(3,5)));
-      //       //   var card = {type: CARD.TYPE.ACTION,
-      //       //                     created_at: now,
-      //       //                     updated_at: now,
-      //       //                     completed_at: null,
-      //       //                     archived_at: null,
-      //       //                     shown_at: show.toISOString()
-      //       //                   }
-      //       //   var object = {type: CARD.CATEGORY.MEDICATIONS_SCHEDULE,
-      //       //                 id: schedule[i].id}
-      //       //   Card.create(date, object, card);
-      //       //
-      //       // } //end for
-      //     }) //end req
-      //   } //end exists()
-      // }) //end todaysCardReq
     }
 
   };

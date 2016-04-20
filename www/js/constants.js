@@ -1,17 +1,22 @@
 angular.module('app.constants', [])
 
-//just using strings for clarity/testing purposes. feel free to change to integers. 
+//just using strings for clarity/testing purposes. feel free to change to integers.
 .constant('CARD', {
   TYPE: {
-    'ACTION':'action', 
-    'URGENT':'urgent', 
+    'ACTION':'action',
+    'URGENT':'urgent',
     'REMINDER':'reminder'},
   CATEGORY: {
     'MEDICATIONS_SCHEDULE': 'medications_schedule',
     'MEASUREMENTS_SCHEDULE': 'measurements_schedule',
     'APPOINTMENTS_SCHEDULE': 'appointments',
     'GOALS': 'goals',
-    'SYMPTOMS_SCHEDULE': 'symptoms_schedule'}
+    'SYMPTOMS_SCHEDULE': 'symptoms_schedule'},
+  TIMESPAN: {
+    'GET_CURRENT_PAST': 6,
+    'GET_CURRENT_FUTURE': 6,
+    'GET_UPCOMING_FUTURE' : 12
+  }
 })
 
 .constant('TIPS',  [{
@@ -28,4 +33,3 @@ angular.module('app.constants', [])
         tips: []
       }]
 )
-
