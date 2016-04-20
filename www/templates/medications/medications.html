@@ -1,6 +1,9 @@
 <ion-view title="Medications">
   <ion-content overflow-scroll="true" padding="false" class="has-header">
     <ion-list>
+      <button class="button button-block button-balanced" ui-sref = "carePlan.generatedMedSchedule">adjust medication schedule</button>
+      <button class="button button-block button-balanced" ui-sref = "carePlan.fillMain">fill my pillbox</button>
+
       <span ng-repeat = "dateSchedule in schedule">
         <a class="item item-divider item-icon-right" ui-sref="tabsController.medicationsSchedule({schedule_id: dateSchedule.$id})">
           {{dateSchedule.slot}}
