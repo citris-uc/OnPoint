@@ -79,11 +79,11 @@ angular.module('app.controllers')
   $scope.newMeasurement = {};
   $scope.newMeasurement.bpcolor = 'black';
   //TODO: need to lookup actaul scheudle by schedule_id passed in
-  console.log($stateParams.schedule_id)
   $scope.addMeasurement = function() {
     console.log($stateParams.schedule_id)
     Measurement.add($scope.newMeasurement, $stateParams.schedule_id);
-    $state.go('tabsController.measurements');
+    $ionicHistory.goBack(); // go back to wherever we came from, could be timeline could be measurements tab
+    //$state.go('tabsController.measurements');
   };
 
   $scope.disableDone = function() {
