@@ -81,36 +81,44 @@ angular.module('app.controllers')
         }
         break;
       case CARD.CATEGORY.MEASUREMENTS_SCHEDULE :
-        if (card.completed_at != null || card.archived_at != null) return;
+        if (card.archived_at != null) return;
         var schedule;
         for (var i = 0; i < $scope.measurementSchedule.length; i++) {
           if ($scope.measurementSchedule[i].$id == card.object_id) {
             schedule = $scope.measurementSchedule[i];
           }
         }
+
         if (schedule == null) return;
         var measurements = schedule.measurements;
         var now    = (new Date()).toISOString();
         var incompleteMeas = [];
         var completedMeas = [];
+
         measurements.forEach( function(meas) {
           var exists = false;
           for(var i = 0; i < $scope.measHistory.length; i++) {
             var hist = $scope.measHistory[i];
-
             if (hist.measurement_schedule_id==schedule.$id) {
               exists = true;
-              if(typeof(hist[meas]) === null)
-                incompleteMeas.push(meas);
+              //console.log(hist.measurements)
+              if(typeof(hist.measurements[meas.name]) === 'undefined') {
+                //console.log("pushing to incomplete" + " "+ meas.name)
+                incompleteMeas.push(meas.name);
+              }
               else {
-                completedMeas.push(meas);
+                //console.log("pushing to complete" + " "+ meas.name)
+                completedMeas.push(meas.name);
               }
             }
           }
-          if (!exists)
-            incompleteMeas.push(meas);
+          if (!exists) {
+            incompleteMeas.push(meas.name);
+          }
         })
+        console.log(incompleteMeas.length)
         if (incompleteMeas.length == 0) {
+          console.log("all measurements completed")
           Card.complete(card);
         }
         break;
