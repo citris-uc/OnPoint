@@ -5,8 +5,8 @@
         <button class="button icon-right ion-ios-plus-empty button-clear button-positive" ui-sref="tabsController.measurementAdd({schedule_id: schedule[0].$id})"></button>
     </ion-nav-buttons> -->
 
-    <div class="bar bar-subheader item-input-inset" style="justify-content: center;">
-      <div class="col-50 button-bar bar-light">
+    <div class="bar bar-subheader item-input-inset segmented-control" style="justify-content: center;">
+      <div class="button-bar bar-light responsive-col">
         <a class="button button-small" ng-click="transitionToPageIndex(0)" ng-class="{'button-positive': measurementTab.pageIndex === 0}">Schedule</a>
         <a class="button button-small" ng-click="transitionToPageIndex(1)" ng-class="{'button-positive': measurementTab.pageIndex === 1}">History</a>
         <a class="button button-small" ng-click="transitionToPageIndex(2)" ng-class="{'button-positive': measurementTab.pageIndex === 2}">Add</a>
@@ -20,7 +20,7 @@
       <ion-slide-box on-slide-changed="slideHasChanged($index)" does-continue="false" show-pager="false">
         <ion-slide>
             <div>
-              <hr class="col-75"></hr>
+              <hr class="responsive-col"></hr>
               <h4 class="text-center">Schedule</h4>
             </div>
             <ion-list>
@@ -35,7 +35,7 @@
         </ion-slide>
         <ion-slide>
           <div>
-            <hr class="col-75"></hr>
+            <hr class="responsive-col"></hr>
             <h4 class="text-center">History</h4>
           </div>
             <ion-list>
@@ -49,7 +49,7 @@
         </ion-slide>
         <ion-slide>
           <div>
-            <hr class="col-75"></hr>
+            <hr class="responsive-col"></hr>
             <h4 class="text-center">Add Measurement</h4>
           </div>
         </ion-slide>
