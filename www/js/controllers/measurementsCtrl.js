@@ -84,12 +84,10 @@ angular.module('app.controllers')
   $scope.schedule.$loaded().then(function() {
     console.log($scope.schedule)
   })
-  //TODO: need to lookup actaul scheudle by schedule_id passed in
   $scope.addMeasurement = function() {
-    console.log($scope.newMeasurement)
-    //Measurement.add($scope.newMeasurement, $stateParams.schedule_id);
+    Measurement.add($scope.newMeasurement, $stateParams.schedule_id);
     //$ionicHistory.goBack(); // go back to wherever we came from, could be timeline could be measurements tab
-    //$state.go('tabsController.measurements');
+    $state.go($ionicHistory.backView().stateName);
   };
   $scope.setColor = function(measurement_name) {
     if(measurement_name.includes('blood pressure')) {
