@@ -118,33 +118,36 @@ angular.module('app.controllers')
         }
         break;
       case CARD.CATEGORY.MEASUREMENTS_SCHEDULE :
+
         if (card.completed_at != null || card.archived_at != null) return;
 
         var schedule = $scope.findMeasurementScheduleForCard(card)
+
         if (schedule == null) return;
 
         var measurements = schedule.measurements;
         var now    = (new Date()).toISOString();
         var incompleteMeas = [];
         var completedMeas = [];
+
         measurements.forEach( function(meas) {
           var exists = false;
           for(var i = 0; i < $scope.measHistory.length; i++) {
             var hist = $scope.measHistory[i];
-
             if (hist.measurement_schedule_id==schedule.$id) {
-              exists = true;
-              if(typeof(hist[meas]) === null)
-                incompleteMeas.push(meas);
-              else {
-                completedMeas.push(meas);
+              if(typeof(hist.measurements[meas.name]) != 'undefined') {
+                exists= true;
+                completedMeas.push(meas.name);
               }
             }
+          }  //end historys
+          if (!exists) {
+            incompleteMeas.push(meas.name);
           }
-          if (!exists)
-            incompleteMeas.push(meas);
         })
+        //console.log(incompleteMeas.length)
         if (incompleteMeas.length == 0) {
+          console.log("all measurements completed")
           Card.complete(card);
         }
         break;
@@ -286,21 +289,50 @@ angular.module('app.controllers')
          return string;
        case CARD.CATEGORY.MEASUREMENTS_SCHEDULE :
          var schedule;
-         var measurementString = "Take: ";
-
          schedule = $scope.findMeasurementScheduleForCard(card)
          if (schedule == null) return;
 
-         // TODO -> figure out if measurements are completed when Measurements History is implemented
-         var measurements  = schedule.measurements;
-         var i = 0;
-         measurements.forEach( function(meas) {
-           if (i > 0) measurementString += ",";
-           measurementString += " " + $scope.formatStr(meas.name);
-           i++;
-         });
+         var incompleteMeas = [];
+         var completedMeas = [];
 
-         return [measurementString];
+         var measurements  = schedule.measurements;
+         measurements.forEach( function(meas) {
+           var exists = false;
+           for(var i = 0; i < $scope.measHistory.length; i++) {
+             var hist = $scope.measHistory[i];
+             if (hist.measurement_schedule_id==schedule.$id) {
+               if(typeof(hist.measurements[meas.name]) != 'undefined') {
+                 exists= true;
+                 completedMeas.push(meas.name);
+               }
+             }
+           }  //end historys
+           if (!exists) {
+             incompleteMeas.push(meas.name);
+           }
+         });
+         // Create a string for each line for Completed/Incomplete Measurements
+         // TODO -- is there a clean way to do this in the UI to filter?
+         //         possible to have different UI templates depending on card category?
+         string = ""
+         if (incompleteMeas.length > 0) {
+          string += "You need to complete "
+          incompleteMeas.forEach( function(meas) {
+            string += meas + ", "
+          })
+          string += ". "
+        }
+
+
+          if (completedMeas.length > 0) {
+           string += "So far, you've completed "
+           completedMeas.forEach( function(meas) {
+             string += meas + ", "
+           })
+         }
+
+
+         return string;
        case CARD.CATEGORY.APPOINTMENTS_SCHEDULE :
          return ["Appointment Information"];
        case CARD.CATEGORY.GOALS :

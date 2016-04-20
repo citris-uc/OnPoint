@@ -1,7 +1,7 @@
   <!-- Measurements CSS File-->
   <link type="text/css" rel="stylesheet" href="css/measurementStyle.css"/>
-  
-  <ion-view title="Add Measurements"> <!-- header title -->
+
+  <ion-view title="Take Measurements"> <!-- header title -->
     <ion-nav-buttons side="right">
        <button class="button button-clear button-positive" ng-click="addMeasurement()" ng-disabled="disableDone()">Done</button>
     </ion-nav-buttons>
@@ -9,28 +9,16 @@
     <ion-content has-header="true" overflow-scroll="true" padding="true" class="has-header">
       <form name = "newMeasurementsForm" class="list">
         <ion-list class>
-         <!--Weight **NOTE CANT LABEL ng-model's WITH A '-'--> 
-          <label class="item item-input">
-            <span class="input-label"><strong>Weight</strong></span>
-            <input style="width: 50px" class="measurement-input" type="number" placeholder="lbs" ng-model="newMeasurement.weight" ng-blur="enableDone()"></input>
-          </label>
-
-          <!--Blood Pressure-->
-          <label class="item item-input">
-            <span class="input-label"><strong>Systolic Blood Pressure</strong></span>
-            <input class="measurement-input" type="number" placeholder="mmHg" ng-style="{'color': newMeasurement.bpcolor}" ng-model="newMeasurement.systolic" ng-blur="checkBP()"></input>
-          </label>
-          <label class="item item-input">
-            <span class="input-label"><strong>Diastolic Blood Pressure</strong></span>
-            <input class="measurement-input" type="number" placeholder="mmHg" ng-style="{'color': newMeasurement.bpcolor}" ng-model="newMeasurement.diastolic" ng-blur="checkBP()"></input>
-          </label>
-
-          <!--Heart Rate-->
-          <label class="item item-input">
-            <span class="input-label"><strong>Heart Rate</strong></span>
-            <input class="measurement-input" type="number" placeholder="bpm" ng-model="newMeasurement.heartRate" ng-blur="enableDone()"></input>
-          </label>
-        </ion-list>
+          <div class="item item-divider">Measurements To Take</div>
+          <ion-item ng-repeat="measurement in schedule.measurements" ng-hide="didTakeMeasurement(measurement.name)">
+              <span class="input-label"><strong>{{measurement.name}}</strong></span>
+              <input type="number" placeholder="{{measurement.unit}}" ng-style="{'color': setColor(measurement.name)}" ng-model="newMeasurement[measurement.name]" ng-blur="check(measurement.name)"></input>
+          </ion-item>
+          <div class="item item-divider">Completed Measurements</div>
+          <ion-item ng-repeat="measurement in schedule.measurements" ng-show="didTakeMeasurement(measurement.name)">
+              <span class ="input-label"> <strong>{{measurement.name}}</strong> </span> {{getMeasurementValue(measurement.name)}} {{measurement.unit}}
+          </ion-item>
+        </ion-list class>
       </form>
     </ion-content>
   </ion-view>

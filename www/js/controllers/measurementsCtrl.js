@@ -1,5 +1,6 @@
 angular.module('app.controllers')
 
+//TODO: Clean this up...very ugly use ng repeat in the new_measurement_schedule.html
 .controller('measurementScheduleCtrl', function($scope, $ionicPopup, $state,Patient, MeasurementSchedule) {
   $scope.measurement_schedule = MeasurementSchedule.get();
   $scope.newShedule = {time: new Date("2016-01-01 08:00")};
@@ -52,13 +53,14 @@ angular.module('app.controllers')
        }
        schedule.measurements = [];
        if($scope.newShedule.weight == true){
-         schedule.measurements.push("weight");
+         schedule.measurements.push({'name':'weight','unit':'lbs'});
        }
        if($scope.newShedule.blood_pressure == true){
-         schedule.measurements.push("blood_pressure");
+         schedule.measurements.push({'name':'systolic blood pressure','unit':'mmHg'});
+         schedule.measurements.push({'name':'diastolic blood pressure','unit':'mmHg'});
        }
-       if($scope.newShedule.heartRate == true){
-         schedule.measurements.push("heart_rate");
+       if($scope.newShedule.heart_rate == true){
+         schedule.measurements.push({'name':'heart rate','unit':'bpm'});
        }
        MeasurementSchedule.add(schedule);
        $state.go('carePlan.measurementSchedules');
@@ -82,28 +84,59 @@ angular.module('app.controllers')
   }
 })
 
-.controller('addMeasurementsCtrl', function($scope, $state, $stateParams, Measurement, $ionicPopup, $ionicHistory) {
+.controller('addMeasurementsCtrl', function($scope, $state, $stateParams, Measurement, MeasurementSchedule, $ionicPopup, $ionicHistory) {
   $scope.newMeasurement = {};
-  $scope.newMeasurement.bpcolor = 'black';
-  //TODO: need to lookup actaul scheudle by schedule_id passed in
-  $scope.addMeasurement = function() {
-    console.log($stateParams.schedule_id)
-    Measurement.add($scope.newMeasurement, $stateParams.schedule_id);
-    $ionicHistory.goBack(); // go back to wherever we came from, could be timeline could be measurements tab
-    //$state.go('tabsController.measurements');
-  };
+  $scope.schedule = MeasurementSchedule.findByID($stateParams.schedule_id);
+  $scope.measurementHistory = Measurement.getTodaysHistory();
+  var bpcolor = 'black'
 
+  $scope.addMeasurement = function() {
+    Measurement.add($scope.newMeasurement, $scope.schedule);
+    if($ionicHistory.backView()==null)
+      $state.go('tabsController.timeline') //by default go to timeline
+    else
+      $state.go($ionicHistory.backView().stateName);
+  };
+  $scope.setColor = function(measurement_name) {
+    if(measurement_name.includes('blood pressure')) {
+      return bpcolor;
+    }
+    return 'black';
+  };
   $scope.disableDone = function() {
-    if ($scope.newMeasurement.weight!=null || $scope.newMeasurement.heartRate!=null || $scope.newMeasurement.systolic!=null || $scope.newMeasurement.diastolic!=null)
+    if(Object.keys($scope.newMeasurement).length > 0)
       return false;
     else
       return true;
   };
+  $scope.didTakeMeasurement = function(measurement_name) {
+    for(var i = 0; i < $scope.measurementHistory.length; i++) {
+      var measurements = $scope.measurementHistory[i].measurements;
+        if(typeof(measurements[measurement_name]) != 'undefined') {
+          return true
+        }
+    }
+    return false
+  };
 
-  $scope.checkBP = function() {
-    if (Measurement.hasHighBP($scope.newMeasurement)) {
-      $scope.newMeasurement.bpcolor = 'red';
-      $scope.bpAlert('Blood Pressure High');
+  $scope.getMeasurementValue = function(measurement_name) {
+    for(var i = 0; i < $scope.measurementHistory.length; i++) {
+      var measurements = $scope.measurementHistory[i].measurements;
+        if(typeof(measurements[measurement_name]) != 'undefined') {
+          return measurements[measurement_name]
+        }
+    }
+    return false
+  };
+
+  $scope.check = function(measurement_name) {
+    if(measurement_name.includes('blood pressure')) {
+      if(Measurement.hasHighBP($scope.newMeasurement)) {
+        bpcolor = 'red';
+        $scope.bpAlert('Blood Pressure High');
+      } else {
+        bpcolor = 'black';
+      }
     }
   };
 
@@ -132,5 +165,5 @@ $scope.bpAlert = function(value) {
 })
 
 .controller('measurementViewCtrl', function($scope, $stateParams, MeasurementSchedule) {
-   $scope.schedule = MeasurementSchedule.getById($stateParams.measuremnt_schedule_id);
+   $scope.schedule = MeasurementSchedule.findByID($stateParams.measuremnt_schedule_id);
 })

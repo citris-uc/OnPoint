@@ -18,27 +18,22 @@ angular.module('app.services')
       return Patient.ref(uid).child("measurement_histories")
     },
     hasHighBP: function(measurement) {
-      if ( !(measurement.systolic && measurement.diastolic) )
+      if ( !(measurement["systolic blood pressure"] && measurement["diastolic blood pressure"]) )
         return false;
 
-      if (measurement.systolic > 160 || measurement.systolic < 90)
+      if (measurement["systolic blood pressure"] > 160 || measurement["diastolic blood pressure"] < 90)
         return true;
     },
 
-    add: function(measurement, schedule_id) {
-      console.log(schedule_id)
+    add: function(measurement, schedule) {
       var today = ((new Date()).toISOString()).substring(0,10)
       var ref = this.ref().child(today);
       var time_now = (new Date()).toTimeString();
 
-      var instance = {
-        weight: measurement.weight,
-        systolic: measurement.systolic,
-        diastolic: measurement.diastolic,
-        heart_rate: measurement.heartRate,
-        taken_at: time_now,
-        measurement_schedule_id: schedule_id
-      }
+      var instance = {};
+      instance.measurements = measurement;
+      instance.taken_at = time_now;
+      instance.measurement_schedule_id = schedule.$id
 
         //Add new measurement to firebase
         var req = ref.once('value', function(snapshot) {
@@ -92,7 +87,7 @@ angular.module('app.services')
     add: function(schedule){
       this.get().$add(schedule);
     },
-    getById: function(id){
+    findByID: function(id){
       return $firebaseObject(this.ref().child(id));
     },
 
