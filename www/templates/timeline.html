@@ -1,34 +1,36 @@
 <link type="text/css" rel="stylesheet" href="css/timelineStyle.css"/>
 
 <ion-view title="{{ today | date:'MMMM dd, yyyy'}}" class = "timeline">
-  <ion-nav-buttons side="left">
-    <button class="button button-icon icon ion-ios-gear-outline button-positive button-clear"
-    ui-sref="tabsController.settings"></button>
+  <ion-nav-buttons side="primary">
+    <button class="button button-icon icon ion-ios-gear-outline button-positive button-clear" ui-sref="tabsController.settings"></button>
   </ion-nav-buttons>
 
-  <!-- Text input for Symptoms Feeling tracker -->
-  <!-- TODO: Save button on right? -->
-  <!-- TODO: DO we really need this? @dman7 -->
   <div class="bar bar-subheader item-input-inset">
-      <label class="item-input-wrapper">
-        <input type="text" placeholder="How are you feeling?">
-      </label>
-      <button class="button button-small button-clear buttonText" disabled>
-        Save
-      </button>
+    <label class="item-input-wrapper">
+      <input type="text" placeholder="How are you feeling?">
+    </label>
+    <button class="button button-small button-clear buttonText" disabled>Save</button>
   </div>
+  <div class="bar bar-subheader item-input-inset" style="justify-content: center;">
+    <div class="col-25 button-bar bar-light">
+      <a class="button button-small button-positive">Today</a>
+      <a class="button button-small">History</a>
+    </div>
+  </div>
+
+
 
   <!-- Stuff after here will scroll -->
   <ion-content overflow-scroll="true" padding="true" class="has-header has-subheader">
-    <ion-refresher pulling-text="Pull to refresh" on-refresh="generateCardsForToday()">
-    </ion-refresher>
-
+    <ion-refresher pulling-text="Pull to refresh" on-refresh="generateCardsForToday()" pulling-icon="ion-ios-refresh-empty"></ion-refresher>
 
     <!-- Create Current Cards ng-show="shouldDisplayCard(c.shown_at)" -->
     <div ng-repeat="dayCards in cards">
       <!-- Divider for Current Cards-->
-      <div class="divline">-</div>
-      <center class="divtext">{{$index == 0 ? 'Current Cards' : 'Upcoming Cards'}}</center>
+      <div class="card-section {{$index == 0 ? 'current' : 'upcoming'}}">
+        <hr></hr>
+        <h4 class="text-center">{{$index == 0 ? 'Current Cards' : 'Upcoming Cards'}}</h4>
+      </div>
 
       <div class="card" ng-repeat="c in dayCards | orderBy: 'shown_at' | filter: {archived_at: '!'}" on-swipe-right="swipeCard(c)" on-swipe-left="swipeCard(c)">
         <!-- Card Title -->
@@ -49,6 +51,8 @@
         </div>
       </div>
     </div>
+
+
 
   </ion-content>
 </ion-view>
