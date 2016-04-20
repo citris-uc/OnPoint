@@ -1,7 +1,11 @@
 angular.module('app.controllers')
 
 .controller('timelineCtrl', function($scope, $state, Card, CARD, Comment, Medication, MedicationSchedule, Measurement, MeasurementSchedule, MedicationHistory) {
-  $scope.cards = Card.getByDay(new Date());
+  $scope.cards = [];
+  $scope.cards[0] = Card.getByDay(new Date());
+  var manana = new Date();
+  manana.setDate(manana.getDate() + 1);
+  $scope.cards[1] = Card.getByDay(manana);
   //$scope.cards = Card.getCurrentCards(new Date());
   //$scope.futureCards = Card.getUpcomingCards();
   $scope.CARD = CARD;

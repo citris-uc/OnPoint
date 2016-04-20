@@ -176,8 +176,9 @@ angular.module('app.services')
     createTomorrowsCards: function(timestamp) {
       var req = this.ref().child("default").once("value", function(snap) {
         var now = new Date();
-        now.setDate(now.getDate() + 1);
-        var date = now.toISOString().substring(0,10) //Only get the date: YYYY-MM-DD
+        var tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        var date = tomorrow.toISOString().substring(0,10) //Only get the date: YYYY-MM-DD
         snap.forEach(function(childSnap) {
           schedule = childSnap.val();
           var show = new Date();
@@ -186,8 +187,8 @@ angular.module('app.services')
           show.setHours(parseInt(schedule.time.substring(0,2)));
           show.setMinutes(parseInt(schedule.time.substring(3,5)));
           var card = {type: CARD.TYPE.ACTION,
-                            created_at: now,
-                            updated_at: now,
+                            created_at: now.toISOString(),
+                            updated_at: now.toISOString(),
                             completed_at: null,
                             archived_at: null,
                             shown_at: show.toISOString(),
