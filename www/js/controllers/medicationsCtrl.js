@@ -101,6 +101,15 @@ angular.module('app.controllers')
     else
       return false;
   }
+
+  $scope.takeAll = function(){
+
+    for(var i = 0; i < $scope.schedule.medications.length; i++){
+      if(this.didTakeMed($scope.schedule.medications[i]) == false){
+          console.log($scope.schedule.medications[i]);
+      }
+    }
+  }
 })
 
 .controller("medicationCtrl", function($scope, $stateParams,$ionicPopup,$ionicHistory, Medication, MedicationSchedule, MedicationDosage, MedicationHistory) {
