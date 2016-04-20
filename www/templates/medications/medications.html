@@ -1,4 +1,42 @@
 <ion-view title="Medications">
+
+  <div class="bar bar-subheader item-input-inset segmented-control" style="justify-content: center;">
+    <div class="button-bar bar-light responsive-col">
+      <a class="button button-small" ng-click="transitionToPageIndex(0)" ng-class="{'button-positive': medicationTab.pageIndex === 0}">View Schedule</a>
+      <a class="button button-small" ng-click="transitionToPageIndex(1)" ng-class="{'button-positive': medicationTab.pageIndex === 1}">Medications</a>
+      <a class="button button-small" ng-click="transitionToPageIndex(2)" ng-class="{'button-positive': medicationTab.pageIndex === 2}">Fill Pillbox</a>
+    </div>
+  </div>
+
+  <!-- Stuff after here will scroll -->
+  <ion-content has-header="true" overflow-scroll="true" scroll="true" padding="true" class="has-header has-subheader">
+    <ion-slide-box on-slide-changed="slideHasChanged($index)" does-continue="false" show-pager="false">
+      <ion-slide>
+          <div>
+            <hr class="responsive-col"></hr>
+            <h4 class="text-center">View Schedule</h4>
+          </div>
+
+      </ion-slide>
+      <ion-slide>
+        <div>
+          <hr class="responsive-col"></hr>
+          <h4 class="text-center">Medications</h4>
+        </div>
+
+      </ion-slide>
+      <ion-slide>
+        <div>
+          <hr class="responsive-col"></hr>
+          <h4 class="text-center">Fill Pillbox</h4>
+        </div>
+      </ion-slide>
+    </ion-slide-box>
+
+  </ion-content>
+  </ion-view>
+
+<!--
   <ion-content overflow-scroll="true" padding="false" class="has-header">
     <ion-list>
       <span ng-repeat = "dateSchedule in schedule">
@@ -17,4 +55,4 @@
       </span>
     </ion-list>
   </ion-content>
-</ion-view>
+</ion-view> -->

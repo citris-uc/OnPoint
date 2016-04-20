@@ -1,9 +1,20 @@
 angular.module('app.controllers')
 
-.controller('medicationsCtrl', function($scope, Medication, MedicationSchedule, MedicationHistory) {
+.controller('medicationsCtrl', function($scope, $ionicSlideBoxDelegate,Medication, MedicationSchedule, MedicationHistory) {
+  $scope.medicationTab = {pageIndex: 0}
   $scope.schedule           = MedicationSchedule.get();
   $scope.medicationHistory  = MedicationHistory.getTodaysHistory();
   $scope.medications        = Medication.get();
+
+  $scope.slideHasChanged = function(pageIndex) {
+    $scope.medicationTab.pageIndex = pageIndex;
+  }
+
+  $scope.transitionToPageIndex = function(pageIndex) {
+    $scope.medicationTab.pageIndex = pageIndex;
+    $ionicSlideBoxDelegate.slide(pageIndex);
+  }
+
   $scope.didTakeMed = function(medication, schedule) {
     var match;
     var med = {}
