@@ -1,11 +1,61 @@
   <!-- Measurements CSS File-->
   <link type="text/css" rel="stylesheet" href="css/measurementStyle.css"/>
   <ion-view title="Measurements"> <!-- header title -->
-    <ion-nav-buttons side="right">
+    <!-- <ion-nav-buttons side="right">
         <button class="button icon-right ion-ios-plus-empty button-clear button-positive" ui-sref="tabsController.measurementAdd({schedule_id: schedule[0].$id})"></button>
-    </ion-nav-buttons>
-    <ion-content has-header="true" overflow-scroll="true" scroll="true" padding="true" class="has-header">
-      <li class="item" ng-hide="hasMeasurement()">
+    </ion-nav-buttons> -->
+
+    <div class="bar bar-subheader item-input-inset segmented-control" style="justify-content: center;">
+      <div class="button-bar bar-light responsive-col">
+        <a class="button button-small" ng-click="transitionToPageIndex(0)" ng-class="{'button-positive': measurementTab.pageIndex === 0}">Schedule</a>
+        <a class="button button-small" ng-click="transitionToPageIndex(1)" ng-class="{'button-positive': measurementTab.pageIndex === 1}">History</a>
+        <a class="button button-small" ng-click="transitionToPageIndex(2)" ng-class="{'button-positive': measurementTab.pageIndex === 2}">Add</a>
+      </div>
+    </div>
+
+
+    <!-- Stuff after here will scroll -->
+
+    <ion-content has-header="true" overflow-scroll="true" scroll="true" padding="true" class="has-header has-subheader">
+      <ion-slide-box on-slide-changed="slideHasChanged($index)" does-continue="false" show-pager="false">
+        <ion-slide>
+            <div>
+              <hr class="responsive-col"></hr>
+              <h4 class="text-center">Schedule</h4>
+            </div>
+            <ion-list>
+              <span ng-repeat = "s in schedule">
+                <a class="item item-divider item-icon-right" >
+                  {{s.name}}
+                </a>
+                <ion-item ng-repeat="m in s.measurements">
+                  {{m}}
+                </ion-item>
+            </span>
+        </ion-slide>
+        <ion-slide>
+          <div>
+            <hr class="responsive-col"></hr>
+            <h4 class="text-center">History</h4>
+          </div>
+            <ion-list>
+              <span ng-repeat = "date in measurements">
+                  <ion-item ng-repeat = "m in date">
+                    <p> {{m.taken_at}}</p>
+                    <p> {{m.measurements}}</p>
+                  </ion-item>
+            </span>
+          </ion-list>
+        </ion-slide>
+        <ion-slide>
+          <div>
+            <hr class="responsive-col"></hr>
+            <h4 class="text-center">Add Measurement</h4>
+          </div>
+        </ion-slide>
+      </ion-slide-box>
+
+      <!-- <li class="item" ng-hide="hasMeasurement()">
         You haven't added any measurements, click the add buttom on the header to add one.
       </li>
       <ion-list class = "measurement-list">
@@ -14,13 +64,15 @@
           <p>Weight: {{m.weight}} lbs</p>
           <p>Blood Pressure: {{m.systolic}}/{{m.diastolic}} mmHg</p>
           <p>Heart Rate: {{m.heart_rate}} bpm</p>
-          <!--- SHOULD WE DELETE A MEASUREMENT?
-          <ion-option-button class="button-assertive" ng-click="remove(chat)">
-            Delete
-          </ion-option-button>
-          -->
+
         </ion-item>
 
-      </ion-list>
+      </ion-list> -->
     </ion-content>
   </ion-view>
+
+  <!--- SHOULD WE DELETE A MEASUREMENT?
+  <ion-option-button class="button-assertive" ng-click="remove(chat)">
+    Delete
+  </ion-option-button>
+  -->

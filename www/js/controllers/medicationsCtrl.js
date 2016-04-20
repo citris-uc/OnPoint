@@ -1,9 +1,20 @@
 angular.module('app.controllers')
 
-.controller('medicationsCtrl', function($scope, Medication, MedicationSchedule, MedicationHistory) {
+.controller('medicationsCtrl', function($scope, $ionicSlideBoxDelegate,Medication, MedicationSchedule, MedicationHistory) {
+  $scope.medicationTab = {pageIndex: 0}
   $scope.schedule           = MedicationSchedule.get();
   $scope.medicationHistory  = MedicationHistory.getTodaysHistory();
   $scope.medications        = Medication.get();
+
+  $scope.slideHasChanged = function(pageIndex) {
+    $scope.medicationTab.pageIndex = pageIndex;
+  }
+
+  $scope.transitionToPageIndex = function(pageIndex) {
+    $scope.medicationTab.pageIndex = pageIndex;
+    $ionicSlideBoxDelegate.slide(pageIndex);
+  }
+
   $scope.didTakeMed = function(medication, schedule) {
     var match;
     var med = {}
@@ -48,6 +59,48 @@ angular.module('app.controllers')
       return (match.skipped_at !== undefined);
     else
       return false;
+  }
+
+  //THIS IS FOR FILLING PILL BOX. IS THERE A BETTER WAY?
+  $scope.selectedMed;
+  $scope.completed = []
+  var emptySlots = [' ',' ',' ',' ',' ',' ',' '];
+
+  $scope.getSlots = function(schedule, med) {
+    var DAYS_OF_THE_WEEK = 7
+    var slots = [];
+    if (typeof(med) === 'undefined') { //has not selected a med yet
+      slots = emptySlots
+    }
+    else {
+      if(schedule.medications.indexOf(med.trade_name) != -1) {
+        for(var day = 0; day < DAYS_OF_THE_WEEK; day++) {
+          if (schedule.days.indexOf(day) != -1) {
+            slots.push(med.tablets);
+          } else {
+            slots.push(" ");
+          }
+        }
+      }
+      else {
+        slots = emptySlots //this med is not in this schedule slot
+      }
+    }
+    return slots
+  }
+  $scope.displaySchedule = function(med){
+    $scope.selectedMed = med //set the selected med
+    if($scope.completed.indexOf(med) == -1){
+      $scope.completed.push(med);
+    }
+  }
+
+  $scope.hasCompleted = function(med){
+    if($scope.completed.indexOf(med) == -1){
+      return false;
+    }else{
+      return true;
+    }
   }
 })
 
