@@ -29,6 +29,13 @@
             <hr class="col-75"></hr>
             <h4 class="text-center">History</h4>
           </div>
+          <ion-list class = "measurement-list">
+            <span ng-repeat = "date in measurements">
+                <ion-item ng-repeat = "m in date">
+                  <p> {{m.taken_at}}</p>
+                  <p> {{m.measurements}}</p>
+                </ion-item>
+          </span>
         </ion-slide>
         <ion-slide>
           <div>

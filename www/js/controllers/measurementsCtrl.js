@@ -76,13 +76,10 @@ angular.module('app.controllers')
   $scope.measurementTab = {pageIndex: 0}
   $scope.measurements = Measurement.get();
   $scope.schedule = MeasurementSchedule.get();
-  $scope.hasMeasurement = function(){
-    if($scope.measurements.length == 0){
-      return false;
-    }else{
-      return true;
-    }
-  }
+  $scope.measurements.$loaded().then(function() {
+    console.log($scope.measurements)
+  })
+
 
   $scope.slideHasChanged = function(pageIndex) {
     $scope.measurementTab.pageIndex = pageIndex;
