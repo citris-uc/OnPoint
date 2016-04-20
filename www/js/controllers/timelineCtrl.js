@@ -124,17 +124,40 @@ angular.module('app.controllers')
     }
   }
 
-  $scope.getCardStatus = function(card) {
+  $scope.statusClass = function(card) {
     this.checkCardComplete(card);
     // Return cardClass: urgent/active/completed
     if (card.completed_at == null) {
       if (card.type == CARD.TYPE.URGENT) {
-        return "urgentCard";
+        return "badge-assertive";
       } else {
-        return "activeCard";
+        return "badge-energized";
       }
     } else {
-      return "completedCard";
+      return "badge-balanced";
+    }
+  }
+
+  $scope.iconClass = function(card) {
+    if (card.object_type == CARD.CATEGORY.MEDICATIONS_SCHEDULE)
+      return "ion-ios-medkit-outline";
+    if (card.object_type == CARD.CATEGORY.APPOINTMENTS_SCHEDULE)
+      return "ion-ios-calendar-outline";
+    if (card.object_type == CARD.CATEGORY.MEASUREMENTS_SCHEDULE)
+      return "ion-arrow-graph-up-right";
+  }
+
+  $scope.statusText = function(card) {
+    this.checkCardComplete(card);
+    // Return cardClass: urgent/active/completed
+    if (card.completed_at == null) {
+      if (card.type == CARD.TYPE.URGENT) {
+        return "Needs attention";
+      } else {
+        return "In progress";
+      }
+    } else {
+      return "Completed";
     }
   }
 
