@@ -279,7 +279,13 @@ angular.module('app.controllers')
         action = {tab: 'tabsController.medicationsSchedule', params: {schedule_id: schedule.$id}};
         return $state.go(action.tab, action.params);
       case CARD.CATEGORY.MEASUREMENTS_SCHEDULE:
-        action = {tab: 'tabsController.measurementAdd', params: {}}
+        var schedule;
+        for(var i = 0; i < $scope.measurementSchedule.length; i++) {
+          if($scope.measurementSchedule[i].$id == card.object_id) {
+            schedule = $scope.measurementSchedule[i];
+          }
+        }
+        action = {tab: 'tabsController.measurementAction', params: {schedule_id: schedule.$id}}
         return $state.go(action.tab, action.params);
       case CARD.CATEGORY.APPOINTMENTS_SCHEDULE :
         action = {tab: 'tabsController.appointments', params: {}}
