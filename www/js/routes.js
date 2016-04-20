@@ -109,6 +109,15 @@ angular.module('app.routes', [])
     }
   })
 
+  .state('tabsController.medication', {
+    url: '/medications/schedule/:schedule_id/medication/:medicationName',
+    views: {
+      'medications-tab': {
+        templateUrl: 'templates/medications/show.html',
+        controller: 'medicationCtrl'
+      }
+    }
+  })
 
 
   .state('tabsController.measurements', {
