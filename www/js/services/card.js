@@ -1,6 +1,6 @@
 angular.module('app.services')
 
-.factory("Card", ["CARD", "Patient", "MedicationHistory", "$firebaseArray", "$firebaseObject", function(CARD, Patient, MedicationHistory, $firebaseArray, $firebaseObject) {
+.factory("Card", ["CARD", "Patient", "MedicationSchedule", "MeasurementSchedule", "MedicationHistory", "$firebaseArray", "$firebaseObject", function(CARD, Patient, MedicationSchedule, MeasurementSchedule, MedicationHistory, $firebaseArray, $firebaseObject) {
   return {
     get: function() {
       var ref = this.ref();
@@ -31,44 +31,10 @@ angular.module('app.services')
     },
 
     create: function(date, card) {
-      // DEPRECIATED: do NOT want to set the id of each card to be the object_id, want a unique_id and have child object_id!
-      // var ref = this.ref().child(date).child(object.type).child(object.id);
-      // ref.set(card);
-
       var ref = this.ref().child(date);
       ref.push(card); //use push to generate a UNIQUE card ID for each firebase card.
     },
-    // DEPRECIATED
-    // find_or_create_by_object(object, cardObject) {
-    //   console.log(object)
-    //   var ref = this.todaysRef().child(object.type).child(object.id)
-    //   return ref.transaction(function(current) {
-    //     if (!current)
-    //       current = {}
-    //
-    //     var now    = (new Date()).toISOString();
-    //     current.created_at   = now;
-    //     current.updated_at   = now;
-    //     current.shown_at     = cardObject.shown_at || (new Date()).toISOString();
-    //     current.completed_at = cardObject.completed_at || null;
-    //     current.archived_at  = null;
-    //     current.type         = cardObject.type
-    //     return current
-    //   })
-    // },
     complete: function(card) {
-      // var card;
-      // for(var i = 0; i < cards.length; i++) {
-      //   if (cards[i].id === cardID)
-      //     card = cards[i]
-      // }
-      //
-      // if (card) {
-      //   now = (new Date()).toISOString();
-      //   card.updated_at   = now;
-      //   card.completed_at = now;
-      // }
-      // return card;
       var ref = this.todaysRef().child(card.$id);
       var now = (new Date()).toTimeString();
 
@@ -86,27 +52,88 @@ angular.module('app.services')
       })
       return req;
     },
-
-
     archive: function(card) {
       var ref = this.todaysRef().child(card.$id);
       var now = (new Date()).toTimeString();
 
-      var updateObject; //use this if updating an element. see https://www.firebase.com/docs/web/api/firebase/update.html
-      updateObject = {updated_at: now,
-                      archived_at: now};
+      var updateObject = {updated_at: now, archived_at: now};
 
-      //Add to or update firebase
       var req = ref.once('value', function(snapshot) {
-        if(snapshot.exists()) { //this date child exists
+        if(snapshot.exists()) {
           var card = snapshot.val();
           var cardRef = snapshot.ref();
           cardRef.update(updateObject);
         }
       })
       return req;
+    },
+    createFromObjectForDate: function(object_type, date_key) {
+      var that = this;
+      var now  = (new Date()).toISOString();
+
+      if (object_type == CARD.CATEGORY.MEDICATIONS_SCHEDULE)
+        var defaultRef = MedicationSchedule.ref().child("default");
+      else if (object_type == CARD.CATEGORY.MEASUREMENTS_SCHEDULE)
+        var defaultRef = MeasurementSchedule.ref().child("default");
+
+      defaultRef.once("value", function(snap) {
+        snap.forEach(function(childSnap) {
+          var schedule = childSnap.val();
+
+          //TODO: update these to be minutes from midnight.
+          var show = new Date();
+          if (object_type == CARD.CATEGORY.MEDICATIONS_SCHEDULE) {
+            show.setHours(parseInt(schedule.time.substring(0,2)));
+            show.setMinutes(parseInt(schedule.time.substring(3,5)));
+          } else if (object_type == CARD.CATEGORY.MEASUREMENTS_SCHEDULE) {
+            show.setHours(schedule.hour);
+            show.setMinutes(schedule.minute);
+          }
+
+          var card = {
+            type: CARD.TYPE.ACTION,
+            created_at: now,
+            updated_at: now,
+            shown_at: now,
+            completed_at: null,
+            archived_at: null,
+            num_comments: 0,
+            object_type: object_type,
+            object_id: childSnap.key()
+          }
+          that.create(date_key, card);
+        })
+      })
+    },
+
+
+    // This method queries "2016-04-01" on "cards" key and
+    // a) if key is not found, creates Medication and Measurement schedules.
+    // b) if key is found, checks if the date has Measurement/Medication schedules,
+    //    and if not, then generates them.
+    generateCardsFor: function(date_key) {
+      var that = this;
+
+      var cardRef = this.ref().child(date_key);
+      cardRef.once("value", function (cardSnap) { //only do this once per day
+        if (!cardSnap.exists()) {
+          that.createFromObjectForDate(CARD.CATEGORY.MEDICATIONS_SCHEDULE, date_key)
+          that.createFromObjectForDate(CARD.CATEGORY.MEASUREMENTS_SCHEDULE, date_key)
+        } else {
+          // Check to make sure each has been generated
+          var measExists = false;
+          var medsExists = false;
+          cardSnap.forEach(function(childSnap) {
+            if (childSnap.val().object_type == CARD.CATEGORY.MEASUREMENTS_SCHEDULE) measExists = true;
+            if (childSnap.val().object_type == CARD.CATEGORY.MEDICATIONS_SCHEDULE) medsExists = true;
+          });
+          if (!medsExists)
+            that.createFromObjectForDate(CARD.CATEGORY.MEDICATIONS_SCHEDULE, date_key)
+
+          if (!measExists)
+            that.createFromObjectForDate(CARD.CATEGORY.MEASUREMENTS_SCHEDULE, date_key)
+        }
+      })
     }
-  };
-
-
+  }
 }])
