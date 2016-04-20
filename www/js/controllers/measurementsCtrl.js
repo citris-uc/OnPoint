@@ -87,7 +87,10 @@ angular.module('app.controllers')
   $scope.addMeasurement = function() {
     Measurement.add($scope.newMeasurement, $stateParams.schedule_id);
     //$ionicHistory.goBack(); // go back to wherever we came from, could be timeline could be measurements tab
-    $state.go($ionicHistory.backView().stateName);
+    if($ionicHistory.backView()==null)
+      $state.go('tabsController.timeline') //by default go to timeline
+    else
+      $state.go($ionicHistory.backView().stateName);
   };
   $scope.setColor = function(measurement_name) {
     if(measurement_name.includes('blood pressure')) {
