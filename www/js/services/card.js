@@ -68,13 +68,12 @@ angular.module('app.services')
       return req;
     },
     createFromObjectForDate: function(object_type, date) {
-      this.date = date;
       var that = this;
       var now  = (new Date()).toISOString();
       var date_key = date.substring(0,10);
 
       if (object_type == CARD.CATEGORY.MEDICATIONS_SCHEDULE)
-        var defaultRef = MedicationSchedule.ref();
+        var defaultRef = MedicationSchedule.ref().child("default");
       else if (object_type == CARD.CATEGORY.MEASUREMENTS_SCHEDULE)
         var defaultRef = MeasurementSchedule.ref();
 
