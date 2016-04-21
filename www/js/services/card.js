@@ -67,21 +67,21 @@ angular.module('app.services')
       })
       return req;
     },
-    createFromObjectForDate: function(object_type, date_key) {
+    createFromObjectForDate: function(object_type, date) {
       var that = this;
       var now  = (new Date()).toISOString();
+      var date_key = date.substring(0,10);
 
       if (object_type == CARD.CATEGORY.MEDICATIONS_SCHEDULE)
         var defaultRef = MedicationSchedule.ref().child("default");
       else if (object_type == CARD.CATEGORY.MEASUREMENTS_SCHEDULE)
-        var defaultRef = MeasurementSchedule.ref().child("default");
+        var defaultRef = MeasurementSchedule.ref();
 
       defaultRef.once("value", function(snap) {
         snap.forEach(function(childSnap) {
           var schedule = childSnap.val();
-
           //TODO: update these to be minutes from midnight.
-          var show = new Date();
+          var show = new Date(date);
           if (object_type == CARD.CATEGORY.MEDICATIONS_SCHEDULE) {
             show.setHours(parseInt(schedule.time.substring(0,2)));
             show.setMinutes(parseInt(schedule.time.substring(3,5)));
@@ -94,7 +94,7 @@ angular.module('app.services')
             type: CARD.TYPE.ACTION,
             created_at: now,
             updated_at: now,
-            shown_at: now,
+            shown_at: show.toISOString(),
             completed_at: null,
             archived_at: null,
             num_comments: 0,
@@ -111,14 +111,15 @@ angular.module('app.services')
     // a) if key is not found, creates Medication and Measurement schedules.
     // b) if key is found, checks if the date has Measurement/Medication schedules,
     //    and if not, then generates them.
-    generateCardsFor: function(date_key) {
+    generateCardsFor: function(date) {
       var that = this;
+      date_key = date.substring(0,10);
 
       var cardRef = this.ref().child(date_key);
       cardRef.once("value", function (cardSnap) { //only do this once per day
         if (!cardSnap.exists()) {
-          that.createFromObjectForDate(CARD.CATEGORY.MEDICATIONS_SCHEDULE, date_key)
-          that.createFromObjectForDate(CARD.CATEGORY.MEASUREMENTS_SCHEDULE, date_key)
+          that.createFromObjectForDate(CARD.CATEGORY.MEDICATIONS_SCHEDULE, date)
+          that.createFromObjectForDate(CARD.CATEGORY.MEASUREMENTS_SCHEDULE, date)
         } else {
           // Check to make sure each has been generated
           var measExists = false;
@@ -128,10 +129,10 @@ angular.module('app.services')
             if (childSnap.val().object_type == CARD.CATEGORY.MEDICATIONS_SCHEDULE) medsExists = true;
           });
           if (!medsExists)
-            that.createFromObjectForDate(CARD.CATEGORY.MEDICATIONS_SCHEDULE, date_key)
+            that.createFromObjectForDate(CARD.CATEGORY.MEDICATIONS_SCHEDULE, date)
 
           if (!measExists)
-            that.createFromObjectForDate(CARD.CATEGORY.MEASUREMENTS_SCHEDULE, date_key)
+            that.createFromObjectForDate(CARD.CATEGORY.MEASUREMENTS_SCHEDULE, date)
         }
       })
     }

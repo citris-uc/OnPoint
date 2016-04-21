@@ -43,12 +43,12 @@ angular.module('app.controllers')
     $scope.numComments = new Array($scope.cards.length)
     $scope.measurementSchedule = MeasurementSchedule.get();
     $scope.measHistory = Measurement.getTodaysHistory(); // Measurement History
-    var today = (new Date()).toISOString().substring(0,10);
+    var today = (new Date()).toISOString();
     Card.generateCardsFor(today);
 
     var tomorrowDate = new Date();
     tomorrowDate.setDate(tomorrowDate.getDate()+1);
-    var tomorrow = tomorrowDate.toISOString().substring(0,10);
+    var tomorrow = tomorrowDate.toISOString();
     Card.generateCardsFor(tomorrow);
   });
 
@@ -75,7 +75,7 @@ angular.module('app.controllers')
     return schedule;
   }
 
-  $scope.getMedsStatusArrays = function(schedule, medications) {
+  $scope.getMedsStatusArrays = function(schedule, medications, date_key) {
     var takeMeds = [];
     var skippedMeds = [];
     var completedMeds = [];
@@ -90,16 +90,21 @@ angular.module('app.controllers')
       }
 
       var exists = false;
-      for(var i = 0; i < $scope.medHistory.length; i++) {
-        var hist = $scope.medHistory[i];
-        if (hist.medication_id==med.id && hist.medication_schedule_id==schedule.$id) {
-          exists = true;
-          if(hist.taken_at != null)
-            completedMeds.push(med);
-          else if (hist.skipped_at != null)
-            skippedMeds.push(med);
-          else {
-            takeMeds.push(med);
+      var history_date = $scope.measHistory.$ref().key();
+
+      // If the history reference matches the passed in date then check validity
+      if (date_key == history_date) {
+        for(var i = 0; i < $scope.medHistory.length; i++) {
+          var hist = $scope.medHistory[i];
+          if (hist.medication_id==med.id && hist.medication_schedule_id==schedule.$id) {
+            exists = true;
+            if(hist.taken_at != null)
+              completedMeds.push(med);
+            else if (hist.skipped_at != null)
+              skippedMeds.push(med);
+            else {
+              takeMeds.push(med);
+            }
           }
         }
       }
@@ -109,21 +114,26 @@ angular.module('app.controllers')
     return {unfinished: takeMeds, skipped: skippedMeds, done: completedMeds};
   }
 
-  $scope.getMeasStatusArrays = function(schedule, measurements) {
+  $scope.getMeasStatusArrays = function(schedule, measurements, date_key) {
     var incompleteMeas = [];
     var completedMeas = [];
 
     measurements.forEach( function(meas) {
       var exists = false;
-      for(var i = 0; i < $scope.measHistory.length; i++) {
-        var hist = $scope.measHistory[i];
-        if (hist.measurement_schedule_id==schedule.$id) {
-          if(typeof(hist.measurements[meas.name]) != 'undefined') {
-            exists= true;
-            completedMeas.push(meas.name);
+      var history_date = $scope.measHistory.$ref().key();
+
+      // If the history reference matches the passed in date then check validity
+      if (date_key == history_date) {
+        for(var i = 0; i < $scope.measHistory.length; i++) {
+          var hist = $scope.measHistory[i];
+          if (hist.measurement_schedule_id==schedule.$id) {
+            if(typeof(hist.measurements[meas.name]) != 'undefined') {
+              exists= true;
+              completedMeas.push(meas.name);
+            }
           }
-        }
-      }  //end historys
+        }  //end historys
+      }
       if (!exists) {
         incompleteMeas.push(meas.name);
       }
@@ -146,14 +156,14 @@ angular.module('app.controllers')
 
   $scope.checkMedsCardComplete = function(card) {
     if (card.completed_at != null || card.archived_at != null) return;
-
+    var date_key = card.shown_at.substring(0,10);
     var schedule = $scope.findMedicationScheduleForCard(card)
     if (schedule == null) return;
 
     var medications = schedule.medications;
     var now    = (new Date()).toISOString();
 
-    var medStatus = $scope.getMedsStatusArrays(schedule, medications);
+    var medStatus = $scope.getMedsStatusArrays(schedule, medications, date_key);
     var takeMeds = medStatus.unfinished;
     var skippedMeds = medStatus.skipped;
     var completedMeds = medStatus.done;
@@ -165,13 +175,13 @@ angular.module('app.controllers')
 
   $scope.checkMeasCardComplete = function(card) {
     if (card.completed_at != null || card.archived_at != null) return;
-
+    var date_key = card.shown_at.substring(0,10);
     var schedule = $scope.findMeasurementScheduleForCard(card)
     if (schedule == null) return;
 
     var measurements = schedule.measurements;
     var now    = (new Date()).toISOString();
-    var measStatus = $scope.getMeasStatusArrays(schedule, measurements);
+    var measStatus = $scope.getMeasStatusArrays(schedule, measurements, date_key);
     var incompleteMeas = measStatus.incomplete;
 
     //console.log(incompleteMeas.length)
@@ -269,9 +279,10 @@ angular.module('app.controllers')
   $scope.getMedicationsDescription = function(card) {
      var schedule = $scope.findMedicationScheduleForCard(card);
      if (schedule == null) return;
+     var date_key = card.shown_at.substring(0,10);
 
      var medications = schedule.medications;
-     var medStatus = $scope.getMedsStatusArrays(schedule, medications);
+     var medStatus = $scope.getMedsStatusArrays(schedule, medications, date_key);
      var takeMeds = medStatus.unfinished;
      var skippedMeds = medStatus.skipped;
      var completedMeds = medStatus.done;
@@ -320,7 +331,8 @@ angular.module('app.controllers')
     if (schedule == null) return;
 
     var measurements  = schedule.measurements;
-    var measStatus = $scope.getMeasStatusArrays(schedule, measurements);
+    var date_key = card.shown_at.substring(0,10);
+    var measStatus = $scope.getMeasStatusArrays(schedule, measurements, date_key);
     var incompleteMeas = measStatus.incomplete;
     var completedMeas = measStatus.complete;
 
