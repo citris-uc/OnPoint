@@ -4,7 +4,7 @@
 
   <div class="bar bar-subheader item-input-inset segmented-control" style="justify-content: center;">
     <div class="button-bar bar-light responsive-col">
-      <a class="button button-small" ng-click="transitionToPageIndex(0)" ng-class="{'button-positive': medicationTab.pageIndex === 0}">View Schedule</a>
+      <a class="button button-small" ng-click="transitionToPageIndex(0)" ng-class="{'button-positive': medicationTab.pageIndex === 0}">Schedule</a>
       <a class="button button-small" ng-click="transitionToPageIndex(1)" ng-class="{'button-positive': medicationTab.pageIndex === 1}">Medications</a>
       <a class="button button-small" ng-click="transitionToPageIndex(2)" ng-class="{'button-positive': medicationTab.pageIndex === 2}">Fill Pillbox</a>
     </div>
@@ -16,9 +16,11 @@
       <ion-slide>
           <div>
             <hr class="responsive-col"></hr>
-            <h4 class="text-center">View Schedule</h4>
+            <h4 class="text-center">Schedule</h4>
+            <div class="text-right">
+              <button class="button button-clear button-positive" ui-sref='tabsController.editMedSchedule'>Edit</button>
+            </div>
           </div>
-          <ion-list>
             <span ng-repeat = "dateSchedule in schedule">
               <a class="item item-divider item-icon-right" ui-sref="tabsController.medicationsSchedule({schedule_id: dateSchedule.$id})">
                 {{dateSchedule.slot}}
@@ -26,13 +28,17 @@
               </a>
 
               <ion-item ng-repeat="med in dateSchedule.medications",
-              ui-sref="tabsController.medication({schedule_id: dateSchedule.$id, medicationName: med})"
+              ui-sref="tabsController.medication({schedule_id: dateSchedule.$id, medication_name: med})"
               ng-hide="didTakeMed(med, dateSchedule)"
               ng-style="{'color': (didSkipMed(med, dateSchedule) ? 'grey' : 'black')}">
                 {{med}}
 
               </ion-item>
             </span>
+            <hr class="responsive-col"></hr>
+            <h4 class="text-center">Medicine Cabinet</h4>
+            <h6 class="text-center">You Have no meds in your medicine cabinet!</h6>
+            <!--TODO Add medicine cabinet meds-->
           </ion-list>
 
       </ion-slide>
@@ -41,7 +47,11 @@
           <hr class="responsive-col"></hr>
           <h4 class="text-center">Medications</h4>
         </div>
-
+        <ion-list>
+          <ion-item ng-repeat="med in medications" ng-show="med.user_input">
+            {{med.trade_name}}
+          </ion-item>
+        </ion-list>
       </ion-slide>
       <ion-slide>
         <div>
