@@ -58,7 +58,7 @@
                 <div class="col responsive-col-md-25">
                   <a class="item item-icon-left" ui-sref="tabsController.comments({card_id:c.$id, comment_id: c.comment_id})">
                     <i class="icon ion-ios-chatbubble-outline"></i>
-                    {{c.num_comments > 0 ? c.num_comments : 'Comment'}}
+                    Comment {{c.num_comments > 0 ? '('+c.num_comments+')' : ''}}
                   </a>
                 </div>
               </div>
@@ -114,6 +114,12 @@
 
                 <div class="item item-body">
                   {{description(c)}}
+                </div>
+                <div class="col responsive-col-md-25">
+                  <a class="item item-icon-left" ui-sref="tabsController.comments({card_id:c.$id, comment_id: c.comment_id})">
+                    <i class="icon ion-ios-chatbubble-outline"></i>
+                    Comment {{c.num_comments > 0 ? '('+c.num_comments+')' : ''}}
+                  </a>
                 </div>
               </div>
 
