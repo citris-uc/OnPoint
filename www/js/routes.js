@@ -119,6 +119,26 @@ angular.module('app.routes', [])
     }
   })
 
+  .state('tabsController.generatedMedSchedule', {
+    url: '/medication_schedules/generated',
+    views: {
+      'medications-tab': {
+        templateUrl: 'templates/carePlan/generated_medication_schedule.html',
+        controller: 'medicationsSettingCtrl'
+      }
+    }
+  })
+
+  .state('tabsController.newSlot', {
+    url: '/medication_schedules/new_slot',
+    views: {
+      'medications-tab': {
+        templateUrl: 'templates/carePlan/new_time_slot.html',
+        controller: 'medicationsSettingCtrl'
+      }
+    }
+  })
+
 
   .state('tabsController.measurements', {
     url: '/measurements',
