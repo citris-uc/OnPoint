@@ -1,0 +1,83 @@
+<link type="text/css" rel="stylesheet" href="css/settingsMedSchedStyle.css"/>
+
+<!-- Edit Time Slot Popup Dialog -->
+<script id="medSched-popup-template.html" type="text/ng-template">
+  <div class="list">
+    <label class="item item-input">
+      <span class="input-label">Slot Name</span>
+      <input type="text" ng-model="slot.text" placeholder="E.g. Noon"></input>
+    </label>
+
+    <label class="item item-input">
+      <span class="input-label">Reminder Time</span>
+      <input type="time"  ng-model="slot.time"></input>
+    </label>
+
+    <ion-list>
+      <ion-item class="input-label">Day of the Week</span>
+      <ion-checkbox ng-model="slot.day[1]">Monday</ion-checkbox>
+      <ion-checkbox ng-model="slot.day[2]">Tuesday</ion-checkbox>
+      <ion-checkbox ng-model="slot.day[3]">Wednesday</ion-checkbox>
+      <ion-checkbox ng-model="slot.day[4]">Thursday</ion-checkbox>
+      <ion-checkbox ng-model="slot.day[5]">Friday</ion-checkbox>
+      <ion-checkbox ng-model="slot.day[6]">Saturday</ion-checkbox>
+      <ion-checkbox ng-model="slot.day[0]">Sunday</ion-checkbox>
+    </ion-list>
+  </div>
+</script>
+
+
+<ion-view title="Medications Schedule" class="medsched">
+  <ion-nav-buttons side="right">
+    <button class="button icon-right ion-ios-plus-empty button-clear button-positive" ui-sref="tabsController.newScheduleSlot"></button>
+    <button class="button icon-right button-clear button-positive" ng-click='updateSchedule()'>Save</button>
+  </ion-nav-buttons>
+  <ion-content overflow-scroll="true" padding="false" class="has-header">
+    <!-- <div class="tabs tabs-striped tabs-color-assertive tabs-top"> -->
+      <!-- <a class="tab-item"><i class="icon ion-ios-arrow-left"></i></a> -->
+      <!-- <a class="tab-item " ng-repeat = "day in week"> -->
+        <!-- {{day}} -->
+      <!-- </a> -->
+      <!-- <a class="tab-item"><i class="icon ion-ios-arrow-right"></i></a> -->
+    <!-- </div> -->
+    <!-- The dnd-draggable directive makes an element draggable and will
+         transfer the object that was assigned to it. If an element was
+         dragged away, you have to remove it from the original list
+         yourself using the dnd-moved attribute -->
+         <!-- dnd-type="'timeSlotType'"
+         dnd-draggable="dateSchedule"
+         dnd-moved="schedule.splice($index, 1)"
+         dnd-effect-allowed="move" -->
+
+    <ul dnd-list="schedule"
+        dnd-allowed-types="['timeSlotType']"
+        >
+        <li class = "card item"
+            ng-repeat="dateSchedule in schedule | orderBy: 'time'"
+            >
+            <a class="item">{{dateSchedule.slot | uppercase}}
+              <i class="item-small item-icon-right" style="float:right">
+              {{timeDisplayFormat(dateSchedule.time)}}
+                <i class="icon ion-edit button button-clear button-positive" ng-click="editSlot(dateSchedule)"></i>
+              </i>
+           </a>
+            <ul dnd-list="dateSchedule.medications"
+                dnd-horizontal-list="true"
+                dnd-allowed-types="['medType']"
+                dnd-drop="dropCallback(event, index, item, external, type, 'itemType',
+                                        dateSchedule, dateSchedule.medications == null)"
+                >
+                <li ng-repeat="med in dateSchedule.medications"
+                    dnd_type="'medType'"
+                    dnd-draggable="med"
+                    dnd-moved="dateSchedule.medications.splice($index, 1)"
+                    dnd-effect-allowed="move"
+                    >
+                    {{med}}
+                </li>
+            </ul>
+
+        </li>
+    </ul>
+  </ion-content>
+</ion-view>
