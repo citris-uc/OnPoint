@@ -43,12 +43,12 @@ angular.module('app.controllers')
     $scope.numComments = new Array($scope.cards.length)
     $scope.measurementSchedule = MeasurementSchedule.get();
     $scope.measHistory = Measurement.getTodaysHistory(); // Measurement History
-    var today = (new Date()).toISOString().substring(0,10);
+    var today = (new Date()).toISOString();
     Card.generateCardsFor(today);
 
     var tomorrowDate = new Date();
     tomorrowDate.setDate(tomorrowDate.getDate()+1);
-    var tomorrow = tomorrowDate.toISOString().substring(0,10);
+    var tomorrow = tomorrowDate.toISOString();
     Card.generateCardsFor(tomorrow);
   });
 
