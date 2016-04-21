@@ -162,7 +162,7 @@ angular.module('app.controllers')
    * ui-sref="tabsController.medication({schedule_id: schedule.$id, medicationName: med})"
    */
   $scope.directToMed = function(schedule, med_name) {
-    var params: {schedule_id: schedule, medicationName: med_name};
+    var params =  {schedule_id: schedule, medicationName: med_name};
 
     if($ionicHistory.backView().stateName=='tabsController.timeline')
       $state.go('tabsController.medicationAction',params)
