@@ -26,7 +26,7 @@
               </a>
 
               <ion-item ng-repeat="med in dateSchedule.medications",
-              ui-sref="tabsController.medication({schedule_id: dateSchedule.$id, medicationName: med})"
+              ui-sref="tabsController.medication({schedule_id: dateSchedule.$id, medication_name: med})"
               ng-hide="didTakeMed(med, dateSchedule)"
               ng-style="{'color': (didSkipMed(med, dateSchedule) ? 'grey' : 'black')}">
                 {{med}}

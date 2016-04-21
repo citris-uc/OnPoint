@@ -158,11 +158,11 @@ angular.module('app.controllers')
   /*
    * Can get to templates/medications/schedule.html in 2 ways so need to direct approrpiately when click a specific med
    * rather than having a hard coded ui-sref like below
-   * ui-sref="tabsController.medicationAction({schedule_id: schedule.$id, medicationName: med})"
-   * ui-sref="tabsController.medication({schedule_id: schedule.$id, medicationName: med})"
+   * ui-sref="tabsController.medicationAction({schedule_id: schedule.$id, medication_name: med})"
+   * ui-sref="tabsController.medication({schedule_id: schedule.$id, medication_name: med})"
    */
   $scope.directToMed = function(schedule, med_name) {
-    var params =  {schedule_id: schedule, medicationName: med_name};
+    var params =  {schedule_id: schedule, medication_name: med_name};
 
     if($ionicHistory.backView().stateName=='tabsController.timeline')
       $state.go('tabsController.medicationAction',params)
@@ -203,7 +203,7 @@ angular.module('app.controllers')
 
 .controller("medicationCtrl", function($scope, $stateParams,$ionicPopup,$ionicHistory, Medication, MedicationSchedule, MedicationDosage, MedicationHistory) {
   $scope.state = $stateParams;
-  var req = Medication.getByTradeName($stateParams.medicationName)
+  var req = Medication.getByTradeName($stateParams.medication_name)
   req.then(function(snapshot) {
     $scope.medication = snapshot.val()
     $scope.medication["id"] =  snapshot.key()

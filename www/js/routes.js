@@ -48,7 +48,7 @@ angular.module('app.routes', [])
   })
 
   .state('tabsController.medicationAction', {
-    url: '/timeline/medication-card-action/:schedule_id/medication-action/:medicationName',
+    url: '/timeline/medication-card-action/:schedule_id/medication-action/:medication_name',
     views: {
       'timeline-tab': {
         templateUrl: 'templates/medications/show.html',
@@ -110,7 +110,7 @@ angular.module('app.routes', [])
   })
 
   .state('tabsController.medication', {
-    url: '/medications/schedule/:schedule_id/medication/:medicationName',
+    url: '/medications/schedule/:schedule_id/medication/:medication_name',
     views: {
       'medications-tab': {
         templateUrl: 'templates/medications/show.html',
