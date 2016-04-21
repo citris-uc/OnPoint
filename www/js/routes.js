@@ -123,7 +123,7 @@ angular.module('app.routes', [])
     url: '/medication_schedules/generated',
     views: {
       'medications-tab': {
-        templateUrl: 'templates/carePlan/generated_medication_schedule.html',
+        templateUrl: 'templates/medications/generated_medication_schedule.html',
         controller: 'medicationsSettingCtrl'
       }
     }
@@ -133,7 +133,7 @@ angular.module('app.routes', [])
     url: '/medication_schedules/new_slot',
     views: {
       'medications-tab': {
-        templateUrl: 'templates/carePlan/new_time_slot.html',
+        templateUrl: 'templates/medicatinos/new_time_slot.html',
         controller: 'medicationsSettingCtrl'
       }
     }
