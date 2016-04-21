@@ -4,7 +4,7 @@
 
   <div class="bar bar-subheader item-input-inset segmented-control" style="justify-content: center;">
     <div class="button-bar bar-light responsive-col">
-      <a class="button button-small" ng-click="transitionToPageIndex(0)" ng-class="{'button-positive': medicationTab.pageIndex === 0}">View Schedule</a>
+      <a class="button button-small" ng-click="transitionToPageIndex(0)" ng-class="{'button-positive': medicationTab.pageIndex === 0}">Schedule</a>
       <a class="button button-small" ng-click="transitionToPageIndex(1)" ng-class="{'button-positive': medicationTab.pageIndex === 1}">Medications</a>
       <a class="button button-small" ng-click="transitionToPageIndex(2)" ng-class="{'button-positive': medicationTab.pageIndex === 2}">Fill Pillbox</a>
     </div>
@@ -16,7 +16,7 @@
       <ion-slide>
           <div>
             <hr class="responsive-col"></hr>
-            <h4 class="text-center">View Schedule</h4>
+            <h4 class="text-center">Schedule</h4>
           </div>
           <ion-list>
             <span ng-repeat = "dateSchedule in schedule">
