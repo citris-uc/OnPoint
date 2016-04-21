@@ -39,7 +39,7 @@
               <div class="item item-icon-left">
                 <i class="icon {{iconClass(c)}}"></i>
                 <h2>{{formatTitle(c.object_type)}}</h2>
-                <p>{{getTime(c.shown_at) | date: 'EEEE hh:mma, MMMM dd'}}</p>
+                <p>{{getTime(c.shown_at) | date: 'EEEE, MMMM dd h:mm a'}}</p>
 
                 <span class="badge {{statusClass(c)}}">{{statusText(c)}}</span>
               </div>
@@ -82,7 +82,7 @@
               <div class="item item-icon-left">
                 <i class="icon {{iconClass(c)}}"></i>
                 <h2>{{formatTitle(c.object_type)}}</h2>
-                <p>{{getTime(c.shown_at) | date: 'EEEE hh:mma, MMMM dd'}}</p>
+                <p>{{getTime(c.shown_at) | date: 'EEEE, MMMM dd h:mm a'}}</p>
               </div>
 
               <div class="item item-body">
@@ -109,7 +109,7 @@
                 <div class="item item-icon-left">
                   <i class="icon {{iconClass(c)}}"></i>
                   <h2>{{formatTitle(c.object_type)}}</h2>
-                  <p>{{getTime(c.shown_at) | date: 'EEEE hh:mma, MMMM dd'}}</p>
+                  <p>{{getTime(c.shown_at) | date: 'EEEE, MMMM dd h:mm a'}}</p>
                 </div>
 
                 <div class="item item-body">
