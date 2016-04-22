@@ -37,7 +37,7 @@
                   <div class="item item-divider">Measurements To Take</div>
                   <ion-item ng-repeat="measurement in s.measurements" ng-hide="didTakeMeasurement(measurement.name)">
                       <span class="input-label"><strong>{{measurement.name}}</strong></span>
-                      <input type="number" placeholder="{{measurement.unit}}" ng-style="{'color': setColor(measurement.name)}" ng-model="newMeasurement[s.$id][measurement.name]" ng-blur="check(measurement.name)"></input>
+                      <input type="number" placeholder="{{measurement.unit}}" ng-style="{'color': setColor(measurement.name)}" ng-model="newMeasurement[s.$id][measurement.name]" ng-blur="check(measurement.name, s.$id)"></input>
                   </ion-item>
                   <div class="item item-divider">Completed Measurements</div>
                   <ion-item ng-repeat="measurement in s.measurements" ng-show="didTakeMeasurement(measurement.name)">
@@ -68,8 +68,27 @@
         </ion-slide>
         <ion-slide>
           <div>
-            <hr class="responsive-col"></hr>
             <h4 class="text-center">Add Measurement</h4>
+            <div style="position: absolute; right: 0; top: 0; text-align: right">
+                <button style="font-size: 18px" class="button button-clear button-positive" ng-click="saveMeasurement('custom')" ng-disabled="disableSave('custom')">Save</b>
+            </div>
+            <div class="list">
+              <label class="item item-input">
+                <span class="input-label"> <strong>Measurement Name</strong></span>
+                <input type="text" placeholder="height" ng-model="newMeasurement['custom'].name"></input>
+              </label>
+
+              <label class="item item-input">
+                <span class="input-label"><strong>Value</strong></span>
+                <input type="text" ng-model="newMeasurement['custom'].value"></input>
+              </label>
+
+              <label class="item item-input">
+                 <span class="input-label"><strong>Unit</strong></span>
+                <input type="text" placeholder="optional" ng-model="newMeasurement['custom'].unit" ></input>
+              </label>
+
+            </div>
           </div>
         </ion-slide>
       </ion-slide-box>
