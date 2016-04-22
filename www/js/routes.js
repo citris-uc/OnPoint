@@ -164,7 +164,7 @@ angular.module('app.routes', [])
     url: 'measurements/schedule/:measurement_schedule_id',
     views: {
       'measurements-tab': {
-        templateUrl: 'templates/carePlan/view_measurement_schedule.html',
+        templateUrl: 'templates/measurements/view_measurement_schedule.html',
         controller: 'measurementViewCtrl'
       }
     }
