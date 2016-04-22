@@ -29,7 +29,7 @@
                 <ion-list class>
                   <h4 class="text-center">{{s.name}}</h4>
                   <div style="position: absolute; left: 0; top: 0; text-align: left">
-                      <button style="font-size: 18px" class="button button-clear button-positive">Edit</b>
+                      <button style="font-size: 18px" class="button button-clear button-positive" ng-click="edit(s)">Edit</b>
                   </div>
                   <div style="position: absolute; right: 0; top: 0; text-align: right">
                       <button style="font-size: 18px" class="button button-clear button-positive" ng-click="saveMeasurement(s)" ng-disabled="disableSave(s.$id)">Save</b>

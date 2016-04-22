@@ -160,6 +160,16 @@ angular.module('app.routes', [])
     }
   })
 
+  .state('tabsController.viewMeasurementSchedule', {
+    url: 'measurements/schedule/:measuremnt_schedule_id',
+    views: {
+      'measurements-tab': {
+        templateUrl: 'templates/measurements/view_measurement_schedule.html',
+        controller: 'measurementViewCtrl'
+      }
+    }
+  })
+
   // DEPRECIATED: Making measurements tab a segmenetd control
   // .state('tabsController.measurementAdd', {
   //   url: '/measurement-add/:schedule_id',
