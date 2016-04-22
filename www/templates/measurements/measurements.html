@@ -18,23 +18,26 @@
 
     <ion-content has-header="true" overflow-scroll="true" scroll="true" padding="true" class="has-header has-subheader">
       <ion-slide-box on-slide-changed="slideHasChanged($index)" does-continue="false" show-pager="false">
-        <ion-slide ng-controller="enterMedicationsCtrl">
+        <ion-slide ng-controller="enterMeasurementsCtrl">
             <div>
-              <hr class="responsive-col"></hr>
               <h4 class="text-center">Schedule</h4>
             </div>
+            <hr class="responsive-col"></hr>
             <ion-list>
               <span ng-repeat = "s in schedule">
 
                 <ion-list class>
                   <h4 class="text-center">{{s.name}}</h4>
+                  <div style="position: absolute; left: 0; top: 0; text-align: left">
+                      <button style="font-size: 18px" class="button button-clear button-positive">Edit</b>
+                  </div>
                   <div style="position: absolute; right: 0; top: 0; text-align: right">
-                      <button style="font-size: 18px" class="button button-clear button-positive">Enter</b>
+                      <button style="font-size: 18px" class="button button-clear button-positive" ng-click="saveMeasurement(s)" ng-disabled="disableSave(s.$id)">Save</b>
                   </div>
                   <div class="item item-divider">Measurements To Take</div>
                   <ion-item ng-repeat="measurement in s.measurements" ng-hide="didTakeMeasurement(measurement.name)">
                       <span class="input-label"><strong>{{measurement.name}}</strong></span>
-                      <input type="number" placeholder="{{measurement.unit}}" ng-style="{'color': setColor(measurement.name)}" ng-model="newMeasurement[measurement.name]" ng-blur="check(measurement.name)"></input>
+                      <input type="number" placeholder="{{measurement.unit}}" ng-style="{'color': setColor(measurement.name)}" ng-model="newMeasurement[s.$id][measurement.name]" ng-blur="check(measurement.name)"></input>
                   </ion-item>
                   <div class="item item-divider">Completed Measurements</div>
                   <ion-item ng-repeat="measurement in s.measurements" ng-show="didTakeMeasurement(measurement.name)">
