@@ -74,7 +74,7 @@ angular.module('app.controllers')
 
 .controller('measurementsCtrl', function($scope, $ionicSlideBoxDelegate,Measurement, MeasurementSchedule) {
   $scope.measurementTab = {pageIndex: 0}
-  $scope.measurements = Measurement.get();
+  $scope.history = Measurement.get();
   $scope.schedule = MeasurementSchedule.get();
   $scope.newMeasurement = {};
   $scope.schedule.$loaded().then(function() {
