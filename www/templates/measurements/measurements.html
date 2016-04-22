@@ -25,12 +25,25 @@
             </div>
             <ion-list>
               <span ng-repeat = "s in schedule">
-                <a class="item item-divider item-icon-right" >
+
+                <ion-list class>
+                  <h4 class="text-center">{{s.name}}</h4>
+                  <div class="item item-divider">Measurements To Take</div>
+                  <ion-item ng-repeat="measurement in s.measurements" ng-hide="didTakeMeasurement(measurement.name)">
+                      <span class="input-label"><strong>{{measurement.name}}</strong></span>
+                      <input type="number" placeholder="{{measurement.unit}}" ng-style="{'color': setColor(measurement.name)}" ng-model="newMeasurement[measurement.name]" ng-blur="check(measurement.name)"></input>
+                  </ion-item>
+                  <div class="item item-divider">Completed Measurements</div>
+                  <ion-item ng-repeat="measurement in s.measurements" ng-show="didTakeMeasurement(measurement.name)">
+                      <span class ="input-label"> <strong>{{measurement.name}}</strong> </span> {{getMeasurementValue(measurement.name)}} {{measurement.unit}}
+                  </ion-item>
+                </ion-list class>
+                <!-- <a class="item item-divider item-icon-right" >
                   {{s.name}}
                 </a>
                 <ion-item ng-repeat="m in s.measurements">
                   {{m}}
-                </ion-item>
+                </ion-item> -->
             </span>
         </ion-slide>
         <ion-slide>
@@ -54,20 +67,6 @@
           </div>
         </ion-slide>
       </ion-slide-box>
-
-      <!-- <li class="item" ng-hide="hasMeasurement()">
-        You haven't added any measurements, click the add buttom on the header to add one.
-      </li>
-      <ion-list class = "measurement-list">
-        <ion-item class="view-measurement" ng-repeat="m in measurements | orderBy:m.timestamp: 'true'">
-          <p>{{m.timestamp | date:'MMM d, y h:mm a'}}</p>
-          <p>Weight: {{m.weight}} lbs</p>
-          <p>Blood Pressure: {{m.systolic}}/{{m.diastolic}} mmHg</p>
-          <p>Heart Rate: {{m.heart_rate}} bpm</p>
-
-        </ion-item>
-
-      </ion-list> -->
     </ion-content>
   </ion-view>
 
