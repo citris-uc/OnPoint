@@ -7,6 +7,13 @@ angular.module('app.controllers')
   $scope.medications        = Medication.get();
   $scope.cabMedications     = Medication.getCabMeds();
 
+  $scope.containCabMeds = function() {
+    if( typeof $scope.cabMedications === "undefined"){
+      return true;
+    }
+    return $scope.cabMedications.length != 0;
+  }
+
   $scope.slideHasChanged = function(pageIndex) {
     $scope.medicationTab.pageIndex = pageIndex;
   }
