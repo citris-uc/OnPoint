@@ -204,4 +204,7 @@ angular.module('app.controllers')
      }
      return false;
    }
+   $scope.updateSchedule = function() {
+     //TODO: Amy can you do this. 
+   }
 })
