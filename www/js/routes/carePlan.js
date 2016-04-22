@@ -56,7 +56,7 @@ angular.module('app.routes')
   })
 
   .state('carePlan.viewMeasurementSchedule', {
-    url: '/measurementSchedule/:measuremnt_schedule_id',
+    url: '/measurementSchedule/:measurement_schedule_id',
     views: {
       'care-plan': {
         templateUrl: 'templates/carePlan/view_measurement_schedule.html',

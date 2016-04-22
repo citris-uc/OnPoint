@@ -194,5 +194,5 @@ angular.module('app.controllers')
 })
 
 .controller('measurementViewCtrl', function($scope, $stateParams, MeasurementSchedule) {
-   $scope.schedule = MeasurementSchedule.findByID($stateParams.measuremnt_schedule_id);
+   $scope.schedule = MeasurementSchedule.findByID($stateParams.measurement_schedule_id);
 })
