@@ -207,5 +207,17 @@ angular.module('app.controllers')
 })
 
 .controller('measurementViewCtrl', function($scope, $stateParams, MeasurementSchedule) {
-   $scope.schedule = MeasurementSchedule.findByID($stateParams.measuremnt_schedule_id);
+   $scope.schedule = MeasurementSchedule.findByID($stateParams.measurement_schedule_id);
+
+   $scope.hasMeasurement = function(meas) {
+     for(var i = 0; i < $scope.schedule.measurements.length; i++) {
+       if ($scope.schedule.measurements[i].name.includes(meas)) {
+         return true;
+       }
+     }
+     return false;
+   }
+   $scope.updateSchedule = function() {
+     //TODO: Amy can you do this. 
+   }
 })
