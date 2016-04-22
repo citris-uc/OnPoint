@@ -59,12 +59,14 @@
         </ion-list>
 
         <hr class="responsive-col"></hr>
-        <h4 class="text-center">Medicine Cabinet</h4>
-        <li class="item" ng-hide="containCabMeds()">
-          <h6 class="text-center">You Have no meds in your medicine cabinet!</h6>
-        </li>
-        <div class="text-right">
-          <button class="button button-clear button-positive" ui-sref='tabsController.newCabinetMed'>Add med to cabinet</button>
+        <div style="position: relative;">
+          <h4 class="text-center">Medicine Cabinet</h4>
+          <li class="item" ng-hide="containCabMeds()">
+            <h6 class="text-center">You Have no meds in your medicine cabinet!</h6>
+          </li>
+          <div style="position: absolute; right: 0; top: 0; text-align: right">
+              <button style="color: blue; font-size: 18px" class=" button-clear button-positive" ui-sref='tabsController.newCabinetMed'>Add med to cabinet</b>
+          </div>
         </div>
 
         <ion-list>
