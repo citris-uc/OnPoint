@@ -161,10 +161,10 @@ angular.module('app.routes', [])
   })
 
   .state('tabsController.viewMeasurementSchedule', {
-    url: 'measurements/schedule/:measuremnt_schedule_id',
+    url: 'measurements/schedule/:measurement_schedule_id',
     views: {
       'measurements-tab': {
-        templateUrl: 'templates/measurements/view_measurement_schedule.html',
+        templateUrl: 'templates/carePlan/view_measurement_schedule.html',
         controller: 'measurementViewCtrl'
       }
     }
