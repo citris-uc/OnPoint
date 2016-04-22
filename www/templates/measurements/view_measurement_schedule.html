@@ -6,10 +6,11 @@
             <span class="input-label"><strong>Schedule Name</strong></span>
             <input class="input-label"  type="text" placeholder="E.g. My Daily Schedule" ng-model="schedule.name" ></input>
           </label>
+          <!-- TODO: THIS NEEDS TO BE CLEANED UP -->
           <li class="item"><strong>Please select measurements</strong></li>
-          <ion-checkbox ng-checked="schedule.measurements.indexOf('weight') !== -1">Weight</ion-checkbox>
-          <ion-checkbox ng-checked="schedule.measurements.indexOf('blood_pressure') !== -1">Blood Pressure</ion-checkbox>
-          <ion-checkbox ng-checked="schedule.measurements.indexOf('heart_rate') !== -1">Heart Rate</ion-checkbox>
+          <ion-checkbox ng-checked="hasMeasurement('weight')">Weight</ion-checkbox>
+          <ion-checkbox ng-checked="hasMeasurement('blood pressure')">Blood Pressure</ion-checkbox>
+          <ion-checkbox ng-checked="hasMeasurement('heart rate')">Heart Rate</ion-checkbox>
 
           <li class="item"><strong>Please select days to be reminded</strong></li>
           <ion-checkbox ng-checked="schedule.days.indexOf(0) !== -1">Sunday</ion-checkbox>
