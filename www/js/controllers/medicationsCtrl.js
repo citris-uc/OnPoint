@@ -104,10 +104,13 @@ angular.module('app.controllers')
   }
 
   $scope.hasCompleted = function(med){
-    if($scope.completed.indexOf(med) == -1){
+    if(typeof $scope.selectedMed === "undefined"){
       return false;
-    }else{
+    }
+    if($scope.selectedMed.trade_name == med.trade_name){
       return true;
+    }else{
+      return false;
     }
   }
 })
@@ -247,6 +250,14 @@ angular.module('app.controllers')
       ]
     });
   };
+})
+
+.controller('medicationEditCtrl', function($scope, $stateParams, $ionicHistory, Medication) {
+   $scope.med = Medication.getById($stateParams.medication_id);
+   $scope.update = function(){
+       $scope.med.$save();
+       $ionicHistory.goBack();
+   }
 })
 
 .controller('medicationsSettingCtrl', function($scope, $state, $ionicPopup,$ionicHistory, Patient, Medication, MedicationSchedule, MedicationHistory) {

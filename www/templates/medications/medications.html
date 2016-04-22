@@ -14,13 +14,12 @@
   <ion-content has-header="true" overflow-scroll="true" scroll="true" class="has-header has-subheader">
     <ion-slide-box on-slide-changed="slideHasChanged($index)" does-continue="false" show-pager="false">
       <ion-slide>
-          <div>
-            <hr class="responsive-col"></hr>
-            <h4 class="text-center">Schedule</h4>
-            <div class="text-right">
-              <button class="button button-clear button-positive" ui-sref='tabsController.editMedSchedule'>Edit</button>
+            <div style="position: relative;">
+              <h4 style="text-align: center">Schedule</h1>
+              <div style="position: absolute; right: 0; top: 0; text-align: right">
+                  <button style="color: blue; font-size: 18px" class=" button-clear button-positive" ui-sref='tabsController.editMedSchedule'>Edit</b>
+              </div>
             </div>
-          </div>
             <span ng-repeat = "dateSchedule in schedule">
               <a class="item item-divider item-icon-right" ui-sref="tabsController.medicationsSchedule({schedule_id: dateSchedule.$id})">
                 {{dateSchedule.slot}}
@@ -53,8 +52,9 @@
           <h4 class="text-center">Scheduled Medications</h4>
         </div>
         <ion-list>
-          <ion-item ng-repeat="med in medications" ng-show="med.user_input">
+          <ion-item class="item item-icon-right" ng-repeat="med in medications" ng-show="med.user_input" ui-sref="tabsController.editMed({medication_id: med.$id})">
             {{med.trade_name}}
+            <i class="icon ion-ios-arrow-right"></i>
           </ion-item>
         </ion-list>
 
@@ -105,8 +105,6 @@
         <div ng-repeat="med in medications" style="float:left">
             <button ng-class = "hasCompleted(med)? 'button button-calm' : 'button button-balanced' ", ng-click="displaySchedule(med)" >{{med.trade_name}}</button>
         </div>
-        <button ui-sref="tabsController.timeline" class="button button-positive  button-block" >Done</button>
-
 
       </ion-slide>
     </ion-slide-box>
