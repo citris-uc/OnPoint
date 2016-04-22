@@ -92,7 +92,17 @@ angular.module('app.controllers')
   }
 
   $scope.saveMeasurement = function(schedule) {
-    Measurement.add($scope.newMeasurement[schedule.$id], schedule);
+    var measurement;
+
+    if(schedule=='custom') {
+      schedule = {$id: 'custom'}
+      measurement = $scope.newMeasurement['custom']
+    }
+    else {
+      meausrement = $scope.newMeasurement[schedule.$id]
+    }
+
+    Measurement.add(measurement, schedule);
   };
 
   $scope.disableSave = function(schedule_id) {
@@ -158,9 +168,12 @@ angular.module('app.controllers')
     return false
   };
 
-  $scope.check = function(measurement_name) {
+  $scope.check = function(measurement_name, schedule_id) {
+    //Can come in with specific scheudle_id or not, need to check.
+    //can come frmo medications-add.html or medications.html
+    var newMeasurement = typeof(schedule_id) =='undefined'? $scope.newMeasurement:$scope.newMeasurement[schedule_id]
     if(measurement_name.includes('blood pressure')) {
-      if(Measurement.hasHighBP($scope.newMeasurement)) {
+      if(Measurement.hasHighBP(newMeasurement)) {
         bpcolor = 'red';
         $scope.bpAlert('Blood Pressure High');
       } else {
