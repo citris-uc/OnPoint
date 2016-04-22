@@ -96,10 +96,13 @@ angular.module('app.controllers')
   }
 
   $scope.hasCompleted = function(med){
-    if($scope.completed.indexOf(med) == -1){
+    if(typeof $scope.selectedMed === "undefined"){
       return false;
-    }else{
+    }
+    if($scope.selectedMed.trade_name == med.trade_name){
       return true;
+    }else{
+      return false;
     }
   }
 })
