@@ -58,12 +58,15 @@
             <h4 class="text-center">History</h4>
           </div>
             <ion-list>
-              <span ng-repeat = "date in measurements">
-                  <ion-item ng-repeat = "m in date">
-                    <p> {{m.taken_at}}</p>
-                    <p> {{m.measurements}}</p>
-                  </ion-item>
-            </span>
+              <div ng-repeat="hist in history | orderBy:'-'">
+                <div>
+                  <hr class="responsive-col"></hr>
+                  <h4 class="text-center">{{hist.$id | date:'MMMM dd, yyyy'}}</h4>
+                </div>
+                <ion-item ng-repeat="taken in hist">
+                  {{taken.measurements}} at {{taken.taken_at}}
+                </ion-item>
+            </div>
           </ion-list>
         </ion-slide>
         <ion-slide>
