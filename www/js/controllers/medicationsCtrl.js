@@ -5,6 +5,7 @@ angular.module('app.controllers')
   $scope.schedule           = MedicationSchedule.get();
   $scope.medicationHistory  = MedicationHistory.getTodaysHistory();
   $scope.medications        = Medication.get();
+  $scope.cabMedications     = Medication.getCabMeds();
 
   $scope.slideHasChanged = function(pageIndex) {
     $scope.medicationTab.pageIndex = pageIndex;

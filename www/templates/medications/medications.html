@@ -59,6 +59,12 @@
         <div class="text-right">
           <button class="button button-clear button-positive" ui-sref='tabsController.newCabinetMed'>Add med to cabinet</button>
         </div>
+
+        <ion-list>
+          <ion-item ng-repeat="med in cabMedications">
+            {{med.name}}
+          </ion-item>
+        </ion-list>
       </ion-slide>
 
       <ion-slide>
