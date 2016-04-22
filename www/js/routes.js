@@ -88,7 +88,6 @@ angular.module('app.routes', [])
     }
   })
 
-  //TODO: update medications tab to have segmented views
   .state('tabsController.medications', {
     url: '/medications',
     views: {
@@ -115,6 +114,17 @@ angular.module('app.routes', [])
       'medications-tab': {
         templateUrl: 'templates/medications/show.html',
         controller: 'medicationCtrl'
+      }
+    }
+  })
+
+
+  .state('tabsController.newCabinetMed', {
+    url: '/medications/newCabinet',
+    views: {
+      'medications-tab': {
+        templateUrl: 'templates/medications/new_cabmed.html',
+        controller: 'cabmedInputCtrl'
       }
     }
   })

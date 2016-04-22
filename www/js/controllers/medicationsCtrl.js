@@ -5,6 +5,14 @@ angular.module('app.controllers')
   $scope.schedule           = MedicationSchedule.get();
   $scope.medicationHistory  = MedicationHistory.getTodaysHistory();
   $scope.medications        = Medication.get();
+  $scope.cabMedications     = Medication.getCabMeds();
+
+  $scope.containCabMeds = function() {
+    if( typeof $scope.cabMedications === "undefined"){
+      return true;
+    }
+    return $scope.cabMedications.length != 0;
+  }
 
   $scope.slideHasChanged = function(pageIndex) {
     $scope.medicationTab.pageIndex = pageIndex;
@@ -375,4 +383,34 @@ angular.module('app.controllers')
     var req = ref.child('onboarding').update({'completed':true,'state':$state.current.name})
     $state.go("carePlan.fillChoice")
   }
+})
+
+.controller('cabmedInputCtrl', function($scope, $state, $ionicPopup, $ionicHistory, Medication) {
+    $scope.newMedication = {};
+
+    var displayAlert = function(message) {
+      var myPopup = $ionicPopup.show({
+        title: "Invalid input",
+        subTitle: message,
+        scope: $scope,
+        buttons: [{text: 'OK'}]
+      });
+    }
+
+    $scope.saveMedication = function(){
+      if (!$scope.newMedication.name)
+        displayAlert("Medication name can't be blank");
+      else if (!$scope.newMedication.dose)
+        displayAlert("Dosage can't be blank");
+      else if (!$scope.newMedication.instructions)
+        displayAlert("Instructions can't be blank");
+      else if (!$scope.newMedication.purpose)
+        displayAlert("Purpose can't be blank");
+      else {
+        console.log("save cab med", $scope.newMedication);
+        Medication.saveCabMed($scope.newMedication);
+        $ionicHistory.goBack();
+      }
+    };
+
 })

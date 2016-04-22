@@ -34,10 +34,21 @@ angular.module('app.services')
       return Patient.ref(uid).child("medications")
     },
 
+    cabRef: function(){
+      var uid = Patient.uid();
+      return Patient.ref(uid).child("cabinet_medications")
+    },
+    saveCabMed: function(newCabMed) {
+      this.cabRef().push(newCabMed)
+    },
     get: function() {
       var ref = this.ref();
       return $firebaseArray(ref);
       //return medications;
+    },
+    getCabMeds: function(){
+      var ref = this.cabRef();
+      return $firebaseArray(ref);
     },
     getById: function(med_id){
        console.log(med_id);

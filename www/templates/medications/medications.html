@@ -36,16 +36,42 @@
             </span>
             <hr class="responsive-col"></hr>
             <h4 class="text-center">Medicine Cabinet</h4>
-            <h6 class="text-center">You Have no meds in your medicine cabinet!</h6>
-            <!--TODO Add medicine cabinet meds-->
-          </ion-list>
+            <li class="item" ng-hide="containCabMeds()">
+              <h6 class="text-center">You Have no meds in your medicine cabinet!</h6>
+            </li>
+            <ion-list>
+              <ion-item ng-repeat="med in cabMedications">
+                {{med.name}}
+              </ion-item>
+            </ion-list>
 
       </ion-slide>
       <ion-slide>
+        <div>
+          <hr class="responsive-col"></hr>
+          <h4 class="text-center">Scheduled Medications</h4>
+        </div>
         <ion-list>
           <ion-item class="item item-icon-right" ng-repeat="med in medications" ng-show="med.user_input" ui-sref="tabsController.editMed({medication_id: med.$id})">
             {{med.trade_name}}
             <i class="icon ion-ios-arrow-right"></i>
+          </ion-item>
+        </ion-list>
+
+        <hr class="responsive-col"></hr>
+        <div style="position: relative;">
+          <h4 class="text-center">Medicine Cabinet</h4>
+          <li class="item" ng-hide="containCabMeds()">
+            <h6 class="text-center">You Have no meds in your medicine cabinet!</h6>
+          </li>
+          <div style="position: absolute; right: 0; top: 0; text-align: right">
+              <button style="color: blue; font-size: 18px" class=" button-clear button-positive" ui-sref='tabsController.newCabinetMed'>Add med to cabinet</b>
+          </div>
+        </div>
+
+        <ion-list>
+          <ion-item ng-repeat="med in cabMedications">
+            {{med.name}}
           </ion-item>
         </ion-list>
       </ion-slide>
