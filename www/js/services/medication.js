@@ -34,6 +34,11 @@ angular.module('app.services')
       return Patient.ref(uid).child("medications")
     },
 
+    saveCabMed: function(newCabMed) {
+      var uid = Patient.uid();
+      ref = Patient.ref(uid).child("cabinet_medications")
+      ref.push(newCabMed)
+    },
     get: function() {
       var ref = this.ref();
       return $firebaseArray(ref);

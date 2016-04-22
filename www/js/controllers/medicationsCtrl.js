@@ -366,7 +366,7 @@ angular.module('app.controllers')
   }
 })
 
-.controller('cabmedInputCtrl', function($scope, $state, $ionicPopup, Medication) {
+.controller('cabmedInputCtrl', function($scope, $state, $ionicPopup, $ionicHistory, Medication) {
     $scope.newMedication = {};
 
     var displayAlert = function(message) {
@@ -388,9 +388,9 @@ angular.module('app.controllers')
       else if (!$scope.newMedication.purpose)
         displayAlert("Purpose can't be blank");
       else {
-          $scope.newMedication.cabinet = true;
         console.log("save cab med", $scope.newMedication);
-        // Medication.
+        Medication.saveCabMed($scope.newMedication);
+        $ionicHistory.goBack();
       }
     };
 
