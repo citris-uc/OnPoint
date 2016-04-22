@@ -365,3 +365,33 @@ angular.module('app.controllers')
     $state.go("carePlan.fillChoice")
   }
 })
+
+.controller('cabmedInputCtrl', function($scope, $state, $ionicPopup, Medication) {
+    $scope.newMedication = {};
+
+    var displayAlert = function(message) {
+      var myPopup = $ionicPopup.show({
+        title: "Invalid input",
+        subTitle: message,
+        scope: $scope,
+        buttons: [{text: 'OK'}]
+      });
+    }
+
+    $scope.saveMedication = function(){
+      if (!$scope.newMedication.name)
+        displayAlert("Medication name can't be blank");
+      else if (!$scope.newMedication.dose)
+        displayAlert("Dosage can't be blank");
+      else if (!$scope.newMedication.instructions)
+        displayAlert("Instructions can't be blank");
+      else if (!$scope.newMedication.purpose)
+        displayAlert("Purpose can't be blank");
+      else {
+          $scope.newMedication.cabinet = true;
+        console.log("save cab med", $scope.newMedication);
+        // Medication.
+      }
+    };
+
+})

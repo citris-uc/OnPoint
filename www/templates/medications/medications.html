@@ -43,11 +43,22 @@
 
       </ion-slide>
       <ion-slide>
+        <div>
+          <hr class="responsive-col"></hr>
+          <h4 class="text-center">Scheduled Medications</h4>
+        </div>
         <ion-list>
           <ion-item ng-repeat="med in medications" ng-show="med.user_input">
             {{med.trade_name}}
           </ion-item>
         </ion-list>
+
+        <hr class="responsive-col"></hr>
+        <h4 class="text-center">Medicine Cabinet</h4>
+        <h6 class="text-center">You Have no meds in your medicine cabinet!</h6>
+        <div class="text-right">
+          <button class="button button-clear button-positive" ui-sref='tabsController.newCabinetMed'>Add med to cabinet</button>
+        </div>
       </ion-slide>
 
       <ion-slide>
