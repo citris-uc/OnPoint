@@ -76,6 +76,7 @@ angular.module('app.controllers')
   $scope.measurementTab = {pageIndex: 0}
   $scope.measurements = Measurement.get();
   $scope.schedule = MeasurementSchedule.get();
+  $scope.newMeasurement = {};
   $scope.schedule.$loaded().then(function() {
     console.log($scope.schedule)
   })
@@ -89,13 +90,26 @@ angular.module('app.controllers')
     $scope.measurementTab.pageIndex = pageIndex;
     $ionicSlideBoxDelegate.slide(pageIndex);
   }
+
+  $scope.saveMeasurement = function(schedule) {
+    Measurement.add($scope.newMeasurement[schedule.$id], schedule);
+  };
+
+  $scope.disableSave = function(schedule_id) {
+    if($scope.newMeasurement.hasOwnProperty(schedule_id)) {
+      if(Object.keys($scope.newMeasurement[schedule_id]).length > 0) {
+        return false;
+      }
+    }
+    else
+      return true;
+  };
+
 })
 
 .controller('addMeasurementsCtrl', function($scope, $state, $stateParams, Measurement, MeasurementSchedule, $ionicPopup, $ionicHistory) {
-  $scope.newMeasurement = {};
   $scope.schedule = MeasurementSchedule.findByID($stateParams.schedule_id);
-  $scope.measurementHistory = Measurement.getTodaysHistory();
-  var bpcolor = 'black'
+  $scope.newMeasurement = {};
 
   $scope.addMeasurement = function() {
     Measurement.add($scope.newMeasurement, $scope.schedule);
@@ -104,18 +118,26 @@ angular.module('app.controllers')
     else
       $state.go($ionicHistory.backView().stateName);
   };
-  $scope.setColor = function(measurement_name) {
-    if(measurement_name.includes('blood pressure')) {
-      return bpcolor;
-    }
-    return 'black';
-  };
+
   $scope.disableDone = function() {
     if(Object.keys($scope.newMeasurement).length > 0)
       return false;
     else
       return true;
   };
+})
+
+.controller('enterMeasurementsCtrl', function($scope, $state, $stateParams, Measurement, MeasurementSchedule, $ionicPopup, $ionicHistory) {
+  $scope.measurementHistory = Measurement.getTodaysHistory();
+  var bpcolor = 'black'
+
+  $scope.setColor = function(measurement_name) {
+    if(measurement_name.includes('blood pressure')) {
+      return bpcolor;
+    }
+    return 'black';
+  };
+
   $scope.didTakeMeasurement = function(measurement_name) {
     for(var i = 0; i < $scope.measurementHistory.length; i++) {
       var measurements = $scope.measurementHistory[i].measurements;
@@ -147,7 +169,7 @@ angular.module('app.controllers')
     }
   };
 
-$scope.bpAlert = function(value) {
+  $scope.bpAlert = function(value) {
   $scope.data = {};
 
   var myPopup = $ionicPopup.show({
@@ -163,7 +185,7 @@ $scope.bpAlert = function(value) {
       {text: '<b>OK</b>'}
     ]
   });
- };
+  };
 })
 
 .controller('measurementTipsCtrl', function($scope, TIPS) {
