@@ -44,8 +44,9 @@
       </ion-slide>
       <ion-slide>
         <ion-list>
-          <ion-item ng-repeat="med in medications" ng-show="med.user_input">
+          <ion-item class="item item-icon-right" ng-repeat="med in medications" ng-show="med.user_input" ui-sref="tabsController.editMed({medication_id: med.$id})">
             {{med.trade_name}}
+            <i class="icon ion-ios-arrow-right"></i>
           </ion-item>
         </ion-list>
       </ion-slide>

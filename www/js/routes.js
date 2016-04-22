@@ -119,6 +119,16 @@ angular.module('app.routes', [])
     }
   })
 
+  .state('tabsController.editMed', {
+    url: '/medication/:medication_id',
+    views: {
+      'medications-tab': {
+        templateUrl: 'templates/medications/edit_medication.html',
+        controller: 'medicationEditCtrl'
+      }
+    }
+  })
+
   .state('tabsController.editMedSchedule', {
     url: '/medication_schedules/generated',
     views: {
