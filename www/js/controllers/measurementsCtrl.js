@@ -170,7 +170,7 @@ angular.module('app.controllers')
 
   $scope.check = function(measurement_name, schedule_id) {
     //Can come in with specific scheudle_id or not, need to check.
-    //can come frmo medications-add.html or medications.html
+    //can come frmo timline card(no specific schedule_id) or measurements tab(specific schedule_id)
     var newMeasurement = typeof(schedule_id) =='undefined'? $scope.newMeasurement:$scope.newMeasurement[schedule_id]
     if(measurement_name.includes('blood pressure')) {
       if(Measurement.hasHighBP(newMeasurement)) {
