@@ -300,13 +300,19 @@ angular.module('app.controllers')
   // Allow user to input new name for timeslot
   // TODO -- allow user to pick days of the week for schedule
   $scope.addTimeSlot = function() {
+    //console.log("$ionicHistory.currentStateName(): " + $ionicHistory.currentStateName());
     if ($scope.slot.text && $scope.slot.time) {
       hours = $scope.slot.time.getHours();
       mins  = $scope.slot.time.getMinutes();
       hours = ( String(hours).length == 1 ? "0" + String(hours) : String(hours) )
       mins  = ( String(mins).length == 1 ? "0" + String(mins) : String(mins) )
       MedicationSchedule.addTimeSlot($scope.slot.text, [0,1,2,3,4,5,6], hours + ":" + mins);
-      $state.go("carePlan.generatedMedSchedule")
+      if ($ionicHistory.currentStateName() == 'carePlan.newSlot') {
+        $state.go("carePlan.generatedMedSchedule");
+      }
+      if ($ionicHistory.currentStateName() == 'tabsController.newScheduleSlot') {
+        $state.go("tabsController.editMedSchedule");
+      }
     } else {
       $ionicPopup.show({
         title: "Invalid input",
@@ -376,21 +382,18 @@ angular.module('app.controllers')
     return newtime;
   }
 
-  $scope.updateSchedule = function() {
-    for(var i = 0; i < $scope.schedule.length; i++) {
-      $scope.schedule.$save($scope.schedule[i]);
-    }
-    $ionicHistory.goBack();
-  }
   $scope.saveMedicationSchedule = function() {
     for(var i = 0; i < $scope.schedule.length; i++) {
       $scope.schedule.$save($scope.schedule[i]);
     }
-
-    //Done onboarding!
-    var ref = Patient.ref();
-    var req = ref.child('onboarding').update({'completed':true,'state':$state.current.name})
-    $state.go("carePlan.fillChoice")
+    if($ionicHistory.currentStateName() == 'carePlan.generatedMedSchedule') {
+      //Done onboarding!
+      var ref = Patient.ref();
+      var req = ref.child('onboarding').update({'completed':true,'state':$state.current.name})
+      $state.go("carePlan.fillChoice");
+    } else if ($ionicHistory.currentStateName() == 'tabsController.editMedSchedule'){
+      $state.go("tabsController.medications");
+    }
   }
 })
 
