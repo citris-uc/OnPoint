@@ -266,7 +266,7 @@ angular.module('app.controllers')
   $scope.DAYOFWEEK = DAYOFWEEK;
   $scope.schedule = MedicationSchedule.get();
   $scope.selected_med = null;
-  $scope.slot = {day:[]};
+  $scope.slot = {days:[false, false, false, false, false, false, false]};
   $scope.showError = false;
 
   //Saving State of onboarding progress into firebase
@@ -306,7 +306,8 @@ angular.module('app.controllers')
       mins  = $scope.slot.time.getMinutes();
       hours = ( String(hours).length == 1 ? "0" + String(hours) : String(hours) )
       mins  = ( String(mins).length == 1 ? "0" + String(mins) : String(mins) )
-      MedicationSchedule.addTimeSlot($scope.slot.text, [0,1,2,3,4,5,6], hours + ":" + mins);
+      console.log("Add Name:  " + $scope.slot.text + " days: " + $scope.slot.days);
+      MedicationSchedule.addTimeSlot($scope.slot.text, $scope.slot.days, hours + ":" + mins);
       if ($ionicHistory.currentStateName() == 'carePlan.newSlot') {
         $state.go("carePlan.generatedMedSchedule");
       }
