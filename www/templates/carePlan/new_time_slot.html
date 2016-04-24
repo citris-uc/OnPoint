@@ -12,6 +12,9 @@
         <input type="time"  ng-model="slot.time"></input>
       </label>
 
+      <list-item class="item-input">Select the Days of the Week for the Time Slot</list-item>
+      <ion-checkbox ng-repeat="day in slot.days track by $index" ng-model="slot.days[$index]">{{DAYOFWEEK.NAME[$index]}}</ion-checkbox>
+
       <div class="padding">
         <button class="button button-positive button-block button-big" ng-click = "addTimeSlot()">Create</button>
       </div>
