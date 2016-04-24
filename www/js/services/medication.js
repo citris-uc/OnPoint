@@ -41,6 +41,9 @@ angular.module('app.services')
     saveCabMed: function(newCabMed) {
       this.cabRef().push(newCabMed)
     },
+    add: function(med) {
+      this.ref().push(med)
+    },
     get: function() {
       var ref = this.ref();
       return $firebaseArray(ref);
