@@ -386,7 +386,7 @@ angular.module('app.controllers')
 })
 
 .controller('cabmedInputCtrl', function($scope, $state, $ionicPopup, $ionicHistory, Medication) {
-    $scope.newMedication = {};
+    $scope.newMedication = {'cab_med':true};
 
     var displayAlert = function(message) {
       var myPopup = $ionicPopup.show({
@@ -408,7 +408,7 @@ angular.module('app.controllers')
         displayAlert("Purpose can't be blank");
       else {
         console.log("save cab med", $scope.newMedication);
-        Medication.saveCabMed($scope.newMedication);
+        Medication.add($scope.newMedication);
         $ionicHistory.goBack();
       }
     };
