@@ -260,9 +260,10 @@ angular.module('app.controllers')
    }
 })
 
-.controller('medicationsSettingCtrl', function($scope, $state, $ionicPopup,$ionicHistory, Patient, Medication, MedicationSchedule, MedicationHistory) {
+.controller('medicationsSettingCtrl', function($scope, $state, $ionicPopup,$ionicHistory, DAYOFWEEK, Patient, Medication, MedicationSchedule, MedicationHistory) {
 
   // TODO --> use MedicationSchedule and FB
+  $scope.DAYOFWEEK = DAYOFWEEK;
   $scope.schedule = MedicationSchedule.get();
   $scope.selected_med = null;
   $scope.slot = {day:[]};
@@ -318,7 +319,10 @@ angular.module('app.controllers')
   $scope.editSlot = function(slot) {
     var index = $scope.schedule.indexOf(slot);
     $scope.slot.text = slot.slot;
-    $scope.slot.idx = index;
+    $scope.slot.idx  = index;
+    $scope.slot.days = slot.days;
+    $scope.slot.time = $scope.formatTimeObj(slot.time);
+
     var myPopup = $ionicPopup.show({
       templateUrl: 'medSched-popup-template.html',
       title: 'Edit time slot',
@@ -337,15 +341,10 @@ angular.module('app.controllers')
               mins  = $scope.slot.time.getMinutes();
               hours = ( String(hours).length == 1 ? "0" + String(hours) : String(hours) );
               mins  = ( String(mins).length == 1 ? "0" + String(mins) : String(mins) );
-              var daysArray = [];
-              for (var i = 0; i < 7; i++) {
-                if ($scope.slot.day[i])
-                  daysArray.push(i);
-              }
-
               $scope.schedule[index].slot = $scope.slot.text;
-              $scope.schedule[index].days = daysArray;
+              $scope.schedule[index].days = $scope.slot.days;
               $scope.schedule[index].time = hours + ":" + mins;
+              //$scope.schedule.$save($scope.schedule[index]);
               $scope.slot.text = "";
               $scope.showError = false;
             } else {
@@ -357,6 +356,15 @@ angular.module('app.controllers')
         }
       ]
     });
+  }
+
+  $scope.formatTimeObj = function(timestring) {
+    var hour = timestring.substring(0,2);
+    var mins = timestring.substring(3,5);
+    var date = new Date();
+    date.setHours(hour);
+    date.setMinutes(mins);
+    return date;
   }
 
   $scope.timeDisplayFormat = function(timestring) {
@@ -378,6 +386,7 @@ angular.module('app.controllers')
     for(var i = 0; i < $scope.schedule.length; i++) {
       $scope.schedule.$save($scope.schedule[i]);
     }
+
     //Done onboarding!
     var ref = Patient.ref();
     var req = ref.child('onboarding').update({'completed':true,'state':$state.current.name})
