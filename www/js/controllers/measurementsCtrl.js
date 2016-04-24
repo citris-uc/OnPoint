@@ -190,21 +190,46 @@ angular.module('app.controllers')
 .controller('measurementViewCtrl', function($scope, $stateParams, MeasurementSchedule) {
    $scope.schedule = MeasurementSchedule.findByID($stateParams.measurement_schedule_id);
 
-   $scope.hasMeasurement = function(meas) {
-     if(typeof $scope.schedule.measurements === "undefined"){
-       return false;
-     }
-     for(var i = 0; i < $scope.schedule.measurements.length; i++) {
-       if ($scope.schedule.measurements[i].name.includes(meas)) {
-         return true;
+   $scope.schedule.$loaded().then(function () {
+       $scope.time = new Date();
+       $scope.time.setHours($scope.schedule.hour);
+       $scope.time.setMinutes($scope.schedule.minute);
+
+       $scope.measurement_items = [false, false, false];
+       if(typeof $scope.schedule.measurements !== "undefined"){
+         for(var i = 0; i < $scope.schedule.measurements.length; i++) {
+             if ($scope.schedule.measurements[i].name == "weight") {
+               $scope.measurement_items[0] = true;
+             }
+             if ($scope.schedule.measurements[i].name.includes("blood") ) {
+               $scope.measurement_items[1] = true;
+             }
+             if ($scope.schedule.measurements[i].name == "weight") {
+               $scope.measurement_items[2] = true;
+             }
+         }
        }
-     }
-     return false;
-   }
+   });
+
    $scope.updateSchedule = function() {
-     //TODO: Amy can you do this.
+     $scope.schedule.hour   = $scope.time.getHours();
+     $scope.schedule.minute = $scope.time.getMinutes();
+     $scope.schedule.measurements = [];
+
+     console.log($scope.measurement_items);
+     if($scope.measurement_items[0] == true){
+        $scope.schedule.measurements.push({'name':'weight','unit':'lbs'});
+     }
+     if($scope.measurement_items[1] == true){
+        $scope.schedule.measurements.push({'name':'systolic blood pressure','unit':'mmHg'});
+        $scope.schedule.measurements.push({'name':'diastolic blood pressure','unit':'mmHg'});
+     }
+     if($scope.measurement_items[2] == true){
+       $scope.schedule.measurements.push({'name':'heart rate','unit':'bpm'});
+     }
+
+     $scope.schedule.$save();
+
    }
-   $scope.update_measurement = function(measure_name){
-     console.log(measure_name);
-   }
+
 })
