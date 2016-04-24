@@ -19,3 +19,13 @@ make the responsive-col be at most 75% of the viewport. */
     max-width: 25%;
   }
 }
+
+/*
+ To hide tabs when display commenys keyboard? not sure if this is right way to do things
+*/
+.keyboard-open .tabs{
+  display:none;
+  }
+.keyboard-open .has-tabs{
+ bottom:0;
+ }
