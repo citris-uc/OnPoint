@@ -16,8 +16,10 @@ angular.module('app.services')
       return $firebaseObject(ref)
     },
     getHistory: function() {
-      var dateISO = (new Date()).toISOString().substring(0,10)
-      var ref = this.ref().orderByKey().endAt(dateISO).limitToLast(3);
+      var today = new Date();
+      var previousDay = new Date(today).setDate(today.getDate()-2);
+      var dateISO = (new Date(previousDay)).toISOString().substring(0,10)
+      var ref = this.ref().orderByKey().endAt(dateISO).limitToLast(5);
       return $firebaseArray(ref);
     },
     ref: function() {
