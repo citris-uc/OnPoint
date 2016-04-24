@@ -1,0 +1,36 @@
+<ion-view>
+  <ion-nav-title>Medicine Cabinet</ion-nav-title>
+    <ion-content overflow-scroll="true" padding="false" class="has-header">
+      <div class="list card">
+        <div class="item">
+          <h2>
+            {{medication.trade_name}}
+            <span class="item-note">{{medication.dose}} mg</span>
+          </h2>
+
+          <p>
+            {{medication.name}}
+            <span class="item-note">{{medication.tablets}} tablet</span>
+          </p>
+        </div>
+
+        <div class="item item-body">
+          <p><b>Instructions</b></p>
+          <p>{{medication.instructions}}</p>
+        </div>
+        <div class="item item-body">
+          <p><b>Purpose</b></p>
+          <p>{{medication.purpose}}</p>
+        </div>
+        <div class="item item-body">
+            <p> <b>Reason for Taking: {{medication.trade_name}}</b> </p>
+            <input type="text" placeholder="Felt Anxious" ng-model="medication.reason"></input>
+        </div>
+        <div class="item item-body">
+            <div class="col">
+              <button class="button button-block button-balanced" ng-click="takeMedication()">Take</button>
+            </div>
+        </div>
+      </div>
+    </ion-content>
+</ion-view>

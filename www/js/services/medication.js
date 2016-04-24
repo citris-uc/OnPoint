@@ -251,25 +251,32 @@ angular.module('app.services')
 
       //Add to or update firebase
       var req = ref.once('value', function(snapshot) {
-        if(snapshot.exists()) { //this date child exists
-          var updated = false;
-          snapshot.forEach(function(data) { //find it
-            var hist = data.val();
-            if (hist.medication_schedule_id ==  schedule.$id && hist.medication_id == medication.id) {
-              //found it, need to update it!
-              updated = true;
-              var medRef = data.ref();
-              medRef.update(updateObject);
-            }
-          });
-          if(!updated) {
-              //need to push a new one.
-              var medRef = snapshot.ref();
-              medRef.push(instanceFB);
-          }
-        } else { //this date child does not exist, push it!
+        if(schedule.$id=='cabinet') {
+          instanceFB.reason = medication.reason
           var medRef = snapshot.ref();
           medRef.push(instanceFB);
+        }
+        else {
+          if(snapshot.exists()) { //this date child exists
+            var updated = false;
+            snapshot.forEach(function(data) { //find it
+              var hist = data.val();
+              if (hist.medication_schedule_id ==  schedule.$id && hist.medication_id == medication.id) {
+                //found it, need to update it!
+                updated = true;
+                var medRef = data.ref();
+                medRef.update(updateObject);
+              }
+            });
+            if(!updated) {
+                //need to push a new one.
+                var medRef = snapshot.ref();
+                medRef.push(instanceFB);
+            }
+          } else { //this date child does not exist, push it!
+            var medRef = snapshot.ref();
+            medRef.push(instanceFB);
+          }
         }
       })
       return req;
