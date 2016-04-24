@@ -76,20 +76,20 @@ angular.module('app.services')
   schedule = [
     {
       time: "08:00",
-      slot: "morning",
-      days: [0,1,2,3,4,5,6], //array descirbing days of week to do this action
+      slot: "Morning",
+      days: [false, true, true, true, false, false, true], //array descirbing days of week to do this action
       medications: ["Lasix", "Toprol XL", "Zestril", "Coumadin", "Riomet"]
     },
     {
       time: "13:00",
-      slot: "afternoon",
-      days: [0,1,2,3,4,5,6], //array descirbing days of week to do this action,
+      slot: "Afternoon",
+      days: [true, false, true, false, true, true, true], //array descirbing days of week to do this action,
       medications: ["Lasix", "Toprol XL", "Zestril", "Riomet"]
     },
     {
       time: "19:00",
-      slot: "evening",
-      days: [0,1,2,3,4,5,6], //array descirbing days of week to do this action,
+      slot: "Evening",
+      days: [true, true, true, true, true, true, true], //array descirbing days of week to do this action,
       medications: ["Lipitor"]
     }
   ]
