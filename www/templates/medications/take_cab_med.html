@@ -23,6 +23,10 @@
           <p>{{medication.purpose}}</p>
         </div>
         <div class="item item-body">
+            <p> <b>Reason for Taking: {{medication.trade_name}}</b> </p>
+            <input type="text" placeholder="Felt Anxious" ng-model="medication.reason"></input>
+        </div>
+        <div class="item item-body">
             <div class="col">
               <button class="button button-block button-balanced" ng-click="takeMedication()">Take</button>
             </div>

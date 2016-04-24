@@ -40,7 +40,7 @@
               <h6 class="text-center">You Have no meds in your medicine cabinet!</h6>
             </li>
             <ion-list>
-              <ion-item ng-repeat="med in medications" ng-show="med.cab_med" ui-sref="tabsController.takeCabMed({schedule_id: 'cabinet', medication_name: med})">
+              <ion-item ng-repeat="med in medications" ng-show="med.cab_med" ui-sref="tabsController.takeCabMed({schedule_id: 'cabinet', medication_name: med.trade_name})">
                 {{med.trade_name}}
               </ion-item>
             </ion-list>

@@ -252,6 +252,36 @@ angular.module('app.controllers')
   };
 })
 
+
+.controller("cabMedTakeCtrl", function($scope, $stateParams,$ionicPopup,$ionicHistory, Medication, MedicationSchedule, MedicationDosage, MedicationHistory) {
+  $scope.state = $stateParams;
+  $scope.cabMed = {};
+  console.log($scope.state)
+  var req = Medication.getByTradeName($stateParams.medication_name)
+  req.then(function(snapshot) {
+    $scope.medication = snapshot.val()
+    $scope.medication["id"] =  snapshot.key()
+  })
+  $scope.schedule   = MedicationSchedule.findByID($stateParams.schedule_id)
+
+  $scope.takeMedication = function() {
+    console.log($scope.medication)
+    console.log($scope.schedule)
+    var req = MedicationHistory.create_or_update($scope.medication, $scope.schedule, "take");
+    req.then(function(ref) {
+      var alertPopup = $ionicPopup.alert({
+        title: 'Success',
+        template: 'You have succesfully taken ' + $scope.medication.trade_name
+      });
+
+      alertPopup.then(function(res) {
+        $ionicHistory.goBack();
+      });
+    })
+  }
+
+})
+
 .controller('medicationEditCtrl', function($scope, $stateParams, $ionicHistory, Medication) {
    $scope.med = Medication.getById($stateParams.medication_id);
    $scope.update = function(){
