@@ -5,13 +5,13 @@ angular.module('app.controllers')
   $scope.schedule           = MedicationSchedule.get();
   $scope.medicationHistory  = MedicationHistory.getTodaysHistory();
   $scope.medications        = Medication.get();
-  $scope.cabMedications     = Medication.getCabMeds();
 
   $scope.containCabMeds = function() {
-    if( typeof $scope.cabMedications === "undefined"){
-      return true;
+    for(var i = 0; i < $scope.medications.length; i++) {
+      if($scope.medications[i].cab_med)
+        return true;
     }
-    return $scope.cabMedications.length != 0;
+    return false
   }
 
   $scope.slideHasChanged = function(pageIndex) {
@@ -398,7 +398,7 @@ angular.module('app.controllers')
     }
 
     $scope.saveMedication = function(){
-      if (!$scope.newMedication.name)
+      if (!$scope.newMedication.trade_name)
         displayAlert("Medication name can't be blank");
       else if (!$scope.newMedication.dose)
         displayAlert("Dosage can't be blank");
