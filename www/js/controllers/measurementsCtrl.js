@@ -1,7 +1,7 @@
 angular.module('app.controllers')
 
 //TODO: Clean this up...very ugly use ng repeat in the new_measurement_schedule.html
-.controller('measurementScheduleCtrl', function($scope, $ionicPopup, $state,Patient, MeasurementSchedule) {
+.controller('measurementScheduleCtrl', function($scope, $ionicPopup, $state,Patient, MeasurementSchedule, CARD, Card) {
   $scope.measurement_schedule = MeasurementSchedule.get();
   $scope.newShedule = {
     time: new Date("2016-01-01 08:00"),
@@ -43,7 +43,17 @@ angular.module('app.controllers')
        if($scope.newShedule.heart_rate == true){
          schedule.measurements.push({'name':'heart rate','unit':'bpm'});
        }
-       MeasurementSchedule.add(schedule);
+       var req = MeasurementSchedule.add(schedule);
+
+       // Create a new Card for the new time slot
+       req.then(function(snapshot) {
+         var today = new Date();
+         var tomorrow = new Date();
+         tomorrow.setDate(tomorrow.getDate() + 1);
+         Card.createFromSchedSlot(CARD.CATEGORY.MEASUREMENTS_SCHEDULE, snapshot.key(), schedule, today.toISOString());
+         Card.createFromSchedSlot(CARD.CATEGORY.MEASUREMENTS_SCHEDULE, snapshot.key(), schedule, tomorrow.toISOString());
+       })
+
        $state.go('carePlan.measurementSchedules');
     }
   }
