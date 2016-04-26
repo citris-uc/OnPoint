@@ -35,12 +35,12 @@
                       <button style="font-size: 18px" class="button button-clear button-positive" ng-click="saveMeasurement(s)" ng-disabled="disableSave(s.$id)">Save</b>
                   </div>
                   <div class="item item-divider">Measurements To Take</div>
-                  <ion-item ng-repeat="measurement in s.measurements" ng-hide="didTakeMeasurement(measurement.name)">
+                  <ion-item ng-repeat="measurement in s.measurements" ng-hide="didTakeMeasurement(measurement.name, s)">
                       <span class="input-label"><strong>{{measurement.name}}</strong></span>
                       <input type="number" placeholder="{{measurement.unit}}" ng-style="{'color': setColor(measurement.name)}" ng-model="newMeasurement[s.$id][measurement.name]" ng-blur="check(measurement.name, s.$id)"></input>
                   </ion-item>
                   <div class="item item-divider">Completed Measurements</div>
-                  <ion-item ng-repeat="measurement in s.measurements" ng-show="didTakeMeasurement(measurement.name)">
+                  <ion-item ng-repeat="measurement in s.measurements" ng-show="didTakeMeasurement(measurement.name, s)">
                       <span class ="input-label"> <strong>{{measurement.name}}</strong> </span> {{getMeasurementValue(measurement.name)}} {{measurement.unit}}
                   </ion-item>
                 </ion-list class>
