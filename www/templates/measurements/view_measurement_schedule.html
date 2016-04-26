@@ -1,31 +1,34 @@
 <ion-view title="Edit Measurements Schedule">
-  <ion-nav-buttons side="right">
-     <button class="button button-clear button-positive" ng-click="updateSchedule()">Save</button>
-  </ion-nav-buttons>
   <ion-content overflow-scroll="true" padding="false" class="has-header">
     <form name = "newMeasurementForm" class="list">
-        <ul>
-          <h4 class="text-center">{{schedule.name}} </h4>
-          <!-- TODO: THIS NEEDS TO BE CLEANED UP -->
-          <li class="item"><strong>Please select measurements</strong></li>
-          <ion-checkbox ng-checked="hasMeasurement('weight')">Weight</ion-checkbox>
-          <ion-checkbox ng-checked="hasMeasurement('blood pressure')">Blood Pressure</ion-checkbox>
-          <ion-checkbox ng-checked="hasMeasurement('heart rate')">Heart Rate</ion-checkbox>
+      <ul>
+        <label class="item item-input">
+          <span class="input-label"><strong>Schedule Name</strong></span>
+          <input class="input-label"  type="text" placeholder="E.g. My Daily Schedule" ng-model="schedule.name" ></input>
+        </label>
+        <!-- TODO: THIS NEEDS TO BE CLEANED UP -->
+        <li class="item"><strong>Please select measurements</strong></li>
 
-          <li class="item"><strong>Please select days to be reminded</strong></li>
-          <ion-checkbox ng-checked="schedule.days.indexOf(0) !== -1">Sunday</ion-checkbox>
-          <ion-checkbox ng-checked="schedule.days.indexOf(1) !== -1">Monday</ion-checkbox>
-          <ion-checkbox ng-checked="schedule.days.indexOf(2) !== -1">Tuesday</ion-checkbox>
-          <ion-checkbox ng-checked="schedule.days.indexOf(3) !== -1">Wednesday</ion-checkbox>
-          <ion-checkbox ng-checked="schedule.days.indexOf(4) !== -1">Thursday</ion-checkbox>
-          <ion-checkbox ng-checked="schedule.days.indexOf(5) !== -1">Friday</ion-checkbox>
-          <ion-checkbox ng-checked="schedule.days.indexOf(6) !== -1">Saturday</ion-checkbox>
+        <ion-checkbox ng-model="measurement_items[0]">Weight</ion-checkbox>
+        <ion-checkbox ng-model="measurement_items[1]">Blood Pressure</ion-checkbox>
+        <ion-checkbox ng-model="measurement_items[2]">Heart Rate</ion-checkbox>
 
-          <label class="item item-input">
-            <span class="input-label"><strong>Reminder Time</strong></span>
-            <input type="time"  ng-model="schedule.time"></input>
-          </label>
-        </ul>
+        <li class="item"><strong>Please select days to be reminded</strong></li>
+        <ion-checkbox ng-model="schedule.days[0]">Sunday</ion-checkbox>
+        <ion-checkbox ng-model="schedule.days[1]">Monday</ion-checkbox>
+        <ion-checkbox ng-model="schedule.days[2]">Tuesday</ion-checkbox>
+        <ion-checkbox ng-model="schedule.days[3]">Wednesday</ion-checkbox>
+        <ion-checkbox ng-model="schedule.days[4]">Thursday</ion-checkbox>
+        <ion-checkbox ng-model="schedule.days[5]">Friday</ion-checkbox>
+        <ion-checkbox ng-model="schedule.days[6]">Saturday</ion-checkbox>
+
+        <label class="item item-input">
+          <span class="input-label"><strong>Reminder Time</strong></span>
+          <input type="time"  ng-model="mytime"></input>{{mytime}}
+        </label>
+
+         <button class="button button-positive button-block button-big" ng-click="updateSchedule(mytime)">Update</button>
+      </ul>
     </form>
   </ion-content>
 </ion-view>
