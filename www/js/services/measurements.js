@@ -57,7 +57,7 @@ angular.module('app.services')
       return $firebaseArray(ref);
     },
     add: function(schedule){
-      this.get().$add(schedule);
+      return this.get().$add(schedule);
     },
     findByID: function(id){
       return $firebaseObject(this.ref().child(id));
