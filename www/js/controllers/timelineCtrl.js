@@ -174,6 +174,8 @@ angular.module('app.controllers')
     if (schedule == null) return;
 
     var medications = schedule.medications;
+
+    if (medications == null) return;
     var now    = (new Date()).toISOString();
 
     var medStatus = $scope.getMedsStatusArrays(schedule, medications, date_key);
