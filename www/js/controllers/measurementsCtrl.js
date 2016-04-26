@@ -61,7 +61,7 @@ angular.module('app.controllers')
 
 })
 
-.controller('measurementsCtrl', function($scope, $ionicSlideBoxDelegate,Measurement, MeasurementSchedule) {
+.controller('measurementsCtrl', function($scope, $ionicSlideBoxDelegate, $ionicPopup, Measurement, MeasurementSchedule) {
   $scope.measurementTab = {pageIndex: 0}
   $scope.history = Measurement.get();
   $scope.schedule = MeasurementSchedule.get();
@@ -80,6 +80,15 @@ angular.module('app.controllers')
     $ionicSlideBoxDelegate.slide(pageIndex);
   }
 
+  var displayAlert = function(message) {
+    var myPopup = $ionicPopup.show({
+      title: "Measurements missing",
+      subTitle: message,
+      scope: $scope,
+      buttons: [{text: 'OK'}]
+    });
+  }
+
   $scope.saveMeasurement = function(schedule) {
     var measurement;
 
@@ -92,6 +101,10 @@ angular.module('app.controllers')
     }
 
     Measurement.add(measurement, schedule);
+    $scope.newMeasurement = {};
+    displayAlert("Measurement has been saved");
+
+
   };
 
   $scope.disableSave = function(schedule_id) {
@@ -195,13 +208,14 @@ angular.module('app.controllers')
   $scope.measurementsTips = TIPS;
 })
 
-.controller('measurementViewCtrl', function($scope, $stateParams, MeasurementSchedule) {
+.controller('measurementViewCtrl', function($scope, $stateParams, MeasurementSchedule, $ionicHistory) {
    $scope.schedule = MeasurementSchedule.findByID($stateParams.measurement_schedule_id);
 
    $scope.schedule.$loaded().then(function () {
-       $scope.time = new Date();
-       $scope.time.setHours($scope.schedule.hour);
-       $scope.time.setMinutes($scope.schedule.minute);
+       $scope.mytime = new Date();
+       $scope.mytime.setHours($scope.schedule.hour);
+       $scope.mytime.setMinutes($scope.schedule.minute);
+       console.log("loaded" + $scope.mytime);
 
        $scope.measurement_items = [false, false, false];
        if(typeof $scope.schedule.measurements !== "undefined"){
@@ -219,12 +233,17 @@ angular.module('app.controllers')
        }
    });
 
-   $scope.updateSchedule = function() {
-     $scope.schedule.hour   = $scope.time.getHours();
-     $scope.schedule.minute = $scope.time.getMinutes();
+   $scope.updateSchedule = function(mytime) {
+     var hours = mytime.getHours();
+     var mins  = mytime.getMinutes();
+     hours = ( String(hours).length == 1 ? "0" + String(hours) : String(hours) );
+     mins  = ( String(mins).length == 1 ? "0" + String(mins) : String(mins) );
+     console.log("updated " + mytime);
+
+     $scope.schedule.hour   = hours;
+     $scope.schedule.minute = mins;
      $scope.schedule.measurements = [];
 
-     console.log($scope.measurement_items);
      if($scope.measurement_items[0] == true){
         $scope.schedule.measurements.push({'name':'weight','unit':'lbs'});
      }
@@ -237,6 +256,7 @@ angular.module('app.controllers')
      }
 
      $scope.schedule.$save();
+     $ionicHistory.goBack();
 
    }
 
