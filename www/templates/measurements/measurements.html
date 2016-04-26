@@ -9,7 +9,7 @@
       <div class="button-bar bar-light responsive-col">
         <a class="button button-small" ng-click="transitionToPageIndex(0)" ng-class="{'button-positive': measurementTab.pageIndex === 0}">Schedule</a>
         <a class="button button-small" ng-click="transitionToPageIndex(1)" ng-class="{'button-positive': measurementTab.pageIndex === 1}">History</a>
-        <a class="button button-small" ng-click="transitionToPageIndex(2)" ng-class="{'button-positive': measurementTab.pageIndex === 2}">Add</a>
+        <a class="button button-small" ng-click="transitionToPageIndex(2)" ng-class="{'button-positive': measurementTab.pageIndex === 2}">Log</a>
       </div>
     </div>
 
@@ -71,7 +71,7 @@
         </ion-slide>
         <ion-slide>
           <div>
-            <h4 class="text-center">Add Measurement</h4>
+            <h4 class="text-center">Log Measurement</h4>
             <div style="position: absolute; right: 0; top: 0; text-align: right">
                 <button style="font-size: 18px" class="button button-clear button-positive" ng-click="saveMeasurement('custom')" ng-disabled="disableSave('custom')">Save</b>
             </div>

@@ -61,7 +61,7 @@ angular.module('app.controllers')
 
 })
 
-.controller('measurementsCtrl', function($scope, $ionicSlideBoxDelegate,Measurement, MeasurementSchedule) {
+.controller('measurementsCtrl', function($scope, $ionicSlideBoxDelegate, $ionicPopup, Measurement, MeasurementSchedule) {
   $scope.measurementTab = {pageIndex: 0}
   $scope.history = Measurement.get();
   $scope.schedule = MeasurementSchedule.get();
@@ -80,6 +80,15 @@ angular.module('app.controllers')
     $ionicSlideBoxDelegate.slide(pageIndex);
   }
 
+  var displayAlert = function(message) {
+    var myPopup = $ionicPopup.show({
+      title: "Measurements missing",
+      subTitle: message,
+      scope: $scope,
+      buttons: [{text: 'OK'}]
+    });
+  }
+
   $scope.saveMeasurement = function(schedule) {
     var measurement;
 
@@ -92,6 +101,10 @@ angular.module('app.controllers')
     }
 
     Measurement.add(measurement, schedule);
+    $scope.newMeasurement = {};
+    displayAlert("Measurement has been saved");
+
+
   };
 
   $scope.disableSave = function(schedule_id) {
