@@ -90,38 +90,40 @@ angular.module('app.controllers')
     var takeMeds = [];
     var skippedMeds = [];
     var completedMeds = [];
-    medications.forEach( function(medication) {
-      var med = {}
-      //Find the Med
-      for(var i = 0; i < $scope.medications.length; i++) {
-        if ($scope.medications[i].trade_name == medication) {
-          med = $scope.medications[i]
-          med.id = $scope.medications[i].$id;
+    if (medications != null) {
+      medications.forEach( function(medication) {
+        var med = {}
+        //Find the Med
+        for(var i = 0; i < $scope.medications.length; i++) {
+          if ($scope.medications[i].trade_name == medication) {
+            med = $scope.medications[i]
+            med.id = $scope.medications[i].$id;
+          }
         }
-      }
 
-      var exists = false;
-      var history_date = $scope.medHistory.$ref().key();
+        var exists = false;
+        var history_date = $scope.medHistory.$ref().key();
 
-      // If the history reference matches the passed in date then check validity
-      if (date_key == history_date) {
-        for(var i = 0; i < $scope.medHistory.length; i++) {
-          var hist = $scope.medHistory[i];
-          if (hist.medication_id==med.id && hist.medication_schedule_id==schedule.$id) {
-            exists = true;
-            if(hist.taken_at != null)
-              completedMeds.push(med);
-            else if (hist.skipped_at != null)
-              skippedMeds.push(med);
-            else {
-              takeMeds.push(med);
+        // If the history reference matches the passed in date then check validity
+        if (date_key == history_date) {
+          for(var i = 0; i < $scope.medHistory.length; i++) {
+            var hist = $scope.medHistory[i];
+            if (hist.medication_id==med.id && hist.medication_schedule_id==schedule.$id) {
+              exists = true;
+              if(hist.taken_at != null)
+                completedMeds.push(med);
+              else if (hist.skipped_at != null)
+                skippedMeds.push(med);
+              else {
+                takeMeds.push(med);
+              }
             }
           }
         }
-      }
-      if (!exists)
-        takeMeds.push(med);
-    })
+        if (!exists)
+          takeMeds.push(med);
+      })
+    }
     return {unfinished: takeMeds, skipped: skippedMeds, done: completedMeds};
   }
 
@@ -321,6 +323,10 @@ angular.module('app.controllers')
         string += " You've skipped "
         string += $scope.constructMedItemString(skippedMeds);
         string += ".";
+     }
+
+     if (takeMeds.length == 0 && completedMeds.length == 0 && skippedMeds.length == 0) {
+       string += "You have no medications scheduled for this time.";
      }
      return string;
   }
