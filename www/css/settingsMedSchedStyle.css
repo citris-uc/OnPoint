@@ -61,3 +61,18 @@
     background-color: #dff0d8;
     color: #3c763d;
 }
+
+.medsched .itemlist > li {
+    border: none;
+    border-radius: .25em;
+    float: left;
+    font-weight: 300;
+    height: 100px;
+    margin: 5px;
+    padding: 2px;
+    text-align: center;
+    width: 30%;
+		background-image: url(../img/pill_small.png);
+		background-repeat: no-repeat;
+		background-position: 50% 70%;
+}
