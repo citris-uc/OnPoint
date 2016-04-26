@@ -252,7 +252,7 @@ angular.module('app.services')
       //Add to or update firebase
       var req = ref.once('value', function(snapshot) {
         if(schedule.$id=='cabinet') {
-          instanceFB.reason = medication.reason
+          instanceFB.reason = typeof(medication.reason)==='undefined'? null:medication.reason;
           var medRef = snapshot.ref();
           medRef.push(instanceFB);
         }
