@@ -6,7 +6,7 @@
   <ion-content>
     <ul class="list">
       <li class="item" ng-hide="scheduledMeasurements()">
-        You haven't added any measurement scheduele!
+        No measurement schedule added!
       </li>
 
       <li class="item item-icon-right" ng-repeat="schedule in measurement_schedule" ui-sref="carePlan.viewMeasurementSchedule({measurement_schedule_id: schedule.$id})">
@@ -14,7 +14,5 @@
         <i class="icon ion-ios-arrow-right"></i>
       </li>
     </ul>
-
-    <button ui-sref="tabsController.timeline" class="button button-positive  button-block" >Go to the timeline</button>
   </ion-content>
 </ion-view>
