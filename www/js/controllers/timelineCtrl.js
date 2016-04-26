@@ -90,7 +90,7 @@ angular.module('app.controllers')
       }
 
       var exists = false;
-      var history_date = $scope.measHistory.$ref().key();
+      var history_date = $scope.medHistory.$ref().key();
 
       // If the history reference matches the passed in date then check validity
       if (date_key == history_date) {
