@@ -83,11 +83,11 @@ angular.module('app.services')
           //TODO: update these to be minutes from midnight.
           var show = new Date(date);
           if (object_type == CARD.CATEGORY.MEDICATIONS_SCHEDULE) {
-            show.setHours(parseInt(schedule.time.substring(0,2)));
-            show.setMinutes(parseInt(schedule.time.substring(3,5)));
+            show.setUTCHours(parseInt(schedule.time.substring(0,2)));
+            show.setUTCMinutes(parseInt(schedule.time.substring(3,5)));
           } else if (object_type == CARD.CATEGORY.MEASUREMENTS_SCHEDULE) {
-            show.setHours(schedule.hour);
-            show.setMinutes(schedule.minute);
+            show.setUTCHours(schedule.hour);
+            show.setUTCMinutes(schedule.minute);
           }
 
           var card = {
