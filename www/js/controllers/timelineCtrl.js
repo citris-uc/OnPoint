@@ -404,7 +404,7 @@ angular.module('app.controllers')
   }
 
 
-  $scope.swipeCard = function(card) {
+  $scope.archive = function(card) {
     if (card.completed_at != null) {
       Card.archive(card);
     }
