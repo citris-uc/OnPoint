@@ -332,14 +332,17 @@ angular.module('app.controllers')
       mins  = $scope.slot.time.getMinutes();
       hours = ( String(hours).length == 1 ? "0" + String(hours) : String(hours) )
       mins  = ( String(mins).length == 1 ? "0" + String(mins) : String(mins) )
+      var timeStr = hours + ":" + mins;
       //console.log("Add Name:  " + $scope.slot.text + " days: " + $scope.slot.days);
-      var req = MedicationSchedule.addTimeSlot($scope.slot.text, $scope.slot.days, hours + ":" + mins);
+      var req = MedicationSchedule.addTimeSlot($scope.slot.text, $scope.slot.days, timeStr);
 
+      // Create a new Card for the new time slot
       req.then(function(snapshot) {
-        var obj = {time: hours + ":" + mins, days: $scope.slot.days};
+        var obj = {time: timeStr, days: $scope.slot.days};
         Card.createFromSchedSlot(CARD.CATEGORY.MEDICATIONS_SCHEDULE, snapshot.key(), obj, new Date().toISOString());
       })
 
+      // Navigate to the correct page
       if ($ionicHistory.currentStateName() == 'carePlan.newSlot') {
         $state.go("carePlan.generatedMedSchedule");
       }
