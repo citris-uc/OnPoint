@@ -285,7 +285,7 @@ angular.module('app.controllers')
    }
 })
 
-.controller('medicationsSettingCtrl', function($scope, $state, $ionicPopup,$ionicHistory, $firebaseObject, DAYOFWEEK, Patient, Medication, MedicationSchedule, MedicationHistory, CARD, Card) {
+.controller('medicationsSettingCtrl', function($scope, $state, $ionicPopup,$ionicHistory, DAYOFWEEK, Patient, Medication, MedicationSchedule, MedicationHistory, CARD, Card) {
 
   // TODO --> use MedicationSchedule and FB
   $scope.CARD = CARD;
@@ -409,7 +409,7 @@ angular.module('app.controllers')
   $scope.timeDisplayFormat = function(timestring) {
     [hours, mins] = timestring.split(':');
     hours = parseInt(hours);
-    ampm = (hours > 12) ? "PM" : "AM";
+    ampm = (hours >= 12) ? "PM" : "AM";
     hours = (hours > 12) ? hours - 12 : hours;
     newtime = hours + ":" + mins + " " + ampm;
     return newtime;
