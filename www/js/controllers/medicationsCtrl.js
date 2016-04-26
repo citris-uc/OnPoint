@@ -338,8 +338,12 @@ angular.module('app.controllers')
 
       // Create a new Card for the new time slot
       req.then(function(snapshot) {
+        var today = new Date();
+        var tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
         var obj = {time: timeStr, days: $scope.slot.days};
-        Card.createFromSchedSlot(CARD.CATEGORY.MEDICATIONS_SCHEDULE, snapshot.key(), obj, new Date().toISOString());
+        Card.createFromSchedSlot(CARD.CATEGORY.MEDICATIONS_SCHEDULE, snapshot.key(), obj, today.toISOString());
+        Card.createFromSchedSlot(CARD.CATEGORY.MEDICATIONS_SCHEDULE, snapshot.key(), obj, tomorrow.toISOString());
       })
 
       // Navigate to the correct page
@@ -386,7 +390,15 @@ angular.module('app.controllers')
               $scope.schedule[index].slot = $scope.slot.text;
               $scope.schedule[index].days = $scope.slot.days;
               $scope.schedule[index].time = hours + ":" + mins;
-              //$scope.schedule.$save($scope.schedule[index]);
+              var req = $scope.schedule.$save($scope.schedule[index]);
+              req.then(function(snapshot) {
+                var today = new Date();
+                var tomorrow = new Date();
+                tomorrow.setDate(tomorrow.getDate() + 1);
+
+                Card.updateSchedCard(CARD.CATEGORY.MEDICATIONS_SCHEDULE, snapshot.key(), $scope.schedule[index], today.toISOString());
+                Card.updateSchedCard(CARD.CATEGORY.MEDICATIONS_SCHEDULE, snapshot.key(), $scope.schedule[index], tomorrow.toISOString());
+              })
               $scope.slot.text = "";
               $scope.showError = false;
             } else {

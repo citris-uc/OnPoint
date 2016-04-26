@@ -218,9 +218,10 @@ angular.module('app.controllers')
   $scope.measurementsTips = TIPS;
 })
 
-.controller('measurementViewCtrl', function($scope, $stateParams, MeasurementSchedule, $ionicHistory) {
+.controller('measurementViewCtrl', function($scope, $stateParams, MeasurementSchedule, $ionicHistory, CARD, Card) {
    $scope.schedule = MeasurementSchedule.findByID($stateParams.measurement_schedule_id);
-
+   $scope.CARD = CARD;
+   
    $scope.schedule.$loaded().then(function () {
        $scope.mytime = new Date();
        $scope.mytime.setHours($scope.schedule.hour);
@@ -265,7 +266,16 @@ angular.module('app.controllers')
        $scope.schedule.measurements.push({'name':'heart rate','unit':'bpm'});
      }
 
-     $scope.schedule.$save();
+     var req = $scope.schedule.$save();
+     req.then(function(snapshot) {
+       var today = new Date();
+       var tomorrow = new Date();
+       tomorrow.setDate(tomorrow.getDate() + 1);
+
+       Card.updateSchedCard(CARD.CATEGORY.MEASUREMENTS_SCHEDULE, snapshot.key(), $scope.schedule, today.toISOString());
+       Card.updateSchedCard(CARD.CATEGORY.MEASUREMENTS_SCHEDULE, snapshot.key(), $scope.schedule, tomorrow.toISOString());
+     })
+
      $ionicHistory.goBack();
 
    }
