@@ -110,7 +110,7 @@ angular.module('app.routes')
     url: '/fill_main',
     views: {
       'care-plan': {
-        templateUrl: 'templates/medications/fill_main.html',
+        templateUrl: 'templates/carePlan/fill_main.html',
         controller: 'medFillMainCtrl'
       }
     }
@@ -120,7 +120,7 @@ angular.module('app.routes')
     url: '/fill_choice',
     views: {
       'care-plan': {
-        templateUrl: 'templates/medications/fill_choice.html'
+        templateUrl: 'templates/carePlan/fill_choice.html'
       }
     }
   })
