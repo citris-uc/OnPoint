@@ -26,14 +26,17 @@
                 <i class="icon ion-ios-arrow-right"></i>
               </a>
 
-              <ion-item ng-repeat="med in dateSchedule.medications",
+              <li ng-repeat="med in dateSchedule.medications",
               ui-sref="tabsController.medication({schedule_id: dateSchedule.$id, medication_name: med})"
               ng-hide="didTakeMed(med, dateSchedule)"
-              ng-style="{'color': (didSkipMed(med, dateSchedule) ? 'grey' : 'black')}">
+              ng-style="{'color': (didSkipMed(med, dateSchedule) ? 'grey' : 'black')}"
+              class="medstyle">
                 {{med}}
 
-              </ion-item>
+              </li>
             </span>
+            <ion-item style="border:none"></ion-item>
+
             <hr class="responsive-col"></hr>
             <h4 class="text-center">Medicine Cabinet</h4>
             <li class="item" ng-hide="containCabMeds()">
