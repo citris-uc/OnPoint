@@ -10,12 +10,12 @@
       <form name = "newMeasurementsForm" class="list">
         <ion-list class>
           <div class="item item-divider">Measurements To Take</div>
-          <ion-item ng-repeat="measurement in schedule.measurements" ng-hide="didTakeMeasurement(measurement.name)">
+          <ion-item ng-repeat="measurement in schedule.measurements" ng-hide="didTakeMeasurement(measurement.name, schedule)">
               <span class="input-label"><strong>{{measurement.name}}</strong></span>
               <input type="number" placeholder="{{measurement.unit}}" ng-style="{'color': setColor(measurement.name)}" ng-model="newMeasurement[measurement.name]" ng-blur="check(measurement.name)"></input>
           </ion-item>
           <div class="item item-divider">Completed Measurements</div>
-          <ion-item ng-repeat="measurement in schedule.measurements" ng-show="didTakeMeasurement(measurement.name)">
+          <ion-item ng-repeat="measurement in schedule.measurements" ng-show="didTakeMeasurement(measurement.name, schedule)">
               <span class ="input-label"> <strong>{{measurement.name}}</strong> </span> {{getMeasurementValue(measurement.name)}} {{measurement.unit}}
           </ion-item>
         </ion-list class>

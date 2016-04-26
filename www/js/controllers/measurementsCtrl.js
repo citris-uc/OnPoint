@@ -132,7 +132,6 @@ angular.module('app.controllers')
 .controller('addMeasurementsCtrl', function($scope, $state, $stateParams, Measurement, MeasurementSchedule, $ionicPopup, $ionicHistory) {
   $scope.schedule = MeasurementSchedule.findByID($stateParams.schedule_id);
   $scope.newMeasurement = {};
-
   $scope.addMeasurement = function() {
     Measurement.add($scope.newMeasurement, $scope.schedule);
     if($ionicHistory.backView()==null)
@@ -160,12 +159,14 @@ angular.module('app.controllers')
     return 'black';
   };
 
-  $scope.didTakeMeasurement = function(measurement_name) {
+  $scope.didTakeMeasurement = function(measurement_name, schedule) {
     for(var i = 0; i < $scope.measurementHistory.length; i++) {
+      if(schedule.$id == $scope.measurementHistory[i].measurement_schedule_id) {
       var measurements = $scope.measurementHistory[i].measurements;
         if(typeof(measurements[measurement_name]) != 'undefined') {
           return true
         }
+      }
     }
     return false
   };
