@@ -47,6 +47,14 @@ angular.module('app.controllers')
        $state.go('carePlan.measurementSchedules');
     }
   }
+
+  $scope.scheduledMeasurements = function() {
+    if($scope.measurement_schedule.length > 0){
+      return true;
+    }
+    return false
+  }
+
   //Done onboarding!
   var ref = Patient.ref();
   var req = ref.child('onboarding').update({'completed':true,'state':$state.current.name})

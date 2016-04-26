@@ -26,6 +26,17 @@ angular.module('app.controllers')
     $scope.$broadcast('scroll.refreshComplete');
   }
 
+  /*
+   * We store dates in firebase in ISO format which is zero UTC offset
+   * therefore we cannot simply display the date that is stored in firebase, we need to display local time
+   */
+  $scope.setLocaleDate = function(utc_date) {
+    var iso = (new Date()).toISOString(); //get current ISO String
+    var iso_altered = utc_date.concat(iso.substring(10)); //replace date portion with date from firebase
+    var local = new Date(iso_altered); //Date() constructor automatically sets local time!
+    return local
+  }
+
   // See
   // http://www.gajotres.net/understanding-ionic-view-lifecycle/
   // to understand why we're doing everything in a beforeEnter event. Essentially,
@@ -90,7 +101,7 @@ angular.module('app.controllers')
       }
 
       var exists = false;
-      var history_date = $scope.measHistory.$ref().key();
+      var history_date = $scope.medHistory.$ref().key();
 
       // If the history reference matches the passed in date then check validity
       if (date_key == history_date) {

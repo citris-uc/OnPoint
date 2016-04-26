@@ -16,7 +16,10 @@ angular.module('app.services')
       return $firebaseObject(ref)
     },
     getHistory: function() {
-      var dateISO = (new Date()).toISOString().substring(0,10)
+      var today = new Date();
+      var yesterday = new Date();
+      yesterday.setDate(today.getDate()-1);
+      var dateISO = (yesterday).toISOString().substring(0,10)
       var ref = this.ref().orderByKey().endAt(dateISO).limitToLast(3);
       return $firebaseArray(ref);
     },
@@ -82,26 +85,30 @@ angular.module('app.services')
           var schedule = childSnap.val();
           //TODO: update these to be minutes from midnight.
           var show = new Date(date);
-          if (object_type == CARD.CATEGORY.MEDICATIONS_SCHEDULE) {
-            show.setHours(parseInt(schedule.time.substring(0,2)));
-            show.setMinutes(parseInt(schedule.time.substring(3,5)));
-          } else if (object_type == CARD.CATEGORY.MEASUREMENTS_SCHEDULE) {
-            show.setHours(schedule.hour);
-            show.setMinutes(schedule.minute);
-          }
+          console.log(schedule.days)
+          console.log(show.getDay())
+          if (schedule.days[show.getDay()]) { //only generate if scheduled for this day
+            if (object_type == CARD.CATEGORY.MEDICATIONS_SCHEDULE) {
+              show.setUTCHours(parseInt(schedule.time.substring(0,2)));
+              show.setUTCMinutes(parseInt(schedule.time.substring(3,5)));
+            } else if (object_type == CARD.CATEGORY.MEASUREMENTS_SCHEDULE) {
+              show.setUTCHours(schedule.hour);
+              show.setUTCMinutes(schedule.minute);
+            }
 
-          var card = {
-            type: CARD.TYPE.ACTION,
-            created_at: now,
-            updated_at: now,
-            shown_at: show.toISOString(),
-            completed_at: null,
-            archived_at: null,
-            num_comments: 0,
-            object_type: object_type,
-            object_id: childSnap.key()
-          }
-          that.create(date_key, card);
+            var card = {
+              type: CARD.TYPE.ACTION,
+              created_at: now,
+              updated_at: now,
+              shown_at: show.toISOString(),
+              completed_at: null,
+              archived_at: null,
+              num_comments: 0,
+              object_type: object_type,
+              object_id: childSnap.key()
+            }
+            that.create(date_key, card);
+          } //end if(schedule.days[show.getDay()])
         })
       })
     },

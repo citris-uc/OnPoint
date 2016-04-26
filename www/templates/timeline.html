@@ -100,7 +100,7 @@
         <div ng-repeat="cards in history | orderBy:'-'">
           <div class="card-section history">
             <hr class="responsive-col"></hr>
-            <h4 class="text-center">{{cards.$id | date:'MMMM dd, yyyy'}}</h4>
+            <h4 class="text-center">{{setLocaleDate(cards.$id) | date:'MMMM dd, yyyy'}}</h4>
           </div>
 
           <div class="row" style="justify-content: center;" ng-repeat="c in cards | orderBy: 'shown_at'">

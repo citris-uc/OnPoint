@@ -93,10 +93,10 @@
               </tr>
             </thead>
             <tbody>
-              <tr ng-repeat="s in schedule">
+              <tr ng-repeat="schedule in medicationSchedule">
 
-                <td>{{s.slot}}</td>
-                <td ng-repeat="count in getSlots(s, selectedMed) track by $index" >
+                <td>{{schedule.slot}}</td>
+                <td ng-repeat="count in getSlots(schedule, selectedMed) track by $index" >
                   {{count}}
                 </td>
               </tr>
@@ -106,7 +106,7 @@
           Select Medication to Begin:
         </h3>
         <div ng-repeat="med in medications" style="float:left">
-            <button ng-class = "hasCompleted(med)? 'button button-calm' : 'button button-balanced' ", ng-click="displaySchedule(med)" >{{med.trade_name}}</button>
+            <button ng-class = "currentlyOn(med)? 'button button-calm' : 'button button-balanced' ", ng-click="displaySchedule(med)" >{{med.trade_name}}</button>
         </div>
 
       </ion-slide>

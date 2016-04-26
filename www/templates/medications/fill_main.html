@@ -32,8 +32,8 @@
       Select Medication to Begin:
     </h3>
     <div ng-repeat="med in medications" style="float:left">
-        <button ng-class = "hasCompleted(med)? 'button button-calm' : 'button button-balanced' ", ng-click="displaySchedule(med)" >{{med.trade_name}}</button>
+        <button ng-class = "currentlyOn(med)? 'button button-calm' : 'button button-balanced' ", ng-click="displaySchedule(med)" >{{med.trade_name}}</button>
     </div>
-    <button ui-sref="carePlan.measurementSchedules" class="button button-positive  button-block" >Done</button>
+    <button ui-sref="carePlan.measurementSchedules" class="button button-positive  button-block" >Next: manage measurement schedule</button>
   </ion-content>
 </ion-view>
