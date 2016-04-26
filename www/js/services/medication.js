@@ -158,7 +158,7 @@ angular.module('app.services')
         slot: slotName,
         days: daysArray,
       };
-      ref.$add(instanceFB);
+      return ref.$add(instanceFB);
     }
   };
 }])
