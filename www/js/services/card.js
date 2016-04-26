@@ -92,7 +92,7 @@ angular.module('app.services')
             show.setUTCHours(show.getUTCHours());
             show.setUTCMinutes(show.getUTCMinutes());
 
-            var now = new Date();
+            var now = new Date().toISOString();
             var card = {
               type: CARD.TYPE.ACTION,
               created_at: now,
