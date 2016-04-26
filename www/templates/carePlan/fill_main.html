@@ -34,6 +34,6 @@
     <div ng-repeat="med in medications" style="float:left">
         <button ng-class = "currentlyOn(med)? 'button button-calm' : 'button button-balanced' ", ng-click="displaySchedule(med)" >{{med.trade_name}}</button>
     </div>
-    <button ui-sref="carePlan.setup" class="button button-positive  button-block" >Done</button>
+    <button ng-click='doneMedSetup()' class="button button-positive  button-block" >Done</button>
   </ion-content>
 </ion-view>

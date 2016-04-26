@@ -89,7 +89,7 @@ angular.module('app.controllers')
 .controller('medInputMainCtrl', function($scope, Medication) {
 })
 
-.controller('medFillMainCtrl', function($scope, MedicationSchedule, Medication, MedicationDosage) {
+.controller('medFillMainCtrl', function($scope, $state, $ionicHistory, MedicationSchedule, Medication, MedicationDosage) {
   $scope.medicationSchedule = MedicationSchedule.get();
   $scope.medications = Medication.get();
   $scope.selectedMed;
@@ -126,6 +126,15 @@ angular.module('app.controllers')
       return true;
     }
     return false;
+  }
+
+  $scope.doneMedSetup =  function() {
+    $ionicHistory.nextViewOptions({
+      disableAnimate: true,
+      disableBack: true,
+      historyRoot: true
+    })
+    $state.go('carePlan.setup');
   }
 
 })
