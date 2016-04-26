@@ -49,12 +49,21 @@
               </div>
 
               <div class="row">
-                <div class="col responsive-col-md-25">
+
+                <div class="col responsive-col-md-25" ng-show="c.completed_at == null">
                   <a class="item item-icon-left" ng-click="openPage(c, c.object_type)">
                     <i class="icon ion-ios-eye"></i>
                     View
                   </a>
                 </div>
+
+                <div class="col responsive-col-md-25" ng-show="c.completed_at != null">
+                  <a class="item item-icon-left" ng-click="archive(c)">
+                    <i class="icon ion-archive"></i>
+                    Archive
+                  </a>
+                </div>
+
                 <div class="col responsive-col-md-25">
                   <a class="item item-icon-left" ui-sref="tabsController.comments({card_id:c.$id, comment_id: c.comment_id})">
                     <i class="icon ion-ios-chatbubble-outline"></i>
