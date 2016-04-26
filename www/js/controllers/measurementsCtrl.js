@@ -92,7 +92,7 @@ angular.module('app.controllers')
 
   var displayAlert = function(message) {
     var myPopup = $ionicPopup.show({
-      title: "Measurements missing",
+      title: "",
       subTitle: message,
       scope: $scope,
       buttons: [{text: 'OK'}]
@@ -221,7 +221,7 @@ angular.module('app.controllers')
 .controller('measurementViewCtrl', function($scope, $stateParams, MeasurementSchedule, $ionicHistory, CARD, Card) {
    $scope.schedule = MeasurementSchedule.findByID($stateParams.measurement_schedule_id);
    $scope.CARD = CARD;
-   
+
    $scope.schedule.$loaded().then(function () {
        $scope.mytime = new Date();
        $scope.mytime.setHours($scope.schedule.hour);
