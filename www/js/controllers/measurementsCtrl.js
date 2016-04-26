@@ -1,7 +1,7 @@
 angular.module('app.controllers')
 
 //TODO: Clean this up...very ugly use ng repeat in the new_measurement_schedule.html
-.controller('measurementScheduleCtrl', function($scope, $ionicPopup, $state,Patient, MeasurementSchedule) {
+.controller('measurementScheduleCtrl', function($scope, $ionicPopup, $state,Patient, MeasurementSchedule, CARD, Card) {
   $scope.measurement_schedule = MeasurementSchedule.get();
   $scope.newShedule = {
     time: new Date("2016-01-01 08:00"),
@@ -43,7 +43,17 @@ angular.module('app.controllers')
        if($scope.newShedule.heart_rate == true){
          schedule.measurements.push({'name':'heart rate','unit':'bpm'});
        }
-       MeasurementSchedule.add(schedule);
+       var req = MeasurementSchedule.add(schedule);
+
+       // Create a new Card for the new time slot
+       req.then(function(snapshot) {
+         var today = new Date();
+         var tomorrow = new Date();
+         tomorrow.setDate(tomorrow.getDate() + 1);
+         Card.createFromSchedSlot(CARD.CATEGORY.MEASUREMENTS_SCHEDULE, snapshot.key(), schedule, today.toISOString());
+         Card.createFromSchedSlot(CARD.CATEGORY.MEASUREMENTS_SCHEDULE, snapshot.key(), schedule, tomorrow.toISOString());
+       })
+
        $state.go('carePlan.measurementSchedules');
     }
   }
@@ -61,7 +71,7 @@ angular.module('app.controllers')
 
 })
 
-.controller('measurementsCtrl', function($scope, $ionicSlideBoxDelegate,Measurement, MeasurementSchedule) {
+.controller('measurementsCtrl', function($scope, $ionicSlideBoxDelegate, $ionicPopup, Measurement, MeasurementSchedule) {
   $scope.measurementTab = {pageIndex: 0}
   $scope.history = Measurement.get();
   $scope.schedule = MeasurementSchedule.get();
@@ -80,6 +90,15 @@ angular.module('app.controllers')
     $ionicSlideBoxDelegate.slide(pageIndex);
   }
 
+  var displayAlert = function(message) {
+    var myPopup = $ionicPopup.show({
+      title: "",
+      subTitle: message,
+      scope: $scope,
+      buttons: [{text: 'OK'}]
+    });
+  }
+
   $scope.saveMeasurement = function(schedule) {
     var measurement;
 
@@ -92,6 +111,10 @@ angular.module('app.controllers')
     }
 
     Measurement.add(measurement, schedule);
+    $scope.newMeasurement = {};
+    displayAlert("Measurement has been saved");
+
+
   };
 
   $scope.disableSave = function(schedule_id) {
@@ -195,13 +218,15 @@ angular.module('app.controllers')
   $scope.measurementsTips = TIPS;
 })
 
-.controller('measurementViewCtrl', function($scope, $stateParams, MeasurementSchedule) {
+.controller('measurementViewCtrl', function($scope, $stateParams, MeasurementSchedule, $ionicHistory, CARD, Card) {
    $scope.schedule = MeasurementSchedule.findByID($stateParams.measurement_schedule_id);
+   $scope.CARD = CARD;
 
    $scope.schedule.$loaded().then(function () {
-       $scope.time = new Date();
-       $scope.time.setHours($scope.schedule.hour);
-       $scope.time.setMinutes($scope.schedule.minute);
+       $scope.mytime = new Date();
+       $scope.mytime.setHours($scope.schedule.hour);
+       $scope.mytime.setMinutes($scope.schedule.minute);
+       console.log("loaded" + $scope.mytime);
 
        $scope.measurement_items = [false, false, false];
        if(typeof $scope.schedule.measurements !== "undefined"){
@@ -219,12 +244,17 @@ angular.module('app.controllers')
        }
    });
 
-   $scope.updateSchedule = function() {
-     $scope.schedule.hour   = $scope.time.getHours();
-     $scope.schedule.minute = $scope.time.getMinutes();
+   $scope.updateSchedule = function(mytime) {
+     var hours = mytime.getHours();
+     var mins  = mytime.getMinutes();
+     hours = ( String(hours).length == 1 ? "0" + String(hours) : String(hours) );
+     mins  = ( String(mins).length == 1 ? "0" + String(mins) : String(mins) );
+     console.log("updated " + mytime);
+
+     $scope.schedule.hour   = hours;
+     $scope.schedule.minute = mins;
      $scope.schedule.measurements = [];
 
-     console.log($scope.measurement_items);
      if($scope.measurement_items[0] == true){
         $scope.schedule.measurements.push({'name':'weight','unit':'lbs'});
      }
@@ -236,7 +266,17 @@ angular.module('app.controllers')
        $scope.schedule.measurements.push({'name':'heart rate','unit':'bpm'});
      }
 
-     $scope.schedule.$save();
+     var req = $scope.schedule.$save();
+     req.then(function(snapshot) {
+       var today = new Date();
+       var tomorrow = new Date();
+       tomorrow.setDate(tomorrow.getDate() + 1);
+
+       Card.updateSchedCard(CARD.CATEGORY.MEASUREMENTS_SCHEDULE, snapshot.key(), $scope.schedule, today.toISOString());
+       Card.updateSchedCard(CARD.CATEGORY.MEASUREMENTS_SCHEDULE, snapshot.key(), $scope.schedule, tomorrow.toISOString());
+     })
+
+     $ionicHistory.goBack();
 
    }
 

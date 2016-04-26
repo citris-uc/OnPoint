@@ -20,7 +20,7 @@
                   <button style="color: blue; font-size: 18px" class=" button-clear button-positive" ui-sref='tabsController.editMedSchedule'>Edit</b>
               </div>
             </div>
-            <span ng-repeat = "dateSchedule in schedule">
+            <span ng-repeat = "dateSchedule in schedule | orderBy: 'time'">
               <a class="item item-divider item-icon-right" ui-sref="tabsController.medicationsSchedule({schedule_id: dateSchedule.$id})">
                 {{dateSchedule.slot}}
                 <i class="icon ion-ios-arrow-right"></i>
