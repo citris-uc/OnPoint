@@ -110,7 +110,7 @@
           <hr class="responsive-col"></hr>
           <h4 class="text-center">{{today| date:'MMMM dd, yyyy'}}</h4>
         </div>
-        <div class="row" style="justify-content: center;" ng-repeat="c in cards | orderBy: 'shown_at' | filter: {archived_at:''}" on-swipe-right="swipeCard(c)" on-swipe-left="swipeCard(c)">
+        <div class="row" style="justify-content: center;" ng-repeat="c in cards | orderBy: 'shown_at' | filter: {archived_at:''}">
           <div class="col responsive-col">
             <div class="list card">
 
