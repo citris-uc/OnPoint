@@ -14,16 +14,8 @@
       <input type="time"  ng-model="slot.time"></input>
     </label>
 
-    <ion-list>
-      <ion-item class="input-label">Day of the Week</span>
-      <ion-checkbox ng-model="slot.day[1]">Monday</ion-checkbox>
-      <ion-checkbox ng-model="slot.day[2]">Tuesday</ion-checkbox>
-      <ion-checkbox ng-model="slot.day[3]">Wednesday</ion-checkbox>
-      <ion-checkbox ng-model="slot.day[4]">Thursday</ion-checkbox>
-      <ion-checkbox ng-model="slot.day[5]">Friday</ion-checkbox>
-      <ion-checkbox ng-model="slot.day[6]">Saturday</ion-checkbox>
-      <ion-checkbox ng-model="slot.day[0]">Sunday</ion-checkbox>
-    </ion-list>
+      <list-item class="item-input">Select the Day of the Week</list-item>
+      <ion-checkbox ng-repeat="day in slot.days track by $index" ng-model="slot.days[$index]">{{DAYOFWEEK.NAME[$index]}}</ion-checkbox>
   </div>
 </script>
 

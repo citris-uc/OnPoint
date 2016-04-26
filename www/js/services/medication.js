@@ -41,6 +41,9 @@ angular.module('app.services')
     saveCabMed: function(newCabMed) {
       this.cabRef().push(newCabMed)
     },
+    add: function(med) {
+      this.ref().push(med)
+    },
     get: function() {
       var ref = this.ref();
       return $firebaseArray(ref);
@@ -76,20 +79,20 @@ angular.module('app.services')
   schedule = [
     {
       time: "08:00",
-      slot: "morning",
-      days: [true,true,true,true,false,true,true], //array descirbing days of week to do this action
+      slot: "Morning",
+      days: [false, true, true, true, false, false, true], //array descirbing days of week to do this action
       medications: ["Lasix", "Toprol XL", "Zestril", "Coumadin", "Riomet"]
     },
     {
       time: "13:00",
-      slot: "afternoon",
-      days: [true,false,true,false,true,false,true], //array descirbing days of week to do this action,
+      slot: "Afternoon",
+      days: [true, false, true, false, true, true, true], //array descirbing days of week to do this action,
       medications: ["Lasix", "Toprol XL", "Zestril", "Riomet"]
     },
     {
       time: "19:00",
-      slot: "evening",
-      days: [false,true,false,true,false,true,false], //array descirbing days of week to do this action,
+      slot: "Evening",
+      days: [true, true, true, true, true, true, true], //array descirbing days of week to do this action,
       medications: ["Lipitor"]
     }
   ]
@@ -248,25 +251,32 @@ angular.module('app.services')
 
       //Add to or update firebase
       var req = ref.once('value', function(snapshot) {
-        if(snapshot.exists()) { //this date child exists
-          var updated = false;
-          snapshot.forEach(function(data) { //find it
-            var hist = data.val();
-            if (hist.medication_schedule_id ==  schedule.$id && hist.medication_id == medication.id) {
-              //found it, need to update it!
-              updated = true;
-              var medRef = data.ref();
-              medRef.update(updateObject);
-            }
-          });
-          if(!updated) {
-              //need to push a new one.
-              var medRef = snapshot.ref();
-              medRef.push(instanceFB);
-          }
-        } else { //this date child does not exist, push it!
+        if(schedule.$id=='cabinet') {
+          instanceFB.reason = medication.reason
           var medRef = snapshot.ref();
           medRef.push(instanceFB);
+        }
+        else {
+          if(snapshot.exists()) { //this date child exists
+            var updated = false;
+            snapshot.forEach(function(data) { //find it
+              var hist = data.val();
+              if (hist.medication_schedule_id ==  schedule.$id && hist.medication_id == medication.id) {
+                //found it, need to update it!
+                updated = true;
+                var medRef = data.ref();
+                medRef.update(updateObject);
+              }
+            });
+            if(!updated) {
+                //need to push a new one.
+                var medRef = snapshot.ref();
+                medRef.push(instanceFB);
+            }
+          } else { //this date child does not exist, push it!
+            var medRef = snapshot.ref();
+            medRef.push(instanceFB);
+          }
         }
       })
       return req;

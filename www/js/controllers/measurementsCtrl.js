@@ -3,7 +3,10 @@ angular.module('app.controllers')
 //TODO: Clean this up...very ugly use ng repeat in the new_measurement_schedule.html
 .controller('measurementScheduleCtrl', function($scope, $ionicPopup, $state,Patient, MeasurementSchedule) {
   $scope.measurement_schedule = MeasurementSchedule.get();
-  $scope.newShedule = {time: new Date("2016-01-01 08:00")};
+  $scope.newShedule = {
+    time: new Date("2016-01-01 08:00"),
+    days: [false, false, false, false, false, false, false]
+  };
 
   var displayAlert = function(message) {
     var myPopup = $ionicPopup.show({
@@ -19,38 +22,16 @@ angular.module('app.controllers')
       displayAlert("Please enter a measurement name");
     else if( !$scope.newShedule.weight && !$scope.newShedule.blood_pressure && !$scope.newShedule.heart_rate ){
       displayAlert("Please choose a measurement");
-    } else if( (typeof $scope.newShedule.days0 === 'undefined') && (typeof $scope.newShedule.days1 === 'undefined')
-      && (typeof $scope.newShedule.days2 === 'undefined') && (typeof $scope.newShedule.days3 === 'undefined')
-      && (typeof $scope.newShedule.days4 === 'undefined') && (typeof $scope.newShedule.days5 === 'undefined')
-      && (typeof $scope.newShedule.days6 === 'undefined')) {
+    } else if( $scope.newShedule.days[0] == false && $scope.newShedule.days[1] == false && $scope.newShedule.days[2] == false
+              && $scope.newShedule.days[3] == false && $scope.newShedule.days[4] == false
+              && $scope.newShedule.days[5] == false && $scope.newShedule.days[6] == false) {
         displayAlert("Please select a reminder day");
     } else{
        var schedule = {};
        schedule.name   = $scope.newShedule.name;
        schedule.hour   = $scope.newShedule.time.getHours();
        schedule.minute = $scope.newShedule.time.getMinutes();
-       schedule.days = [];
-       if($scope.newShedule.days0 == true){
-         schedule.days.push(0);
-       }
-       if($scope.newShedule.days1 == true){
-         schedule.days.push(1);
-       }
-       if($scope.newShedule.days2 == true){
-         schedule.days.push(2);
-       }
-       if($scope.newShedule.days3 == true){
-         schedule.days.push(3);
-       }
-       if($scope.newShedule.days4 == true){
-         schedule.days.push(4);
-       }
-       if($scope.newShedule.days5 == true){
-         schedule.days.push(5);
-       }
-       if($scope.newShedule.days6 == true){
-         schedule.days.push(6);
-       }
+       schedule.days = $scope.newShedule.days;
        schedule.measurements = [];
        if($scope.newShedule.weight == true){
          schedule.measurements.push({'name':'weight','unit':'lbs'});
@@ -209,15 +190,46 @@ angular.module('app.controllers')
 .controller('measurementViewCtrl', function($scope, $stateParams, MeasurementSchedule) {
    $scope.schedule = MeasurementSchedule.findByID($stateParams.measurement_schedule_id);
 
-   $scope.hasMeasurement = function(meas) {
-     for(var i = 0; i < $scope.schedule.measurements.length; i++) {
-       if ($scope.schedule.measurements[i].name.includes(meas)) {
-         return true;
+   $scope.schedule.$loaded().then(function () {
+       $scope.time = new Date();
+       $scope.time.setHours($scope.schedule.hour);
+       $scope.time.setMinutes($scope.schedule.minute);
+
+       $scope.measurement_items = [false, false, false];
+       if(typeof $scope.schedule.measurements !== "undefined"){
+         for(var i = 0; i < $scope.schedule.measurements.length; i++) {
+             if ($scope.schedule.measurements[i].name == "weight") {
+               $scope.measurement_items[0] = true;
+             }
+             if ($scope.schedule.measurements[i].name.includes("blood") ) {
+               $scope.measurement_items[1] = true;
+             }
+             if ($scope.schedule.measurements[i].name == "weight") {
+               $scope.measurement_items[2] = true;
+             }
+         }
        }
-     }
-     return false;
-   }
+   });
+
    $scope.updateSchedule = function() {
-     //TODO: Amy can you do this. 
+     $scope.schedule.hour   = $scope.time.getHours();
+     $scope.schedule.minute = $scope.time.getMinutes();
+     $scope.schedule.measurements = [];
+
+     console.log($scope.measurement_items);
+     if($scope.measurement_items[0] == true){
+        $scope.schedule.measurements.push({'name':'weight','unit':'lbs'});
+     }
+     if($scope.measurement_items[1] == true){
+        $scope.schedule.measurements.push({'name':'systolic blood pressure','unit':'mmHg'});
+        $scope.schedule.measurements.push({'name':'diastolic blood pressure','unit':'mmHg'});
+     }
+     if($scope.measurement_items[2] == true){
+       $scope.schedule.measurements.push({'name':'heart rate','unit':'bpm'});
+     }
+
+     $scope.schedule.$save();
+
    }
+
 })
