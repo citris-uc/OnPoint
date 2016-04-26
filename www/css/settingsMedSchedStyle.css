@@ -66,10 +66,13 @@
     border: none;
     border-radius: .25em;
     float: left;
-    font-weight: 200;
-    height: 70px;
+    font-weight: 300;
+    height: 100px;
     margin: 5px;
     padding: 2px;
     text-align: center;
-    width: 90px;
+    width: 30%;
+		background-image: url(../img/pill_small.png);
+		background-repeat: no-repeat;
+		background-position: 50% 70%;
 }
