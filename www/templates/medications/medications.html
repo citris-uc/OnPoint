@@ -93,7 +93,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr ng-repeat="schedule in medicationSchedule">
+              <tr ng-repeat="schedule in medicationSchedule  | orderBy: 'time'">
 
                 <td>{{schedule.slot}}</td>
                 <td ng-repeat="count in getSlots(schedule, selectedMed) track by $index" >
