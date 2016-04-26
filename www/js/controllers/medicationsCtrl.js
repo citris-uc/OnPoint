@@ -70,8 +70,9 @@ angular.module('app.controllers')
   }
 
   //THIS IS FOR FILLING PILL BOX. IS THERE A BETTER WAY?
+  $scope.medicationSchedule = MedicationSchedule.get();
+  $scope.medications = Medication.get();
   $scope.selectedMed;
-  $scope.completed = []
   var emptySlots = [' ',' ',' ',' ',' ',' ',' '];
 
   $scope.getSlots = function(schedule, med) {
@@ -82,8 +83,8 @@ angular.module('app.controllers')
     }
     else {
       if(schedule.medications.indexOf(med.trade_name) != -1) {
-        for(var day = 0; day < DAYS_OF_THE_WEEK; day++) {
-          if (schedule.days.indexOf(day) != -1) {
+        for(var day = 0; day < 7; day++) {
+          if (schedule.days[day]) {
             slots.push(med.tablets);
           } else {
             slots.push(" ");
@@ -98,21 +99,15 @@ angular.module('app.controllers')
   }
   $scope.displaySchedule = function(med){
     $scope.selectedMed = med //set the selected med
-    if($scope.completed.indexOf(med) == -1){
-      $scope.completed.push(med);
-    }
   }
 
-  $scope.hasCompleted = function(med){
-    if(typeof $scope.selectedMed === "undefined"){
-      return false;
-    }
-    if($scope.selectedMed.trade_name == med.trade_name){
+  $scope.currentlyOn = function(med){
+    if($scope.selectedMed == med){
       return true;
-    }else{
-      return false;
     }
+    return false;
   }
+
 })
 
 .controller("medicationScheduleCtrl", function($scope, $state, $stateParams, $ionicHistory, Medication, MedicationSchedule, MedicationDosage, MedicationHistory) {

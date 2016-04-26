@@ -77,19 +77,19 @@ angular.module('app.services')
     {
       time: "08:00",
       slot: "morning",
-      days: [0,1,2,3,4,5,6], //array descirbing days of week to do this action
+      days: [true,true,true,true,false,true,true], //array descirbing days of week to do this action
       medications: ["Lasix", "Toprol XL", "Zestril", "Coumadin", "Riomet"]
     },
     {
       time: "13:00",
       slot: "afternoon",
-      days: [0,1,2,3,4,5,6], //array descirbing days of week to do this action,
+      days: [true,false,true,false,true,false,true], //array descirbing days of week to do this action,
       medications: ["Lasix", "Toprol XL", "Zestril", "Riomet"]
     },
     {
       time: "19:00",
       slot: "evening",
-      days: [0,1,2,3,4,5,6], //array descirbing days of week to do this action,
+      days: [false,true,false,true,false,true,false], //array descirbing days of week to do this action,
       medications: ["Lipitor"]
     }
   ]
