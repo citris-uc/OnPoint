@@ -18,7 +18,7 @@ angular.module('app.services')
     getHistory: function() {
       var today = new Date();
       var yesterday = new Date();
-      yesterday.setDate(today.getDate()-1); 
+      yesterday.setDate(today.getDate()-1);
       var dateISO = (yesterday).toISOString().substring(0,10)
       var ref = this.ref().orderByKey().endAt(dateISO).limitToLast(3);
       return $firebaseArray(ref);
@@ -86,12 +86,16 @@ angular.module('app.services')
           //TODO: update these to be minutes from midnight.
           var show = new Date(date);
           if (object_type == CARD.CATEGORY.MEDICATIONS_SCHEDULE) {
-            show.setUTCHours(parseInt(schedule.time.substring(0,2)));
-            show.setUTCMinutes(parseInt(schedule.time.substring(3,5)));
+            show.setHours(parseInt(schedule.time.substring(0,2)));
+            show.setMinutes(parseInt(schedule.time.substring(3,5)));
           } else if (object_type == CARD.CATEGORY.MEASUREMENTS_SCHEDULE) {
-            show.setUTCHours(schedule.hour);
-            show.setUTCMinutes(schedule.minute);
+            show.setHours(schedule.hour);
+            show.setMinutes(schedule.minute);
           }
+
+          // Need to make shown_at in UTC format, but also need to set hours and minutes WRT local time of patient
+          show.setUTCHours(show.getUTCHours());
+          show.setUTCMinutes(show.getUTCMinutes());
 
           var card = {
             type: CARD.TYPE.ACTION,
