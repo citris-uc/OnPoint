@@ -61,3 +61,15 @@
     background-color: #dff0d8;
     color: #3c763d;
 }
+
+.medsched .itemlist > li {
+    border: none;
+    border-radius: .25em;
+    float: left;
+    font-weight: 200;
+    height: 70px;
+    margin: 5px;
+    padding: 2px;
+    text-align: center;
+    width: 90px;
+}
