@@ -386,7 +386,10 @@ angular.module('app.controllers')
               $scope.schedule[index].slot = $scope.slot.text;
               $scope.schedule[index].days = $scope.slot.days;
               $scope.schedule[index].time = hours + ":" + mins;
-              //$scope.schedule.$save($scope.schedule[index]);
+              var req = $scope.schedule.$save($scope.schedule[index]);
+              req.then(function(snapshot) {
+                Card.updateSchedCard(CARD.CATEGORY.MEDICATIONS_SCHEDULE, snapshot.key(), $scope.schedule[index], new Date().toISOString());
+              })
               $scope.slot.text = "";
               $scope.showError = false;
             } else {
