@@ -202,6 +202,7 @@ angular.module('app.controllers')
        $scope.time = new Date();
        $scope.time.setHours($scope.schedule.hour);
        $scope.time.setMinutes($scope.schedule.minute);
+       console.log("loaded" + $scope.time);
 
        $scope.measurement_items = [false, false, false];
        if(typeof $scope.schedule.measurements !== "undefined"){
@@ -219,12 +220,16 @@ angular.module('app.controllers')
        }
    });
 
-   $scope.updateSchedule = function() {
-     $scope.schedule.hour   = $scope.time.getHours();
-     $scope.schedule.minute = $scope.time.getMinutes();
-     $scope.schedule.measurements = [];
+   $scope.updateSchedule = function(time) {
+     var hours = time.getHours();
+     var mins  = time.getMinutes();
+     hours = ( String(hours).length == 1 ? "0" + String(hours) : String(hours) );
+     mins  = ( String(mins).length == 1 ? "0" + String(mins) : String(mins) );
 
-     console.log($scope.measurement_items);
+     $scope.schedule.hour   = hours;
+     $scope.schedule.minute = mins;
+     $scope.schedule.measurements = [];
+     
      if($scope.measurement_items[0] == true){
         $scope.schedule.measurements.push({'name':'weight','unit':'lbs'});
      }
