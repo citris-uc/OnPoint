@@ -285,9 +285,10 @@ angular.module('app.controllers')
    }
 })
 
-.controller('medicationsSettingCtrl', function($scope, $state, $ionicPopup,$ionicHistory, DAYOFWEEK, Patient, Medication, MedicationSchedule, MedicationHistory) {
+.controller('medicationsSettingCtrl', function($scope, $state, $ionicPopup,$ionicHistory, DAYOFWEEK, Patient, Medication, MedicationSchedule, MedicationHistory, CARD, Card) {
 
   // TODO --> use MedicationSchedule and FB
+  $scope.CARD = CARD;
   $scope.DAYOFWEEK = DAYOFWEEK;
   $scope.schedule = MedicationSchedule.get();
   $scope.selected_med = null;
@@ -331,8 +332,17 @@ angular.module('app.controllers')
       mins  = $scope.slot.time.getMinutes();
       hours = ( String(hours).length == 1 ? "0" + String(hours) : String(hours) )
       mins  = ( String(mins).length == 1 ? "0" + String(mins) : String(mins) )
-      console.log("Add Name:  " + $scope.slot.text + " days: " + $scope.slot.days);
-      MedicationSchedule.addTimeSlot($scope.slot.text, $scope.slot.days, hours + ":" + mins);
+      var timeStr = hours + ":" + mins;
+      //console.log("Add Name:  " + $scope.slot.text + " days: " + $scope.slot.days);
+      var req = MedicationSchedule.addTimeSlot($scope.slot.text, $scope.slot.days, timeStr);
+
+      // Create a new Card for the new time slot
+      req.then(function(snapshot) {
+        var obj = {time: timeStr, days: $scope.slot.days};
+        Card.createFromSchedSlot(CARD.CATEGORY.MEDICATIONS_SCHEDULE, snapshot.key(), obj, new Date().toISOString());
+      })
+
+      // Navigate to the correct page
       if ($ionicHistory.currentStateName() == 'carePlan.newSlot') {
         $state.go("carePlan.generatedMedSchedule");
       }
@@ -402,7 +412,7 @@ angular.module('app.controllers')
   $scope.timeDisplayFormat = function(timestring) {
     [hours, mins] = timestring.split(':');
     hours = parseInt(hours);
-    ampm = (hours > 12) ? "PM" : "AM";
+    ampm = (hours >= 12) ? "PM" : "AM";
     hours = (hours > 12) ? hours - 12 : hours;
     newtime = hours + ":" + mins + " " + ampm;
     return newtime;
