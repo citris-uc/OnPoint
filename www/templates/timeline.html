@@ -106,6 +106,36 @@
 
 
       <ion-slide>
+        <div class="card-section history">
+          <hr class="responsive-col"></hr>
+          <h4 class="text-center">{{today| date:'MMMM dd, yyyy'}}</h4>
+        </div>
+        <div class="row" style="justify-content: center;" ng-repeat="c in cards | orderBy: 'shown_at' | filter: {archived_at:''}" on-swipe-right="swipeCard(c)" on-swipe-left="swipeCard(c)">
+          <div class="col responsive-col">
+            <div class="list card">
+
+              <div class="item item-icon-left">
+                <i class="icon {{iconClass(c)}}"></i>
+                <h2>{{formatTitle(c.object_type)}}</h2>
+                <p>{{getTime(c.shown_at) | date: 'EEEE, MMMM dd h:mm a'}}</p>
+
+                <span class="badge {{statusClass(c)}}">{{statusText(c)}}</span>
+              </div>
+
+              <div class="item item-body">
+                {{description(c)}}
+              </div>
+                <div class="col responsive-col-md-25">
+                  <a class="item item-icon-left" ui-sref="tabsController.comments({card_id:c.$id, comment_id: c.comment_id})">
+                    <i class="icon ion-ios-chatbubble-outline"></i>
+                    Comment {{c.num_comments > 0 ? '('+c.num_comments+')' : ''}}
+                  </a>
+                </div>
+            </div>
+
+          </div>
+        </div>
+
         <div ng-repeat="cards in history | orderBy:'-'">
           <div class="card-section history">
             <hr class="responsive-col"></hr>
