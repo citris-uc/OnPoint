@@ -107,7 +107,8 @@ angular.module('app.controllers')
       measurement = $scope.newMeasurement['custom']
     }
     else {
-      meausrement = $scope.newMeasurement[schedule.$id]
+      console.log($scope.newMeasurement[schedule.$id]);
+      measurement = $scope.newMeasurement[schedule.$id]
     }
 
     Measurement.add(measurement, schedule);
