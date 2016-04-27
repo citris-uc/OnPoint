@@ -39,7 +39,7 @@ angular.module('app.services')
     },
     complete: function(card) {
       var ref = this.todaysRef().child(card.$id);
-      var now = (new Date()).toTimeString();
+      var now = (new Date()).toISOTimeString();
 
       var updateObject; //use this if updating an element. see https://www.firebase.com/docs/web/api/firebase/update.html
       updateObject = {updated_at: now,
@@ -57,7 +57,7 @@ angular.module('app.services')
     },
     archive: function(card) {
       var ref = this.todaysRef().child(card.$id);
-      var now = (new Date()).toTimeString();
+      var now = (new Date()).toISOTimeString();
 
       var updateObject = {updated_at: now, archived_at: now};
 

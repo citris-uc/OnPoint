@@ -232,7 +232,7 @@ angular.module('app.services')
       // does not exist.
       var today = ((new Date()).toISOString()).substring(0,10)
       var ref = this.ref().child(today);
-      var time_now = (new Date()).toTimeString();
+      var time_now = (new Date()).toISOTimeString();
 
       var updateObject; //use this if updating an element. see https://www.firebase.com/docs/web/api/firebase/update.html
       var instanceFB =  { //use this if adding new element
