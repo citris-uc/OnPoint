@@ -4,7 +4,7 @@ angular.module('app.controllers')
     $scope.medications = Medication.get();
     $scope.newMedication = {};
 
-    $scope.medSelected= function(med) {
+    $scope.medSelected = function(med) {
       $scope.newMedication.dose = med.dose;
       $scope.newMedication.instructions = med.instructions;
       $scope.newMedication.purpose = med.purpose;
@@ -20,7 +20,6 @@ angular.module('app.controllers')
         buttons: [{text: 'OK'}]
       });
     }
-
 
     $scope.saveMedication = function(firebaseRecord){
       if (!$scope.newMedication.name)
