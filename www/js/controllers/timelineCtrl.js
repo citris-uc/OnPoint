@@ -274,10 +274,31 @@ angular.module('app.controllers')
          return ["Appointment Information"];
        case CARD.CATEGORY.GOALS :
          return ["View Goals"];
+       case CARD.CATEGORY.MEDICATIONS_CABINET :
+         return $scope.getMedicationsCabinetDescription(card);
        //case CARD.CATEGORY.SYMPTOMS :
        default:
          return [""];
      } // end switch
+   }
+
+   $scope.getMedicationsCabinetDescription = function(card) {
+     var date_key = card.shown_at.substring(0,10);
+     for(var i = 0; i < $scope.medHistory.length; i++) {
+       var hist = $scope.medHistory[i];
+       if(hist.$id == card.object_id) { //found proper history reference, construct stirng
+         for(var j = 0; j < $scope.medications.length; j++) {
+           var med = $scope.medications[j];
+           if(med.$id==hist.medication_id) {
+             var reason = ""
+             if(hist.reason!=null) {
+               reason = " because " +  hist.reason
+             }
+             return "You took " + med.trade_name + reason;
+           }
+         }
+       }
+     }
    }
 
    $scope.constructMedItemString = function(itemsArray) {
