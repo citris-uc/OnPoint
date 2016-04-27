@@ -253,6 +253,8 @@ angular.module('app.controllers')
   }
 
   $scope.formatTitle = function(str) {
+    if (str==CARD.CATEGORY.MEDICATIONS_CABINET)
+      return 'Medications'
     var fstr = str.replace("_schedule","");
     fstr = fstr.charAt(0).toUpperCase() + fstr.slice(1);
     return fstr;
