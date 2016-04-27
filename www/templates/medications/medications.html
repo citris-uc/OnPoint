@@ -73,7 +73,7 @@
         </div>
 
         <ion-list>
-          <ion-item class="item item-icon-right" ng-repeat="med in medications" ng-show="med.cab_med" ui-sref="tabsController.editMed({medication_id: med.$id})"">
+          <ion-item class="item item-icon-right" ng-repeat="med in medications" ng-show="med.cab_med" ui-sref="tabsController.editMed({medication_id: med.$id})">
             {{med.trade_name}}
             <i class="icon ion-ios-arrow-right"></i>
           </ion-item>

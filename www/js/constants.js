@@ -5,13 +5,15 @@ angular.module('app.constants', [])
   TYPE: {
     'ACTION':'action',
     'URGENT':'urgent',
-    'REMINDER':'reminder'},
+    'REMINDER':'reminder',
+    'INFO':'info'},
   CATEGORY: {
     'MEDICATIONS_SCHEDULE': 'medications_schedule',
     'MEASUREMENTS_SCHEDULE': 'measurements_schedule',
     'APPOINTMENTS_SCHEDULE': 'appointments',
     'GOALS': 'goals',
-    'SYMPTOMS_SCHEDULE': 'symptoms_schedule'},
+    'SYMPTOMS_SCHEDULE': 'symptoms_schedule',
+    'MEDICATIONS_CABINET':'medications_cabinet'},
   TIMESPAN: {
     'GET_CURRENT_PAST': 6,
     'GET_CURRENT_FUTURE': 6,

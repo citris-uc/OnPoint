@@ -260,8 +260,9 @@ angular.module('app.controllers')
   $scope.schedule   = MedicationSchedule.findByID($stateParams.schedule_id)
 
   $scope.takeMedication = function() {
-    console.log($scope.medication)
-    console.log($scope.schedule)
+    //console.log($scope.medication)
+    //console.log($scope.schedule)
+
     var req = MedicationHistory.create_or_update($scope.medication, $scope.schedule, "take");
     req.then(function(ref) {
       var alertPopup = $ionicPopup.alert({
