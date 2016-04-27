@@ -4,6 +4,7 @@ angular.module('app.controllers')
 .controller('measurementScheduleCtrl', function($scope, $ionicPopup, $state,Patient, MeasurementSchedule, CARD, Card) {
   $scope.measurement_schedule = MeasurementSchedule.get();
   $scope.newShedule = {
+    name: "weekday schedule",
     time: new Date("2016-01-01 08:00"),
     days: [false, false, false, false, false, false, false]
   };
