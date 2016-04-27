@@ -401,17 +401,6 @@ angular.module('app.controllers')
     }
   }
 
-  $scope.shouldDisplayCard = function(card, timestamp) {
-    return true;
-    //TODO: Fix this
-    var cardDate = new Date(timestamp);
-    var now      = new Date();
-    if (cardDate.toDateString() == now.toDateString() && cardDate.toTimeString() <= now.toTimeString())
-      return true;
-    return false;
-  }
-
-
   $scope.archive = function(card) {
     if (card.completed_at != null) {
       Card.archive(card);
