@@ -28,7 +28,7 @@ angular.module('app.services')
     add: function(measurement, schedule) {
       var today = ((new Date()).toISOString()).substring(0,10)
       var ref = this.ref().child(today);
-      var time_now = (new Date()).toISOTimeString();
+      var time_now = (new Date()).toISOString();
 
       var instance = {};
       instance.measurements = measurement;
