@@ -216,7 +216,7 @@ angular.module('app.services')
   };
 }])
 
-.factory('MedicationHistory', ["Patient", "$firebaseArray", function(Patient, $firebaseArray) {
+.factory('MedicationHistory', ["Patient", "$firebaseArray", "Card","CARD",function(Patient, $firebaseArray, Card, CARD) {
 
   return {
     getTodaysHistory: function() {
@@ -254,7 +254,8 @@ angular.module('app.services')
         if(schedule.$id=='cabinet') {
           instanceFB.reason = typeof(medication.reason)==='undefined'? null:medication.reason;
           var medRef = snapshot.ref();
-          medRef.push(instanceFB);
+          cabHistRef = medRef.push(instanceFB);
+          Card.createAdHoc(CARD.CATEGORY.MEDICATIONS_CABINET, cabHistRef.key(), (new Date()).toISOString())
         }
         else {
           if(snapshot.exists()) { //this date child exists
