@@ -253,8 +253,8 @@ angular.module('app.controllers')
   }
 
   $scope.formatTitle = function(str) {
-    if (str==CARD.CATEGORY.MEDICATIONS_CABINET)
-      return 'Medications'
+    if (str == CARD.CATEGORY.MEDICATIONS_CABINET || str == CARD.CATEGORY.MEDICATIONS_SCHEDULE_CHANGE)
+      return 'Medications';
     var fstr = str.replace("_schedule","");
     fstr = fstr.charAt(0).toUpperCase() + fstr.slice(1);
     return fstr;
@@ -278,6 +278,8 @@ angular.module('app.controllers')
          return ["View Goals"];
        case CARD.CATEGORY.MEDICATIONS_CABINET :
          return $scope.getMedicationsCabinetDescription(card);
+       case CARD.CATEGORY.MEDICATIONS_SCHEDULE_CHANGE:
+        return 'Edited Medication Schedule'
        //case CARD.CATEGORY.SYMPTOMS :
        default:
          return [""];
