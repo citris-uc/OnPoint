@@ -13,7 +13,7 @@ angular.module('app.constants', [])
     'APPOINTMENTS_SCHEDULE': 'appointments',
     'GOALS': 'goals',
     'SYMPTOMS_SCHEDULE': 'symptoms_schedule',
-    'MEDICATIONS_CABINET':'medications_cabinet'.
+    'MEDICATIONS_CABINET':'medications_cabinet',
     'MEDICATIONS_SCHEDULE_CHANGE': 'medication_schedule_change'},
   TIMESPAN: {
     'GET_CURRENT_PAST': 6,
