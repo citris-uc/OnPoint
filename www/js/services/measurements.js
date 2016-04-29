@@ -2,7 +2,7 @@ angular.module('app.services')
 // Factories allows us to define objects within our app. We can expose
 // specific methods within the object literal to mimic API calls, e.g.
 // Measurement.get() will return all measurements associated with a user.
-.factory("Measurement", ["Patient", "$firebaseArray", function(Patient, $firebaseArray) {
+.factory("Measurement", ["Patient", "$firebaseArray", "Card", "CARD", function(Patient, $firebaseArray, Card, CARD) {
   return {
     get: function() {
       var ref = this.ref();
@@ -38,7 +38,9 @@ angular.module('app.services')
       //Add new measurement to firebase
       var req = ref.once('value', function(snapshot) {
           var measurementsRef = snapshot.ref();
-          measurementsRef.push(instance);
+          var measLogRef = measurementsRef.push(instance);
+          if(schedule.$id=='custom')
+            Card.createAdHoc(CARD.CATEGORY.MEASUREMENT_LOGGED, measLogRef.key(), (new Date()).toISOString())
       })
       return req;
     }
