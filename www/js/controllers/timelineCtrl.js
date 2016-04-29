@@ -220,7 +220,7 @@ angular.module('app.controllers')
   }
 
   $scope.iconClass = function(card) {
-    if (card.object_type == CARD.CATEGORY.MEDICATIONS_SCHEDULE)
+    if (card.object_type == CARD.CATEGORY.MEDICATIONS_SCHEDULE || card.object_type == CARD.CATEGORY.MEDICATIONS_CABINET || card.object_type == CARD.CATEGORY.MEDICATIONS_SCHEDULE_CHANGE)
       return "ion-ios-medkit-outline";
     if (card.object_type == CARD.CATEGORY.APPOINTMENTS_SCHEDULE)
       return "ion-ios-calendar-outline";
@@ -253,8 +253,8 @@ angular.module('app.controllers')
   }
 
   $scope.formatTitle = function(str) {
-    if (str==CARD.CATEGORY.MEDICATIONS_CABINET)
-      return 'Medications'
+    if (str == CARD.CATEGORY.MEDICATIONS_CABINET || str == CARD.CATEGORY.MEDICATIONS_SCHEDULE_CHANGE)
+      return 'Medications';
     var fstr = str.replace("_schedule","");
     fstr = fstr.charAt(0).toUpperCase() + fstr.slice(1);
     return fstr;
@@ -278,6 +278,8 @@ angular.module('app.controllers')
          return ["View Goals"];
        case CARD.CATEGORY.MEDICATIONS_CABINET :
          return $scope.getMedicationsCabinetDescription(card);
+       case CARD.CATEGORY.MEDICATIONS_SCHEDULE_CHANGE:
+        return 'Edited Medication Schedule'
        //case CARD.CATEGORY.SYMPTOMS :
        default:
          return [""];
