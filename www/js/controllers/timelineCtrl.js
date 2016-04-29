@@ -220,7 +220,7 @@ angular.module('app.controllers')
   }
 
   $scope.iconClass = function(card) {
-    if (card.object_type == CARD.CATEGORY.MEDICATIONS_SCHEDULE)
+    if (card.object_type == CARD.CATEGORY.MEDICATIONS_SCHEDULE || card.object_type == CARD.CATEGORY.MEDICATIONS_CABINET || card.object_type == CARD.CATEGORY.MEDICATIONS_SCHEDULE_CHANGE)
       return "ion-ios-medkit-outline";
     if (card.object_type == CARD.CATEGORY.APPOINTMENTS_SCHEDULE)
       return "ion-ios-calendar-outline";
