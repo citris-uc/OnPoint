@@ -224,7 +224,7 @@ angular.module('app.controllers')
       return "ion-ios-medkit-outline";
     if (card.object_type == CARD.CATEGORY.APPOINTMENTS_SCHEDULE)
       return "ion-ios-calendar-outline";
-    if (card.object_type == CARD.CATEGORY.MEASUREMENTS_SCHEDULE)
+    if (card.object_type == CARD.CATEGORY.MEASUREMENTS_SCHEDULE || card.object_type == CARD.CATEGORY.MEASUREMENT_LOGGED)
       return "ion-arrow-graph-up-right";
   }
 
@@ -255,6 +255,8 @@ angular.module('app.controllers')
   $scope.formatTitle = function(str) {
     if (str == CARD.CATEGORY.MEDICATIONS_CABINET || str == CARD.CATEGORY.MEDICATIONS_SCHEDULE_CHANGE)
       return 'Medications';
+    else if (str == CARD.CATEGORY.MEASUREMENT_LOGGED)
+      return 'Measurements'
     var fstr = str.replace("_schedule","");
     fstr = fstr.charAt(0).toUpperCase() + fstr.slice(1);
     return fstr;
@@ -279,13 +281,24 @@ angular.module('app.controllers')
        case CARD.CATEGORY.MEDICATIONS_CABINET :
          return $scope.getMedicationsCabinetDescription(card);
        case CARD.CATEGORY.MEDICATIONS_SCHEDULE_CHANGE:
-        return 'Edited Medication Schedule'
+        return 'Edited Medication Schedule';
+       case CARD.CATEGORY.MEASUREMENT_LOGGED:
+        return $scope.getMeasurementLoggedDescription(card);
        //case CARD.CATEGORY.SYMPTOMS :
        default:
          return [""];
      } // end switch
    }
 
+   $scope.getMeasurementLoggedDescription = function(card) {
+     var date_key = card.shown_at.substring(0,10);
+     for(var i = 0; i < $scope.measHistory.length; i++) {
+       var hist = $scope.measHistory[i];
+       if(hist.$id == card.object_id) {
+         return 'You logged a new measurement: ' + hist.measurements['name'];
+       }
+     }
+   }
    $scope.getMedicationsCabinetDescription = function(card) {
      var date_key = card.shown_at.substring(0,10);
      for(var i = 0; i < $scope.medHistory.length; i++) {
