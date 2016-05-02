@@ -166,17 +166,12 @@ angular.module('app.services')
         }
       })
     },
-    createFromObjectForDate: function(object_type, date) {
+
+    createFromSchedule: function(ref, object_type, date) {
       var that = this;
       var now  = (new Date()).toISOString();
       var date_key = date.substring(0,10);
-
-      if (object_type == CARD.CATEGORY.MEDICATIONS_SCHEDULE)
-        var defaultRef = MedicationSchedule.ref().child("default");
-      else if (object_type == CARD.CATEGORY.MEASUREMENTS_SCHEDULE)
-        var defaultRef = MeasurementSchedule.ref();
-
-      defaultRef.once("value", function(snap) {
+      ref.once("value", function(snap) {
         snap.forEach(function(childSnap) {
           var schedule = childSnap.val();
           //TODO: update these to be minutes from midnight.
@@ -213,6 +208,23 @@ angular.module('app.services')
       })
     },
 
+    createFromObjectForDate: function(object_type, date) {
+      var that = this;
+      var now  = (new Date()).toISOString();
+      var date_key = date.substring(0,10);
+
+      if (object_type == CARD.CATEGORY.MEDICATIONS_SCHEDULE) {
+        var defaultRef = MedicationSchedule.ref().child("default");
+        this.createFromSchedule(defaultRef, object_type, date);
+      }
+      else if (object_type == CARD.CATEGORY.MEASUREMENTS_SCHEDULE) {
+        var defaultRef = MeasurementSchedule.ref();
+        this.createFromSchedule(defaultRef, object_type, date);
+      }
+
+
+    },
+
 
     // This method queries "2016-04-01" on "cards" key and
     // a) if key is not found, creates Medication and Measurement schedules.
@@ -227,6 +239,7 @@ angular.module('app.services')
         if (!cardSnap.exists()) {
           that.createFromObjectForDate(CARD.CATEGORY.MEDICATIONS_SCHEDULE, date)
           that.createFromObjectForDate(CARD.CATEGORY.MEASUREMENTS_SCHEDULE, date)
+          that.createFromObjectForDate(CARD.CATEGORY.APPOINTMENTS_SCHEDULE, date)
         } else {
           // Check to make sure each has been generated
           var measExists = false;
