@@ -36,7 +36,6 @@ angular.module('app.controllers')
 })
 
 .controller('appointmentsCtrl', function($scope, $location, $state, Appointment) {
-  console.log('inside appointmentsCtrl');
   $scope.appointments = Appointment.get();
   $scope.hasAppointment = function(){
     if($scope.appointments.length == 0){

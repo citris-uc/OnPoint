@@ -35,19 +35,15 @@ angular.module('app.services')
       return $firebaseObject(this.ref().child(appointment_id));
     },
     add: function(appointment) {
-      // Replace with Firebase
+      var apptDate = (appointment.time.toISOString()).substring(0,10);
+      var ref = this.ref().child(apptDate);
       var a = {
         time: appointment.time.toISOString(),
         title: appointment.title,
         location: appointment.location,
         note: appointment.note
       }
-      console.log(a);
-
-      var appointments = this.get();
-      var req = appointments.$add(a);
-
-      return a;
+      ref.push(a);
     }
   };
 }])
