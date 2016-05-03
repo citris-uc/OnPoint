@@ -58,7 +58,7 @@ angular.module('app.controllers')
     var iso = (new Date()).toISOString(); //get current ISO String
     var iso_altered = utc_date.concat(iso.substring(10)); //replace date portion with date from firebase
     var local = new Date(iso_altered); //Date() constructor automatically sets local time!
-    return local
+    return local;
   }
   // console.log('appointments are ', appointmentRecord);
   //

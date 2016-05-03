@@ -59,9 +59,6 @@ angular.module('app.controllers')
     fromDate.setDate(fromDate.getDate()-CARD.TIMESPAN.DAYS_AFTER_APPT);
     toDate.setDate(toDate.getDate()+CARD.TIMESPAN.DAYS_BEFORE_APPT);
     $scope.appointments = Appointment.getAppointmentsFromTo(fromDate, toDate);
-    $scope.appointments.$loaded().then(function() {
-      console.log($scope.appointments)
-    })
     var today = (new Date()).toISOString();
     Card.generateCardsFor(today);
 
