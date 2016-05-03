@@ -8,14 +8,23 @@
     <li class="item" ng-hide="hasAppointment()">
       You haven't added any appointments.
     </li>
-    <ion-list class = "appointments-list">
-      <ion-item class="view-appointments" ng-repeat="a in appointments | orderBy:a.timestamp: 'true'">
-        <p>{{a.time | date:'MMM d, y h:mm a'}}</p>
-        <p>Title: {{a.title}} </p>
-        <p>Location: {{a.location}}</p>
-        <p>Note: {{a.note}} </p>
-      </ion-item>
-    </ion-list>
+
+    <div ng-repeat="date in appointments"?>
+      <div>
+        <hr class="responsive-col"></hr>
+        <h4 class="text-center">{{setLocaleDate(date.$id) | date:'MMMM dd, yyyy'}}</h4>
+      </div>
+
+      <ion-list class = "appointments-list">
+        <ion-item class="view-appointments" ng-repeat="a in date | orderBy:a.timestamp: 'true'">
+          <p>{{a.time | date:'MMM d, y h:mm a'}}</p>
+          <p>Title: {{a.title}} </p>
+          <p>Location: {{a.location}}</p>
+          <p>Note: {{a.note}} </p>
+        </ion-item>
+      </ion-list>
+    </div>
+
   </ion-content>
 </ion-view>
 
