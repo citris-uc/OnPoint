@@ -37,7 +37,7 @@ angular.module('app.services')
      * @return: returns a firebaseArray of appointments
      */
     getAppointmentsFromTo: function(from, to) {
-      var ref = this.getAppointmentsFromTo(from,to)
+      var ref = this.getAppointmentsFromToRef(from,to)
       return $firebaseArray(ref);
     },
     getAppointmentsFromToRef: function(from, to) {
