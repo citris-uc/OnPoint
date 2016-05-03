@@ -19,7 +19,13 @@ angular.module('app.constants', [])
   TIMESPAN: {
     'GET_CURRENT_PAST': 6,
     'GET_CURRENT_FUTURE': 6,
-    'GET_UPCOMING_FUTURE' : 12
+    'GET_UPCOMING_FUTURE' : 12,
+    'DAYS_BEFORE_APPT': 30, //for appointent reminder cards
+    'DAYS_AFTER_APPT': 30 //for appointment history cards
+  },
+  REMINDER_TIME: {
+    'HOUR': 7,
+    'MINUTE': 0,
   }
 })
 .constant('DAYOFWEEK', {

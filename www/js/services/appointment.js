@@ -34,14 +34,19 @@ angular.module('app.services')
      * Return Appointments in firebase from dates, from, until dates, to
      * @param from: from date in javascript date format
      * @param to: to date in javascript date format
-     * @return: returns a firebaseArray of appointments 
+     * @return: returns a firebaseArray of appointments
      */
     getAppointmentsFromTo: function(from, to) {
+      var ref = this.getAppointmentsFromTo(from,to)
+      return $firebaseArray(ref);
+    },
+    getAppointmentsFromToRef: function(from, to) {
       var fromISO = from.toISOString().substring(0,10);
       var toISO = to.toISOString().substring(0,10);
       var ref = this.ref().orderByKey().startAt(fromISO).endAt(toISO);
-      return $firebaseArray(ref);
+      return ref;
     },
+
     getById: function(appointment_id){
        console.log(appointment_id);
       return $firebaseObject(this.ref().child(appointment_id));
