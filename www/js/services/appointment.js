@@ -60,6 +60,11 @@ angular.module('app.services')
         note: appointment.note
       }
       ref.push(a);
+    },
+    update: function(appointment, dateKey, apptKey) {
+      var ref = this.ref().child(dateKey).child(apptKey);
+      console.log(appointment)
+      ref.update(appointment);
     }
   };
 }])

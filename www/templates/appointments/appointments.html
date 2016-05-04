@@ -16,11 +16,23 @@
       </div>
 
       <ion-list class = "appointments-list">
-        <ion-item class="view-appointments" ng-repeat="(appt_key, appointment) in date | orderBy:a.timestamp: 'true'" ui-sref="tabsController.appointment({date: date.$id, appointment_id: appt_key})">
-          <p>{{appointment.time | date:'MMM d, y h:mm a'}}</p>
-          <p>Title: {{appointment.title}}</p>
-          <p>Location: {{appointment.location}}</p>
-          <p>Note: {{appointment.note}} </p>
+        <ion-item class="view-appointments" ng-repeat="(appt_key, appointment) in date | orderBy:a.timestamp: 'true'" ui-sref="tabsController.editAppointment({date: date.$id, appointment_id: appt_key})">
+
+            <div class="item item-divider">{{appointment.title}}</div>
+            <ion-item class="item-icon-left item-text-wrap">
+              <i class="icon ion-ios-clock-outline"></i>
+              <p class="item-text-wrap">{{appointment.time | date:'medium'}}</p>
+            </ion-item>
+
+            <ion-item class="item-icon-left item-text-wrap">
+              <i class="icon ion-ios-location-outline"></i>
+              <p class="item-text-wrap"> {{appointment.location}}</p>
+            </ion-item>
+
+            <ion-item class="item-icon-left item-text-wrap">
+              <i class="icon ion-clipboard"></i>
+              <p class="item-text-wrap">{{appointment.note}}</p>
+            </ion-item>
         </ion-item>
       </ion-list>
     </div>

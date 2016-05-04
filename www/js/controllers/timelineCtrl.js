@@ -451,9 +451,17 @@ angular.module('app.controllers')
         var schedule = $scope.findMeasurementScheduleForCard(card);
         action = {tab: 'tabsController.measurementAction', params: {schedule_id: schedule.$id}}
         return $state.go(action.tab, action.params);
-      case CARD.CATEGORY.APPOINTMENTS_SCHEDULE :
-        action = {tab: 'tabsController.appointments', params: {}}
-        return $state.go(action.tab, action.params);
+      case CARD.CATEGORY.APPOINTMENTS:
+        for(var i = 0; i < $scope.appointments.length; i++) {
+          var date = $scope.appointments[i];
+          if(date.hasOwnProperty(card.object_id)) {
+            var appt = date[card.object_id];
+            var time = new Date(appt.time);
+            action = {tab: 'tabsController.appointment', params: {date:date.$id, appointment_id:card.object_id}}
+            return $state.go(action.tab, action.params);
+          }
+        }
+
       case CARD.CATEGORY.GOALS :
         action = {tab: 'tabsController.goals', params: {}}
         $state.go(action.tab, action.params);
