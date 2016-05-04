@@ -1,7 +1,7 @@
 angular.module('app.controllers')
 
 .controller('appointmentCtrl', function($scope,$stateParams, Appointment) {
-  $scope.appointment = Appointment.getById($stateParams.appointment_id);
+  $scope.appointment = Appointment.getById($stateParams.date,$stateParams.appointment_id);
 })
 
 .controller('addAppointmentCtrl', function($scope,$state,$stateParams,$ionicPopup, Appointment) {
@@ -41,7 +41,9 @@ angular.module('app.controllers')
   fromDate.setDate(fromDate.getDate()-CARD.TIMESPAN.DAYS_AFTER_APPT);
   toDate.setDate(toDate.getDate()+CARD.TIMESPAN.DAYS_BEFORE_APPT);
   $scope.appointments = Appointment.getAppointmentsFromTo(fromDate, toDate);
-
+  $scope.appointments.$loaded().then(function() {
+    console.log($scope.appointments)
+  })
   $scope.hasAppointment = function(){
     if($scope.appointments.length == 0){
       return false;

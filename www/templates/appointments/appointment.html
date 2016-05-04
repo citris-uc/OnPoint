@@ -7,7 +7,7 @@
 
           <ion-item class="item-icon-left item-text-wrap">
             <i class="icon ion-ios-clock-outline"></i>
-            <span class="item-text-wrap" ng-bind="appointment.timestamp | date:'MM/dd/yyyy' "></span>
+            <p class="item-text-wrap">{{appointment.time | date:'medium'}}</p>
           </ion-item>
 
           <ion-item class="item-icon-left item-text-wrap">

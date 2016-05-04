@@ -47,9 +47,8 @@ angular.module('app.services')
       return ref;
     },
 
-    getById: function(appointment_id){
-       console.log(appointment_id);
-      return $firebaseObject(this.ref().child(appointment_id));
+    getById: function(date,appointment_id){
+      return $firebaseObject(this.ref().child(date).child(appointment_id));
     },
     add: function(appointment) {
       var apptDate = (appointment.time.toISOString()).substring(0,10);
