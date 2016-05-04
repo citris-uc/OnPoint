@@ -285,7 +285,7 @@ angular.module('app.routes', [])
     views: {
       'goals-tab': {
         templateUrl: 'templates/editGoal.html',
-        controller: 'editGoalsCtrl'
+        controller: 'editGoalCtrl'
       }
     }
   })
