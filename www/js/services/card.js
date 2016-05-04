@@ -7,8 +7,21 @@ angular.module('app.services')
       return $firebaseArray(ref)
     },
     getByDay: function(date) {
-      var dateISO = date.toISOString().substring(0,10)
+      var dateISO = date.toISOString().substring(0,10);
       var ref = this.ref().child(dateISO);
+      return $firebaseArray(ref);
+    },
+    getRangeByDate: function(date) {
+      var dateISO = date.toISOString().substring(0,10);
+
+      var yesterday = new Date();
+      yesterday.setDate(date.getDate()-1);
+      var yesterdayISO = yesterday.toISOString().substring(0,10);
+
+      var tomorrow = new Date();
+      tomorrow.setDate(date.getDate()+1);
+      var tomorrowISO = tomorrow.toISOString().substring(0,10);
+      var ref = this.ref().orderByKey().startAt(yesterdayISO).endAt(tomorrowISO);
       return $firebaseArray(ref);
     },
     getById: function(id) {
