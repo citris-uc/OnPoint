@@ -280,6 +280,16 @@ angular.module('app.routes', [])
     }
   })
 
+  .state('tabsController.editGoal', {
+    url: '/goal/:goal_id',
+    views: {
+      'goals-tab': {
+        templateUrl: 'templates/editGoal.html',
+        controller: 'editGoalsCtrl'
+      }
+    }
+  })
+
   .state('symptomsSlider', {
     url: '/tabs4',
     templateUrl: 'templates/symptomsSlider.html',
