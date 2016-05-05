@@ -1,6 +1,6 @@
 angular.module('app.services')
 
-.factory("Card", ["CARD", "Patient", "MedicationSchedule", "MeasurementSchedule", "$firebaseArray", "$firebaseObject", function(CARD, Patient, MedicationSchedule, MeasurementSchedule, $firebaseArray, $firebaseObject) {
+.factory("Card", ["CARD", "Patient", "MedicationSchedule", "MeasurementSchedule", "Appointment","$firebaseArray", "$firebaseObject", function(CARD, Patient, MedicationSchedule, MeasurementSchedule, Appointment,$firebaseArray, $firebaseObject) {
   return {
     get: function() {
       var ref = this.ref();
@@ -166,17 +166,52 @@ angular.module('app.services')
         }
       })
     },
-    createFromObjectForDate: function(object_type, date) {
+
+    /*
+     * @param date is in ISO format
+     */
+    createAppointmentCards: function(date, object_type) {
       var that = this;
       var now  = (new Date()).toISOString();
       var date_key = date.substring(0,10);
 
-      if (object_type == CARD.CATEGORY.MEDICATIONS_SCHEDULE)
-        var defaultRef = MedicationSchedule.ref().child("default");
-      else if (object_type == CARD.CATEGORY.MEASUREMENTS_SCHEDULE)
-        var defaultRef = MeasurementSchedule.ref();
+      var d = new Date(date); //date in JS Date format
+      var toDate = new Date(date);
+      toDate.setDate(d.getDate()+CARD.TIMESPAN.DAYS_BEFORE_APPT);
+      var ref = Appointment.getAppointmentsFromToRef(d, toDate);
+      //var ref = Appointment.ref();
+      ref.once("value", function(snap) {
+        snap.forEach(function(childSnap) { //for each date
+          childSnap.forEach(function(apptSnap) {
+            var appt = apptSnap.val();
+            var show = new Date(date);
 
-      defaultRef.once("value", function(snap) {
+            //TODO: When should the reminder cards show up?
+            show.setHours(CARD.REMINDER_TIME.HOUR);
+            show.setMinutes(CARD.REMINDER_TIME.MINUTE);
+
+            var card = {
+              type: CARD.TYPE.REMINDER,
+              created_at: now,
+              updated_at: now,
+              shown_at: show.toISOString(),
+              completed_at: null,
+              archived_at: null,
+              num_comments: 0,
+              object_type: object_type,
+              object_id: apptSnap.key()
+            }
+            that.create(date_key, card);
+          })
+        })
+      });
+
+    },
+    createFromSchedule: function(ref, object_type, date) {
+      var that = this;
+      var now  = (new Date()).toISOString();
+      var date_key = date.substring(0,10);
+      ref.once("value", function(snap) {
         snap.forEach(function(childSnap) {
           var schedule = childSnap.val();
           //TODO: update these to be minutes from midnight.
@@ -214,6 +249,25 @@ angular.module('app.services')
     },
 
 
+    /*
+     * @param date is in ISO format
+     */
+    createFromObjectForDate: function(object_type, date) {
+      if (object_type == CARD.CATEGORY.MEDICATIONS_SCHEDULE) {
+        var defaultRef = MedicationSchedule.ref().child("default");
+        this.createFromSchedule(defaultRef, object_type, date);
+      }
+      else if (object_type == CARD.CATEGORY.MEASUREMENTS_SCHEDULE) {
+        var defaultRef = MeasurementSchedule.ref();
+        this.createFromSchedule(defaultRef, object_type, date);
+      }
+      else if(object_type == CARD.CATEGORY.APPOINTMENTS) {
+        this.createAppointmentCards(date, object_type);
+      }
+
+    },
+
+
     // This method queries "2016-04-01" on "cards" key and
     // a) if key is not found, creates Medication and Measurement schedules.
     // b) if key is found, checks if the date has Measurement/Medication schedules,
@@ -227,19 +281,24 @@ angular.module('app.services')
         if (!cardSnap.exists()) {
           that.createFromObjectForDate(CARD.CATEGORY.MEDICATIONS_SCHEDULE, date)
           that.createFromObjectForDate(CARD.CATEGORY.MEASUREMENTS_SCHEDULE, date)
+          that.createFromObjectForDate(CARD.CATEGORY.APPOINTMENTS, date)
         } else {
           // Check to make sure each has been generated
           var measExists = false;
           var medsExists = false;
+          var apptExists = false;
           cardSnap.forEach(function(childSnap) {
             if (childSnap.val().object_type == CARD.CATEGORY.MEASUREMENTS_SCHEDULE) measExists = true;
             if (childSnap.val().object_type == CARD.CATEGORY.MEDICATIONS_SCHEDULE) medsExists = true;
+            if (childSnap.val().object_type == CARD.CATEGORY.APPOINTMENTS) apptExists = true;
           });
           if (!medsExists)
             that.createFromObjectForDate(CARD.CATEGORY.MEDICATIONS_SCHEDULE, date)
 
           if (!measExists)
             that.createFromObjectForDate(CARD.CATEGORY.MEASUREMENTS_SCHEDULE, date)
+          if (!apptExists)
+            that.createFromObjectForDate(CARD.CATEGORY.APPOINTMENTS, date);
         }
       })
     }

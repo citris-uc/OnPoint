@@ -6,16 +6,37 @@
     </ion-nav-buttons>
   <ion-content has-header="true" overflow-scroll="true" scroll="true" padding="true" class="has-header">
     <li class="item" ng-hide="hasAppointment()">
-      You haven't added any appointments, click the add buttom on the header to add one.
+      You haven't added any appointments.
     </li>
-    <ion-list class = "appointments-list">
-      <ion-item class="view-appointments" ng-repeat="a in appointments | orderBy:a.timestamp: 'true'">
-        <p>{{a.time | date:'MMM d, y h:mm a'}}</p>
-        <p>Title: {{a.title}} </p>
-        <p>Location: {{a.location}}</p>
-        <p>Note: {{a.note}} </p>
-      </ion-item>
-    </ion-list>
+
+    <div ng-repeat="date in appointments"?>
+      <div>
+        <hr class="responsive-col"></hr>
+        <h4 class="text-center">{{setLocaleDate(date.$id) | date:'MMMM dd, yyyy'}}</h4>
+      </div>
+
+      <ion-list class = "appointments-list">
+        <ion-item class="view-appointments" ng-repeat="(appt_key, appointment) in date | orderBy:a.timestamp: 'true'" ui-sref="tabsController.editAppointment({date: date.$id, appointment_id: appt_key})">
+
+            <div class="item item-divider">{{appointment.title}}</div>
+            <ion-item class="item-icon-left item-text-wrap">
+              <i class="icon ion-ios-clock-outline"></i>
+              <p class="item-text-wrap">{{appointment.time | date:'medium'}}</p>
+            </ion-item>
+
+            <ion-item class="item-icon-left item-text-wrap">
+              <i class="icon ion-ios-location-outline"></i>
+              <p class="item-text-wrap"> {{appointment.location}}</p>
+            </ion-item>
+
+            <ion-item class="item-icon-left item-text-wrap">
+              <i class="icon ion-clipboard"></i>
+              <p class="item-text-wrap">{{appointment.note}}</p>
+            </ion-item>
+        </ion-item>
+      </ion-list>
+    </div>
+
   </ion-content>
 </ion-view>
 

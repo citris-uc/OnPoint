@@ -221,9 +221,9 @@ angular.module('app.routes', [])
   })
 
   .state('tabsController.appointment', {
-    url: '/appointment/:appointmentId',
+    url: '/appointment/:date/:appointment_id',
     views: {
-      'appointments-tab': {
+      'timeline-tab': {
         templateUrl: 'templates/appointments/appointment.html',
         controller: 'appointmentCtrl'
       }
@@ -236,6 +236,16 @@ angular.module('app.routes', [])
       'appointments-tab': {
         templateUrl: 'templates/appointments/addAppointment.html',
         controller: 'addAppointmentCtrl'
+      }
+    }
+  })
+
+  .state('tabsController.editAppointment', {
+    url: '/edit-appointment/:date/:appointment_id',
+    views: {
+      'appointments-tab': {
+        templateUrl: 'templates/appointments/editAppointment.html',
+        controller: 'editAppointmentCtrl'
       }
     }
   })

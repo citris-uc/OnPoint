@@ -30,24 +30,41 @@ angular.module('app.services')
       return $firebaseArray(ref);
       //return medications;
     },
-    getById: function(appointment_id){
-       console.log(appointment_id);
-      return $firebaseObject(this.ref().child(appointment_id));
+    /*
+     * Return Appointments in firebase from dates, from, until dates, to
+     * @param from: from date in javascript date format
+     * @param to: to date in javascript date format
+     * @return: returns a firebaseArray of appointments
+     */
+    getAppointmentsFromTo: function(from, to) {
+      var ref = this.getAppointmentsFromToRef(from,to)
+      return $firebaseArray(ref);
+    },
+    getAppointmentsFromToRef: function(from, to) {
+      var fromISO = from.toISOString().substring(0,10);
+      var toISO = to.toISOString().substring(0,10);
+      var ref = this.ref().orderByKey().startAt(fromISO).endAt(toISO);
+      return ref;
+    },
+
+    getById: function(date,appointment_id){
+      return $firebaseObject(this.ref().child(date).child(appointment_id));
     },
     add: function(appointment) {
-      // Replace with Firebase
+      var apptDate = (appointment.time.toISOString()).substring(0,10);
+      var ref = this.ref().child(apptDate);
       var a = {
         time: appointment.time.toISOString(),
         title: appointment.title,
         location: appointment.location,
         note: appointment.note
       }
-      console.log(a);
-
-      var appointments = this.get();
-      var req = appointments.$add(a);
-
-      return a;
+      ref.push(a);
+    },
+    update: function(appointment, dateKey, apptKey) {
+      var ref = this.ref().child(dateKey).child(apptKey);
+      console.log(appointment)
+      ref.update(appointment);
     }
   };
 }])

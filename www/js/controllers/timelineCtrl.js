@@ -1,6 +1,6 @@
 angular.module('app.controllers')
 
-.controller('timelineCtrl', function($scope, $state, Card, CARD, Comment, Medication, MedicationSchedule, Measurement, MeasurementSchedule, MedicationHistory, $ionicSlideBoxDelegate) {
+.controller('timelineCtrl', function($scope, $state, Card, CARD, Comment, Medication, MedicationSchedule, Measurement, MeasurementSchedule, MedicationHistory, Appointment, $ionicSlideBoxDelegate) {
   $scope.timeline = {pageIndex: 0}
 
   $scope.changeTimeline = function(pageIndex) {
@@ -54,6 +54,11 @@ angular.module('app.controllers')
     $scope.numComments = new Array($scope.cards.length)
     $scope.measurementSchedule = MeasurementSchedule.get();
     $scope.measHistory = Measurement.getTodaysHistory(); // Measurement History
+    var fromDate = new Date();
+    var toDate = new Date();
+    fromDate.setDate(fromDate.getDate()-CARD.TIMESPAN.DAYS_AFTER_APPT);
+    toDate.setDate(toDate.getDate()+CARD.TIMESPAN.DAYS_BEFORE_APPT);
+    $scope.appointments = Appointment.getAppointmentsFromTo(fromDate, toDate);
     var today = (new Date()).toISOString();
     Card.generateCardsFor(today);
 
@@ -208,6 +213,8 @@ angular.module('app.controllers')
   $scope.statusClass = function(card) {
     this.checkCardComplete(card);
     // Return cardClass: urgent/active/completed
+    if(card.type == CARD.TYPE.REMINDER)
+      return "badge-balanced";
     if (card.completed_at == null) {
       if (card.type == CARD.TYPE.URGENT) {
         return "badge-assertive";
@@ -222,7 +229,7 @@ angular.module('app.controllers')
   $scope.iconClass = function(card) {
     if (card.object_type == CARD.CATEGORY.MEDICATIONS_SCHEDULE || card.object_type == CARD.CATEGORY.MEDICATIONS_CABINET || card.object_type == CARD.CATEGORY.MEDICATIONS_SCHEDULE_CHANGE)
       return "ion-ios-medkit-outline";
-    if (card.object_type == CARD.CATEGORY.APPOINTMENTS_SCHEDULE)
+    if (card.object_type == CARD.CATEGORY.APPOINTMENTS)
       return "ion-ios-calendar-outline";
     if (card.object_type == CARD.CATEGORY.MEASUREMENTS_SCHEDULE || card.object_type == CARD.CATEGORY.MEASUREMENT_LOGGED)
       return "ion-arrow-graph-up-right";
@@ -231,6 +238,9 @@ angular.module('app.controllers')
   $scope.statusText = function(card) {
     this.checkCardComplete(card);
     // Return cardClass: urgent/active/completed
+    if (card.type==CARD.TYPE.REMINDER) {
+      return 'Reminder';
+    }
     if (card.completed_at == null) {
       if (card.type == CARD.TYPE.URGENT) {
         return "Needs attention";
@@ -257,6 +267,8 @@ angular.module('app.controllers')
       return 'Medications';
     else if (str == CARD.CATEGORY.MEASUREMENT_LOGGED)
       return 'Measurements'
+    else if (str == CARD.CATEGORY.APPOINTMENTS)
+      return 'Appointment Reminder'
     var fstr = str.replace("_schedule","");
     fstr = fstr.charAt(0).toUpperCase() + fstr.slice(1);
     return fstr;
@@ -274,8 +286,8 @@ angular.module('app.controllers')
          return $scope.getMedicationsDescription(card);
        case CARD.CATEGORY.MEASUREMENTS_SCHEDULE :
          return $scope.getMeasurementsDescription(card);
-       case CARD.CATEGORY.APPOINTMENTS_SCHEDULE :
-         return ["Appointment Information"];
+       case CARD.CATEGORY.APPOINTMENTS:
+         return $scope.getAppointmentDescription(card);
        case CARD.CATEGORY.GOALS :
          return ["View Goals"];
        case CARD.CATEGORY.MEDICATIONS_CABINET :
@@ -290,6 +302,18 @@ angular.module('app.controllers')
      } // end switch
    }
 
+   $scope.getAppointmentDescription = function(card) {
+     for(var i = 0; i < $scope.appointments.length; i++) {
+       var date = $scope.appointments[i];
+       if(date.hasOwnProperty(card.object_id)) {
+         var appt = date[card.object_id];
+         var time = new Date(appt.time);
+         return 'You have an appointment ' + appt.title + ' on ' + time.toDateString() + ' at ' + time.toLocaleTimeString();
+       }
+     }
+    //console.log($scope.appointments);
+    return 'sup';
+   }
    $scope.getMeasurementLoggedDescription = function(card) {
      var date_key = card.shown_at.substring(0,10);
      for(var i = 0; i < $scope.measHistory.length; i++) {
@@ -427,9 +451,17 @@ angular.module('app.controllers')
         var schedule = $scope.findMeasurementScheduleForCard(card);
         action = {tab: 'tabsController.measurementAction', params: {schedule_id: schedule.$id}}
         return $state.go(action.tab, action.params);
-      case CARD.CATEGORY.APPOINTMENTS_SCHEDULE :
-        action = {tab: 'tabsController.appointments', params: {}}
-        return $state.go(action.tab, action.params);
+      case CARD.CATEGORY.APPOINTMENTS:
+        for(var i = 0; i < $scope.appointments.length; i++) {
+          var date = $scope.appointments[i];
+          if(date.hasOwnProperty(card.object_id)) {
+            var appt = date[card.object_id];
+            var time = new Date(appt.time);
+            action = {tab: 'tabsController.appointment', params: {date:date.$id, appointment_id:card.object_id}}
+            return $state.go(action.tab, action.params);
+          }
+        }
+
       case CARD.CATEGORY.GOALS :
         action = {tab: 'tabsController.goals', params: {}}
         $state.go(action.tab, action.params);

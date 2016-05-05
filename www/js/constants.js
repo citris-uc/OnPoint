@@ -10,7 +10,7 @@ angular.module('app.constants', [])
   CATEGORY: {
     'MEDICATIONS_SCHEDULE': 'medications_schedule',
     'MEASUREMENTS_SCHEDULE': 'measurements_schedule',
-    'APPOINTMENTS_SCHEDULE': 'appointments',
+    'APPOINTMENTS': 'appointments',
     'GOALS': 'goals',
     'SYMPTOMS_SCHEDULE': 'symptoms_schedule',
     'MEDICATIONS_CABINET':'medications_cabinet',
@@ -19,7 +19,13 @@ angular.module('app.constants', [])
   TIMESPAN: {
     'GET_CURRENT_PAST': 6,
     'GET_CURRENT_FUTURE': 6,
-    'GET_UPCOMING_FUTURE' : 12
+    'GET_UPCOMING_FUTURE' : 12,
+    'DAYS_BEFORE_APPT': 30, //for appointent reminder cards
+    'DAYS_AFTER_APPT': 30 //for appointment history cards
+  },
+  REMINDER_TIME: {
+    'HOUR': 7,
+    'MINUTE': 0,
   }
 })
 .constant('DAYOFWEEK', {

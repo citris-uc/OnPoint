@@ -1,8 +1,31 @@
 angular.module('app.controllers')
 
-.controller('appointmentCtrl', function($scope,$stateParams, Appointment) {
-  $scope.appointment = Appointment.getById($stateParams.appointment_id);
+.controller('appointmentCtrl', function($scope, $stateParams, Appointment) {
+  $scope.appointment = Appointment.getById($stateParams.date,$stateParams.appointment_id);
+
 })
+
+.controller('editAppointmentCtrl', function($scope,$stateParams, $state,$ionicHistory,Appointment) {
+  $scope.dateKey = $stateParams.date;
+  $scope.apptKey = $stateParams.appointment_id;
+  $scope.appointment = Appointment.getById($stateParams.date,$stateParams.appointment_id);
+  $scope.save = function(){
+    var editedAppointment = {}
+    editedAppointment.title = $scope.appointment.title;
+    editedAppointment.location = $scope.appointment.location;
+    editedAppointment.time=$scope.appointment.newTime.toISOString();
+    editedAppointment.note = $scope.appointment.note;
+    Appointment.update(editedAppointment, $scope.dateKey, $scope.apptKey); //need to call update bc might have added a new note field, firebaseObject.$save will not save the note if there is no note previously
+
+    $ionicHistory.nextViewOptions({
+      disableAnimate: true,
+      disableBack: true,
+      historyRoot: true
+    })
+    $state.go('tabsController.appointments');
+  }
+})
+
 
 .controller('addAppointmentCtrl', function($scope,$state,$stateParams,$ionicPopup, Appointment) {
    $scope.newAppointment = {};
@@ -35,15 +58,29 @@ angular.module('app.controllers')
    };
 })
 
-.controller('appointmentsCtrl', function($scope, $location, $state, Appointment) {
-  console.log('inside appointmentsCtrl');
-  $scope.appointments = Appointment.get();
+.controller('appointmentsCtrl', function($scope, $location, $state, Appointment, CARD) {
+  var fromDate = new Date();
+  var toDate = new Date();
+  fromDate.setDate(fromDate.getDate()-CARD.TIMESPAN.DAYS_AFTER_APPT);
+  toDate.setDate(toDate.getDate()+CARD.TIMESPAN.DAYS_BEFORE_APPT);
+  $scope.appointments = Appointment.getAppointmentsFromTo(fromDate, toDate);
   $scope.hasAppointment = function(){
     if($scope.appointments.length == 0){
       return false;
     }else{
       return true;
     }
+  }
+
+  /*
+   * We store dates in firebase in ISO format which is zero UTC offset
+   * therefore we cannot simply display the date that is stored in firebase, we need to display local time
+   */
+  $scope.setLocaleDate = function(utc_date) {
+    var iso = (new Date()).toISOString(); //get current ISO String
+    var iso_altered = utc_date.concat(iso.substring(10)); //replace date portion with date from firebase
+    var local = new Date(iso_altered); //Date() constructor automatically sets local time!
+    return local;
   }
   // console.log('appointments are ', appointmentRecord);
   //
