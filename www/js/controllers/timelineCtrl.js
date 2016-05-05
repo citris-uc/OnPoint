@@ -15,6 +15,16 @@ angular.module('app.controllers')
   // if we're on Today view, then we'll load cards for today/tomorrow. On the
   // History view, we'll load all cards.
   $scope.loadCards = function() {
+    $scope.test = Card.getRangeByDate(new Date());
+    $scope.test.$loaded().then(function() {
+      for (var i = 0; i < $scope.test.length; i++) {
+        var date = $scope.test[i];
+        for(key in date) {
+          console.log(key + " " + date[key].shown_at);
+        }
+      }
+    })
+
     if ($scope.timeline.pageIndex === 0) {
       $scope.cards = Card.getByDay(new Date());
       var manana = new Date();
