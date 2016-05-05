@@ -11,19 +11,30 @@ angular.module('app.controllers')
     $ionicSlideBoxDelegate.slide(pageIndex);
   }
 
+  $scope.checkCardDate = function(card_key, card, iso_key) {
+    var today = (new Date()).toLocaleDateString();
+    var cardLocaleDate = (new Date(card.shown_at)).toLocaleDateString();
+    var blargh = new Date();
+    //conole.log(test + ' ' + test.toISOString() + ' ' new Date(test))
+    //console.log(cardLocaleDate+' '+today)
+    if(today==cardLocaleDate)
+      return true;
+    return false;
+    console.log(card)
+  }
   // This loads cards depending on the page we're currently on. For instance,
   // if we're on Today view, then we'll load cards for today/tomorrow. On the
   // History view, we'll load all cards.
   $scope.loadCards = function() {
     $scope.test = Card.getRangeByDate(new Date());
-    $scope.test.$loaded().then(function() {
-      for (var i = 0; i < $scope.test.length; i++) {
-        var date = $scope.test[i];
-        for(key in date) {
-          console.log(key + " " + date[key].shown_at);
-        }
-      }
-    })
+    // $scope.test.$loaded().then(function() {
+    //   for (var i = 0; i < $scope.test.length; i++) {
+    //     var date = $scope.test[i];
+    //     for(key in date) {
+    //       console.log(key + " " + date[key].shown_at);
+    //     }
+    //   }
+    // })
 
     if ($scope.timeline.pageIndex === 0) {
       $scope.cards = Card.getByDay(new Date());
