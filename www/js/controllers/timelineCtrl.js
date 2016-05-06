@@ -15,17 +15,18 @@ angular.module('app.controllers')
    * This method checks a card's shown_at date with the 'date' param passed in locale time convention
    * @param date: a javascript date object
    */
-  $scope.checkCardDate = function(card, isoKey, date) {
+  $scope.checkCardDate = function(card, date) {
     var localeDate = date.toLocaleDateString();
     var cardLocaleDate = (new Date(card.shown_at)).toLocaleDateString();
     var blargh = new Date();
     //conole.log(test + ' ' + test.toISOString() + ' ' new Date(test))
     //console.log(typeof($scope.cards[0]));
     //console.log(cardLocaleDate+' '+localeDate)
-    if(localeDate==cardLocaleDate && typeof(card.archived_at) == 'undefined')
+    if(localeDate==cardLocaleDate) {
+      //console.log(card.$id)
       return true;
+    }
     return false;
-    console.log(card)
   }
   // This loads cards depending on the page we're currently on. For instance,
   // if we're on Today view, then we'll load cards for today/tomorrow. On the
@@ -91,7 +92,7 @@ angular.module('app.controllers')
     var today = (new Date()).toISOString();
     Card.generateCardsFor(today);
     Card.generateCardsFor($scope.tomorrow.toISOString());
-  });
+    });
 
 
   $scope.findMedicationScheduleForCard = function(card) {
@@ -213,7 +214,7 @@ angular.module('app.controllers')
     var skippedMeds = medStatus.skipped;
     var completedMeds = medStatus.done;
 
-    if (takeMeds.length == 0) {
+    if (takeMeds.length == 0 && skippedMeds.length==0) {
       Card.complete(card);
     }
   }
