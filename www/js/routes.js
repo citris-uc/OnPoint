@@ -16,7 +16,7 @@ angular.module('app.routes', [])
   })
 
   .state('register', {
-    url: '/register',
+    url: '/register/:email/:password',
     templateUrl: 'templates/session/register.html',
     controller: 'registrationCtrl'
   })

@@ -29,10 +29,11 @@ Source: http://codepen.io/niyando/pen/GpEeQR
   };
 })
 
-.controller('registrationCtrl', function($scope, $state, $ionicHistory, $ionicPopup, Patient, Medication) {
+.controller('registrationCtrl', function($scope, $state, $stateParams, $ionicHistory, $ionicPopup, Patient, Medication) {
   $scope.user  = {};
+  $scope.user.email = $stateParams.email;
+  $scope.user.password = $stateParams.password;
   $scope.state = {loading: false}
-
   $scope.register = function()   {
     $scope.state.loading = true;
 
