@@ -62,12 +62,12 @@ angular.module('app.controllers')
       title: 'Error',
       template: error,
       buttons: [
-      { text: 'Cancle' },
+      { text: 'Cancel' },
       {
         text: '<b>Register</b>',
         type: 'button-positive',
         onTap: function(e) {
-          $state.go('register',{email: user.email, password: user.password});
+          $state.go('register',{email: user.email});
         }
       }
     ]
