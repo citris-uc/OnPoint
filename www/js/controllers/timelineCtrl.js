@@ -47,7 +47,8 @@ angular.module('app.controllers')
       $scope.cards = Card.getRangeByDate(new Date());
       var manana = new Date();
       manana.setDate(manana.getDate() + 1);
-      $scope.tomorrowCards = Card.getByDay(manana);
+      //$scope.tomorrowCards = Card.getByDay(manana);
+      $scope.tomorrowCards = Card.getRangeByDate(manana);
     } else {
       $scope.history = Card.getHistory();
     }
