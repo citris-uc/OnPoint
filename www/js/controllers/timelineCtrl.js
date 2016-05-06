@@ -186,22 +186,22 @@ angular.module('app.controllers')
     return {incomplete: incompleteMeas, complete: completedMeas};
   }
 
-  $scope.checkCardComplete = function(card) {
+  $scope.checkCardComplete = function(card, date_key) {
     switch(card.object_type) {
       case CARD.CATEGORY.MEDICATIONS_SCHEDULE :
-        $scope.checkMedsCardComplete(card);
+        $scope.checkMedsCardComplete(card, date_key);
         break;
       case CARD.CATEGORY.MEASUREMENTS_SCHEDULE :
-        $scope.checkMeasCardComplete(card);
+        $scope.checkMeasCardComplete(card, date_key);
         break;
       default:
         break;
     }
   }
 
-  $scope.checkMedsCardComplete = function(card) {
+  $scope.checkMedsCardComplete = function(card, date_key) {
     if (card.completed_at != null || card.archived_at != null) return;
-    var date_key = card.shown_at.substring(0,10);
+    //var date_key = card.shown_at.substring(0,10);
     var schedule = $scope.findMedicationScheduleForCard(card)
     if (schedule == null) return;
 
@@ -220,9 +220,9 @@ angular.module('app.controllers')
     }
   }
 
-  $scope.checkMeasCardComplete = function(card) {
+  $scope.checkMeasCardComplete = function(card, date_key) {
     if (card.completed_at != null || card.archived_at != null) return;
-    var date_key = card.shown_at.substring(0,10);
+    //var date_key = card.shown_at.substring(0,10);
     var schedule = $scope.findMeasurementScheduleForCard(card)
     if (schedule == null) return;
 
@@ -237,8 +237,8 @@ angular.module('app.controllers')
     }
   }
 
-  $scope.statusClass = function(card) {
-    this.checkCardComplete(card);
+  $scope.statusClass = function(card, date_key) {
+    this.checkCardComplete(card, date_key);
     // Return cardClass: urgent/active/completed
     if(card.type == CARD.TYPE.REMINDER)
       return "badge-balanced";
@@ -262,8 +262,8 @@ angular.module('app.controllers')
       return "ion-arrow-graph-up-right";
   }
 
-  $scope.statusText = function(card) {
-    this.checkCardComplete(card);
+  $scope.statusText = function(card, date_key) {
+    this.checkCardComplete(card, date_key);
     // Return cardClass: urgent/active/completed
     if (card.type==CARD.TYPE.REMINDER) {
       return 'Reminder';
@@ -306,23 +306,23 @@ angular.module('app.controllers')
    * @param index: this is the medication_schedule ID essentailly
    * TODO: fix medication_schedule ID to be actually ID in firebase, probbaly need to to do when we push med SCheudle to firebase during onboarding
    */
-   $scope.description = function(card) {
+   $scope.description = function(card, date_key) {
      type = card.object_type
      switch(type) {
        case CARD.CATEGORY.MEDICATIONS_SCHEDULE:
-         return $scope.getMedicationsDescription(card);
+         return $scope.getMedicationsDescription(card, date_key);
        case CARD.CATEGORY.MEASUREMENTS_SCHEDULE :
-         return $scope.getMeasurementsDescription(card);
+         return $scope.getMeasurementsDescription(card, date_key);
        case CARD.CATEGORY.APPOINTMENTS:
          return $scope.getAppointmentDescription(card);
        case CARD.CATEGORY.GOALS :
          return ["View Goals"];
        case CARD.CATEGORY.MEDICATIONS_CABINET :
-         return $scope.getMedicationsCabinetDescription(card);
+         return $scope.getMedicationsCabinetDescription(card, date_key);
        case CARD.CATEGORY.MEDICATIONS_SCHEDULE_CHANGE:
         return 'Edited Medication Schedule';
        case CARD.CATEGORY.MEASUREMENT_LOGGED:
-        return $scope.getMeasurementLoggedDescription(card);
+        return $scope.getMeasurementLoggedDescription(card, date_key);
        //case CARD.CATEGORY.SYMPTOMS :
        default:
          return [""];
@@ -341,8 +341,8 @@ angular.module('app.controllers')
     //console.log($scope.appointments);
     return 'sup';
    }
-   $scope.getMeasurementLoggedDescription = function(card) {
-     var date_key = card.shown_at.substring(0,10);
+   $scope.getMeasurementLoggedDescription = function(card, date_key) {
+     //var date_key = card.shown_at.substring(0,10);
      for(var i = 0; i < $scope.measHistory.length; i++) {
        var hist = $scope.measHistory[i];
        if(hist.$id == card.object_id) {
@@ -350,8 +350,8 @@ angular.module('app.controllers')
        }
      }
    }
-   $scope.getMedicationsCabinetDescription = function(card) {
-     var date_key = card.shown_at.substring(0,10);
+   $scope.getMedicationsCabinetDescription = function(card, date_key) {
+     //var date_key = card.shown_at.substring(0,10);
      for(var i = 0; i < $scope.medHistory.length; i++) {
        var hist = $scope.medHistory[i];
        if(hist.$id == card.object_id) { //found proper history reference, construct stirng
@@ -380,10 +380,10 @@ angular.module('app.controllers')
    }
 
   // Get description for Medication Cards
-  $scope.getMedicationsDescription = function(card) {
+  $scope.getMedicationsDescription = function(card, date_key) {
      var schedule = $scope.findMedicationScheduleForCard(card);
      if (schedule == null) return;
-     var date_key = card.shown_at.substring(0,10);
+     //var date_key = card.shown_at.substring(0,10);
 
      var medications = schedule.medications;
      var medStatus = $scope.getMedsStatusArrays(schedule, medications, date_key);
@@ -433,13 +433,13 @@ angular.module('app.controllers')
   }
 
   // Get description for Measurements Cards
-  $scope.getMeasurementsDescription = function(card) {
+  $scope.getMeasurementsDescription = function(card, date_key) {
     var schedule;
     schedule = $scope.findMeasurementScheduleForCard(card)
     if (schedule == null) return;
 
     var measurements  = schedule.measurements;
-    var date_key = card.shown_at.substring(0,10);
+    //var date_key = card.shown_at.substring(0,10);
     var measStatus = $scope.getMeasStatusArrays(schedule, measurements, date_key);
     var incompleteMeas = measStatus.incomplete;
     var completedMeas = measStatus.complete;
