@@ -186,22 +186,22 @@ angular.module('app.controllers')
     return {incomplete: incompleteMeas, complete: completedMeas};
   }
 
-  $scope.checkCardComplete = function(card) {
+  $scope.checkCardComplete = function(card, date_key) {
     switch(card.object_type) {
       case CARD.CATEGORY.MEDICATIONS_SCHEDULE :
-        $scope.checkMedsCardComplete(card);
+        $scope.checkMedsCardComplete(card, date_key);
         break;
       case CARD.CATEGORY.MEASUREMENTS_SCHEDULE :
-        $scope.checkMeasCardComplete(card);
+        $scope.checkMeasCardComplete(card, date_key);
         break;
       default:
         break;
     }
   }
 
-  $scope.checkMedsCardComplete = function(card) {
+  $scope.checkMedsCardComplete = function(card, date_key) {
     if (card.completed_at != null || card.archived_at != null) return;
-    var date_key = card.shown_at.substring(0,10);
+    //var date_key = card.shown_at.substring(0,10);
     var schedule = $scope.findMedicationScheduleForCard(card)
     if (schedule == null) return;
 
@@ -220,9 +220,9 @@ angular.module('app.controllers')
     }
   }
 
-  $scope.checkMeasCardComplete = function(card) {
+  $scope.checkMeasCardComplete = function(card, date_key) {
     if (card.completed_at != null || card.archived_at != null) return;
-    var date_key = card.shown_at.substring(0,10);
+    //var date_key = card.shown_at.substring(0,10);
     var schedule = $scope.findMeasurementScheduleForCard(card)
     if (schedule == null) return;
 
@@ -237,8 +237,8 @@ angular.module('app.controllers')
     }
   }
 
-  $scope.statusClass = function(card) {
-    this.checkCardComplete(card);
+  $scope.statusClass = function(card, date_key) {
+    this.checkCardComplete(card, date_key);
     // Return cardClass: urgent/active/completed
     if(card.type == CARD.TYPE.REMINDER)
       return "badge-balanced";
@@ -262,8 +262,8 @@ angular.module('app.controllers')
       return "ion-arrow-graph-up-right";
   }
 
-  $scope.statusText = function(card) {
-    this.checkCardComplete(card);
+  $scope.statusText = function(card, date_key) {
+    this.checkCardComplete(card, date_key);
     // Return cardClass: urgent/active/completed
     if (card.type==CARD.TYPE.REMINDER) {
       return 'Reminder';
