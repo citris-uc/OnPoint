@@ -11,6 +11,7 @@ angular.module('app.services')
       var ref = this.ref().child(dateISO);
       return $firebaseArray(ref);
     },
+    //Returns cards for date-1, date, and date+1
     getRangeByDate: function(date) {
       var dateISO = date.toISOString().substring(0,10);
 

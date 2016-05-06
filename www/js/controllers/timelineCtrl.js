@@ -76,12 +76,15 @@ angular.module('app.controllers')
     $scope.loadCards();
     $scope.history = Card.getHistory();
     $scope.CARD = CARD;
-    $scope.medSchedule = MedicationSchedule.get()
-    $scope.medHistory  = MedicationHistory.getTodaysHistory()
-    $scope.medications = Medication.get();
+    $scope.yesterday   = new Date();
+    $scope.yesterday.setDate($scope.yesterday.getDate()-1);
     $scope.today       = new Date();
-    $scope.tomorrow     = new Date();
+    $scope.tomorrow    = new Date();
     $scope.tomorrow.setDate($scope.tomorrow.getDate()+1);
+    $scope.medSchedule = MedicationSchedule.get()
+    // $scope.medHistory  = MedicationHistory.getTodaysHistory()
+    $scope.medHistory =  MedicationHistory.getHistoryRange($scope.yesterday, $scope.tomorrow);
+    $scope.medications = Medication.get();
     $scope.numComments = new Array($scope.cards.length)
     $scope.measurementSchedule = MeasurementSchedule.get();
     $scope.measHistory = Measurement.getTodaysHistory(); // Measurement History
@@ -90,8 +93,7 @@ angular.module('app.controllers')
     fromDate.setDate(fromDate.getDate()-CARD.TIMESPAN.DAYS_AFTER_APPT);
     toDate.setDate(toDate.getDate()+CARD.TIMESPAN.DAYS_BEFORE_APPT);
     $scope.appointments = Appointment.getAppointmentsFromTo(fromDate, toDate);
-    var today = (new Date()).toISOString();
-    Card.generateCardsFor(today);
+    Card.generateCardsFor($scope.today.toISOString());
     Card.generateCardsFor($scope.tomorrow.toISOString());
     });
 
@@ -134,12 +136,16 @@ angular.module('app.controllers')
         }
 
         var exists = false;
-        var history_date = $scope.medHistory.$ref().key();
+        //var history_date = $scope.medHistory.$ref().key();
 
         // If the history reference matches the passed in date then check validity
-        if (date_key == history_date) {
-          for(var i = 0; i < $scope.medHistory.length; i++) {
-            var hist = $scope.medHistory[i];
+        //if (date_key == history_date)
+        if ($scope.medHistory.hasOwnProperty(date_key)) {
+          var medHistory = $scope.medHistory[date_key];
+          // for(var i = 0; i < medHistory.length; i++)
+          //   var hist = medHistory[i];
+          for(hist_id in medHistory) {
+            var hist = medHistory[hist_id];
             if (hist.medication_id==med.id && hist.medication_schedule_id==schedule.$id) {
               exists = true;
               if(hist.taken_at != null)
@@ -352,19 +358,26 @@ angular.module('app.controllers')
    }
    $scope.getMedicationsCabinetDescription = function(card, date_key) {
      //var date_key = card.shown_at.substring(0,10);
-     for(var i = 0; i < $scope.medHistory.length; i++) {
-       var hist = $scope.medHistory[i];
-       if(hist.$id == card.object_id) { //found proper history reference, construct stirng
-         for(var j = 0; j < $scope.medications.length; j++) {
-           var med = $scope.medications[j];
-           if(med.$id==hist.medication_id) {
-             var reason = ""
-             if(hist.reason!=null) {
-               reason = " because " +  hist.reason
+
+    //  for(var i = 0; i < $scope.medHistory.length; i++)
+    //    var hist = $scope.medHistory[i];
+
+       if ($scope.medHistory.hasOwnProperty(date_key)) {
+         var medHistory = $scope.medHistory[date_key];
+         for(hist_id in medHistory) {
+           var hist = medHistory[hist_id];
+           if(hist_id == card.object_id) { //found proper history reference, construct stirng
+             for(var j = 0; j < $scope.medications.length; j++) {
+               var med = $scope.medications[j];
+               if(med.$id==hist.medication_id) {
+                 var reason = ""
+                 if(hist.reason!=null) {
+                   reason = " because " +  hist.reason
+                 }
+                 return "You took " + med.trade_name + reason;
+               }
              }
-             return "You took " + med.trade_name + reason;
            }
-         }
        }
      }
    }
