@@ -325,7 +325,7 @@ angular.module('app.controllers')
   $scope.DAYOFWEEK = DAYOFWEEK;
   $scope.schedule = MedicationSchedule.get();
   $scope.selected_med = null;
-  $scope.slot = {days:[false, false, false, false, false, false, false]};
+  $scope.slot = {days:[true, true, true, true, true, true, true]};
   $scope.showError = false;
 
   //Saving State of onboarding progress into firebase
@@ -375,6 +375,7 @@ angular.module('app.controllers')
         var tomorrow = new Date();
         tomorrow.setDate(tomorrow.getDate() + 1);
         var obj = {time: timeStr, days: $scope.slot.days};
+
         Card.createFromSchedSlot(CARD.CATEGORY.MEDICATIONS_SCHEDULE, snapshot.key(), obj, today.toISOString());
         Card.createFromSchedSlot(CARD.CATEGORY.MEDICATIONS_SCHEDULE, snapshot.key(), obj, tomorrow.toISOString());
       })
@@ -428,7 +429,6 @@ angular.module('app.controllers')
                 var today = new Date();
                 var tomorrow = new Date();
                 tomorrow.setDate(tomorrow.getDate() + 1);
-
                 Card.updateSchedCard(CARD.CATEGORY.MEDICATIONS_SCHEDULE, snapshot.key(), $scope.schedule[index], today.toISOString());
                 Card.updateSchedCard(CARD.CATEGORY.MEDICATIONS_SCHEDULE, snapshot.key(), $scope.schedule[index], tomorrow.toISOString());
               })
