@@ -31,7 +31,7 @@
     <h3 class = "title" style="text-align: center;">
       Select Medication to Begin:
     </h3>
-      <li class="item medstyle" ng-repeat="med in medications", ng-click="displaySchedule(med)",
+      <li class="item medstyle" ng-repeat="med in medications | filter: {cab_med: '!'}", ng-click="displaySchedule(med)",
       style="{{buttonStyle(med)}}">
         {{med.trade_name}}
       </li>
