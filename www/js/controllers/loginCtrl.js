@@ -53,14 +53,24 @@ angular.module('app.controllers')
       }); //donr request for onboarding status
 
     }).catch(function(error) {
-      handleError(error)
+      handleError(error, $scope.user)
     })
   }
 
-  var handleError = function(error) {
+  var handleError = function(error,user) {
     var alertPopup = $ionicPopup.alert({
       title: 'Error',
-      template: error
+      template: error,
+      buttons: [
+      { text: 'Cancle' },
+      {
+        text: '<b>Register</b>',
+        type: 'button-positive',
+        onTap: function(e) {
+          $state.go('register',{email: user.email, password: user.password});
+        }
+      }
+    ]
     });
     $scope.state.loading = false;
   }

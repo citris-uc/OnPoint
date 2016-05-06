@@ -94,7 +94,7 @@ angular.module('app.controllers')
   $scope.medications = Medication.get();
   $scope.selectedMed;
   var emptySlots = [' ',' ',' ',' ',' ',' ',' '];
-
+  var selectedMed = [];
   $scope.getSlots = function(schedule, med) {
     var DAYS_OF_THE_WEEK = 7
     var slots = [];
@@ -118,6 +118,7 @@ angular.module('app.controllers')
     return slots
   }
   $scope.displaySchedule = function(med){
+    selectedMed.push(med);
     $scope.selectedMed = med //set the selected med
   }
 
@@ -126,6 +127,26 @@ angular.module('app.controllers')
       return true;
     }
     return false;
+  }
+
+  $scope.hasSelected = function(med){
+    if(selectedMed.indexOf(med) != -1){
+      return true;
+    }
+    return false;
+  }
+
+  $scope.buttonStyle = function(med){
+    var selected = "background-color: gray";
+    var notSelected = "background-color: white";
+    var currentlyOn = "background-color: green";
+    if($scope.currentlyOn(med)){
+      return currentlyOn;
+    }
+    if($scope.hasSelected(med)){
+      return selected;
+    }
+    return notSelected;
   }
 
   $scope.doneMedSetup =  function() {

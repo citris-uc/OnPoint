@@ -9,17 +9,19 @@
     border-collapse: collapse;
     border: 2px ;
     border-style: solid;
+    padding: 13px;
 }
 
  td {
     border-collapse: collapse;
     border: 2px ;
     border-style: solid;
+    padding: 10px;
 }
 
  .center {
    margin: auto;
-   width: 80%;
+   width: 95%;
    text-align: center;
    position: relative;
 }
