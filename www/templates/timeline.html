@@ -53,7 +53,7 @@
               </div>
 
               <div class="item item-body">
-                {{description(c)}}
+                {{description(c, date.$id)}}
               </div>
 
               <div class="row">
@@ -106,7 +106,7 @@
 
                 <div class="item item-body">
                   <!-- Your weigh in is at 09:00 AM -->
-                  {{description(c)}}
+                  {{description(c, date.$id)}}
                 </div>
                 </div>
               </div>
@@ -136,7 +136,7 @@
                 </div>
 
                 <div class="item item-body">
-                  {{description(c)}}
+                  {{description(c, date.$id)}}
                 </div>
                   <div class="col responsive-col-md-25">
                     <a class="item item-icon-left" ui-sref="tabsController.comments({card_id:c.$id, comment_id: c.comment_id})">
@@ -150,13 +150,13 @@
           </div>
         </span>
 
-        <div ng-repeat="cards in history | orderBy:'-'">
+        <div ng-repeat="date in history | orderBy:'-'">
           <div class="card-section history">
             <hr class="responsive-col"></hr>
-            <h4 class="text-center">{{setLocaleDate(cards.$id) | date:'MMMM dd, yyyy'}}</h4>
+            <h4 class="text-center">{{setLocaleDate(date.$id) | date:'MMMM dd, yyyy'}}</h4>
           </div>
 
-          <div class="row" style="justify-content: center;" ng-repeat="c in cards | orderBy: 'shown_at'">
+          <div class="row" style="justify-content: center;" ng-repeat="c in date | orderBy: 'shown_at'">
             <div class="col responsive-col">
               <div class="list card">
                 <div class="item item-icon-left">
@@ -166,7 +166,7 @@
                 </div>
 
                 <div class="item item-body">
-                  {{description(c)}}
+                  {{description(c, date.$id)}}
                 </div>
                 <div class="col responsive-col-md-25">
                   <a class="item item-icon-left" ui-sref="tabsController.comments({card_id:c.$id, comment_id: c.comment_id})">
