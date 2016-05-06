@@ -105,10 +105,6 @@ angular.module('app.services')
                   show.setMinutes(object.minute);
                 }
 
-                // Need to make shown_at in UTC format, but also need to set hours and minutes WRT local time of patient
-                // show.setUTCHours(show.getUTCHours());
-                // show.setUTCMinutes(show.getUTCMinutes());
-
                 var now = new Date().toISOString();
                 var cardUpdate = {
                   shown_at: show.toISOString(),
@@ -157,9 +153,6 @@ angular.module('app.services')
               show.setMinutes(object.minute);
             }
 
-            // Need to make shown_at in UTC format, but also need to set hours and minutes WRT local time of patient
-            // show.setUTCHours(show.getUTCHours());
-            // show.setUTCMinutes(show.getUTCMinutes());
 
             var now = new Date().toISOString();
             var card = {
@@ -239,10 +232,6 @@ angular.module('app.services')
               show.setHours(schedule.hour);
               show.setMinutes(schedule.minute);
             }
-
-            // Need to make shown_at in UTC format, but also need to set hours and minutes WRT local time of patient
-            // show.setUTCHours(show.getUTCHours());
-            // show.setUTCMinutes(show.getUTCMinutes());
 
             var card = {
               type: CARD.TYPE.ACTION,
