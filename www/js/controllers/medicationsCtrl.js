@@ -5,7 +5,11 @@ angular.module('app.controllers')
   $scope.schedule           = MedicationSchedule.get();
   $scope.medicationHistory  = MedicationHistory.getTodaysHistory();
   $scope.medications        = Medication.get();
-  var selectedMed = [];
+
+
+  $scope.$on('$ionicView.enter', function() {
+    $scope.filledMeds = []; //reset colors on pillbox medds
+  })
 
   $scope.containCabMeds = function() {
     for(var i = 0; i < $scope.medications.length; i++) {
@@ -16,6 +20,9 @@ angular.module('app.controllers')
   }
 
   $scope.slideHasChanged = function(pageIndex) {
+    if(pageIndex==2) {
+      $scope.filledMeds = []; //reset colors on pillbox medds
+    }
     $scope.medicationTab.pageIndex = pageIndex;
   }
 
@@ -74,6 +81,9 @@ angular.module('app.controllers')
   $scope.medicationSchedule = MedicationSchedule.get();
   $scope.medications = Medication.get();
   $scope.selectedMed;
+  $scope.filledMeds = [];
+
+  console.log($scope.filledMeds)
   var emptySlots = [' ',' ',' ',' ',' ',' ',' '];
 
   $scope.getSlots = function(schedule, med) {
@@ -99,7 +109,7 @@ angular.module('app.controllers')
     return slots
   }
   $scope.displaySchedule = function(med){
-    selectedMed.push(med);
+    $scope.filledMeds.push(med);
     $scope.selectedMed = med //set the selected med
   }
 
@@ -111,7 +121,7 @@ angular.module('app.controllers')
   }
 
   $scope.hasSelected = function(med){
-    if(selectedMed.indexOf(med) != -1){
+    if($scope.filledMeds.indexOf(med) != -1){
       return true;
     }
     return false;
