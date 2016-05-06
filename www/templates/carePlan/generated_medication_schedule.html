@@ -13,9 +13,6 @@
       <span class="input-label">Reminder Time</span>
       <input type="time"  ng-model="slot.time"></input>
     </label>
-
-      <list-item class="item-input">Select the Day of the Week</list-item>
-      <ion-checkbox ng-repeat="day in slot.days track by $index" ng-model="slot.days[$index]">{{DAYOFWEEK.NAME[$index]}}</ion-checkbox>
   </div>
 </script>
 

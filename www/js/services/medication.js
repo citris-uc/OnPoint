@@ -80,13 +80,13 @@ angular.module('app.services')
     {
       time: "08:00",
       slot: "Morning",
-      days: [false, true, true, true, false, false, true], //array descirbing days of week to do this action
+      days: [true, true, true, true, true, true, true], //array descirbing days of week to do this action
       medications: ["Lasix", "Toprol XL", "Zestril", "Coumadin", "Riomet"]
     },
     {
       time: "13:00",
       slot: "Afternoon",
-      days: [true, false, true, false, true, true, true], //array descirbing days of week to do this action,
+      days: [true, true, true, true, true, true, true], //array descirbing days of week to do this action,
       medications: ["Lasix", "Toprol XL", "Zestril", "Riomet"]
     },
     {
