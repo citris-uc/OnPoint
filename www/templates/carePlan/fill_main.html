@@ -31,9 +31,10 @@
     <h3 class = "title" style="text-align: center;">
       Select Medication to Begin:
     </h3>
-    <div ng-repeat="med in medications" style="float:left">
-        <button ng-class = "currentlyOn(med)? 'button button-calm' : 'button button-balanced' ", ng-click="displaySchedule(med)" >{{med.trade_name}}</button>
-    </div>
+      <li class="item medstyle" ng-repeat="med in medications", ng-click="displaySchedule(med)",
+      style="{{buttonStyle(med)}}">
+        {{med.trade_name}}
+      </li>
     <button ng-click='doneMedSetup()' class="button button-positive  button-block" >Done</button>
   </ion-content>
 </ion-view>
