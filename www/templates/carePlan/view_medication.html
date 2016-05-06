@@ -18,13 +18,23 @@
       </label>
 
       <label class="item item-input">
-        <span class="input-label">Purpose</span>
+        <span class="input-label">Purpose{{med}}</span>
         <input type="text" placeholder="Purpose (e.g. used to treat heart failure)" ng-model="med.purpose"></input>
       </label>
 
       <label class="item item-input">
         <input type="text" placeholder="Any other notes?" ng-model="med.notes"></input>
       </label>
+      <div >
+        <li class="item"><strong>Scheduled Dates</strong></li>
+        <ion-checkbox ng-checked="true">Sunday</ion-checkbox>
+        <ion-checkbox ng-checked="true">Monday</ion-checkbox>
+        <ion-checkbox ng-checked="true">Tuesday</ion-checkbox>
+        <ion-checkbox ng-checked="true">Wednesday</ion-checkbox>
+        <ion-checkbox ng-checked="true">Thursday</ion-checkbox>
+        <ion-checkbox ng-checked="true">Friday</ion-checkbox>
+        <ion-checkbox ng-checked="true">Saturday</ion-checkbox>
+      </div>
     </div>
 
     <div class="padding">
