@@ -25,6 +25,27 @@ angular.module('app', ['ionic', 'firebase', 'app.controllers', 'app.routes', 'ap
   };
 })
 
+/*
+ * Use this filter to use orderBy on an object returned from FIREBASE
+ */
+.filter('toArray', function () {
+    'use strict';
+    return function (obj) {
+        if (!(obj instanceof Object)) {
+            return obj;
+        }
+        var keys = Object.keys(obj);
+        var arr = [];
+        for(var i = 0; i < keys.length; i++) {
+          if (typeof(obj[keys[i]])==='object' && obj[keys[i]] !=null) { //need this bc its a firebaseObject, going to have a lot of random metadata attached to the object
+            arr.push(Object.defineProperty(obj[keys[i]], '$id', {__proto__: null, value: keys[i]}));
+          }
+        }
+        return arr;
+    }
+})
+
+
 .run(function($ionicPlatform, $rootScope, Patient, $state, $ionicHistory) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
