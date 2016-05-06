@@ -356,7 +356,7 @@ angular.module('app.controllers')
      //var date_key = card.shown_at.substring(0,10);
     //  for(var i = 0; i < $scope.measHistory.length; i++) {
     //    var hist = $scope.measHistory[i];
-    console.log(date_key)
+    //console.log(date_key)
      if($scope.measHistory.hasOwnProperty(date_key)) {
        var measHistory = $scope.measHistory[date_key];
        for(hist_id in measHistory) {
