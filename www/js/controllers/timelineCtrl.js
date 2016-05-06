@@ -11,15 +11,44 @@ angular.module('app.controllers')
     $ionicSlideBoxDelegate.slide(pageIndex);
   }
 
+  /*
+   * This method checks a card's shown_at date with the 'date' param passed in locale time convention
+   * @param date: a javascript date object
+   */
+  $scope.checkCardDate = function(card, date) {
+    var localeDate = date.toLocaleDateString();
+    var cardLocaleDate = (new Date(card.shown_at)).toLocaleDateString();
+    var blargh = new Date();
+    //conole.log(test + ' ' + test.toISOString() + ' ' new Date(test))
+    //console.log(typeof($scope.cards[0]));
+    //console.log(cardLocaleDate+' '+localeDate)
+    if(localeDate==cardLocaleDate) {
+      //console.log(card.$id)
+      return true;
+    }
+    return false;
+  }
   // This loads cards depending on the page we're currently on. For instance,
   // if we're on Today view, then we'll load cards for today/tomorrow. On the
   // History view, we'll load all cards.
   $scope.loadCards = function() {
+    $scope.test = Card.getRangeByDate(new Date());
+    // $scope.test.$loaded().then(function() {
+    //   for (var i = 0; i < $scope.test.length; i++) {
+    //     var date = $scope.test[i];
+    //     for(key in date) {
+    //       console.log(key + " " + date[key].shown_at);
+    //     }
+    //   }
+    // })
+
     if ($scope.timeline.pageIndex === 0) {
-      $scope.cards = Card.getByDay(new Date());
+      //$scope.cards = Card.getByDay(new Date());
+      $scope.cards = Card.getRangeByDate(new Date());
       var manana = new Date();
       manana.setDate(manana.getDate() + 1);
-      $scope.tomorrowCards = Card.getByDay(manana);
+      //$scope.tomorrowCards = Card.getByDay(manana);
+      $scope.tomorrowCards = Card.getRangeByDate(manana);
     } else {
       $scope.history = Card.getHistory();
     }
@@ -51,6 +80,8 @@ angular.module('app.controllers')
     $scope.medHistory  = MedicationHistory.getTodaysHistory()
     $scope.medications = Medication.get();
     $scope.today       = new Date();
+    $scope.tomorrow     = new Date();
+    $scope.tomorrow.setDate($scope.tomorrow.getDate()+1);
     $scope.numComments = new Array($scope.cards.length)
     $scope.measurementSchedule = MeasurementSchedule.get();
     $scope.measHistory = Measurement.getTodaysHistory(); // Measurement History
@@ -61,12 +92,8 @@ angular.module('app.controllers')
     $scope.appointments = Appointment.getAppointmentsFromTo(fromDate, toDate);
     var today = (new Date()).toISOString();
     Card.generateCardsFor(today);
-
-    var tomorrowDate = new Date();
-    tomorrowDate.setDate(tomorrowDate.getDate()+1);
-    var tomorrow = tomorrowDate.toISOString();
-    Card.generateCardsFor(tomorrow);
-  });
+    Card.generateCardsFor($scope.tomorrow.toISOString());
+    });
 
 
   $scope.findMedicationScheduleForCard = function(card) {
@@ -188,7 +215,7 @@ angular.module('app.controllers')
     var skippedMeds = medStatus.skipped;
     var completedMeds = medStatus.done;
 
-    if (takeMeds.length == 0) {
+    if (takeMeds.length == 0 && skippedMeds.length==0) {
       Card.complete(card);
     }
   }
