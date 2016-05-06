@@ -13,3 +13,16 @@ angular.module('app.controllers')
     Goal.add(goal);
   }
 })
+
+.controller('editGoalCtrl', function($scope, $state, $stateParams, $ionicHistory, Goal) {
+  $scope.goal = Goal.getGoal($stateParams.goal_id);
+  $scope.save = function() {
+    $scope.goal.$save();
+    $ionicHistory.nextViewOptions({
+      disableAnimate: true,
+      disableBack: true,
+      historyRoot: true
+    })
+    $state.go('tabsController.goals');
+  }
+})
