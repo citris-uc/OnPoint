@@ -8,6 +8,7 @@ angular.module('app.controllers')
       $scope.newMedication.dose = med.dose;
       $scope.newMedication.instructions = med.instructions;
       $scope.newMedication.purpose = med.purpose;
+      $scope.newMedication.notes = med.notes
       console.log(med)
       console.log("inside med selected ");
     }
