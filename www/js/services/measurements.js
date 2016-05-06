@@ -2,7 +2,7 @@ angular.module('app.services')
 // Factories allows us to define objects within our app. We can expose
 // specific methods within the object literal to mimic API calls, e.g.
 // Measurement.get() will return all measurements associated with a user.
-.factory("Measurement", ["Patient", "$firebaseArray", "Card", "CARD", function(Patient, $firebaseArray, Card, CARD) {
+.factory("Measurement", ["Patient", "$firebaseObject", "$firebaseArray", "Card", "CARD", function(Patient, $firebaseObject, $firebaseArray, Card, CARD) {
   return {
     get: function() {
       var ref = this.ref();
@@ -12,6 +12,13 @@ angular.module('app.services')
       var today = ((new Date()).toISOString()).substring(0,10) //Only get the date: YYYY-MM-DD
       var ref = this.ref().child(today)
       return $firebaseArray(ref);
+    },
+    // Return an object so we can directly get a date's histories instead of iterating thru array.
+    getHistoryRange: function(from, to) {
+      var fromISO = from.toISOString().substring(0,10);
+      var toISO = to.toISOString().substring(0,10);
+      var ref = this.ref().orderByKey().startAt(fromISO).endAt(toISO);
+      return $firebaseObject(ref);
     },
     ref: function() {
       var uid = Patient.uid();

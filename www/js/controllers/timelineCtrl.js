@@ -87,7 +87,8 @@ angular.module('app.controllers')
     $scope.medications = Medication.get();
     $scope.numComments = new Array($scope.cards.length)
     $scope.measurementSchedule = MeasurementSchedule.get();
-    $scope.measHistory = Measurement.getTodaysHistory(); // Measurement History
+    //$scope.measHistory = Measurement.getTodaysHistory(); // Measurement History
+    $scope.measHistory = Measurement.getHistoryRange($scope.yesterday, $scope.tomorrow);
     var fromDate = new Date();
     var toDate = new Date();
     fromDate.setDate(fromDate.getDate()-CARD.TIMESPAN.DAYS_AFTER_APPT);
@@ -171,12 +172,16 @@ angular.module('app.controllers')
 
     measurements.forEach( function(meas) {
       var exists = false;
-      var history_date = $scope.measHistory.$ref().key();
+      //var history_date = $scope.measHistory.$ref().key();
 
       // If the history reference matches the passed in date then check validity
-      if (date_key == history_date) {
-        for(var i = 0; i < $scope.measHistory.length; i++) {
-          var hist = $scope.measHistory[i];
+      //if (date_key == history_date)
+      // for(var i = 0; i < $scope.measHistory.length; i++)
+      // var hist = $scope.measHistory[i];
+      if($scope.measHistory.hasOwnProperty(date_key)) {
+        var measHistory = $scope.measHistory[date_key]
+        for(hist_id in measHistory) {
+          var hist = measHistory[hist_id];
           if (hist.measurement_schedule_id==schedule.$id) {
             if(typeof(hist.measurements[meas.name]) != 'undefined') {
               exists= true;
@@ -349,10 +354,16 @@ angular.module('app.controllers')
    }
    $scope.getMeasurementLoggedDescription = function(card, date_key) {
      //var date_key = card.shown_at.substring(0,10);
-     for(var i = 0; i < $scope.measHistory.length; i++) {
-       var hist = $scope.measHistory[i];
-       if(hist.$id == card.object_id) {
-         return 'You logged a new measurement: ' + hist.measurements['name'];
+    //  for(var i = 0; i < $scope.measHistory.length; i++) {
+    //    var hist = $scope.measHistory[i];
+    console.log(date_key)
+     if($scope.measHistory.hasOwnProperty(date_key)) {
+       var measHistory = $scope.measHistory[date_key];
+       for(hist_id in measHistory) {
+         var hist = measHistory[hist_id];
+         if(hist_id == card.object_id) {
+           return 'You logged a new measurement: ' + hist.measurements['name'];
+         }
        }
      }
    }
