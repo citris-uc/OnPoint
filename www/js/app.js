@@ -8,6 +8,23 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('app', ['ionic', 'firebase', 'app.controllers', 'app.routes', 'app.services', 'app.directives', 'app.constants', 'dndLists'])
 
+//src: https://github.com/fmquaglia/ngOrderObjectBy
+.filter('orderObjectBy', function() {
+  return function(items, field, reverse) {
+    var filtered = [];
+    angular.forEach(items, function(item) {
+      if(item !=null) { //need this bc its a firebaseObject, going to have a lot of random metadata attached to the object
+        filtered.push(item);
+      }
+    });
+    filtered.sort(function (a, b) {
+      return (a[field] > b[field] ? 1 : -1);
+    });
+    if(reverse) filtered.reverse();
+    return filtered;
+  };
+})
+
 .run(function($ionicPlatform, $rootScope, Patient, $state, $ionicHistory) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard

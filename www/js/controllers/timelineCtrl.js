@@ -11,13 +11,18 @@ angular.module('app.controllers')
     $ionicSlideBoxDelegate.slide(pageIndex);
   }
 
-  $scope.checkCardDate = function(card_key, card, iso_key) {
-    var today = (new Date()).toLocaleDateString();
+  /*
+   * This method checks a card's shown_at date with the 'date' param passed in locale time convention
+   * @param date: a javascript date object
+   */
+  $scope.checkCardDate = function(card, isoKey, date) {
+    var localeDate = date.toLocaleDateString();
     var cardLocaleDate = (new Date(card.shown_at)).toLocaleDateString();
     var blargh = new Date();
     //conole.log(test + ' ' + test.toISOString() + ' ' new Date(test))
-    //console.log(cardLocaleDate+' '+today)
-    if(today==cardLocaleDate)
+    //console.log(typeof($scope.cards[0]));
+    //console.log(cardLocaleDate+' '+localeDate)
+    if(localeDate==cardLocaleDate && typeof(card.archived_at) == 'undefined')
       return true;
     return false;
     console.log(card)
@@ -37,7 +42,8 @@ angular.module('app.controllers')
     // })
 
     if ($scope.timeline.pageIndex === 0) {
-      $scope.cards = Card.getByDay(new Date());
+      //$scope.cards = Card.getByDay(new Date());
+      $scope.cards = Card.getRangeByDate(new Date());
       var manana = new Date();
       manana.setDate(manana.getDate() + 1);
       $scope.tomorrowCards = Card.getByDay(manana);
@@ -72,6 +78,8 @@ angular.module('app.controllers')
     $scope.medHistory  = MedicationHistory.getTodaysHistory()
     $scope.medications = Medication.get();
     $scope.today       = new Date();
+    $scope.tomorrow     = new Date();
+    $scope.tomorrow.setDate($scope.tomorrow.getDate()+1);
     $scope.numComments = new Array($scope.cards.length)
     $scope.measurementSchedule = MeasurementSchedule.get();
     $scope.measHistory = Measurement.getTodaysHistory(); // Measurement History
@@ -82,11 +90,7 @@ angular.module('app.controllers')
     $scope.appointments = Appointment.getAppointmentsFromTo(fromDate, toDate);
     var today = (new Date()).toISOString();
     Card.generateCardsFor(today);
-
-    var tomorrowDate = new Date();
-    tomorrowDate.setDate(tomorrowDate.getDate()+1);
-    var tomorrow = tomorrowDate.toISOString();
-    Card.generateCardsFor(tomorrow);
+    Card.generateCardsFor($scope.tomorrow.toISOString());
   });
 
 
