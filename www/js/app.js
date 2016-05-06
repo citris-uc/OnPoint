@@ -27,6 +27,7 @@ angular.module('app', ['ionic', 'firebase', 'app.controllers', 'app.routes', 'ap
 
 /*
  * Use this filter to use orderBy on an object returned from FIREBASE
+ * use this instead of orderObjectBy because we can keep the firebase object ID or KEY!
  */
 .filter('toArray', function () {
     'use strict';
