@@ -31,6 +31,16 @@ angular.module('app.controllers')
     $ionicSlideBoxDelegate.slide(pageIndex);
   }
 
+  $scope.getMedImg = function(trade_name) {
+    for(var i = 0; i < $scope.medications.length; i++) {
+      if ($scope.medications[i].trade_name == trade_name) {
+        return ("../img/" + $scope.medications[i].img);
+      }
+    }
+    // Default Image
+    return "../img/pill_small.png";
+  }
+
   $scope.didTakeMed = function(medication, schedule) {
     var match;
     var med = {}

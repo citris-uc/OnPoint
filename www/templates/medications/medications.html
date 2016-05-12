@@ -30,9 +30,8 @@
               ui-sref="tabsController.medication({schedule_id: dateSchedule.$id, medication_name: med})"
               ng-hide="didTakeMed(med, dateSchedule)"
               ng-style="{'color': (didSkipMed(med, dateSchedule) ? 'grey' : 'black')}"
-              class="medstyle">
+              class="medstyle" style="background-image: url({{getMedImg(med)}})">
                 {{med}}
-
               </li>
             </span>
             <ion-item style="border:none"></ion-item>
