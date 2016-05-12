@@ -1,8 +1,8 @@
 angular.module('app.controllers')
 
-.controller('timelineCtrl', function($scope, $state, Card, CARD, Comment, Medication, MedicationSchedule, Measurement, MeasurementSchedule, MedicationHistory, Appointment, $ionicSlideBoxDelegate) {
+.controller('timelineCtrl', function($scope, $state, Card, CARD, Comment, Medication, MedicationSchedule, Measurement, MeasurementSchedule, MedicationHistory, Appointment, Notes, $ionicSlideBoxDelegate) {
   $scope.timeline = {pageIndex: 0}
-
+  $scope.userInput;
   $scope.changeTimeline = function(pageIndex) {
     $scope.timeline.pageIndex = pageIndex;
   }
@@ -11,6 +11,13 @@ angular.module('app.controllers')
     $ionicSlideBoxDelegate.slide(pageIndex);
   }
 
+  $scope.saveFeeling = function() {
+    console.log($scope.userInput);
+    var promise = Notes.add($scope.userInput);
+    promise.then(function() {
+      $scope.userInput.feeling="";
+    })
+  }
   /*
    * This method checks a card's shown_at date with the 'date' param passed in locale time convention
    * @param date: a javascript date object
