@@ -13,10 +13,10 @@ angular.module('app.controllers')
 
   $scope.saveFeeling = function() {
     console.log($scope.userInput);
-    var promise = Notes.add($scope.userInput);
-    promise.then(function() {
-      $scope.userInput.feeling="";
-    })
+    var note = $scope.userInput; //pass to temp value so we can reset the field right after
+    var promise = Notes.add(note);
+    $scope.userInput.feeling = ""; //reset field
+
   }
   /*
    * This method checks a card's shown_at date with the 'date' param passed in locale time convention
