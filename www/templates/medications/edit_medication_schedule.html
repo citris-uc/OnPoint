@@ -63,6 +63,7 @@
                     dnd-draggable="med"
                     dnd-moved="dateSchedule.medications.splice($index, 1)"
                     dnd-effect-allowed="move"
+                    style="background-image: url({{getMedImg(med)}})"
                     >
                     {{med}}
                 </li>

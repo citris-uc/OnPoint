@@ -73,6 +73,7 @@
     text-align: center;
     width: 30%;
 		background-image: url(../img/pill_small.png);
+		background-size: auto 60%;
 		background-repeat: no-repeat;
 		background-position: 50% 70%;
 }
