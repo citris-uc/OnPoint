@@ -1,6 +1,6 @@
 angular.module('app.services')
 
-.factory("Notes", ["Patient", "$firebaseArray", "$firebaseObject", function(Patient, $firebaseArray, $firebaseObject) {
+.factory("Notes", ["Patient", "Card","CARD","$firebaseArray", "$firebaseObject", function(Patient,Card,CARD, $firebaseArray, $firebaseObject) {
 
   return {
     // Return an object so we can directly get a date's histories instead of iterating thru array.
@@ -21,7 +21,7 @@ angular.module('app.services')
       var req = ref.once('value', function(snapshot) {
           var noteRef = snapshot.ref();
           var notesLogRef = noteRef.push(note); //save notesLogRef to create the card
-          //Card.createAdHoc(CARD.CATEGORY.MEASUREMENT_LOGGED, measLogRef.key(), (new Date()).toISOString())
+          Card.createAdHoc(CARD.CATEGORY.NOTES, notesLogRef.key(), (new Date()).toISOString())
       })
       return req;
     }
