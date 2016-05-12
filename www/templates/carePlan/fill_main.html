@@ -32,7 +32,7 @@
       Select Medication to Begin:
     </h3>
       <li class="item medstyle" ng-repeat="med in medications | filter: {cab_med: '!'}", ng-click="displaySchedule(med)",
-      style="{{buttonStyle(med)}}">
+      style="{{buttonStyle(med)}}; background-image: url({{getMedImg(med.trade_name)}})">
         {{med.trade_name}}
       </li>
     <button ng-click='doneMedSetup()' class="button button-positive  button-block" >Done</button>

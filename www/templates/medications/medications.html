@@ -41,11 +41,12 @@
             <li class="item" ng-hide="containCabMeds()">
               <h6 class="text-center">You Have no meds in your medicine cabinet!</h6>
             </li>
-            <ion-list>
-              <ion-item ng-repeat="med in medications" ng-show="med.cab_med" ui-sref="tabsController.takeCabMed({schedule_id: 'cabinet', medication_name: med.trade_name})">
+            <ul>
+              <li ng-repeat="med in medications" ng-show="med.cab_med" ui-sref="tabsController.takeCabMed({schedule_id: 'cabinet', medication_name: med.trade_name})"
+                        class="medstyle">
                 {{med.trade_name}}
-              </ion-item>
-            </ion-list>
+              </li>
+            </ul>
 
       </ion-slide>
       <ion-slide>
@@ -108,7 +109,7 @@
           Select Medication to Begin:
         </h3>
         <li class="item medstyle" ng-repeat="med in medications | filter: {cab_med: '!'}", ng-click="displaySchedule(med)",
-        style="{{buttonStyle(med)}}">
+        style="{{buttonStyle(med)}};background-image: url({{getMedImg(med.trade_name)}})">
           {{med.trade_name}}
         </li>
 

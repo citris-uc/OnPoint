@@ -38,7 +38,7 @@ angular.module('app.controllers')
       }
     }
     // Default Image
-    return "img/pill_small.png";
+    return "img/pill.png";
   }
 
   $scope.didTakeMed = function(medication, schedule) {
@@ -232,7 +232,7 @@ angular.module('app.controllers')
     }
     $ionicHistory.goBack();
   }
-  
+
   $scope.getMedImg = function(trade_name) {
     for(var i = 0; i < $scope.medications.length; i++) {
       if ($scope.medications[i].trade_name == trade_name) {
@@ -240,7 +240,7 @@ angular.module('app.controllers')
       }
     }
     // Default Image
-    return "img/pill_small.png";
+    return "img/pill.png";
   }
 
   $scope.goBack = function(){
@@ -491,7 +491,7 @@ angular.module('app.controllers')
       }
     }
     // Default Image
-    return "img/pill_small.png";
+    return "img/pill.png";
   }
 
   $scope.saveMedicationSchedule = function() {
