@@ -13,7 +13,7 @@
   <!-- Stuff after here will scroll -->
   <ion-content has-header="true" overflow-scroll="true" scroll="true" class="has-header has-subheader">
     <ion-slide-box on-slide-changed="slideHasChanged($index)" does-continue="false" show-pager="false">
-      <ion-slide>
+      <ion-slide ng-controller="medImgCtrl">
             <div style="position: relative;">
               <h4 style="text-align: center">Schedule</h1>
               <div style="position: absolute; right: 0; top: 0; text-align: right">
@@ -80,7 +80,7 @@
         </ion-list>
       </ion-slide>
 
-      <ion-slide>
+      <ion-slide ng-controller="medImgCtrl">
         <!--COPY AND PASTED THIS FRMO fill_main.html -->
         <table class = "center">
           <thead>

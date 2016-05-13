@@ -1,6 +1,6 @@
 <ion-view>
   <ion-nav-title>{{medication.trade_name}} ({{medication.name}})</ion-nav-title>
-    <ion-content overflow-scroll="true" padding="false" class="has-header">
+    <ion-content overflow-scroll="true" padding="false" class="has-header" ng-controller="medImgCtrl">
       <div class="list card">
         <div class="item item-avatar">
           <img src="img/{{medication.img}}">

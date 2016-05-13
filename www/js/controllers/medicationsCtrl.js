@@ -31,16 +31,6 @@ angular.module('app.controllers')
     $ionicSlideBoxDelegate.slide(pageIndex);
   }
 
-  $scope.getMedImg = function(trade_name) {
-    for(var i = 0; i < $scope.medications.length; i++) {
-      if ($scope.medications[i].trade_name == trade_name) {
-        return ("img/" + $scope.medications[i].img);
-      }
-    }
-    // Default Image
-    return "img/pill.png";
-  }
-
   $scope.didTakeMed = function(medication, schedule) {
     var match;
     var med = {}
@@ -233,16 +223,6 @@ angular.module('app.controllers')
     $ionicHistory.goBack();
   }
 
-  $scope.getMedImg = function(trade_name) {
-    for(var i = 0; i < $scope.medications.length; i++) {
-      if ($scope.medications[i].trade_name == trade_name) {
-        return ("img/" + $scope.medications[i].img);
-      }
-    }
-    // Default Image
-    return "img/pill.png";
-  }
-
   $scope.goBack = function(){
     $ionicHistory.goBack();
   }
@@ -347,7 +327,6 @@ angular.module('app.controllers')
   $scope.selected_med = null;
   $scope.slot = {days:[true, true, true, true, true, true, true]};
   $scope.showError = false;
-  $scope.medications = Medication.get();
 
   //Saving State of onboarding progress into firebase
   $scope.$on('$ionicView.beforeEnter', function(){
@@ -484,16 +463,6 @@ angular.module('app.controllers')
     return newtime;
   }
 
-  $scope.getMedImg = function(trade_name) {
-    for(var i = 0; i < $scope.medications.length; i++) {
-      if ($scope.medications[i].trade_name == trade_name) {
-        return ("img/" + $scope.medications[i].img);
-      }
-    }
-    // Default Image
-    return "img/pill.png";
-  }
-
   $scope.saveMedicationSchedule = function() {
     for(var i = 0; i < $scope.schedule.length; i++) {
       $scope.schedule.$save($scope.schedule[i]);
@@ -539,5 +508,20 @@ angular.module('app.controllers')
         $ionicHistory.goBack();
       }
     };
+
+})
+
+.controller('medImgCtrl', function($scope, Medication) {
+  $scope.medications = Medication.get();
+
+  $scope.getMedImg = function(trade_name) {
+    for(var i = 0; i < $scope.medications.length; i++) {
+      if ($scope.medications[i].trade_name == trade_name) {
+        return ("img/" + $scope.medications[i].img);
+      }
+    }
+    // Default Image
+    return "img/pill.png";
+  }
 
 })
