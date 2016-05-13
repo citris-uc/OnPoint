@@ -262,12 +262,21 @@ angular.module('app.controllers')
     this.checkCardComplete(card, date_key);
     // Return cardClass: urgent/active/completed
     if(card.type == CARD.TYPE.REMINDER)
-      return "badge-balanced";
+      return "badge-royal";
     if (card.completed_at == null) {
       if (card.type == CARD.TYPE.URGENT) {
         return "badge-assertive";
       } else {
-        return "badge-energized";
+        var timeCutoff = new Date();
+        timeCutoff.setHours(timeCutoff.getHours()+3);
+        var cardTime = new Date(card.shown_at);
+        // If shown_at time is within 3 hours of now, mark card as "In Progress"
+        if (cardTime < timeCutoff) {
+          return "badge-energized";
+        } else {
+          return "badge-calm";
+        }
+
       }
     } else {
       return "badge-balanced";
@@ -295,7 +304,16 @@ angular.module('app.controllers')
       if (card.type == CARD.TYPE.URGENT) {
         return "Needs attention";
       } else {
-        return "In progress";
+        var timeCutoff = new Date();
+        timeCutoff.setHours(timeCutoff.getHours()+3);
+        var cardTime = new Date(card.shown_at);
+
+        // If shown_at time is within 3 hours of now, mark card as "In Progress"
+        if (cardTime < timeCutoff) {
+          return "In progress";
+        } else {
+          return "Upcoming";
+        }
       }
     } else {
       return "Completed";
