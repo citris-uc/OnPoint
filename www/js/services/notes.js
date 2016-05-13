@@ -17,6 +17,7 @@ angular.module('app.services')
     add: function(note) {
       var today = ((new Date()).toISOString()).substring(0,10)
       var ref = this.ref().child(today);
+      note.timestamp = new Date();
       //Add new note to firebase
       var req = ref.once('value', function(snapshot) {
           var noteRef = snapshot.ref();
