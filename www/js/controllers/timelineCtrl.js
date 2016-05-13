@@ -300,8 +300,16 @@ angular.module('app.controllers')
     return fstr;
   }
 
-  $scope.formatTitle = function(str) {
-    if (str == CARD.CATEGORY.MEDICATIONS_CABINET || str == CARD.CATEGORY.MEDICATIONS_SCHEDULE_CHANGE)
+  $scope.formatTitle = function(card) {
+    var str = card.object_type;
+    if (str == CARD.CATEGORY.MEDICATIONS_SCHEDULE) {
+      var schedule = $scope.findMedicationScheduleForCard(card);
+      if (schedule != null)
+        return 'Medications - ' + schedule.slot;
+      else {
+        return 'Medications'
+      }
+    } else if (str == CARD.CATEGORY.MEDICATIONS_CABINET || str == CARD.CATEGORY.MEDICATIONS_SCHEDULE_CHANGE)
       return 'Medications';
     else if (str == CARD.CATEGORY.MEASUREMENT_LOGGED)
       return 'Measurements'

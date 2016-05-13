@@ -46,7 +46,7 @@
 
               <div class="item item-icon-left">
                 <i class="icon {{iconClass(c)}}"></i>
-                <h2>{{formatTitle(c.object_type)}} {{card_key}}</h2>
+                <h2>{{formatTitle(c)}} {{card_key}}</h2>
                 <p>{{getTime(c.shown_at) | date: 'EEEE, MMMM dd h:mm a'}}</p>
 
                 <span class="badge {{statusClass(c,date.$id)}}">{{statusText(c, date.$id)}}</span>
@@ -100,7 +100,7 @@
 
                 <div class="item item-icon-left">
                   <i class="icon {{iconClass(c)}}"></i>
-                  <h2>{{formatTitle(c.object_type)}}</h2>
+                  <h2>{{formatTitle(c)}}</h2>
                   <p>{{getTime(c.shown_at) | date: 'EEEE, MMMM dd h:mm a'}}</p>
                 </div>
 
@@ -129,7 +129,7 @@
 
                 <div class="item item-icon-left">
                   <i class="icon {{iconClass(c)}}"></i>
-                  <h2>{{formatTitle(c.object_type)}}</h2>
+                  <h2>{{formatTitle(c)}}</h2>
                   <p>{{getTime(c.shown_at) | date: 'EEEE, MMMM dd h:mm a'}}</p>
 
                   <span class="badge {{statusClass(c,date.$id)}}">{{statusText(c, date.$id)}}</span>
@@ -161,7 +161,7 @@
               <div class="list card">
                 <div class="item item-icon-left">
                   <i class="icon {{iconClass(c)}}"></i>
-                  <h2>{{formatTitle(c.object_type)}}</h2>
+                  <h2>{{formatTitle(c)}}</h2>
                   <p>{{getTime(c.shown_at) | date: 'EEEE, MMMM dd h:mm a'}}</p>
                 </div>
 
