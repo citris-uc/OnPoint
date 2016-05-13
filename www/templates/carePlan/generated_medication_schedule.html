@@ -21,7 +21,7 @@
   <ion-nav-buttons side="right">
     <button class="button icon-right ion-ios-plus-empty button-clear button-positive" ui-sref="carePlan.newSlot"></button>
   </ion-nav-buttons>
-  <ion-content overflow-scroll="true" padding="false" class="has-header">
+  <ion-content overflow-scroll="true" padding="false" class="has-header" ng-controller="medImgCtrl">
     <!-- <div class="tabs tabs-striped tabs-color-assertive tabs-top"> -->
       <!-- <a class="tab-item"><i class="icon ion-ios-arrow-left"></i></a> -->
       <!-- <a class="tab-item " ng-repeat = "day in week"> -->
@@ -66,6 +66,7 @@
                     dnd-draggable="med"
                     dnd-moved="dateSchedule.medications.splice($index, 1)"
                     dnd-effect-allowed="move"
+                    style="background-image: url({{getMedImg(med)}})"
                     >
                     {{med}}
                 </li>
