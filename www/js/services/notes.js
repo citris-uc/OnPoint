@@ -3,12 +3,11 @@ angular.module('app.services')
 .factory("Notes", ["Patient", "Card","CARD","$firebaseArray", "$firebaseObject", function(Patient,Card,CARD, $firebaseArray, $firebaseObject) {
 
   return {
-    // Return an object so we can directly get a notes instead of iterating thru array.
     get: function(from, to) {
       var fromISO = from.toISOString().substring(0,10);
       var toISO = to.toISOString().substring(0,10);
       var ref = this.ref().orderByKey().startAt(fromISO).endAt(toISO);
-      return $firebaseObject(ref);
+      return $firebaseArray(ref);
     },
     ref: function() {
       var uid = Patient.uid();

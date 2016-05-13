@@ -355,13 +355,11 @@ angular.module('app.controllers')
    }
 
    $scope.getNotesDescription = function(card, date_key) {
-     if ($scope.notes.hasOwnProperty(date_key)) {
-       var notesHistory = $scope.notes[date_key];
-       for(note_id in notesHistory) {
-         var note = notesHistory[note_id];
-         if(note_id == card.object_id) {
-           return 'You recorded: ' + note.feeling;
-         }
+     for(var i = 0; i < $scope.notes.length; i++) {
+       var date = $scope.notes[i];
+       if (date.hasOwnProperty(card.object_id)) {
+         var note = date[card.object_id];
+         return 'You recorded: ' + note.feeling;
        }
      }
    }
