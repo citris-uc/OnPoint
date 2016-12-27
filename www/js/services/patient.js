@@ -37,7 +37,7 @@ angular.module('app.services')
     },
     setToken: function(token) {
       if (token == null)
-        $window.localStorage.removeItem("token");
+        $window.localStorage.setItem("token", "");
       else
         $window.localStorage.setItem("token", token);
     },
@@ -45,7 +45,7 @@ angular.module('app.services')
       return $window.localStorage.getItem("token");
     },
     ref: function() {
-      var patientRef = new Firebase("https://vivid-inferno-5187.firebaseio.com/patients/");
+      var patientRef = new Firebase(onpoint.env.mainURL + "patients/");
       var uid = this.uid();
       if (uid)
         return patientRef.child(uid);
@@ -56,8 +56,8 @@ angular.module('app.services')
       return $firebaseAuth(this.ref());
     },
     logout: function() {
-      this.auth().$unauth();
       this.setToken(null);
+      return this.auth().$unauth();
     }
   };
 })
