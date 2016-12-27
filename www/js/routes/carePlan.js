@@ -13,17 +13,6 @@ angular.module('app.routes')
     abstract: true
   })
 
-
-  // .state('carePlan.setup', {
-  //   url: '/setup',
-  //   views: {
-  //     'care-plan': {
-  //       templateUrl: 'templates/carePlan/setup.html',
-  //       controller: 'carePlanCtrl'
-  //     }
-  //   }
-  // })
-
   .state('carePlan.measurement-add', {
     url: '/measurement_schedule/new',
     views: {
