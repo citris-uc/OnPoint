@@ -72,31 +72,19 @@ angular.module('app', ['ionic', 'firebase', 'app.controllers', 'app.routes', 'ap
   // state transition and go to the login screen.
   $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams, options) {
     console.log("State changing...")
-    req = Patient.ref().child('onboarding').once("value", function(snapshot) {
-    onboarding = snapshot.val()
-      if (!onboarding || !onboarding.completed) {
-        $ionicHistory.nextViewOptions({
-          disableAnimate: true,
-          disableBack: true,
-          historyRoot: true
-        })
-        $state.go('onboarding.welcome');
-      }
-      // var onboarding = snapshot.val();
-      // var nexState;
-      // if(!onboarding.completed) {
-      //   if(onboarding.state == 'carePlan.setup' ||
-      //         onboarding.state == 'carePlan.medicationSchedules' ||
-      //         onboarding.state == 'carePlan.generatedMedSchedule') { // avoiding race conditions
-      //     nextState = onboarding.state
-      //   }
-      // }
-      // else {
-      //   nextState = "tabsController.timeline"
-      // }
-      // handleTransition()
-      // $state.go(nextState);
-    }); //donr request for onboarding status
+    if (toState.name.indexOf("onboarding") == -1) {
+      req = Patient.ref().child('onboarding').once("value", function(snapshot) {
+      onboarding = snapshot.val()
+        if (!onboarding || !onboarding.completed) {
+          $ionicHistory.nextViewOptions({
+            disableAnimate: true,
+            disableBack: true,
+            historyRoot: true
+          })
+          $state.go('onboarding.welcome');
+        }
+      });
+    }
 
   });
 
