@@ -18,6 +18,11 @@ angular.module('app.services')
       this.setToken(patient.token);
       $window.localStorage.setItem("patient", JSON.stringify(patient || {}));
     },
+    setAttribute: function(attr, value) {
+      patient = this.get()
+      patient[attr] = value
+      this.set(patient)
+    },
     // DEPRECIATED: because moving to register screen
     // create: function(email, authData) {
     //   // Create the patient, add to localstorage, and add the token.
