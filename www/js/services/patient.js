@@ -52,6 +52,8 @@ angular.module('app.services')
     ref: function() {
       var patientRef = new Firebase(onpoint.env.mainURL + "patients/");
       var uid = this.uid();
+      // TODO: Remove the ref for all patients... Otherwise, we end up adding stuff
+      // to the /patients/ resource when it should be for /patients/:uid resource.
       if (uid)
         return patientRef.child(uid);
       else
