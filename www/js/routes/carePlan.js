@@ -13,17 +13,6 @@ angular.module('app.routes')
     abstract: true
   })
 
-
-  .state('carePlan.setup', {
-    url: '/setup',
-    views: {
-      'care-plan': {
-        templateUrl: 'templates/carePlan/setup.html',
-        controller: 'carePlanCtrl'
-      }
-    }
-  })
-
   .state('carePlan.measurement-add', {
     url: '/measurement_schedule/new',
     views: {
@@ -43,17 +32,15 @@ angular.module('app.routes')
       }
     }
   })
-
-
-  .state('carePlan.medicationSchedules', {
-    url: '/medications',
-    views: {
-      'care-plan': {
-        templateUrl: 'templates/carePlan/medications.html',
-        controller: 'medListCtrl'
-      }
-    }
-  })
+  // .state('carePlan.newMedication', {  // TODO: REMOVE
+  //   url: '/medications/new',
+  //   views: {
+  //     'care-plan': {
+  //       templateUrl: 'templates/carePlan/new_medication.html',
+  //       controller: 'medInputCtrl'
+  //     }
+  //   }
+  // })
 
   .state('carePlan.viewMeasurementSchedule', {
     url: '/measurementSchedule/:measurement_schedule_id',
@@ -61,27 +48,6 @@ angular.module('app.routes')
       'care-plan': {
         templateUrl: 'templates/carePlan/view_measurement_schedule.html',
         controller: 'measurementViewCtrl'
-      }
-    }
-  })
-
-
-  .state('carePlan.newMedication', {
-    url: '/medications/new',
-    views: {
-      'care-plan': {
-        templateUrl: 'templates/carePlan/new_medication.html',
-        controller: 'medInputCtrl'
-      }
-    }
-  })
-
-  .state('carePlan.viewMedication', {
-    url: '/medication/:medication_id',
-    views: {
-      'care-plan': {
-        templateUrl: 'templates/carePlan/view_medication.html',
-        controller: 'medicationViewCtrl'
       }
     }
   })

@@ -1,0 +1,39 @@
+<ion-view title="{{medication.trade_name}}">
+  <ion-nav-buttons side="right">
+    <button class="button icon-right button-assertive button-clear" ng-click="removeMedication()">Remove</button>
+  </ion-nav-buttons>
+
+
+  <ion-content>
+    <div class="list">
+      <label class="item item-input item-select">
+        <span class="input-label">Medication Name</span>
+          <input type="text" placeholder="metoprolol" ng-model="medication.trade_name"></input>
+      </label>
+
+      <label class="item item-input">
+         <span class="input-label">Dosage</span>
+        <input type="number" min="0" placeholder="Dose (e.g. 25)" ng-model="medication.dose" ></input>
+        <span>mg</span>
+      </label>
+
+      <label class="item item-input">
+        <span class="input-label">Instructions</span>
+        <input type="text" placeholder="Instructions (e.g. orally)" ng-model="medication.instructions"></input>
+      </label>
+
+      <label class="item item-input">
+        <span class="input-label">Purpose</span>
+        <input type="text" placeholder="Purpose (e.g. used to treat heart failure)" ng-model="medication.purpose"></input>
+      </label>
+
+      <label class="item item-input">
+        <input type="text" placeholder="Any other notes?" ng-model="medication.notes"></input>
+      </label>
+    </div>
+  </ion-content>
+
+  <div class="bar bar-footer bar-balanced">
+    <div class="title" ng-click="medication.$save()">Update</div>
+  </div>
+</ion-view>

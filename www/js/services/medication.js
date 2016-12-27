@@ -18,7 +18,9 @@ angular.module('app.services')
   input_medications = [];
 
   return {
-
+    getDefaultMedications: function() {
+      return medications;
+    },
     /*
      * Temporary method for clinician testing
      */
@@ -47,7 +49,7 @@ angular.module('app.services')
     get: function() {
       var ref = this.ref();
       return $firebaseArray(ref);
-      //return medications;
+      // return medications;
     },
     getCabMeds: function(){
       var ref = this.cabRef();

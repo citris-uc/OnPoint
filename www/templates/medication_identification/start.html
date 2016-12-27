@@ -1,16 +1,32 @@
 <ion-view title="Add your medications">
+  <ion-nav-buttons side="right">
+    <button class="button icon-right ion-ios-plus-empty button-clear" ui-sref="medication_identification.search"></button>
+  </ion-nav-buttons>
+
   <ion-content overflow-scroll="true">
-    <div class="list card">
-      <div class="item item-text-wrap">
-        Let's get started on Medication Identification. Here we will search for
-        your medications, and add them.
-      </div>
+    <ul class="list">
+      <li class="item text-center" ng-hide="scheduledMeds()">
+        You haven't added any medications! Use the + icon in the navigation bar
+        to add a medication.
+      </li>
 
-      <a class="item item-icon-right positive" ui-sref="medication_identification.">
+      <li class="item item-icon-right"  ng-repeat="med in scheduledMedications" ng-show="med.user_input" ui-sref="medication_identification.medication({id: med.$id})">
+        <h2>{{med.trade_name}}</h2>
+        <p>Dose: {{med.dose}}, tablets: {{med.tablets}}</p>
+        <p>Instructions: {{med.instructions}}</p>
+        <p>Purpose: {{med.purpose}}
         <i class="icon ion-ios-arrow-right"></i>
-        Start
-      </a>
-
-    </div>
+        <li
+      </li>
+    </ul>
   </ion-content>
+
+  <!-- <div class="padding" ng-show="scheduledMeds()">
+    <button class="button button-positive button-block" ng-click="generate()" ng-disabled="disableGenerate()">Generate Schedule</button>
+  </div> -->
+
+  <div class="bar bar-footer bar-balanced">
+    <div class="title" ng-click="finishMedicationIdentification()" ng-disabled="disableGenerate()">Proceed to Medication Schedule</div>
+  </div>
+
 </ion-view>
