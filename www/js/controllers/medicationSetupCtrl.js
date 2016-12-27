@@ -86,8 +86,8 @@ angular.module('app.controllers')
 //     });
 // })
 
-.controller('medInputMainCtrl', function($scope, Medication) {
-})
+// .controller('medInputMainCtrl', function($scope, Medication) {
+// })
 
 .controller('medFillMainCtrl', function($scope, $state, $ionicHistory, MedicationSchedule, Medication, MedicationDosage) {
   $scope.medicationSchedule = MedicationSchedule.get();
