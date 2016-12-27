@@ -22,10 +22,46 @@ angular.module('app.routes')
     }
   })
   .state('medication_identification.start', {
-    url: '/welcome',
+    url: '/start',
     views: {
       'menuContent': {
         templateUrl: 'templates/medication_identification/start.html',
+        controller: 'medListCtrl'
+      }
+    }
+  })
+  .state('medication_identification.new', {
+    url: '/new',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/medication_identification/new.html',
+        controller: 'newMedicationCtrl'
+      }
+    }
+  })
+  .state('medication_identification.search', {
+    url: '/search',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/medication_identification/search.html',
+        controller: 'medicationSearchCtrl'
+      }
+    }
+  })
+  .state('medication_identification.edit', {
+    url: '/:id/edit',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/medication_identification/edit.html',
+      }
+    }
+  })
+  .state('medication_identification.medication', {
+    url: '/:id',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/medication_identification/show.html',
+        controller: 'medicationCtrl'
       }
     }
   })
