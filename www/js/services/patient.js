@@ -18,6 +18,11 @@ angular.module('app.services')
       this.setToken(patient.token);
       $window.localStorage.setItem("patient", JSON.stringify(patient || {}));
     },
+    setAttribute: function(attr, value) {
+      patient = this.get()
+      patient[attr] = value
+      this.set(patient)
+    },
     // DEPRECIATED: because moving to register screen
     // create: function(email, authData) {
     //   // Create the patient, add to localstorage, and add the token.
@@ -47,6 +52,8 @@ angular.module('app.services')
     ref: function() {
       var patientRef = new Firebase(onpoint.env.mainURL + "patients/");
       var uid = this.uid();
+      // TODO: Remove the ref for all patients... Otherwise, we end up adding stuff
+      // to the /patients/ resource when it should be for /patients/:uid resource.
       if (uid)
         return patientRef.child(uid);
       else

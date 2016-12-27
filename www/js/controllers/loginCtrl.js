@@ -25,13 +25,13 @@ angular.module('app.controllers')
     $scope.state.loading = false;
   }
 
-  // var handleError = function(error) {
-  //   var alertPopup = $ionicPopup.alert({
-  //     title: 'Error',
-  //     template: error
-  //   });
-  //   $scope.state.loading = false;
-  // }
+  var handleError = function(error) {
+    var alertPopup = $ionicPopup.alert({
+      title: 'Error',
+      template: error
+    });
+    $scope.state.loading = false;
+  }
   var handleError = function(error,user) {
     var alertPopup = $ionicPopup.alert({
       title: 'Error',
@@ -80,26 +80,72 @@ angular.module('app.controllers')
   }
 
 
-  $scope.signup = function(){
-    if ($scope.user.password != $scope.user.password_confirmation) {
-      $scope.state.error = "Passwords do not match"
-      return
-    }
+  // $scope.signup = function(){
+  //   if ($scope.user.password != $scope.user.password_confirmation) {
+  //     $scope.state.error = "Passwords do not match"
+  //     return
+  //   }
+  //
+  //   $scope.state.loading = true
+  //   $scope.state.error   = true
+  //
+  //   Patient.create($scope.user.email, $scope.user.password).then(function(response) {
+  //     $scope.login()
+  //   }, function(error) {
+  //     if (error.data.errors.email)
+  //       $scope.state.error = "Username " + error.data.errors.email[0]
+  //     else if (error.data.errors.password)
+  //         $scope.state.error = "Password " + error.data.errors.password[0]
+  //   }).finally(function() {
+  //     $scope.state.loading = false;
+  //   })
+  // }
 
-    $scope.state.loading = true
-    $scope.state.error   = true
 
-    Patient.create($scope.user.email, $scope.user.password).then(function(response) {
-      $scope.login()
-    }, function(error) {
-      if (error.data.errors.email)
-        $scope.state.error = "Username " + error.data.errors.email[0]
-      else if (error.data.errors.password)
-          $scope.state.error = "Password " + error.data.errors.password[0]
-    }).finally(function() {
-      $scope.state.loading = false;
+  $scope.signup = function()   {
+    $scope.state.loading = true;
+
+    Patient.auth().$createUser($scope.user).then(function(authData) { //Create User
+      //console.log(authData)
+      Patient.auth().$authWithPassword($scope.user).then(function(authData) { //Then Log in
+        $scope.state.loading = false;
+
+        Patient.set(authData); //this will also set the Token
+
+        var ref = Patient.ref().child('profile');
+        ref.set({email: $scope.user.email})
+
+        //TODO: much later, delete this.
+        // Medication.setDefaultMeds(); // Setting default meds/instructions for patient once they register
+
+
+        $scope.login()
+
+        // var onboardingRef = Patient.ref().child('onboarding');
+        // onboardingRef.set({'completed':false,'state':'carePlan.setup'})
+        //
+        // //Use UPDATE, to NOT OVERWRITE email address!
+        // var req = ref.update($scope.user) //Setting Patient Information.
+        // req.then(function(ref) {
+        //   $ionicHistory.nextViewOptions({
+        //     disableAnimate: true,
+        //     disableBack: true,
+        //   })
+        //
+        //   //TODO: redirect to onboarding process
+        //   $state.go("carePlan.setup");
+        // })
+
+      }).catch(function(error) {
+        handleError(error)
+      })
+
+    }).catch(function(error) {
+      handleError(error)
     })
   }
+
+
 })
 
 

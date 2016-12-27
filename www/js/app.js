@@ -70,18 +70,28 @@ angular.module('app', ['ionic', 'firebase', 'app.controllers', 'app.routes', 'ap
   // The authentication hook that is triggered on every state transition.
   // We check if the user is logged-in, and if not, then we cancel the current
   // state transition and go to the login screen.
-  // $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams, options) {
-  //   var token = Patient.getToken();
-  //   console.log(token)
-  //   if (!token && !$rootScope.modal) {
-  //     $rootScope.$emit(onpoint.env.error, {error: {status: 401}})
-  //   }
-  // });
+  $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams, options) {
+    console.log("State changing...")
+    if (toState.name.indexOf("onboarding") == -1) {
+      req = Patient.ref().child('onboarding').once("value", function(snapshot) {
+      onboarding = snapshot.val()
+        if (!onboarding || !onboarding.completed) {
+          $ionicHistory.nextViewOptions({
+            disableAnimate: true,
+            disableBack: true,
+            historyRoot: true
+          })
+          $state.go('onboarding.welcome');
+        }
+      });
+    }
+
+  });
 
   Patient.auth().$onAuth(function(authData) {
     console.log("$onAuth called...")
     if (authData)
-      console.log(authData)
+      Patient.setAttribute("uid", authData.uid)
     else
       $rootScope.$emit(onpoint.env.error, {error: {status: 401}})
   })
