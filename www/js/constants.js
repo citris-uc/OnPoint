@@ -15,7 +15,8 @@ angular.module('app.constants', [])
     'SYMPTOMS_SCHEDULE': 'symptoms_schedule',
     'MEDICATIONS_CABINET':'medications_cabinet',
     'MEDICATIONS_SCHEDULE_CHANGE': 'medication_schedule_change',
-    'MEASUREMENT_LOGGED':'measurement_logged'},
+    'MEASUREMENT_LOGGED':'measurement_logged',
+    'NOTES': 'notes'},
   TIMESPAN: {
     'GET_CURRENT_PAST': 6,
     'GET_CURRENT_FUTURE': 6,

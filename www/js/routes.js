@@ -88,6 +88,16 @@ angular.module('app.routes', [])
     }
   })
 
+  .state('tabsController.notes', {
+    url: '/settings/notes',
+    views: {
+      'timeline-tab': {
+        templateUrl: 'templates/notes.html',
+        controller: 'notesCtrl'
+      }
+    }
+  })
+
   .state('tabsController.medications', {
     url: '/medications',
     views: {

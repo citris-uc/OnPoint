@@ -1,8 +1,8 @@
 angular.module('app.controllers')
 
-.controller('timelineCtrl', function($scope, $state, Card, CARD, Comment, Medication, MedicationSchedule, Measurement, MeasurementSchedule, MedicationHistory, Appointment, $ionicSlideBoxDelegate) {
+.controller('timelineCtrl', function($scope, $state, Card, CARD, Comment, Medication, MedicationSchedule, Measurement, MeasurementSchedule, MedicationHistory, Appointment, Notes, $ionicSlideBoxDelegate) {
   $scope.timeline = {pageIndex: 0}
-
+  $scope.userInput;
   $scope.changeTimeline = function(pageIndex) {
     $scope.timeline.pageIndex = pageIndex;
   }
@@ -11,6 +11,13 @@ angular.module('app.controllers')
     $ionicSlideBoxDelegate.slide(pageIndex);
   }
 
+  $scope.saveFeeling = function() {
+    console.log($scope.userInput);
+    var note = $scope.userInput; //pass to temp value so we can reset the field right after
+    var promise = Notes.add(note);
+    $scope.userInput.feeling = ""; //reset field
+
+  }
   /*
    * This method checks a card's shown_at date with the 'date' param passed in locale time convention
    * @param date: a javascript date object
@@ -94,6 +101,9 @@ angular.module('app.controllers')
     fromDate.setDate(fromDate.getDate()-CARD.TIMESPAN.DAYS_AFTER_APPT);
     toDate.setDate(toDate.getDate()+CARD.TIMESPAN.DAYS_BEFORE_APPT);
     $scope.appointments = Appointment.getAppointmentsFromTo(fromDate, toDate);
+    fromDate = new Date(); //reset
+    fromDate.setDate(fromDate.getDate()-3); //because history cards are last 3
+    $scope.notes = Notes.get(fromDate, $scope.today);
     Card.generateCardsFor($scope.today.toISOString());
     Card.generateCardsFor($scope.tomorrow.toISOString());
     });
@@ -252,12 +262,21 @@ angular.module('app.controllers')
     this.checkCardComplete(card, date_key);
     // Return cardClass: urgent/active/completed
     if(card.type == CARD.TYPE.REMINDER)
-      return "badge-balanced";
+      return "badge-royal";
     if (card.completed_at == null) {
       if (card.type == CARD.TYPE.URGENT) {
         return "badge-assertive";
       } else {
-        return "badge-energized";
+        var timeCutoff = new Date();
+        timeCutoff.setHours(timeCutoff.getHours()+3);
+        var cardTime = new Date(card.shown_at);
+        // If shown_at time is within 3 hours of now, mark card as "In Progress"
+        if (cardTime < timeCutoff) {
+          return "badge-energized";
+        } else {
+          return "badge-calm";
+        }
+
       }
     } else {
       return "badge-balanced";
@@ -271,6 +290,8 @@ angular.module('app.controllers')
       return "ion-ios-calendar-outline";
     if (card.object_type == CARD.CATEGORY.MEASUREMENTS_SCHEDULE || card.object_type == CARD.CATEGORY.MEASUREMENT_LOGGED)
       return "ion-arrow-graph-up-right";
+    if (card.object_type == CARD.CATEGORY.NOTES)
+      return "ion-document-text";
   }
 
   $scope.statusText = function(card, date_key) {
@@ -283,7 +304,16 @@ angular.module('app.controllers')
       if (card.type == CARD.TYPE.URGENT) {
         return "Needs attention";
       } else {
-        return "In progress";
+        var timeCutoff = new Date();
+        timeCutoff.setHours(timeCutoff.getHours()+3);
+        var cardTime = new Date(card.shown_at);
+
+        // If shown_at time is within 3 hours of now, mark card as "In Progress"
+        if (cardTime < timeCutoff) {
+          return "In progress";
+        } else {
+          return "Upcoming";
+        }
       }
     } else {
       return "Completed";
@@ -342,12 +372,23 @@ angular.module('app.controllers')
         return 'Edited Medication Schedule';
        case CARD.CATEGORY.MEASUREMENT_LOGGED:
         return $scope.getMeasurementLoggedDescription(card, date_key);
+       case CARD.CATEGORY.NOTES:
+        return $scope.getNotesDescription(card, date_key);
        //case CARD.CATEGORY.SYMPTOMS :
        default:
          return [""];
      } // end switch
    }
 
+   $scope.getNotesDescription = function(card, date_key) {
+     for(var i = 0; i < $scope.notes.length; i++) {
+       var date = $scope.notes[i];
+       if (date.hasOwnProperty(card.object_id)) {
+         var note = date[card.object_id];
+         return 'You recorded: ' + note.feeling;
+       }
+     }
+   }
    $scope.getAppointmentDescription = function(card) {
      for(var i = 0; i < $scope.appointments.length; i++) {
        var date = $scope.appointments[i];
@@ -357,8 +398,6 @@ angular.module('app.controllers')
          return 'You have an appointment ' + appt.title + ' on ' + time.toDateString() + ' at ' + time.toLocaleTimeString();
        }
      }
-    //console.log($scope.appointments);
-    return 'sup';
    }
    $scope.getMeasurementLoggedDescription = function(card, date_key) {
      //var date_key = card.shown_at.substring(0,10);

@@ -510,3 +510,18 @@ angular.module('app.controllers')
     };
 
 })
+
+.controller('medImgCtrl', function($scope, Medication) {
+  $scope.medications = Medication.get();
+
+  $scope.getMedImg = function(trade_name) {
+    for(var i = 0; i < $scope.medications.length; i++) {
+      if ($scope.medications[i].trade_name == trade_name) {
+        return ("img/" + $scope.medications[i].img);
+      }
+    }
+    // Default Image
+    return "img/pill.png";
+  }
+
+})
