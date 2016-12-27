@@ -5,7 +5,11 @@ angular.module('app.controllers')
   $scope.schedule           = MedicationSchedule.get();
   $scope.medicationHistory  = MedicationHistory.getTodaysHistory();
   $scope.medications        = Medication.get();
-  var selectedMed = [];
+
+
+  $scope.$on('$ionicView.enter', function() {
+    $scope.filledMeds = []; //reset colors on pillbox medds
+  })
 
   $scope.containCabMeds = function() {
     for(var i = 0; i < $scope.medications.length; i++) {
@@ -16,6 +20,9 @@ angular.module('app.controllers')
   }
 
   $scope.slideHasChanged = function(pageIndex) {
+    if(pageIndex==2) {
+      $scope.filledMeds = []; //reset colors on pillbox medds
+    }
     $scope.medicationTab.pageIndex = pageIndex;
   }
 
@@ -74,6 +81,9 @@ angular.module('app.controllers')
   $scope.medicationSchedule = MedicationSchedule.get();
   $scope.medications = Medication.get();
   $scope.selectedMed;
+  $scope.filledMeds = [];
+
+  console.log($scope.filledMeds)
   var emptySlots = [' ',' ',' ',' ',' ',' ',' '];
 
   $scope.getSlots = function(schedule, med) {
@@ -99,7 +109,7 @@ angular.module('app.controllers')
     return slots
   }
   $scope.displaySchedule = function(med){
-    selectedMed.push(med);
+    $scope.filledMeds.push(med);
     $scope.selectedMed = med //set the selected med
   }
 
@@ -111,7 +121,7 @@ angular.module('app.controllers')
   }
 
   $scope.hasSelected = function(med){
-    if(selectedMed.indexOf(med) != -1){
+    if($scope.filledMeds.indexOf(med) != -1){
       return true;
     }
     return false;
@@ -315,7 +325,7 @@ angular.module('app.controllers')
   $scope.DAYOFWEEK = DAYOFWEEK;
   $scope.schedule = MedicationSchedule.get();
   $scope.selected_med = null;
-  $scope.slot = {days:[false, false, false, false, false, false, false]};
+  $scope.slot = {days:[true, true, true, true, true, true, true]};
   $scope.showError = false;
 
   //Saving State of onboarding progress into firebase
@@ -365,6 +375,7 @@ angular.module('app.controllers')
         var tomorrow = new Date();
         tomorrow.setDate(tomorrow.getDate() + 1);
         var obj = {time: timeStr, days: $scope.slot.days};
+
         Card.createFromSchedSlot(CARD.CATEGORY.MEDICATIONS_SCHEDULE, snapshot.key(), obj, today.toISOString());
         Card.createFromSchedSlot(CARD.CATEGORY.MEDICATIONS_SCHEDULE, snapshot.key(), obj, tomorrow.toISOString());
       })
@@ -418,7 +429,6 @@ angular.module('app.controllers')
                 var today = new Date();
                 var tomorrow = new Date();
                 tomorrow.setDate(tomorrow.getDate() + 1);
-
                 Card.updateSchedCard(CARD.CATEGORY.MEDICATIONS_SCHEDULE, snapshot.key(), $scope.schedule[index], today.toISOString());
                 Card.updateSchedCard(CARD.CATEGORY.MEDICATIONS_SCHEDULE, snapshot.key(), $scope.schedule[index], tomorrow.toISOString());
               })
@@ -498,5 +508,20 @@ angular.module('app.controllers')
         $ionicHistory.goBack();
       }
     };
+
+})
+
+.controller('medImgCtrl', function($scope, Medication) {
+  $scope.medications = Medication.get();
+
+  $scope.getMedImg = function(trade_name) {
+    for(var i = 0; i < $scope.medications.length; i++) {
+      if ($scope.medications[i].trade_name == trade_name) {
+        return ("img/" + $scope.medications[i].img);
+      }
+    }
+    // Default Image
+    return "img/pill.png";
+  }
 
 })

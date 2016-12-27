@@ -13,7 +13,7 @@
   <!-- Stuff after here will scroll -->
   <ion-content has-header="true" overflow-scroll="true" scroll="true" class="has-header has-subheader">
     <ion-slide-box on-slide-changed="slideHasChanged($index)" does-continue="false" show-pager="false">
-      <ion-slide>
+      <ion-slide ng-controller="medImgCtrl">
             <div style="position: relative;">
               <h4 style="text-align: center">Schedule</h1>
               <div style="position: absolute; right: 0; top: 0; text-align: right">
@@ -30,9 +30,8 @@
               ui-sref="tabsController.medication({schedule_id: dateSchedule.$id, medication_name: med})"
               ng-hide="didTakeMed(med, dateSchedule)"
               ng-style="{'color': (didSkipMed(med, dateSchedule) ? 'grey' : 'black')}"
-              class="medstyle">
+              class="medstyle" style="background-image: url({{getMedImg(med)}})">
                 {{med}}
-
               </li>
             </span>
             <ion-item style="border:none"></ion-item>
@@ -42,11 +41,12 @@
             <li class="item" ng-hide="containCabMeds()">
               <h6 class="text-center">You Have no meds in your medicine cabinet!</h6>
             </li>
-            <ion-list>
-              <ion-item ng-repeat="med in medications" ng-show="med.cab_med" ui-sref="tabsController.takeCabMed({schedule_id: 'cabinet', medication_name: med.trade_name})">
+            <ul>
+              <li ng-repeat="med in medications" ng-show="med.cab_med" ui-sref="tabsController.takeCabMed({schedule_id: 'cabinet', medication_name: med.trade_name})"
+                        class="medstyle">
                 {{med.trade_name}}
-              </ion-item>
-            </ion-list>
+              </li>
+            </ul>
 
       </ion-slide>
       <ion-slide>
@@ -80,7 +80,7 @@
         </ion-list>
       </ion-slide>
 
-      <ion-slide>
+      <ion-slide ng-controller="medImgCtrl">
         <!--COPY AND PASTED THIS FRMO fill_main.html -->
         <table class = "center">
           <thead>
@@ -108,8 +108,8 @@
         <h3 class = "title" style="text-align: center;">
           Select Medication to Begin:
         </h3>
-        <li class="item medstyle" ng-repeat="med in medications", ng-click="displaySchedule(med)",
-        style="{{buttonStyle(med)}}">
+        <li class="item medstyle" ng-repeat="med in medications | filter: {cab_med: '!'}", ng-click="displaySchedule(med)",
+        style="{{buttonStyle(med)}};background-image: url({{getMedImg(med.trade_name)}})">
           {{med.trade_name}}
         </li>
 

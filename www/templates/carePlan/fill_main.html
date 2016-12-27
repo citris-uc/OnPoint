@@ -4,7 +4,7 @@
   <ion-header-bar class="bar bar-subheader">
     <h1 class="title">Fill pillbox</h1>
   </ion-header-bar>
-  <ion-content overflow-scroll="true" padding="true" class="has-header">
+  <ion-content overflow-scroll="true" padding="true" class="has-header" ng-controller="medImgCtrl">
     <table class = "center">
       <thead>
           <tr>
@@ -31,8 +31,8 @@
     <h3 class = "title" style="text-align: center;">
       Select Medication to Begin:
     </h3>
-      <li class="item medstyle" ng-repeat="med in medications", ng-click="displaySchedule(med)",
-      style="{{buttonStyle(med)}}">
+      <li class="item medstyle" ng-repeat="med in medications | filter: {cab_med: '!'}", ng-click="displaySchedule(med)",
+      style="{{buttonStyle(med)}}; background-image: url({{getMedImg(med.trade_name)}})">
         {{med.trade_name}}
       </li>
     <button ng-click='doneMedSetup()' class="button button-positive  button-block" >Done</button>

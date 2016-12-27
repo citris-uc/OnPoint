@@ -7,9 +7,9 @@
 
   <div class="bar bar-subheader item-input-inset">
     <label class="item-input-wrapper">
-      <input type="text" placeholder="How are you feeling?">
+      <input type="text" placeholder="How are you feeling?" ng-model="userInput.feeling" >
     </label>
-    <button class="button button-small button-clear buttonText" disabled>Save</button>
+    <button class="button button-small button-positive button-clear buttonText" ng-click="saveFeeling()">Save</button>
   </div>
   <div class="bar bar-subheader item-input-inset segmented-control">
     <div class="button-bar bar-light responsive-col">
@@ -28,7 +28,7 @@
       <ion-slide>
         <div class="card-section current">
           <hr class="responsive-col"></hr>
-          <h4 class="text-center">Current Cards</h4>
+          <h4 class="text-center">Today's Cards</h4>
         </div>
 
         <!--THIS IS FOR TESTING PURPOSES-->
@@ -89,7 +89,7 @@
         <!-- Divider for Upcoming Cards-->
         <div class="card-section upcoming">
           <hr class="responsive-col"></hr>
-          <h4 class="text-center">Upcoming Cards</h4>
+          <h4 class="text-center">Tomorrow's Cards</h4>
         </div>
         <span ng-repeat="date in tomorrowCards">
           <div class="row" style="justify-content: center;" ng-repeat="c in date | toArray | orderBy: 'shown_at' | filter: {archived_at: '!', object_type:'!appointments'}" ng-show="checkCardDate(c, tomorrow)" on-swipe-right="swipeCard(c)" on-swipe-left="swipeCard(c)">
