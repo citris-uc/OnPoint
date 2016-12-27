@@ -32,15 +32,6 @@ angular.module('app.routes')
       }
     }
   })
-  // .state('carePlan.medicationSchedules', { // TODO: Remove...
-  //   url: '/medications',
-  //   views: {
-  //     'care-plan': {
-  //       templateUrl: 'templates/carePlan/medications.html',
-  //       controller: 'medListCtrl'
-  //     }
-  //   }
-  // })
   // .state('carePlan.newMedication', {  // TODO: REMOVE
   //   url: '/medications/new',
   //   views: {
