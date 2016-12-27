@@ -1,14 +1,17 @@
-<ion-view title="Welcome to OnPoint" >
+<ion-view title="Welcome to OnPoint">
   <ion-content overflow-scroll="true">
-     <ul class="list">
-        <li class="item item-icon-right" ui-sref="carePlan.medicationSchedules">
-          Medications
-          <i class="icon ion-ios-arrow-right"></i>
-        </li>
-        <li class="item item-icon-right" ui-sref="carePlan.measurementSchedules">
-          Measurements
-          <i class="icon ion-ios-arrow-right"></i>
-        </li>
-     </ul>
+    <div class="list card">
+      <div class="item item-text-wrap">
+        Welcome to OnPoint onboarding. In the next few screens, we will
+        help you add your medications, setup a medication schedule, and
+        teach you about the app's features.
+      </div>
+
+      <a class="item item-icon-right positive" ui-sref="onboarding.identify_meds">
+        <i class="icon ion-ios-arrow-right"></i>
+        Proceed
+      </a>
+
+    </div>
   </ion-content>
 </ion-view>
