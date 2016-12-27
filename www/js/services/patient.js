@@ -45,7 +45,7 @@ angular.module('app.services')
       return $window.localStorage.getItem("token");
     },
     ref: function() {
-      var patientRef = new Firebase("https://vivid-inferno-5187.firebaseio.com/patients/");
+      var patientRef = new Firebase(onpoint.mainURL + "patients/");
       var uid = this.uid();
       if (uid)
         return patientRef.child(uid);
