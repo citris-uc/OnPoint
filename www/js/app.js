@@ -47,7 +47,7 @@ angular.module('app', ['ionic', 'firebase', 'app.controllers', 'app.routes', 'ap
 })
 
 
-.run(function($ionicPlatform, $rootScope, Patient, $state, $ionicHistory) {
+.run(function($ionicPlatform, $rootScope, Patient, $state, $ionicHistory, $ionicModal) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -60,22 +60,93 @@ angular.module('app', ['ionic', 'firebase', 'app.controllers', 'app.routes', 'ap
       // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
     }
+
+    if (!navigator.notification) {
+      navigator.notification = window
+    }
+
   });
 
   // The authentication hook that is triggered on every state transition.
   // We check if the user is logged-in, and if not, then we cancel the current
   // state transition and go to the login screen.
-  $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams, options) {
-    var token = Patient.getToken();
-    if (!token && toState.name !== "login" && toState.name !== "register") {
-      //console.log(toState.name)
-      event.preventDefault();
-      $ionicHistory.nextViewOptions({
-        disableAnimate: true,
-        disableBack: true,
-        historyRoot: true
-      })
-      $state.go("login");
+  // $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams, options) {
+  //   var token = Patient.getToken();
+  //   console.log(token)
+  //   if (!token && !$rootScope.modal) {
+  //     $rootScope.$emit(onpoint.env.error, {error: {status: 401}})
+  //   }
+  // });
+
+  Patient.auth().$onAuth(function(authData) {
+    console.log("$onAuth called...")
+    if (authData)
+      console.log(authData)
+    else
+      $rootScope.$emit(onpoint.env.error, {error: {status: 401}})
+  })
+
+
+  //----------------------------------------------------------------------------\
+
+  $rootScope.state = {loading: false}
+
+  //----------------------------------------------------------------------------\
+
+  loadLoginModal = function() {
+    // Create the login modal that we will use later
+    return $ionicModal.fromTemplateUrl('templates/login.html', {
+      scope: $rootScope,
+      animation: 'slide-in-up',
+      focusFirstInput: true,
+      backdropClickToClose: false,
+      hardwareBackButtonClose: false
+    }).then(function(modal) {
+      $rootScope.modal = modal;
+    });
+  }
+
+  $rootScope.$on(onpoint.env.error, function(event, response) {
+    if (response.error.status == 401) {
+      Patient.setToken(null);
+
+      if ( !$rootScope.modal || ($rootScope.modal && !$rootScope.modal.isShown()) ) {
+        loadLoginModal().then(function() {
+          $rootScope.state.error = "Your session has expired"
+          $rootScope.modal.show();
+        })
+      }
+    } else if (response.status !== -1 && response.error.data) {
+      navigator.notification.alert(response.error.data.message, null, "Server not responding", "OK")
+    } else if (response.error.status === 422 && response.error.data) {
+      navigator.notification.alert(response.error.data.message, null, "Server not responding", "OK")
+    } else if (response.error.status === -1) {
+      navigator.notification.alert("We couldn't reach the server. Try again later.", null, "Server not responding", "OK")
+    } else {
+      navigator.notification.alert("Something went wrong", null, "Contact dmitriskj@gmail.com", "OK")
     }
-  });
+  })
+
+  $rootScope.$on(onpoint.env.auth.success, function(event, authData) {
+    // Patient.setToken(data.token);
+    Patient.set(authData)
+
+    if ($rootScope.modal)
+      $rootScope.modal.remove().then(function() {
+        $rootScope.$broadcast(onpoint.env.data.refresh);
+      })
+  })
+
+  $rootScope.$on(onpoint.env.auth.failure, function(event, data) {
+    Patient.setToken(null);
+    if ( !$rootScope.modal || ($rootScope.modal && !$rootScope.modal.isShown()) ) {
+      loadLoginModal().then(function() {
+        $rootScope.state.error = data.message
+        $rootScope.modal.show();
+      })
+    }
+  })
+
+
+
 })

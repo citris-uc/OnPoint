@@ -1,0 +1,90 @@
+<ion-modal-view class="login-modal" ng-controller="loginCtrl">
+  <ion-content has-bouncing="false" class="login-view" scroll="false">
+
+    <div class="error-box" ng-if="state.error">
+      <p>{{state.error}}</p>
+    </div>
+
+    <div class="center-form">
+      <form ng-submit="signup()" ng-if="view === 'signup'">
+        <div class="list list-inset">
+          <label class="item item-input text-center">
+            <img class="icon ion-image" ng-src="img/onPoint_logo.png"></img>
+          </label>
+
+          <label class="item item-input">
+            <input type="email" placeholder="Email" ng-model="user.email" autocapitalize="none">
+          </label>
+
+          <label class="item item-input">
+            <input type="text" placeholder="First Name" ng-model="user.first_name"></input>
+          </label>
+          <label class="item item-input">
+            <input type="text" placeholder="Last Name" ng-model="user.last_name"></input>
+          </label>
+          <label class="item item-input">
+            <input type="number" min="0" placeholder="Age" ng-model="user.age"></input>
+          </label>
+
+          <label class="item item-input">
+            <input type="password" placeholder="Password" ng-model="user.password">
+          </label>
+          <label class="item item-input">
+            <input type="password" placeholder="Password confirmation" ng-model="user.password_confirmation">
+          </label>
+
+
+
+          <div class="button-bar button-balanced padding">
+            <a grouped-radio="'male'" ng-model="user.gender">Male</a>
+            <a grouped-radio="'female'" ng-model="user.gender">Female</a>
+          </div>
+
+
+        </div>
+
+        <div class="padding">
+          <button class="button button-balanced button-block" type="submit">
+            <span ng-hide="state.loading">Signup</span>
+            <ion-spinner icon="ios-small" class="spinner-stable" ng-show="state.loading"></ion-spinner>
+          </button>
+        </div>
+      </form>
+
+
+      <form ng-submit="login()" ng-if="view === 'login'">
+        <div class="list list-inset">
+          <label class="item item-input text-center">
+            <img class="icon ion-image" ng-src="img/onPoint_logo.png"></img>
+          </label>
+          <label class="item item-input">
+            <input type="email" placeholder="Email" ng-model="user.email" autocapitalize="none">
+          </label>
+          <label class="item item-input">
+            <input type="password" placeholder="Password" ng-model="user.password">
+          </label>
+        </div>
+
+        <div class="padding">
+          <button class="button button-balanced button-block" type="submit">
+            <span ng-hide="state.loading">Login</span>
+            <ion-spinner icon="ios-small" class="spinner-stable" ng-show="state.loading"></ion-spinner>
+          </button>
+        </div>
+      </form>
+
+
+      <div class="padding text-center">
+        <a ng-click="toggleTo('login')" href="#" ng-if="view === 'signup'">
+          Already have an account?
+        </a>
+        <a ng-click="toggleTo('signup')" href="#" ng-if="view === 'login'">
+          Create an account
+        </a>
+      </div>
+
+    </div>
+
+
+  </ion-content>
+</ion-modal-view>
