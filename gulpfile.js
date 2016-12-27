@@ -49,3 +49,25 @@ gulp.task('git-check', function(done) {
   }
   done();
 });
+
+// Allows to change environment variables.
+var preprocess = require('gulp-preprocess');
+
+gulp.task('genymotion', function() {
+  gulp.src('./environment.js')
+    .pipe(preprocess({context: { ENV: 'GENYMOTION', DEBUG: true}}))
+    .pipe(gulp.dest('./www/js/'));
+});
+
+
+gulp.task('development', function() {
+  gulp.src('./environment.js')
+    .pipe(preprocess({context: { ENV: 'DEVELOPMENT', DEBUG: true}}))
+    .pipe(gulp.dest('./www/js/'));
+});
+
+gulp.task('production', function() {
+  gulp.src('./environment.js')
+    .pipe(preprocess({context: { ENV: 'PRODUCTION'}}))
+    .pipe(gulp.dest('./www/js/'));
+});
