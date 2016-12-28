@@ -96,14 +96,13 @@ angular.module('app.controllers')
   // TODO -- allow user to pick days of the week for schedule
   $scope.addTimeSlot = function() {
     //console.log("$ionicHistory.currentStateName(): " + $ionicHistory.currentStateName());
-    if ($scope.slot.text && $scope.slot.time) {
+    if ($scope.slot.name && $scope.slot.time) {
       hours = $scope.slot.time.getHours();
       mins  = $scope.slot.time.getMinutes();
       hours = ( String(hours).length == 1 ? "0" + String(hours) : String(hours) )
       mins  = ( String(mins).length == 1 ? "0" + String(mins) : String(mins) )
       var timeStr = hours + ":" + mins;
-      //console.log("Add Name:  " + $scope.slot.text + " days: " + $scope.slot.days);
-      var req = MedicationSchedule.addTimeSlot($scope.slot.text, $scope.slot.days, timeStr);
+      var req = MedicationSchedule.addTimeSlot($scope.slot.name, $scope.slot.days, timeStr);
 
       // Create a new Card for the new time slot
       req.then(function(snapshot) {
