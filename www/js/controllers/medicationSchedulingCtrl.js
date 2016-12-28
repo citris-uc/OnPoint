@@ -143,22 +143,6 @@ angular.module('app.controllers')
     return newtime;
   }
 
-  $scope.saveMedicationSchedule = function() {
-    for(var i = 0; i < $scope.schedule.length; i++) {
-      $scope.schedule.$save($scope.schedule[i]);
-    }
-    //TODO: when editing new schedule need to createa  new schedule in FB, set obj_id to the old schedule id or new one?
-    var oldScheduleRef = 'default';
-    Card.createAdHoc(CARD.CATEGORY.MEDICATIONS_SCHEDULE_CHANGE, oldScheduleRef, (new Date()).toISOString())
-    if($ionicHistory.currentStateName() == 'medication_scheduling.start') {
-      //Done onboarding!
-      var ref = Patient.ref();
-      var req = ref.child('onboarding').update({'completed':true,'state':$state.current.name})
-      $state.go("carePlan.fillChoice");
-    } else if ($ionicHistory.currentStateName() == 'tabsController.editMedSchedule'){
-      $state.go("tabsController.medications");
-    }
-  }
 })
 
 
@@ -221,23 +205,6 @@ angular.module('app.controllers')
     })
   }
 
-
-  $scope.saveMedicationSchedule = function() {
-    for(var i = 0; i < $scope.schedule.length; i++) {
-      $scope.schedule.$save($scope.schedule[i]);
-    }
-    //TODO: when editing new schedule need to createa  new schedule in FB, set obj_id to the old schedule id or new one?
-    var oldScheduleRef = 'default';
-    Card.createAdHoc(CARD.CATEGORY.MEDICATIONS_SCHEDULE_CHANGE, oldScheduleRef, (new Date()).toISOString())
-    if($ionicHistory.currentStateName() == 'medication_scheduling.start') {
-      //Done onboarding!
-      var ref = Patient.ref();
-      var req = ref.child('onboarding').update({'completed':true,'state':$state.current.name})
-      $state.go("carePlan.fillChoice");
-    } else if ($ionicHistory.currentStateName() == 'tabsController.editMedSchedule'){
-      $state.go("tabsController.medications");
-    }
-  }
 })
 
 
