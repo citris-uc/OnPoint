@@ -83,6 +83,10 @@ angular.module('app.controllers')
     $scope.closeModal()
   }
 
+  $scope.removeMedication = function(slotID, medication) {
+    MedicationSchedule.removeMedication(slotID, medication)
+  }
+
 })
 
 

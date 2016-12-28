@@ -125,6 +125,15 @@ angular.module('app.services')
       //   name = response.name.trade_name
       //   console.log(name)
       // })
+    },
+
+    removeMedication: function(id, medication) {
+      firebase_array = $firebaseArray(this.ref().child(id).child("medications"))
+      for (var i=0; i < firebase_array.length; i++) {
+        console.log(firebase_array[i])
+      }
+
+      // console.log(index)
     }
   };
 }])
