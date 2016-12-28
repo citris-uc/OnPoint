@@ -55,7 +55,7 @@ angular.module('app.controllers')
     //Done onboarding!
     var ref = Patient.ref();
     var req = ref.child('medication_scheduling').update({'completed':true})
-    $state.go("medication_scheduling.fill_pillbox");
+    $state.go("medication_scheduling.fill_pillbox_welcome");
   }
 
   $scope.addMedicationModal = function(slotId) {
@@ -237,7 +237,7 @@ angular.module('app.controllers')
 })
 
 
-.controller('medFillMainCtrl', function($scope, $state, $ionicHistory, MedicationSchedule, Medication, MedicationDosage) {
+.controller('medFillMainCtrl', function($scope, $state, $ionicHistory, MedicationSchedule, Medication, MedicationDosage, Patient) {
   $scope.medicationSchedule = MedicationSchedule.get();
   $scope.medications = Medication.get();
   $scope.selectedMed;
@@ -297,13 +297,11 @@ angular.module('app.controllers')
     return notSelected;
   }
 
-  $scope.doneMedSetup =  function() {
-    $ionicHistory.nextViewOptions({
-      disableAnimate: true,
-      disableBack: true,
-      historyRoot: true
+  $scope.completeMedicationScheduling = function() {
+    var medicationIdRef = Patient.ref().child('medication_scheduling');
+    medicationIdRef.set({'completed':true}).then(function(response) {
+      $state.go("onboarding.complete")
     })
-    $state.go('carePlan.setup');
   }
 
 })

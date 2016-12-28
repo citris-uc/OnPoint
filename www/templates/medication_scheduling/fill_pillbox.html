@@ -1,15 +1,40 @@
-<ion-view title="Fill Pillbox" >
+<link type="text/css" rel="stylesheet" href="css/onboardingStyle.css"/>
+
+<ion-view title="OnBoarding" class = "onboarding">
   <ion-header-bar class="bar bar-subheader">
-    <h1 class="title">Step 4 of 4 Fill Pillbox</h1>
+    <h1 class="title">Fill pillbox</h1>
   </ion-header-bar>
-  <ion-content overflow-scroll="true" padding="true" class="has-header">
+  <ion-content overflow-scroll="true" padding="true" class="has-header" ng-controller="medImgCtrl">
+    <table class = "center">
+      <thead>
+          <tr>
+            <th>Slots</th>
+            <th>S</th>
+            <th>M</th>
+            <th>T</th>
+            <th>W</th>
+            <th>T</th>
+            <th>F</th>
+            <th>S</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="schedule in medicationSchedule | orderBy: 'time'">
+
+            <td>{{schedule.slot}}</td>
+            <td ng-repeat="count in getSlots(schedule, selectedMed) track by $index" >
+              {{count}}
+            </td>
+          </tr>
+      </tbody>
+    </table>
     <h3 class = "title" style="text-align: center;">
-      Let's fill in your pillbox.<br/>
-      <br/>
-      Please have your medications and your<br/>
-      pillbox handy for the next step.
+      Select Medication to Begin:
     </h3>
-      <button ui-sref="carePlan.fillMain" class="button button-positive  button-block" >Fill My Pillbox</button>
-      <button ng-click='doneMedSetup()' class="button button-positive  button-block" >Skip</button>
-  </ion-ontent>
+      <li class="item medstyle" ng-repeat="med in medications | filter: {cab_med: '!'}", ng-click="displaySchedule(med)",
+      style="{{buttonStyle(med)}}; background-image: url({{getMedImg(med.trade_name)}})">
+        {{med.trade_name}}
+      </li>
+    <button ng-click='doneMedSetup()' class="button button-positive  button-block" >Done</button>
+  </ion-content>
 </ion-view>
