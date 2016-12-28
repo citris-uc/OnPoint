@@ -1,4 +1,9 @@
 <ion-view title="Editing {{slot.name}} slot">
+  <ion-nav-buttons side="right">
+    <button class="button icon-right button-assertive button-clear" ng-click="removeSlot()">Remove</button>
+  </ion-nav-buttons>
+
+
   <ion-content overflow-scroll="true">
     <div class="list">
       <label class="item item-input">

@@ -95,7 +95,6 @@ angular.module('app.controllers')
      }, function(response) {
        $scope.$emit(onpoint.env.error, {error: response})
      })
-
    }
 })
 

@@ -161,6 +161,20 @@ angular.module('app.controllers')
     return date;
   }
 
+  $scope.removeSlot = function() {
+    $scope.slot.$remove().then(function(response) {
+
+      $ionicHistory.nextViewOptions({
+        disableBack: true,
+        historyRoot: true
+      })
+
+      $state.go("medication_scheduling.start")
+    }, function(response) {
+      $scope.$emit(onpoint.env.error, {error: response})
+    })
+  }
+
   $scope.$watch("slot.time", function(newValue, oldValue) {
     console.log(newValue)
     if (newValue && typeof(newValue) == "string")
