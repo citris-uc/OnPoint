@@ -1,3 +1,4 @@
+// TODO: Remove this file.
 angular.module('app.routes')
 
 .config(function($stateProvider, $urlRouterProvider) {
@@ -72,13 +73,13 @@ angular.module('app.routes')
   //   }
   // })
 
-  .state('carePlan.fillMain', {
-    url: '/fill_main',
-    views: {
-      'care-plan': {
-        templateUrl: 'templates/carePlan/fill_main.html',
-        controller: 'medFillMainCtrl'
-      }
-    }
-  })
+  // .state('carePlan.fillMain', {
+  //   url: '/fill_main',
+  //   views: {
+  //     'care-plan': {
+  //       templateUrl: 'templates/carePlan/fill_main.html',
+  //       controller: 'medFillMainCtrl'
+  //     }
+  //   }
+  // })
 });
