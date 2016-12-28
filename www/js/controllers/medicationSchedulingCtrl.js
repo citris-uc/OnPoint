@@ -1,13 +1,15 @@
 angular.module('app.controllers')
-.controller('medicationSchedulingCtrl', function($scope, $state, $ionicPopup,$ionicHistory, DAYOFWEEK, Patient, Medication, MedicationSchedule, MedicationHistory, CARD, Card) {
+.controller('medicationSchedulingCtrl', function($scope, $state, $ionicPopup,$ionicHistory, $ionicModal, DAYOFWEEK, Patient, Medication, MedicationSchedule, MedicationHistory, CARD, Card) {
 
   // TODO --> use MedicationSchedule and FB
   $scope.CARD = CARD;
   $scope.DAYOFWEEK = DAYOFWEEK;
-  $scope.schedule = MedicationSchedule.get();
+  $scope.schedule    = MedicationSchedule.get();
+  $scope.medications = Medication.get();
   $scope.selected_med = null;
   $scope.slot = {days:[true, true, true, true, true, true, true]};
   $scope.showError = false;
+  $scope.medication = {}
 
   //Saving State of onboarding progress into firebase
   // $scope.$on('$ionicView.beforeEnter', function(){
@@ -54,9 +56,33 @@ angular.module('app.controllers')
     var ref = Patient.ref();
     var req = ref.child('medication_scheduling').update({'completed':true})
     $state.go("medication_scheduling.fill_pillbox");
-
-
   }
+
+  $scope.addMedicationModal = function(slotId) {
+    $scope.currentSlotID = slotId
+    // Create the login modal that we will use later
+    return $ionicModal.fromTemplateUrl('templates/medication_scheduling/add.html', {
+      scope: $scope,
+      animation: 'slide-in-up',
+      focusFirstInput: true,
+      backdropClickToClose: false,
+      hardwareBackButtonClose: false
+    }).then(function(modal) {
+      $scope.modal = modal;
+      modal.show()
+    });
+  }
+
+  $scope.closeModal = function() {
+    $scope.modal.hide();
+  }
+
+  $scope.addMedicationToSlot = function(id) {
+    console.log( $scope.medication)
+    MedicationSchedule.addMedication($scope.currentSlotID, $scope.medication.name.trade_name)
+    $scope.closeModal()
+  }
+
 })
 
 

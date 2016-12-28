@@ -95,6 +95,36 @@ angular.module('app.services')
         days: daysArray,
       };
       return ref.$add(instanceFB);
+    },
+
+    addMedication: function(id, medication) {
+      this.ref().child(id).child("medications").push(medication)
+
+
+      // .on("value", function(snap) {
+      //   meds = snap.val()
+      //   for (var i=0; i< meds.length; i++) {
+      //     console.log(meds[i])
+      //   }
+      //   if (meds.indexOf(medication) == -1) {
+      //     meds.push(medication)
+      //     return $firebaseArray(this.ref().child(id).child("medications")).$add(medication)
+      //   } else {
+      //     return $firebaseArray(this.ref().child(id).child("medications"))
+      //   }
+      //
+      // })
+
+
+
+      // arrs = $firebaseArray(meds);
+      // console.log(arrs)
+      // console.log(arrs.$indexFor(medication))
+      // .then(function(response) {
+      //   console.log(response)
+      //   name = response.name.trade_name
+      //   console.log(name)
+      // })
     }
   };
 }])

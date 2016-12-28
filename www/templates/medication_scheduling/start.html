@@ -16,7 +16,7 @@
 
         <div dnd-list="dateSchedule.medications" dnd-allowed-types="['medType']" dnd-drop="dropCallback(event, index, item, external, type, 'itemType', dateSchedule, dateSchedule.medications == null)" class="itemlist">
           <ion-item class="item-icon-left">
-            <i class="icon ion-ios-plus balanced"></i>
+            <i class="icon ion-ios-plus balanced" ng-click="addMedicationModal(dateSchedule.$id)"></i>
             Add a medication
           </ion-item>
 
