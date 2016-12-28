@@ -39,4 +39,13 @@ angular.module('app.routes')
       }
     }
   })
+  .state('medication_scheduling.edit', {
+    url: '/:id/edit',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/medication_scheduling/edit.html',
+        controller: 'editMedicationScheduleSlotCtrl'
+      }
+    }
+  })
 });

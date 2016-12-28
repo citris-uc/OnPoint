@@ -8,7 +8,6 @@ angular.module('app.controllers')
   $scope.selected_med = null;
   $scope.slot = {days:[true, true, true, true, true, true, true]};
   $scope.showError = false;
-  console.log($scope.schedule)
 
   //Saving State of onboarding progress into firebase
   // $scope.$on('$ionicView.beforeEnter', function(){
@@ -43,54 +42,6 @@ angular.module('app.controllers')
       return item;
   };
 
-  $scope.editSlot = function(slot) {
-    var index = $scope.schedule.indexOf(slot);
-    $scope.slot.text = slot.slot;
-    $scope.slot.idx  = index;
-    $scope.slot.days = slot.days;
-    $scope.slot.time = $scope.formatTimeObj(slot.time);
-
-    var myPopup = $ionicPopup.show({
-      templateUrl: 'medSched-popup-template.html',
-      title: 'Edit time slot',
-      subTitle: 'Enter new time slot name and reminder time',
-      attr:'data-ng-disabled=""!newSlotName.text"',
-      scope: $scope,
-      buttons: [
-        { text: 'Cancel' },
-        {
-          text: '<b>Save</b>',
-          onTap: function(e) {
-            // Make sure input field contains text.
-            if ($scope.slot.text && $scope.slot.time) {
-              // TODO -> allow user to pick dates for schedule
-              hours = $scope.slot.time.getHours();
-              mins  = $scope.slot.time.getMinutes();
-              hours = ( String(hours).length == 1 ? "0" + String(hours) : String(hours) );
-              mins  = ( String(mins).length == 1 ? "0" + String(mins) : String(mins) );
-              $scope.schedule[index].slot = $scope.slot.text;
-              $scope.schedule[index].days = $scope.slot.days;
-              $scope.schedule[index].time = hours + ":" + mins;
-              var req = $scope.schedule.$save($scope.schedule[index]);
-              req.then(function(snapshot) {
-                var today = new Date();
-                var tomorrow = new Date();
-                tomorrow.setDate(tomorrow.getDate() + 1);
-                Card.updateSchedCard(CARD.CATEGORY.MEDICATIONS_SCHEDULE, snapshot.key(), $scope.schedule[index], today.toISOString());
-                Card.updateSchedCard(CARD.CATEGORY.MEDICATIONS_SCHEDULE, snapshot.key(), $scope.schedule[index], tomorrow.toISOString());
-              })
-              $scope.slot.text = "";
-              $scope.showError = false;
-            } else {
-              e.preventDefault();
-              $scope.showError = true;
-
-            }
-          }
-        }
-      ]
-    });
-  }
 
   $scope.formatTimeObj = function(timestring) {
     var hour = timestring.substring(0,2);
@@ -135,7 +86,6 @@ angular.module('app.controllers')
   $scope.CARD = CARD;
   $scope.DAYOFWEEK = DAYOFWEEK;
   $scope.schedule = MedicationSchedule.get();
-  $scope.selected_med = null;
   $scope.slot = {days:[true, true, true, true, true, true, true]};
   $scope.showError = false;
   console.log($scope.schedule)
@@ -194,6 +144,85 @@ angular.module('app.controllers')
     newtime = hours + ":" + mins + " " + ampm;
     return newtime;
   }
+
+  $scope.saveMedicationSchedule = function() {
+    for(var i = 0; i < $scope.schedule.length; i++) {
+      $scope.schedule.$save($scope.schedule[i]);
+    }
+    //TODO: when editing new schedule need to createa  new schedule in FB, set obj_id to the old schedule id or new one?
+    var oldScheduleRef = 'default';
+    Card.createAdHoc(CARD.CATEGORY.MEDICATIONS_SCHEDULE_CHANGE, oldScheduleRef, (new Date()).toISOString())
+    if($ionicHistory.currentStateName() == 'medication_scheduling.start') {
+      //Done onboarding!
+      var ref = Patient.ref();
+      var req = ref.child('onboarding').update({'completed':true,'state':$state.current.name})
+      $state.go("carePlan.fillChoice");
+    } else if ($ionicHistory.currentStateName() == 'tabsController.editMedSchedule'){
+      $state.go("tabsController.medications");
+    }
+  }
+})
+
+
+.controller('editMedicationScheduleSlotCtrl', function($scope, $state, $ionicPopup, $ionicHistory, DAYOFWEEK, Patient, Medication, MedicationSchedule, MedicationHistory, CARD, Card) {
+  $scope.CARD = CARD;
+  $scope.DAYOFWEEK = DAYOFWEEK;
+  $scope.slot = MedicationSchedule.findByID($state.params.id);
+
+
+  $scope.formatTimeObj = function(timestring) {
+    var hour = timestring.substring(0,2);
+    var mins = timestring.substring(3,5);
+    var date = new Date();
+    date.setHours(hour);
+    date.setMinutes(mins);
+    return date;
+  }
+
+  $scope.$watch("slot.time", function(newValue, oldValue) {
+    console.log(newValue)
+    if (newValue && typeof(newValue) == "string")
+      $scope.slot.time = $scope.formatTimeObj(newValue)
+  })
+
+  $scope.timeDisplayFormat = function(timestring) {
+    [hours, mins] = timestring.split(':');
+    hours = parseInt(hours);
+    ampm = (hours >= 12) ? "PM" : "AM";
+    hours = (hours > 12) ? hours - 12 : hours;
+    newtime = hours + ":" + mins + " " + ampm;
+    return newtime;
+  }
+
+  $scope.update = function() {
+    // $scope.slot.days = slot.days;
+    // $scope.slot.time = $scope.formatTimeObj($scope.slot.time);
+
+    if (!$scope.slot.name)
+      alert("Name can't be blank")
+    if (!$scope.slot.time)
+      alert("Time can't be blank")
+
+
+    // TODO -> allow user to pick dates for schedule
+    // hours = $scope.slot.time.getHours();
+    // mins  = $scope.slot.time.getMinutes();
+    // hours = ( String(hours).length == 1 ? "0" + String(hours) : String(hours) );
+    // mins  = ( String(mins).length == 1 ? "0" + String(mins) : String(mins) );
+    // $scope.schedule[index].slot = $scope.slot.text;
+    // $scope.schedule[index].days = $scope.slot.days;
+    // $scope.schedule[index].time = hours + ":" + mins;
+    var req = $scope.slot.$save($scope.slot);
+    req.then(function(snapshot) {
+      var today    = new Date();
+      var tomorrow = new Date();
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      Card.updateSchedCard(CARD.CATEGORY.MEDICATIONS_SCHEDULE, snapshot.key(), $scope.slot, today.toISOString());
+      Card.updateSchedCard(CARD.CATEGORY.MEDICATIONS_SCHEDULE, snapshot.key(), $scope.slot, tomorrow.toISOString());
+      $ionicHistory.goBack()
+    })
+  }
+
 
   $scope.saveMedicationSchedule = function() {
     for(var i = 0; i < $scope.schedule.length; i++) {
