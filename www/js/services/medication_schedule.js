@@ -91,7 +91,7 @@ angular.module('app.services')
       var ref = this.get();
       var instanceFB =  { //use this if adding new element
         time: time,
-        slot: slotName,
+        name: slotName,
         days: daysArray,
       };
       return ref.$add(instanceFB);
