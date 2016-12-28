@@ -91,6 +91,12 @@ angular.module('app.controllers')
    $scope.medication = Medication.getById($stateParams.id);
    $scope.removeMedication = function() {
      $scope.medication.$remove().then(function(response) {
+
+       $ionicHistory.nextViewOptions({
+         disableBack: true,
+         historyRoot: true
+       })
+
        $state.go("medication_identification.start")
      }, function(response) {
        $scope.$emit(onpoint.env.error, {error: response})
