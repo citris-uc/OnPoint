@@ -70,7 +70,7 @@ angular.module('app.controllers')
 
       // Navigate to the correct page
       //  TODO:
-      if ($ionicHistory.currentStateName() == 'carePlan.newSlot') {
+      if ($ionicHistory.currentStateName() == 'medication_scheduling.new') {
         $state.go("medication_scheduling.start");
       }
       if ($ionicHistory.currentStateName() == 'tabsController.newScheduleSlot') {
@@ -169,6 +169,8 @@ angular.module('app.controllers')
     }
   }
 })
+
+
 
 .controller('medImgCtrl', function($scope, Medication) {
   $scope.medications = Medication.get();

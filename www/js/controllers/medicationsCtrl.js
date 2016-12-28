@@ -381,7 +381,7 @@ angular.module('app.controllers')
       })
 
       // Navigate to the correct page
-      if ($ionicHistory.currentStateName() == 'carePlan.newSlot') {
+      if ($ionicHistory.currentStateName() == 'medication_scheduling.new') {
         $state.go("carePlan.generatedMedSchedule");
       }
       if ($ionicHistory.currentStateName() == 'tabsController.newScheduleSlot') {

@@ -30,4 +30,13 @@ angular.module('app.routes')
       }
     }
   })
+  .state('medication_scheduling.new', {
+    url: '/new',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/medication_scheduling/new.html',
+        controller: 'medicationSchedulingCtrl'
+      }
+    }
+  })
 });
