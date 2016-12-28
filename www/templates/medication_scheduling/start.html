@@ -1,79 +1,44 @@
 <link type="text/css" rel="stylesheet" href="css/settingsMedSchedStyle.css"/>
 
-<!-- Edit Time Slot Popup Dialog -->
-<!-- TODO: Move this somewhere else -->
-<script id="medSched-popup-template.html" type="text/ng-template">
-  <div class="list">
-    <label class="item item-input">
-      <span class="input-label">Slot Name</span>
-      <input type="text" ng-model="slot.text" placeholder="E.g. Noon"></input>
-    </label>
-
-    <label class="item item-input">
-      <span class="input-label">Reminder Time</span>
-      <input type="time"  ng-model="slot.time"></input>
-    </label>
-  </div>
-</script>
-
-
 <ion-view title="Medications Schedule" class="medsched">
   <ion-nav-buttons side="right">
     <button class="button icon-right ion-ios-plus-empty button-clear button-positive" ui-sref="medication_scheduling.new"></button>
   </ion-nav-buttons>
+
   <ion-content overflow-scroll="true" padding="false" class="has-header" ng-controller="medImgCtrl">
-    <!-- <div class="tabs tabs-striped tabs-color-assertive tabs-top"> -->
-      <!-- <a class="tab-item"><i class="icon ion-ios-arrow-left"></i></a> -->
-      <!-- <a class="tab-item " ng-repeat = "day in week"> -->
-        <!-- {{day}} -->
-      <!-- </a> -->
-      <!-- <a class="tab-item"><i class="icon ion-ios-arrow-right"></i></a> -->
-    <!-- </div> -->
-    <!-- The dnd-draggable directive makes an element draggable and will
-         transfer the object that was assigned to it. If an element was
-         dragged away, you have to remove it from the original list
-         yourself using the dnd-moved attribute -->
-         <!-- dnd-type="'timeSlotType'"
-         dnd-draggable="dateSchedule"
-         dnd-moved="schedule.splice($index, 1)"
-         dnd-effect-allowed="move" -->
 
-    <ul dnd-list="schedule"
-        dnd-allowed-types="['timeSlotType']"
-        >
-        <li class = "card item"
-            ng-repeat="dateSchedule in schedule | orderBy: 'time'"
-            >
-            <a class="item">{{dateSchedule.slot | uppercase}}
-              <i class="item-small item-icon-right" style="float:right">
-              {{timeDisplayFormat(dateSchedule.time)}}
-                <i class="icon ion-edit button button-clear button-positive" ng-click="editSlot(dateSchedule)"></i>
-              </i>
-           </a>
+    <ul class="list">
+      <div ng-repeat="dateSchedule in schedule | orderBy: 'time'">
+        <ion-item class="item item-icon-right" style="background-color: #f5f5f5;">
+          <b>{{dateSchedule.name}} (remind at {{dateSchedule.time}})</b>
+          <i class="icon ion-edit" ui-sref="medication_scheduling.edit({id: dateSchedule.$id})"></i>
+        </ion-item>
 
-
-
-
-            <ul dnd-list="dateSchedule.medications"
-                dnd-horizontal-list="true"
-                dnd-allowed-types="['medType']"
-                dnd-drop="dropCallback(event, index, item, external, type, 'itemType',
-                                        dateSchedule, dateSchedule.medications == null)"
-                class="itemlist"
-                >
-                <li ng-repeat="med in dateSchedule.medications"
-                    dnd_type="'medType'"
-                    dnd-draggable="med"
-                    dnd-moved="dateSchedule.medications.splice($index, 1)"
-                    dnd-effect-allowed="move"
-                    style="background-image: url({{getMedImg(med)}})"
-                    >
-                    {{med}}
-                </li>
-            </ul>
-
-        </li>
+        <div dnd-list="dateSchedule.medications" dnd-allowed-types="['medType']" dnd-drop="dropCallback(event, index, item, external, type, 'itemType', dateSchedule, dateSchedule.medications == null)" class="itemlist">
+          <ion-item class="item-icon-right" ng-repeat="med in dateSchedule.medications" dnd-type="'medType'" dnd-draggable="med" dnd-moved="dateSchedule.medications.splice($index, 1)" dnd-effect-allowed="move">
+            {{med}}
+            <i class="icon ion-navicon"></i>
+          </ion-item>
+        </div>
+      </div>
     </ul>
+
+
+    <!-- <ul dnd-list="schedule" dnd-allowed-types="['timeSlotType']">
+      <li class = "card item" ng-repeat="dateSchedule in schedule | orderBy: 'time'">
+        <a class="item">{{dateSchedule.slot | uppercase}}
+          <i class="item-small item-icon-right" style="float:right">
+          {{timeDisplayFormat(dateSchedule.time)}}
+            <i class="icon ion-edit button button-clear button-positive" ng-click="editSlot(dateSchedule)"></i>
+          </i>
+        </a>
+
+        <ul dnd-list="dateSchedule.medications" dnd-horizontal-list="true" dnd-allowed-types="['medType']" dnd-drop="dropCallback(event, index, item, external, type, 'itemType', dateSchedule, dateSchedule.medications == null)" class="itemlist">
+          <li ng-repeat="med in dateSchedule.medications" dnd_type="'medType'" dnd-draggable="med" dnd-moved="dateSchedule.medications.splice($index, 1)" dnd-effect-allowed="move" style="background-image: url({{getMedImg(med)}})">{{med}}</li>
+        </ul>
+      </li>
+    </ul> -->
+
   </ion-content>
 
 
