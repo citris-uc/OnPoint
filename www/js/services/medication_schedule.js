@@ -11,19 +11,19 @@ angular.module('app.services')
   schedule = [
     {
       time: "08:00",
-      slot: "Morning",
+      name: "Morning",
       days: [true, true, true, true, true, true, true], //array descirbing days of week to do this action
       medications: ["Lasix", "Toprol XL", "Zestril", "Coumadin", "Riomet"]
     },
     {
       time: "13:00",
-      slot: "Afternoon",
+      name: "Afternoon",
       days: [true, true, true, true, true, true, true], //array descirbing days of week to do this action,
       medications: ["Lasix", "Toprol XL", "Zestril", "Riomet"]
     },
     {
       time: "19:00",
-      slot: "Evening",
+      name: "Evening",
       days: [true, true, true, true, true, true, true], //array descirbing days of week to do this action,
       medications: ["Lipitor"]
     }
@@ -69,7 +69,8 @@ angular.module('app.services')
      * use this when we need to use the schedule to create other things, i.e. generateCardsForToday()
      */
     getAsPromise: function() {
-      var ref = this.ref().child("default").once("value");
+      // var ref = this.ref().child("default").once("value");
+      var ref =this.ref().once("value");
       return ref;
     },
 
@@ -80,7 +81,8 @@ angular.module('app.services')
      * use this to display the specific schedule on an html page.
      */
     findByID: function(id) {
-      var ref = this.ref().child("default").child(id)
+      // var ref = this.ref().child("default").child(id)
+      var ref = this.ref().child(id)
       return $firebaseObject(ref);
     },
 
