@@ -42,25 +42,6 @@ angular.module('app.controllers')
       return item;
   };
 
-
-  $scope.formatTimeObj = function(timestring) {
-    var hour = timestring.substring(0,2);
-    var mins = timestring.substring(3,5);
-    var date = new Date();
-    date.setHours(hour);
-    date.setMinutes(mins);
-    return date;
-  }
-
-  $scope.timeDisplayFormat = function(timestring) {
-    [hours, mins] = timestring.split(':');
-    hours = parseInt(hours);
-    ampm = (hours >= 12) ? "PM" : "AM";
-    hours = (hours > 12) ? hours - 12 : hours;
-    newtime = hours + ":" + mins + " " + ampm;
-    return newtime;
-  }
-
   $scope.saveMedicationSchedule = function() {
     for(var i = 0; i < $scope.schedule.length; i++) {
       $scope.schedule.$save($scope.schedule[i]);
@@ -124,25 +105,6 @@ angular.module('app.controllers')
       });
     }
   }
-
-  $scope.formatTimeObj = function(timestring) {
-    var hour = timestring.substring(0,2);
-    var mins = timestring.substring(3,5);
-    var date = new Date();
-    date.setHours(hour);
-    date.setMinutes(mins);
-    return date;
-  }
-
-  $scope.timeDisplayFormat = function(timestring) {
-    [hours, mins] = timestring.split(':');
-    hours = parseInt(hours);
-    ampm = (hours >= 12) ? "PM" : "AM";
-    hours = (hours > 12) ? hours - 12 : hours;
-    newtime = hours + ":" + mins + " " + ampm;
-    return newtime;
-  }
-
 })
 
 
@@ -175,12 +137,6 @@ angular.module('app.controllers')
     })
   }
 
-  $scope.$watch("slot.time", function(newValue, oldValue) {
-    console.log(newValue)
-    if (newValue && typeof(newValue) == "string")
-      $scope.slot.time = $scope.formatTimeObj(newValue)
-  })
-
   $scope.timeDisplayFormat = function(timestring) {
     [hours, mins] = timestring.split(':');
     hours = parseInt(hours);
@@ -200,6 +156,7 @@ angular.module('app.controllers')
       alert("Time can't be blank")
 
 
+
     // TODO -> allow user to pick dates for schedule
     // hours = $scope.slot.time.getHours();
     // mins  = $scope.slot.time.getMinutes();
@@ -208,15 +165,23 @@ angular.module('app.controllers')
     // $scope.schedule[index].slot = $scope.slot.text;
     // $scope.schedule[index].days = $scope.slot.days;
     // $scope.schedule[index].time = hours + ":" + mins;
-    var req = $scope.slot.$save($scope.slot);
-    req.then(function(snapshot) {
-      var today    = new Date();
-      var tomorrow = new Date();
-      tomorrow.setDate(tomorrow.getDate() + 1);
-      Card.updateSchedCard(CARD.CATEGORY.MEDICATIONS_SCHEDULE, snapshot.key(), $scope.slot, today.toISOString());
-      Card.updateSchedCard(CARD.CATEGORY.MEDICATIONS_SCHEDULE, snapshot.key(), $scope.slot, tomorrow.toISOString());
-      $ionicHistory.goBack()
-    })
+    if ($scope.slot.name && $scope.slot.time) {
+      // hours = $scope.slot.time.getHours();
+      // mins  = $scope.slot.time.getMinutes();
+      // hours = ( String(hours).length == 1 ? "0" + String(hours) : String(hours) );
+      // mins  = ( String(mins).length == 1 ? "0" + String(mins) : String(mins) );
+      // slot = {name: $scope.slot.name, days: $scope.slot.days}
+      // slot.time = hours + ":" + mins;
+      var req = $scope.slot.$save($scope.slot);
+      req.then(function(snapshot) {
+        var today    = new Date();
+        var tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        Card.updateSchedCard(CARD.CATEGORY.MEDICATIONS_SCHEDULE, snapshot.key(), $scope.slot, today.toISOString());
+        Card.updateSchedCard(CARD.CATEGORY.MEDICATIONS_SCHEDULE, snapshot.key(), $scope.slot, tomorrow.toISOString());
+        $ionicHistory.goBack()
+      })
+    }
   }
 
 })
