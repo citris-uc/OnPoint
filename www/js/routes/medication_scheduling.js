@@ -35,7 +35,7 @@ angular.module('app.routes')
     views: {
       'menuContent': {
         templateUrl: 'templates/medication_scheduling/new.html',
-        controller: 'medicationSchedulingCtrl'
+        controller: 'newMedicationScheduleSlotCtrl'
       }
     }
   })

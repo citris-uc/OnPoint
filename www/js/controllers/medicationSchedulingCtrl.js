@@ -43,48 +43,6 @@ angular.module('app.controllers')
       return item;
   };
 
-  // Show popup when user clicks on + Add Time Slow
-  // Allow user to input new name for timeslot
-  // TODO -- allow user to pick days of the week for schedule
-  $scope.addTimeSlot = function() {
-    //console.log("$ionicHistory.currentStateName(): " + $ionicHistory.currentStateName());
-    if ($scope.slot.text && $scope.slot.time) {
-      hours = $scope.slot.time.getHours();
-      mins  = $scope.slot.time.getMinutes();
-      hours = ( String(hours).length == 1 ? "0" + String(hours) : String(hours) )
-      mins  = ( String(mins).length == 1 ? "0" + String(mins) : String(mins) )
-      var timeStr = hours + ":" + mins;
-      //console.log("Add Name:  " + $scope.slot.text + " days: " + $scope.slot.days);
-      var req = MedicationSchedule.addTimeSlot($scope.slot.text, $scope.slot.days, timeStr);
-
-      // Create a new Card for the new time slot
-      req.then(function(snapshot) {
-        var today = new Date();
-        var tomorrow = new Date();
-        tomorrow.setDate(tomorrow.getDate() + 1);
-        var obj = {time: timeStr, days: $scope.slot.days};
-
-        Card.createFromSchedSlot(CARD.CATEGORY.MEDICATIONS_SCHEDULE, snapshot.key(), obj, today.toISOString());
-        Card.createFromSchedSlot(CARD.CATEGORY.MEDICATIONS_SCHEDULE, snapshot.key(), obj, tomorrow.toISOString());
-      })
-
-      // Navigate to the correct page
-      //  TODO:
-      if ($ionicHistory.currentStateName() == 'medication_scheduling.new') {
-        $state.go("medication_scheduling.start");
-      }
-      if ($ionicHistory.currentStateName() == 'tabsController.newScheduleSlot') {
-        $state.go("tabsController.editMedSchedule");
-      }
-    } else {
-      $ionicPopup.show({
-        title: "Invalid input",
-        subTitle: "You have to enter both name and time for the new slot",
-        buttons: [{text: 'OK'}]
-      });
-    }
-  }
-
   $scope.editSlot = function(slot) {
     var index = $scope.schedule.indexOf(slot);
     $scope.slot.text = slot.slot;
@@ -132,6 +90,97 @@ angular.module('app.controllers')
         }
       ]
     });
+  }
+
+  $scope.formatTimeObj = function(timestring) {
+    var hour = timestring.substring(0,2);
+    var mins = timestring.substring(3,5);
+    var date = new Date();
+    date.setHours(hour);
+    date.setMinutes(mins);
+    return date;
+  }
+
+  $scope.timeDisplayFormat = function(timestring) {
+    [hours, mins] = timestring.split(':');
+    hours = parseInt(hours);
+    ampm = (hours >= 12) ? "PM" : "AM";
+    hours = (hours > 12) ? hours - 12 : hours;
+    newtime = hours + ":" + mins + " " + ampm;
+    return newtime;
+  }
+
+  $scope.saveMedicationSchedule = function() {
+    for(var i = 0; i < $scope.schedule.length; i++) {
+      $scope.schedule.$save($scope.schedule[i]);
+    }
+    //TODO: when editing new schedule need to createa  new schedule in FB, set obj_id to the old schedule id or new one?
+    var oldScheduleRef = 'default';
+    Card.createAdHoc(CARD.CATEGORY.MEDICATIONS_SCHEDULE_CHANGE, oldScheduleRef, (new Date()).toISOString())
+    if($ionicHistory.currentStateName() == 'medication_scheduling.start') {
+      //Done onboarding!
+      var ref = Patient.ref();
+      var req = ref.child('onboarding').update({'completed':true,'state':$state.current.name})
+      $state.go("carePlan.fillChoice");
+    } else if ($ionicHistory.currentStateName() == 'tabsController.editMedSchedule'){
+      $state.go("tabsController.medications");
+    }
+  }
+})
+
+
+.controller('newMedicationScheduleSlotCtrl', function($scope, $state, $ionicPopup,$ionicHistory, DAYOFWEEK, Patient, Medication, MedicationSchedule, MedicationHistory, CARD, Card) {
+
+  // TODO --> use MedicationSchedule and FB
+  $scope.CARD = CARD;
+  $scope.DAYOFWEEK = DAYOFWEEK;
+  $scope.schedule = MedicationSchedule.get();
+  $scope.selected_med = null;
+  $scope.slot = {days:[true, true, true, true, true, true, true]};
+  $scope.showError = false;
+  console.log($scope.schedule)
+
+
+  // Show popup when user clicks on + Add Time Slow
+  // Allow user to input new name for timeslot
+  // TODO -- allow user to pick days of the week for schedule
+  $scope.addTimeSlot = function() {
+    //console.log("$ionicHistory.currentStateName(): " + $ionicHistory.currentStateName());
+    if ($scope.slot.text && $scope.slot.time) {
+      hours = $scope.slot.time.getHours();
+      mins  = $scope.slot.time.getMinutes();
+      hours = ( String(hours).length == 1 ? "0" + String(hours) : String(hours) )
+      mins  = ( String(mins).length == 1 ? "0" + String(mins) : String(mins) )
+      var timeStr = hours + ":" + mins;
+      //console.log("Add Name:  " + $scope.slot.text + " days: " + $scope.slot.days);
+      var req = MedicationSchedule.addTimeSlot($scope.slot.text, $scope.slot.days, timeStr);
+
+      // Create a new Card for the new time slot
+      req.then(function(snapshot) {
+        var today = new Date();
+        var tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        var obj = {time: timeStr, days: $scope.slot.days};
+
+        Card.createFromSchedSlot(CARD.CATEGORY.MEDICATIONS_SCHEDULE, snapshot.key(), obj, today.toISOString());
+        Card.createFromSchedSlot(CARD.CATEGORY.MEDICATIONS_SCHEDULE, snapshot.key(), obj, tomorrow.toISOString());
+      })
+
+      // Navigate to the correct page
+      //  TODO:
+      if ($ionicHistory.currentStateName() == 'medication_scheduling.new') {
+        $state.go("medication_scheduling.start");
+      }
+      if ($ionicHistory.currentStateName() == 'tabsController.newScheduleSlot') {
+        $state.go("tabsController.editMedSchedule");
+      }
+    } else {
+      $ionicPopup.show({
+        title: "Invalid input",
+        subTitle: "You have to enter both name and time for the new slot",
+        buttons: [{text: 'OK'}]
+      });
+    }
   }
 
   $scope.formatTimeObj = function(timestring) {
