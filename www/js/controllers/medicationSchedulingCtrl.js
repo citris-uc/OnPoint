@@ -84,6 +84,8 @@ angular.module('app.controllers')
   }
 
   $scope.removeMedication = function(slotID, medication) {
+    console.log(slotID)
+    console.log(medication)
     MedicationSchedule.removeMedication(slotID, medication)
   }
 

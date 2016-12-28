@@ -98,8 +98,18 @@ angular.module('app.services')
     },
 
     addMedication: function(id, medication) {
-      this.ref().child(id).child("medications").push(medication)
-
+      console.log(id)
+      console.log(medication)
+      that = this
+      slot = that.findByID(id)
+      slot.$loaded().then(function(response) {
+        medications = response.medications
+        if (medications.indexOf(medication) === -1) {
+          medications.push(medication)
+          slot.medications = medications
+          slot.$save()
+        }
+      })
 
       // .on("value", function(snap) {
       //   meds = snap.val()
@@ -128,10 +138,18 @@ angular.module('app.services')
     },
 
     removeMedication: function(id, medication) {
-      firebase_array = $firebaseArray(this.ref().child(id).child("medications"))
-      for (var i=0; i < firebase_array.length; i++) {
-        console.log(firebase_array[i])
-      }
+      that = this
+      this.ref().child(id).child("medications").on("value", function(response) {
+        medications = response.val()
+        for (var i=0; i < medications.length; i++) {
+          if (medications[i] == medication) {
+            medications.splice(i, 1)
+            break
+          }
+        }
+        that.ref().child(id).update({medications: medications})
+      })
+
 
       // console.log(index)
     }
