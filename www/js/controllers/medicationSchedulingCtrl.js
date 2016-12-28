@@ -167,13 +167,7 @@ angular.module('app.controllers')
       })
 
       // Navigate to the correct page
-      //  TODO:
-      if ($ionicHistory.currentStateName() == 'medication_scheduling.new') {
-        $state.go("medication_scheduling.start");
-      }
-      if ($ionicHistory.currentStateName() == 'tabsController.newScheduleSlot') {
-        $state.go("tabsController.editMedSchedule");
-      }
+      $state.go("medication_scheduling.start");
     } else {
       $ionicPopup.show({
         title: "Invalid input",
