@@ -34,7 +34,8 @@ angular.module('app.services')
      * Temporary method for clinician testing
      */
     setDefaultSchedule: function() {
-      var ref = this.ref().child("default")
+      // var ref = this.ref().child("default")
+      var ref = this.ref()
       ref.once("value", function(snapshot) {
         if (!snapshot.exists()) { //only push default schedule once.
           for(var i = 0; i < schedule.length; i++) {
@@ -47,7 +48,7 @@ angular.module('app.services')
 
     ref: function() {
       var uid = Patient.uid();
-      return Patient.ref(uid).child("medication_schedules")
+      return Patient.ref(uid).child("medication_schedule")
     },
 
     /*
@@ -56,7 +57,8 @@ angular.module('app.services')
      * use this to display the schedule on the view layer.
      */
     get: function() {
-      var ref = this.ref().child("default");
+      // var ref = this.ref().child("default");
+      var ref = this.ref()
       return $firebaseArray(ref);
     },
 
