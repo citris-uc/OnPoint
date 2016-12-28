@@ -9229,3 +9229,9 @@ a.button {
   .error-box p {
     color: white;
     margin: 0px; }
+
+.bar-footer .full-width {
+  width: 100%;
+  text-align: center; }
+  .bar-footer .full-width .button {
+    width: 100%; }

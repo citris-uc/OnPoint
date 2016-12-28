@@ -1,0 +1,22 @@
+<ion-view title="Add a time slot">
+  <ion-content overflow-scroll="true">
+
+    <div class="list">
+      <label class="item item-input">
+        <span class="input-label">Slot Name</span>
+        <input type="text" ng-model="slot.text" placeholder="E.g. Noon"></input>
+      </label>
+
+      <label class="item item-input">
+        <span class="input-label">Reminder Time</span>
+        <input type="time"  ng-model="slot.time"></input>
+      </label>
+    </div>
+  </ion-content>
+
+  <div class="bar bar-footer bar-balanced">
+    <div class="buttons full-width">
+      <button class="button button-clear" ng-click="addTimeSlot()">Add</div>
+    </div>
+  </div>
+</ion-view>

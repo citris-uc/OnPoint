@@ -1,37 +1,4 @@
 angular.module('app.controllers')
-.controller('medIdListCtrl', function($scope, $state, Patient, Medication, MedicationSchedule) {
-   $scope.scheduledMedications = Medication.get();
-
-   $scope.generate = function() {
-     MedicationSchedule.setDefaultSchedule();
-     $state.go("carePlan.generatedMedSchedule")
-   }
-
-   $scope.scheduledMeds = function() {
-     for(var i = 0; i <$scope.scheduledMedications.length; i++ ) {
-       if($scope.scheduledMedications[i].user_input)
-        return true
-     }
-     return false
-   }
-
-   $scope.disableGenerate = function() {
-     for(var i = 0; i <$scope.scheduledMedications.length; i++ ) {
-       if(!$scope.scheduledMedications[i].user_input) {
-         console.log("yo")
-        return true
-      }
-     }
-     return false
-   }
-
-   //Saving State of onboarding progress into firebase
-   $scope.$on('$ionicView.beforeEnter', function(){
-     var ref = Patient.ref();
-     var req = ref.child('onboarding').update({'state':$state.current.name})
-    });
-})
-
 .controller('newMedicationCtrl', function($scope, $state, $ionicPopup, $ionicHistory, $templateCache, $ionicPopover, Medication, $firebaseObject) {
     $scope.medications = Medication.getDefaultMedications();
     $scope.medication = {};
@@ -55,7 +22,19 @@ angular.module('app.controllers')
       });
     }
 
-    $scope.saveMedication = function(firebaseRecord){
+    $scope.hasRequiredAttributes = function() {
+      if (!$scope.medication.name)
+        return false;
+      if (!$scope.medication.dose)
+        return false;
+      if (!$scope.medication.instructions)
+        return false;
+      if (!$scope.medication.purpose)
+        return false;
+      return true
+    }
+
+    $scope.save = function(firebaseRecord){
       if (!$scope.medication.name)
         displayAlert("Medication name can't be blank");
       else if (!$scope.medication.dose)
@@ -66,7 +45,6 @@ angular.module('app.controllers')
         displayAlert("Purpose can't be blank");
       else {
         firebaseRecord = {}
-        console.log($scope.medication)
         firebaseRecord["trade_name"]   = $scope.medication.name.trade_name
         firebaseRecord['instructions'] = $scope.medication.instructions
         firebaseRecord['dose'] = $scope.medication.dose
@@ -87,7 +65,7 @@ angular.module('app.controllers')
 
 })
 
-
+// TODO: Implement once we have RxNorm. See #516
 .controller('medicationSearchCtrl', function($scope, $state, $ionicPopup, $templateCache, $ionicPopover, Medication) {
     // $scope.medications = Medication.get();
     $scope.medication = {};
@@ -109,7 +87,7 @@ angular.module('app.controllers')
 })
 
 
-.controller('medicationCtrl', function($scope, $state, $stateParams, Medication) {
+.controller('medicationViewCtrl', function($scope, $state, $stateParams, Medication) {
    $scope.medication = Medication.getById($stateParams.id);
    $scope.removeMedication = function() {
      $scope.medication.$remove().then(function(response) {
@@ -122,13 +100,15 @@ angular.module('app.controllers')
 })
 
 
-.controller('medListCtrl', function($scope, $state, Patient, Medication, MedicationSchedule) {
+.controller('medicationsListCtrl', function($scope, $state, Patient, Medication, MedicationSchedule) {
    $scope.scheduledMedications = Medication.get();
    console.log($scope.scheduledMedications)
 
-   $scope.finishMedicationIdentification = function() {
-     MedicationSchedule.setDefaultSchedule();
-     $state.go("medication_scheduling.start")
+   $scope.completeMedicationIdentification = function() {
+     var medicationIdRef = Patient.ref().child('medication_identification');
+     medicationIdRef.set({'completed':true}).then(function(response) {
+       $state.go("medication_scheduling.welcome")
+     })
    }
 
    $scope.scheduledMeds = function() {
@@ -156,8 +136,6 @@ angular.module('app.controllers')
     });
 })
 
-.controller('medInputMainCtrl', function($scope, Medication) {
-})
 
 .controller('medFillMainCtrl', function($scope, $state, $ionicHistory, MedicationSchedule, Medication, MedicationDosage) {
   $scope.medicationSchedule = MedicationSchedule.get();

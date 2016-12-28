@@ -26,7 +26,7 @@ angular.module('app.routes')
     views: {
       'menuContent': {
         templateUrl: 'templates/medication_identification/start.html',
-        controller: 'medListCtrl'
+        controller: 'medicationsListCtrl'
       }
     }
   })
@@ -61,7 +61,7 @@ angular.module('app.routes')
     views: {
       'menuContent': {
         templateUrl: 'templates/medication_identification/show.html',
-        controller: 'medicationCtrl'
+        controller: 'medicationViewCtrl'
       }
     }
   })

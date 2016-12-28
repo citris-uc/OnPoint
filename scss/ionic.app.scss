@@ -199,42 +199,53 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 }
 
 
-  .center-form{
-    width: 290px;
-    // width: 80%;
-    // margin:auto;
-    // top: 50%;
-    left: 50%;
-    position: absolute;
-    transform: translate(-50%, 10%);
+.center-form{
+  width: 290px;
+  // width: 80%;
+  // margin:auto;
+  // top: 50%;
+  left: 50%;
+  position: absolute;
+  transform: translate(-50%, 10%);
 
-    label{
-      background-color: rgba(255,255,255,0.7);
-      border-color: $balanced;
+  label{
+    background-color: rgba(255,255,255,0.7);
+    border-color: $balanced;
 
-      &.top-input{
-        border-radius: 4px 4px 0px 0px !important;
-      }
-
-      &.bottom-input{
-        border-radius: 0px 0px 4px 4px !important;
-      }
+    &.top-input{
+      border-radius: 4px 4px 0px 0px !important;
     }
 
-    .button-positive{
-      opacity:0.9;
+    &.bottom-input{
+      border-radius: 0px 0px 4px 4px !important;
     }
   }
 
-  .error-box{
-      padding:10px;
-      border:1px solid darken($assertive, 10%);
-      background-color: $assertive;
-      border-radius:0px;
-      margin-bottom:10px;
-
-      p{
-        color:white;
-        margin:0px;
-      }
+  .button-positive{
+    opacity:0.9;
   }
+}
+
+.error-box{
+    padding:10px;
+    border:1px solid darken($assertive, 10%);
+    background-color: $assertive;
+    border-radius:0px;
+    margin-bottom:10px;
+
+    p{
+      color:white;
+      margin:0px;
+    }
+}
+
+
+.bar-footer {
+  .full-width {
+    width: 100%;
+    text-align: center;
+    .button {
+      width: 100%;
+    }
+  }
+}

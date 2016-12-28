@@ -52,25 +52,25 @@ angular.module('app.routes')
     }
   })
 
-  .state('carePlan.generatedMedSchedule', {
-    url: '/medication_schedules/generated',
-    views: {
-      'care-plan': {
-        templateUrl: 'templates/carePlan/generated_medication_schedule.html',
-        controller: 'medicationsSettingCtrl'
-      }
-    }
-  })
+  // .state('carePlan.generatedMedSchedule', {
+  //   url: '/medication_schedules/generated',
+  //   views: {
+  //     'care-plan': {
+  //       templateUrl: 'templates/carePlan/generated_medication_schedule.html',
+  //       controller: 'medicationsSettingCtrl'
+  //     }
+  //   }
+  // })
 
-  .state('carePlan.newSlot', {
-    url: '/medication_schedules/new_slot',
-    views: {
-      'care-plan': {
-        templateUrl: 'templates/carePlan/new_time_slot.html',
-        controller: 'medicationsSettingCtrl'
-      }
-    }
-  })
+  // .state('carePlan.newSlot', {
+  //   url: '/medication_schedules/new_slot',
+  //   views: {
+  //     'care-plan': {
+  //       templateUrl: 'templates/carePlan/new_time_slot.html',
+  //       controller: 'medicationsSettingCtrl'
+  //     }
+  //   }
+  // })
 
   .state('carePlan.fillMain', {
     url: '/fill_main',
@@ -82,6 +82,7 @@ angular.module('app.routes')
     }
   })
 
+  // This is the last step where the user "fills" the pills
   .state('carePlan.fillChoice', {
     url: '/fill_choice',
     views: {

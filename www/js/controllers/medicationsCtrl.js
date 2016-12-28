@@ -381,7 +381,7 @@ angular.module('app.controllers')
       })
 
       // Navigate to the correct page
-      if ($ionicHistory.currentStateName() == 'carePlan.newSlot') {
+      if ($ionicHistory.currentStateName() == 'medication_scheduling.new') {
         $state.go("carePlan.generatedMedSchedule");
       }
       if ($ionicHistory.currentStateName() == 'tabsController.newScheduleSlot') {
@@ -508,20 +508,5 @@ angular.module('app.controllers')
         $ionicHistory.goBack();
       }
     };
-
-})
-
-.controller('medImgCtrl', function($scope, Medication) {
-  $scope.medications = Medication.get();
-
-  $scope.getMedImg = function(trade_name) {
-    for(var i = 0; i < $scope.medications.length; i++) {
-      if ($scope.medications[i].trade_name == trade_name) {
-        return ("img/" + $scope.medications[i].img);
-      }
-    }
-    // Default Image
-    return "img/pill.png";
-  }
 
 })
