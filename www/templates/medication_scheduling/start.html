@@ -1,29 +1,85 @@
-<ion-view title="Define your schedule">
+<link type="text/css" rel="stylesheet" href="css/settingsMedSchedStyle.css"/>
+
+<!-- Edit Time Slot Popup Dialog -->
+<!-- TODO: Move this somewhere else -->
+<script id="medSched-popup-template.html" type="text/ng-template">
+  <div class="list">
+    <label class="item item-input">
+      <span class="input-label">Slot Name</span>
+      <input type="text" ng-model="slot.text" placeholder="E.g. Noon"></input>
+    </label>
+
+    <label class="item item-input">
+      <span class="input-label">Reminder Time</span>
+      <input type="time"  ng-model="slot.time"></input>
+    </label>
+  </div>
+</script>
+
+
+<ion-view title="Medications Schedule" class="medsched">
   <ion-nav-buttons side="right">
-    <button class="button icon-right ion-ios-plus-empty button-clear" ui-sref="medication_identification.search"></button>
+    <button class="button icon-right ion-ios-plus-empty button-clear button-positive" ui-sref="carePlan.newSlot"></button>
   </ion-nav-buttons>
+  <ion-content overflow-scroll="true" padding="false" class="has-header" ng-controller="medImgCtrl">
+    <!-- <div class="tabs tabs-striped tabs-color-assertive tabs-top"> -->
+      <!-- <a class="tab-item"><i class="icon ion-ios-arrow-left"></i></a> -->
+      <!-- <a class="tab-item " ng-repeat = "day in week"> -->
+        <!-- {{day}} -->
+      <!-- </a> -->
+      <!-- <a class="tab-item"><i class="icon ion-ios-arrow-right"></i></a> -->
+    <!-- </div> -->
+    <!-- The dnd-draggable directive makes an element draggable and will
+         transfer the object that was assigned to it. If an element was
+         dragged away, you have to remove it from the original list
+         yourself using the dnd-moved attribute -->
+         <!-- dnd-type="'timeSlotType'"
+         dnd-draggable="dateSchedule"
+         dnd-moved="schedule.splice($index, 1)"
+         dnd-effect-allowed="move" -->
 
-  <ion-content overflow-scroll="true">
-    <ul class="list">
-      <li class="item text-center" ng-hide="scheduledMeds()">
-        You haven't added any medications! Use the + icon in the navigation bar
-        to add a medication.
-      </li>
+    <ul dnd-list="schedule"
+        dnd-allowed-types="['timeSlotType']"
+        >
+        <li class = "card item"
+            ng-repeat="dateSchedule in schedule | orderBy: 'time'"
+            >
+            <a class="item">{{dateSchedule.slot | uppercase}}
+              <i class="item-small item-icon-right" style="float:right">
+              {{timeDisplayFormat(dateSchedule.time)}}
+                <i class="icon ion-edit button button-clear button-positive" ng-click="editSlot(dateSchedule)"></i>
+              </i>
+           </a>
 
-      <li class="item item-icon-right"  ng-repeat="med in scheduledMedications" ng-show="med.user_input" ui-sref="medication_identification.medication({id: med.$id})">
-        <h2>{{med.trade_name}}</h2>
-        <p>Dose: {{med.dose}}, tablets: {{med.tablets}}</p>
-        <p>Instructions: {{med.instructions}}</p>
-        <p>Purpose: {{med.purpose}}
-        <i class="icon ion-ios-arrow-right"></i>
-        <li
-      </li>
+
+
+
+            <ul dnd-list="dateSchedule.medications"
+                dnd-horizontal-list="true"
+                dnd-allowed-types="['medType']"
+                dnd-drop="dropCallback(event, index, item, external, type, 'itemType',
+                                        dateSchedule, dateSchedule.medications == null)"
+                class="itemlist"
+                >
+                <li ng-repeat="med in dateSchedule.medications"
+                    dnd_type="'medType'"
+                    dnd-draggable="med"
+                    dnd-moved="dateSchedule.medications.splice($index, 1)"
+                    dnd-effect-allowed="move"
+                    style="background-image: url({{getMedImg(med)}})"
+                    >
+                    {{med}}
+                </li>
+            </ul>
+
+        </li>
     </ul>
   </ion-content>
 
+
   <div class="bar bar-footer bar-balanced">
     <div class="buttons full-width">
-      <button class="button button-clear" ng-click="completeMedicationIdentification()" ng-disabled="disableGenerate()">Proceed to Medication Schedule</div>
+      <button id="medSched-next" class="button button-clear" ng-click="saveMedicationSchedule()" ng-disabled="disableGenerate()">Save and Continue</div>
     </div>
   </div>
 
