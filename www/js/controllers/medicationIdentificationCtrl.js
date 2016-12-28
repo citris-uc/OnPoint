@@ -109,9 +109,6 @@ angular.module('app.controllers')
      medicationIdRef.set({'completed':true}).then(function(response) {
        $state.go("medication_scheduling.welcome")
      })
-
-    //  MedicationSchedule.setDefaultSchedule();
-
    }
 
    $scope.scheduledMeds = function() {

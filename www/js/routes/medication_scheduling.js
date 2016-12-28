@@ -26,7 +26,7 @@ angular.module('app.routes')
     views: {
       'menuContent': {
         templateUrl: 'templates/medication_scheduling/start.html',
-        controller: 'medicationsListCtrl'
+        controller: 'medicationSchedulingCtrl'
       }
     }
   })
