@@ -81,15 +81,4 @@ angular.module('app.routes')
       }
     }
   })
-
-  // This is the last step where the user "fills" the pills
-  .state('carePlan.fillChoice', {
-    url: '/fill_choice',
-    views: {
-      'care-plan': {
-        templateUrl: 'templates/carePlan/fill_choice.html',
-        controller: 'medFillMainCtrl'
-      }
-    }
-  })
 });

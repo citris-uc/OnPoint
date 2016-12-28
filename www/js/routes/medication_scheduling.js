@@ -48,4 +48,13 @@ angular.module('app.routes')
       }
     }
   })
+  .state('medication_scheduling.fill_pillbox', {
+    url: '/fill_pillbox',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/medication_scheduling/fill_pillbox.html',
+        controller: 'medFillMainCtrl'
+      }
+    }
+  })
 });

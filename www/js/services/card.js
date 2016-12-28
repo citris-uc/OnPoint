@@ -89,6 +89,8 @@ angular.module('app.services')
       var that = this;
       date_key = date.substring(0,10);
 
+      console.log(object)
+
       var cardRef = this.ref().child(date_key);
       cardRef.once("value", function (cardSnap) { //only do this once per day
         if (cardSnap.exists()) {
