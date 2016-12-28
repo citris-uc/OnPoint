@@ -95,6 +95,63 @@ angular.module('app.services')
         days: daysArray,
       };
       return ref.$add(instanceFB);
+    },
+
+    addMedication: function(id, medication) {
+      console.log(id)
+      console.log(medication)
+      that = this
+      slot = that.findByID(id)
+      slot.$loaded().then(function(response) {
+        medications = response.medications
+        if (medications.indexOf(medication) === -1) {
+          medications.push(medication)
+          slot.medications = medications
+          slot.$save()
+        }
+      })
+
+      // .on("value", function(snap) {
+      //   meds = snap.val()
+      //   for (var i=0; i< meds.length; i++) {
+      //     console.log(meds[i])
+      //   }
+      //   if (meds.indexOf(medication) == -1) {
+      //     meds.push(medication)
+      //     return $firebaseArray(this.ref().child(id).child("medications")).$add(medication)
+      //   } else {
+      //     return $firebaseArray(this.ref().child(id).child("medications"))
+      //   }
+      //
+      // })
+
+
+
+      // arrs = $firebaseArray(meds);
+      // console.log(arrs)
+      // console.log(arrs.$indexFor(medication))
+      // .then(function(response) {
+      //   console.log(response)
+      //   name = response.name.trade_name
+      //   console.log(name)
+      // })
+    },
+
+    removeMedication: function(id, medication) {
+      that = this
+      this.ref().child(id).child("medications").on("value", function(response) {
+        medications = response.val()
+        for (var i=0; i < medications.length; i++) {
+          if (medications[i] == medication) {
+            medications.splice(i, 1)
+            break
+          }
+        }
+        that.ref().child(id).update({medications: medications})
+      })
+
+
+      // console.log(index)
     }
   };
 }])
