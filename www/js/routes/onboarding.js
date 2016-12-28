@@ -54,4 +54,13 @@ angular.module('app.routes')
       }
     }
   })
+  .state('onboarding.complete', {
+    url: '/complete',
+    views: {
+      'onboarding': {
+        templateUrl: 'templates/onboarding/complete.html',
+        controller: "onboardingCtrl"
+      }
+    }
+  })
 });
