@@ -1,7 +1,7 @@
 angular.module('app.controllers')
 
 .controller('timelineCtrl', function($scope, $state, Card, CARD, Comment, Medication, MedicationSchedule, Measurement, MeasurementSchedule, MedicationHistory, Appointment, Notes, $ionicSlideBoxDelegate, Patient) {
-  $scope.timeline = {pageIndex: 0}
+  $scope.timeline = {pageIndex: 1}
   $scope.userInput;
   $scope.changeTimeline = function(pageIndex) {
     $scope.timeline.pageIndex = pageIndex;
@@ -51,15 +51,17 @@ angular.module('app.controllers')
     //   }
     // })
 
-    if ($scope.timeline.pageIndex === 0) {
+    if ($scope.timeline.pageIndex === 1) {
       //$scope.cards = Card.getByDay(new Date());
       $scope.cards = Card.getRangeByDate(new Date());
+
+    } else if ($scope.timeline.pageIndex == 0) {
+      $scope.history = Card.getHistory();
+    } else if ($scope.timeline.pageIndex == 2) {
       var manana = new Date();
       manana.setDate(manana.getDate() + 1);
       //$scope.tomorrowCards = Card.getByDay(manana);
       $scope.tomorrowCards = Card.getRangeByDate(manana);
-    } else {
-      $scope.history = Card.getHistory();
     }
     $scope.$broadcast('scroll.refreshComplete');
   }
@@ -497,6 +499,7 @@ angular.module('app.controllers')
    * TODO: fix medication_schedule ID to be actually ID in firebase, probbaly need to to do when we push med SCheudle to firebase during onboarding
    * TODO: fix other categories
    */
+  //  NOTE: Needed to open the page...
   $scope.openPage = function(card, type){
     switch(type) {
       case CARD.CATEGORY.MEDICATIONS_SCHEDULE :
