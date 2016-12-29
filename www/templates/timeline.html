@@ -11,13 +11,30 @@
     </label>
     <button class="button button-small button-positive button-clear buttonText" ng-click="saveFeeling()">Save</button>
   </div> -->
-  <div class="bar bar-subheader item-input-inset segmented-control">
+  <!-- <div class="bar bar-subheader item-input-inset segmented-control">
     <div class="button-bar bar-light responsive-col">
       <a class="button button-small" ng-click="transitionToPageIndex(0)" ng-class="{'button-positive': timeline.pageIndex === 0}">Today</a>
       <a class="button button-small" ng-click="transitionToPageIndex(1)" ng-class="{'button-positive': timeline.pageIndex === 1}">History</a>
     </div>
-  </div>
+  </div> -->
 
+  <div class="tabs-striped tabs-top">
+    <div class="tabs">
+      <a class="tab-item" ng-click="transitionToPageIndex(1)" ng-class="{'active': timeline.pageIndex === 1}">
+        History
+      </a>
+
+      <a class="tab-item" ng-click="transitionToPageIndex(0)" ng-class="{'active': timeline.pageIndex === 0}">
+        Today
+      </a>
+
+      <a class="tab-item" ng-click="transitionToPageIndex(2)" ng-class="{'active': timeline.pageIndex === 2}">
+        Tomorrow
+      </a>
+
+
+    </div>
+  </div>
 
 
   <!-- Stuff after here will scroll -->
