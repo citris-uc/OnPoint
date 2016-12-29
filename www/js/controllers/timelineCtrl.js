@@ -18,6 +18,7 @@ angular.module('app.controllers')
     $scope.userInput.feeling = ""; //reset field
 
   }
+
   /*
    * This method checks a card's shown_at date with the 'date' param passed in locale time convention
    * @param date: a javascript date object
@@ -35,6 +36,7 @@ angular.module('app.controllers')
     }
     return false;
   }
+
   // This loads cards depending on the page we're currently on. For instance,
   // if we're on Today view, then we'll load cards for today/tomorrow. On the
   // History view, we'll load all cards.
@@ -72,42 +74,6 @@ angular.module('app.controllers')
     var local = new Date(iso_altered); //Date() constructor automatically sets local time!
     return local
   }
-
-  // See
-  // http://www.gajotres.net/understanding-ionic-view-lifecycle/
-  // to understand why we're doing everything in a beforeEnter event. Essentially,
-  // we avoid stale data.
-  $scope.$on('$ionicView.enter', function(){
-    // We load cards and history in one cycle. Any changes will be reflected
-    // thanks to Firebase's 3-way data binding.
-    $scope.loadCards();
-    $scope.history = Card.getHistory();
-    $scope.CARD = CARD;
-    $scope.yesterday   = new Date();
-    $scope.yesterday.setDate($scope.yesterday.getDate()-1);
-    $scope.today       = new Date();
-    $scope.tomorrow    = new Date();
-    $scope.tomorrow.setDate($scope.tomorrow.getDate()+1);
-    $scope.medSchedule = MedicationSchedule.get()
-    // $scope.medHistory  = MedicationHistory.getTodaysHistory()
-    $scope.medHistory =  MedicationHistory.getHistoryRange($scope.yesterday, $scope.tomorrow);
-    $scope.medications = Medication.get();
-    $scope.numComments = new Array($scope.cards.length)
-    $scope.measurementSchedule = MeasurementSchedule.get();
-    //$scope.measHistory = Measurement.getTodaysHistory(); // Measurement History
-    $scope.measHistory = Measurement.getHistoryRange($scope.yesterday, $scope.tomorrow);
-    var fromDate = new Date();
-    var toDate = new Date();
-    fromDate.setDate(fromDate.getDate()-CARD.TIMESPAN.DAYS_AFTER_APPT);
-    toDate.setDate(toDate.getDate()+CARD.TIMESPAN.DAYS_BEFORE_APPT);
-    $scope.appointments = Appointment.getAppointmentsFromTo(fromDate, toDate);
-    fromDate = new Date(); //reset
-    fromDate.setDate(fromDate.getDate()-3); //because history cards are last 3
-    $scope.notes = Notes.get(fromDate, $scope.today);
-    Card.generateCardsFor($scope.today.toISOString());
-    Card.generateCardsFor($scope.tomorrow.toISOString());
-    });
-
 
   $scope.findMedicationScheduleForCard = function(card) {
     var schedule = null;
@@ -566,5 +532,43 @@ angular.module('app.controllers')
       Card.archive(card);
     }
   }
+
+
+
+  // See
+  // http://www.gajotres.net/understanding-ionic-view-lifecycle/
+  // to understand why we're doing everything in a beforeEnter event. Essentially,
+  // we avoid stale data.
+  $scope.$on('$ionicView.enter', function(){
+    // We load cards and history in one cycle. Any changes will be reflected
+    // thanks to Firebase's 3-way data binding.
+    $scope.loadCards();
+    $scope.history = Card.getHistory();
+    $scope.CARD = CARD;
+    $scope.yesterday   = new Date();
+    $scope.yesterday.setDate($scope.yesterday.getDate()-1);
+    $scope.today       = new Date();
+    $scope.tomorrow    = new Date();
+    $scope.tomorrow.setDate($scope.tomorrow.getDate()+1);
+    $scope.medSchedule = MedicationSchedule.get()
+    // $scope.medHistory  = MedicationHistory.getTodaysHistory()
+    $scope.medHistory =  MedicationHistory.getHistoryRange($scope.yesterday, $scope.tomorrow);
+    $scope.medications = Medication.get();
+    $scope.numComments = new Array($scope.cards.length)
+    $scope.measurementSchedule = MeasurementSchedule.get();
+    //$scope.measHistory = Measurement.getTodaysHistory(); // Measurement History
+    $scope.measHistory = Measurement.getHistoryRange($scope.yesterday, $scope.tomorrow);
+    var fromDate = new Date();
+    var toDate = new Date();
+    fromDate.setDate(fromDate.getDate()-CARD.TIMESPAN.DAYS_AFTER_APPT);
+    toDate.setDate(toDate.getDate()+CARD.TIMESPAN.DAYS_BEFORE_APPT);
+    $scope.appointments = Appointment.getAppointmentsFromTo(fromDate, toDate);
+    fromDate = new Date(); //reset
+    fromDate.setDate(fromDate.getDate()-3); //because history cards are last 3
+    $scope.notes = Notes.get(fromDate, $scope.today);
+    Card.generateCardsFor($scope.today.toISOString());
+    Card.generateCardsFor($scope.tomorrow.toISOString());
+  });
+
 
 })
