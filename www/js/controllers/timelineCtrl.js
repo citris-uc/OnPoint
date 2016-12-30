@@ -387,8 +387,8 @@ angular.module('app.controllers')
     $scope.CARD = CARD;
 
     // NOTE: We run this just to have some cards generated.
-    // Card.generateCardsFor(today_timestamp.toISOString());
-    // Card.generateCardsFor(tomorrow_timestamp.toISOString());
+    Card.generateCardsFor(today_timestamp.toISOString());
+    Card.generateCardsFor(tomorrow_timestamp.toISOString());
   });
 
 
