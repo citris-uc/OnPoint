@@ -15,7 +15,7 @@ angular.module('app.services')
       return JSON.parse($window.localStorage.getItem("patient") || "{}");
     },
     set: function(patient) {
-      this.setToken(patient.token);
+      // this.setToken(patient.token);
       $window.localStorage.setItem("patient", JSON.stringify(patient || {}));
     },
     setAttribute: function(attr, value) {
@@ -47,7 +47,7 @@ angular.module('app.services')
         $window.localStorage.setItem("token", token);
     },
     getToken: function() {
-      return $window.localStorage.getItem("token");
+      return this.get().authData.token
     },
     ref: function() {
       var patientRef = new Firebase(onpoint.env.mainURL + "patients/");
@@ -63,7 +63,7 @@ angular.module('app.services')
       return $firebaseAuth(this.ref());
     },
     logout: function() {
-      this.setToken(null);
+      // this.setToken(null);
       return this.auth().$unauth();
     }
   };

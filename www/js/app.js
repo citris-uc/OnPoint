@@ -118,7 +118,7 @@ angular.module('app', ['ionic', 'firebase', 'app.controllers', 'app.routes', 'ap
 
   $rootScope.$on(onpoint.env.error, function(event, response) {
     if (response.error.status == 401) {
-      Patient.setToken(null);
+      // Patient.setToken(null);
 
       if ( !$rootScope.modal || ($rootScope.modal && !$rootScope.modal.isShown()) ) {
         loadLoginModal().then(function() {
@@ -148,7 +148,7 @@ angular.module('app', ['ionic', 'firebase', 'app.controllers', 'app.routes', 'ap
   })
 
   $rootScope.$on(onpoint.env.auth.failure, function(event, data) {
-    Patient.setToken(null);
+    // Patient.setToken(null);
     if ( !$rootScope.modal || ($rootScope.modal && !$rootScope.modal.isShown()) ) {
       loadLoginModal().then(function() {
         $rootScope.state.error = data.message
