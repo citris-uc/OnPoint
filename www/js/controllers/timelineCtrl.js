@@ -211,122 +211,13 @@ angular.module('app.controllers')
     return fstr;
   }
 
-  $scope.formatTitle = function(str) {
-    if (str == CARD.CATEGORY.MEDICATIONS_CABINET || str == CARD.CATEGORY.MEDICATIONS_SCHEDULE_CHANGE)
-      return 'Medications';
-    var fstr = str.replace("_schedule","");
-    fstr = fstr.charAt(0).toUpperCase() + fstr.slice(1);
-    return fstr;
-  }
-
-  /*
-   * gets the body for each cardClass
-   * @param index: this is the medication_schedule ID essentailly
-   * TODO: fix medication_schedule ID to be actually ID in firebase, probbaly need to to do when we push med SCheudle to firebase during onboarding
-   */
-   $scope.description = function(card, date_key) {
-     type = card.object_type
-     switch(type) {
-       case CARD.CATEGORY.MEDICATIONS_SCHEDULE:
-         return $scope.getMedicationsDescription(card, date_key);
-       case CARD.CATEGORY.MEDICATIONS_CABINET :
-         return $scope.getMedicationsCabinetDescription(card, date_key);
-       case CARD.CATEGORY.MEDICATIONS_SCHEDULE_CHANGE:
-        return 'Edited Medication Schedule';
-       default:
-         return [""];
-     } // end switch
-   }
-
-
-   $scope.getMedicationsCabinetDescription = function(card, date_key) {
-     //var date_key = card.shown_at.substring(0,10);
-
-    //  for(var i = 0; i < $scope.medHistory.length; i++)
-    //    var hist = $scope.medHistory[i];
-
-       if ($scope.medHistory.hasOwnProperty(date_key)) {
-         var medHistory = $scope.medHistory[date_key];
-         for(hist_id in medHistory) {
-           var hist = medHistory[hist_id];
-           if(hist_id == card.object_id) { //found proper history reference, construct stirng
-             for(var j = 0; j < $scope.medications.length; j++) {
-               var med = $scope.medications[j];
-               if(med.$id==hist.medication_id) {
-                 var reason = ""
-                 if(hist.reason!=null) {
-                   reason = " because " +  hist.reason
-                 }
-                 return "You took " + med.trade_name + reason;
-               }
-             }
-           }
-       }
-     }
-   }
-
-   $scope.constructMedItemString = function(itemsArray) {
-     var str = "";
-     for (var i = 0; i < itemsArray.length; i++) {
-       if (i != 0) str += ", ";
-       if (i != 0 && i == itemsArray.length - 1) str += " and ";
-       str += itemsArray[i].trade_name;
-     }
-     return str;
-   }
-
-  // Get description for Medication Cards
-  $scope.getMedicationsDescription = function(card, date_key) {
-     var schedule = $scope.findMedicationScheduleForCard(card);
-     if (schedule == null) return;
-     //var date_key = card.shown_at.substring(0,10);
-
-     var medications = schedule.medications;
-     var medStatus = $scope.getMedsStatusArrays(schedule, medications, date_key);
-     var takeMeds = medStatus.unfinished;
-     var skippedMeds = medStatus.skipped;
-     var completedMeds = medStatus.done;
-
-     // Create a string for each line for Take/Skipped/Completed meds
-     // TODO -- is there a clean way to do this in the UI to filter?
-     //         possible to have different UI templates depending on card category?
-     string = "";
-     if (takeMeds.length > 0) {
-      string += "You need to take ";
-      string += $scope.constructMedItemString(takeMeds);
-      string += ". ";
-    }
-
-    if (completedMeds.length > 0) {
-     string += "So far, you've taken "
-     string += $scope.constructMedItemString(completedMeds);
-     if (skippedMeds.length == 0) string += ".";
-    }
-
-     if (skippedMeds.length > 0) {
-       if (completedMeds.length > 0)
-        string += " and you've skipped "
-       else
-        string += " You've skipped "
-        string += $scope.constructMedItemString(skippedMeds);
-        string += ".";
-     }
-
-     if (takeMeds.length == 0 && completedMeds.length == 0 && skippedMeds.length == 0) {
-       string += "You have no medications scheduled for this time.";
-     }
-     return string;
-  }
-
-  $scope.constructItemString = function(itemsArray) {
-    var str = "";
-    for (var i = 0; i < itemsArray.length; i++) {
-      if (i != 0) str += ", ";
-      if (i != 0 && i == itemsArray.length - 1) str += " and ";
-      str += itemsArray[i];
-    }
-    return str;
-  }
+  // $scope.formatTitle = function(str) {
+  //   if (str == CARD.CATEGORY.MEDICATIONS_CABINET || str == CARD.CATEGORY.MEDICATIONS_SCHEDULE_CHANGE)
+  //     return 'Medications';
+  //   var fstr = str.replace("_schedule","");
+  //   fstr = fstr.charAt(0).toUpperCase() + fstr.slice(1);
+  //   return fstr;
+  // }
 
   /*
    * gets the body for each cardClass
