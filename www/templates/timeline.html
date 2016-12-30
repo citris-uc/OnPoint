@@ -100,8 +100,7 @@
                   <h2>{{card.title}}</h2>
                   <p>{{card.formatted_time}}</p>
                   <p>{{card.time_ago_in_words}}</p>
-                  <!--  TODO-->
-                  <!-- <span class="badge {{statusClass(c,date.$id)}}">{{statusText(c, date.$id)}}</span> -->
+                  <span class="badge {{card.status_class}}">{{card.status_text}}</span>
                 </div>
 
                 <div class="item item-body">
