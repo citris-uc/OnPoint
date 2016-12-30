@@ -20,19 +20,19 @@ angular.module('app.controllers')
    * This method checks a card's shown_at date with the 'date' param passed in locale time convention
    * @param date: a javascript date object
    */
-  $scope.checkCardDate = function(card, date) {
-    var localeDate = date.toLocaleDateString();
-    var cardLocaleDate = (new Date(card.shown_at)).toLocaleDateString();
-    var blargh = new Date();
-    //conole.log(test + ' ' + test.toISOString() + ' ' new Date(test))
-    //console.log(typeof($scope.cards[0]));
-    //console.log(cardLocaleDate+' '+localeDate)
-    if(localeDate==cardLocaleDate) {
-      //console.log(card.$id)
-      return true;
-    }
-    return false;
-  }
+  // $scope.checkCardDate = function(card, date) {
+  //   var localeDate = date.toLocaleDateString();
+  //   var cardLocaleDate = (new Date(card.shown_at)).toLocaleDateString();
+  //   var blargh = new Date();
+  //   //conole.log(test + ' ' + test.toISOString() + ' ' new Date(test))
+  //   //console.log(typeof($scope.cards[0]));
+  //   //console.log(cardLocaleDate+' '+localeDate)
+  //   if(localeDate==cardLocaleDate) {
+  //     //console.log(card.$id)
+  //     return true;
+  //   }
+  //   return false;
+  // }
 
   // This loads cards depending on the page we're currently on. For instance,
   // if we're on Today view, then we'll load cards for today/tomorrow. On the
@@ -126,29 +126,22 @@ angular.module('app.controllers')
   }
 
   $scope.checkCardComplete = function(card, date_key) {
-    switch(card.object_type) {
-      case CARD.CATEGORY.MEDICATIONS_SCHEDULE :
-        $scope.checkMedsCardComplete(card, date_key);
-        break;
-      default:
-        break;
-    }
+    $scope.completeFinishedMedications(card, date_key);
   }
 
-  $scope.checkMedsCardComplete = function(card, date_key) {
+  $scope.completeFinishedMedications = function(card, date_key) {
     if (card.completed_at != null || card.archived_at != null) return;
-    //var date_key = card.shown_at.substring(0,10);
+
     var schedule = $scope.findMedicationScheduleForCard(card)
     if (schedule == null) return;
 
     var medications = schedule.medications;
-
     if (medications == null) return;
-    var now    = (new Date()).toISOString();
 
-    var medStatus = $scope.getMedsStatusArrays(schedule, medications, date_key);
-    var takeMeds = medStatus.unfinished;
-    var skippedMeds = medStatus.skipped;
+    var now = (new Date()).toISOString();
+    var medStatus     = $scope.getMedsStatusArrays(schedule, medications, date_key);
+    var takeMeds      = medStatus.unfinished;
+    var skippedMeds   = medStatus.skipped;
     var completedMeds = medStatus.done;
 
     if (takeMeds.length == 0 && skippedMeds.length==0) {
@@ -157,7 +150,7 @@ angular.module('app.controllers')
   }
 
   $scope.statusClass = function(card, date_key) {
-    this.checkCardComplete(card, date_key);
+    $scope.checkCardComplete(card, date_key);
     // Return cardClass: urgent/active/completed
     if(card.type == CARD.TYPE.REMINDER)
       return "badge-royal";
@@ -183,7 +176,7 @@ angular.module('app.controllers')
 
 
   $scope.statusText = function(card, date_key) {
-    this.checkCardComplete(card, date_key);
+    $scope.checkCardComplete(card, date_key);
     // Return cardClass: urgent/active/completed
     if (card.type==CARD.TYPE.REMINDER) {
       return 'Reminder';
