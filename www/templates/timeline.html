@@ -42,7 +42,6 @@
     <ion-refresher pulling-text="Pull to refresh" on-refresh="loadCards()" pulling-icon="ion-ios-refresh-empty"></ion-refresher>
 
     <ion-slide-box active-slide="1" on-slide-changed="changeTimeline($index)" does-continue="false" show-pager="false">
-
       <ion-slide>
         <div class="list card" ng-show="history.cards.length === 0">
           <div class="item item-body">
@@ -90,42 +89,43 @@
         </div>
 
 
-        <div ng-repeat="date in today.cards">
-          <div class="row" style="justify-content: center;" ng-repeat="c in date | toArray | orderBy: 'shown_at' | filter: {archived_at: '!'}" on-swipe-right="swipeCard(c)" on-swipe-left="swipeCard(c)">
+        <div ng-repeat="card in today.cards">
+          <!-- ng-repeat="c in date | toArray | orderBy: 'shown_at' | filter: {archived_at: '!'}"  -->
+          <div class="row" style="justify-content: center;" on-swipe-right="swipeCard(card)" on-swipe-left="swipeCard(card)">
             <div class="col responsive-col">
               <div class="list card">
 
                 <div class="item item-icon-left">
                   <i class="icon ion-ios-medkit-outline"></i>
-                  <h2>{{formatTitle(c.object_type)}} {{card_key}}</h2>
-                  <p>{{getTime(c.shown_at) | date: 'EEEE, MMMM dd h:mm a'}}</p>
-
-                  <span class="badge {{statusClass(c,date.$id)}}">{{statusText(c, date.$id)}}</span>
+                  <h2>{{card.title}}</h2>
+                  <p>{{card.formatted_time}}</p>
+                  <p>{{card.time_ago_in_words}}</p>
+                  <span class="badge {{card.status_class}}">{{card.status_text}}</span>
                 </div>
 
                 <div class="item item-body">
-                  {{description(c, date.$id)}}
+                  {{card.description}}
                 </div>
 
                 <div class="row">
-                  <div class="col responsive-col-md-25" ng-show="c.completed_at == null">
-                    <a class="item item-icon-left" ng-click="openPage(c, c.object_type)">
+                  <div class="col responsive-col-md-25" ng-show="card.completed_at == null">
+                    <a class="item item-icon-left" ng-click="openPage(card, card.object_type)">
                       <i class="icon ion-ios-eye"></i>
                       View
                     </a>
                   </div>
 
-                  <div class="col responsive-col-md-25" ng-show="c.completed_at != null">
-                    <a class="item item-icon-left" ng-click="archive(c)">
+                  <div class="col responsive-col-md-25" ng-show="card.completed_at != null">
+                    <a class="item item-icon-left" ng-click="archive(card)">
                       <i class="icon ion-archive"></i>
                       Archive
                     </a>
                   </div>
 
                   <div class="col responsive-col-md-25">
-                    <a class="item item-icon-left" ui-sref="tabsController.comments({card_id:c.$id, comment_id: c.comment_id})">
+                    <a class="item item-icon-left" ui-sref="tabsController.comments({card_id:card.id, comment_id: card.comment_id})">
                       <i class="icon ion-ios-chatbubble-outline"></i>
-                      Comment {{c.num_comments > 0 ? '('+c.num_comments+')' : ''}}
+                      Comment {{c.num_comments > 0 ? '('+card.num_comments+')' : ''}}
                     </a>
                   </div>
                 </div>

@@ -16,11 +16,13 @@ onpoint.env = {
   // @if ENV == 'DEVELOPMENT'
   baseURL: "http://localhost:5000/api/v0/",
   mainURL: "https://vivid-inferno-5187.firebaseio.com/",
+  serverURL: "http://localhost:5000/api/v0/",
   debug: true
   // @endif
   // @if ENV == 'PRODUCTION'
   baseURL: "https://www.onpoint.com/api/v0/",
   mainURL: "https://vivid-inferno-5187.firebaseio.com/",
+  serverURL: "http://localhost:5000/api/v0",
   debug: false
   // @endif
 }

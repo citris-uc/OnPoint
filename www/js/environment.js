@@ -10,5 +10,6 @@ onpoint.env = {
   },
   baseURL: "http://localhost:5000/api/v0/",
   mainURL: "https://vivid-inferno-5187.firebaseio.com/",
+  serverURL: "http://localhost:5000/api/v0/",
   debug: true
 }

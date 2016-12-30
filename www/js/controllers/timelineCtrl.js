@@ -49,7 +49,14 @@ angular.module('app.controllers')
     // })
 
     if ($scope.timeline.pageIndex === 1) {
-      $scope.today.cards = Card.getRangeByDate(new Date());
+      Card.today().then(function(response) {
+        console.log(response)
+        $scope.today.cards =  response.data.cards;
+      }, function(response) {
+        console.log("EROR")
+        console.log(response)
+      })
+
     } else if ($scope.timeline.pageIndex == 0) {
       $scope.history.cards = Card.getHistory();
     } else if ($scope.timeline.pageIndex == 2) {
@@ -80,253 +87,21 @@ angular.module('app.controllers')
     return schedule;
   }
 
-  $scope.getMedsStatusArrays = function(schedule, medications, date_key) {
-    var takeMeds = [];
-    var skippedMeds = [];
-    var completedMeds = [];
-    if (medications != null) {
-      medications.forEach( function(medication) {
-        var med = {}
-        //Find the Med
-        for(var i = 0; i < $scope.medications.length; i++) {
-          if ($scope.medications[i].trade_name == medication) {
-            med = $scope.medications[i]
-            med.id = $scope.medications[i].$id;
-          }
-        }
-
-        var exists = false;
-        //var history_date = $scope.medHistory.$ref().key();
-
-        // If the history reference matches the passed in date then check validity
-        //if (date_key == history_date)
-        if ($scope.medHistory.hasOwnProperty(date_key)) {
-          var medHistory = $scope.medHistory[date_key];
-          // for(var i = 0; i < medHistory.length; i++)
-          //   var hist = medHistory[i];
-          for(hist_id in medHistory) {
-            var hist = medHistory[hist_id];
-            if (hist.medication_id==med.id && hist.medication_schedule_id==schedule.$id) {
-              exists = true;
-              if(hist.taken_at != null)
-                completedMeds.push(med);
-              else if (hist.skipped_at != null)
-                skippedMeds.push(med);
-              else {
-                takeMeds.push(med);
-              }
-            }
-          }
-        }
-        if (!exists)
-          takeMeds.push(med);
-      })
-    }
-    return {unfinished: takeMeds, skipped: skippedMeds, done: completedMeds};
-  }
-
-  $scope.checkCardComplete = function(card, date_key) {
-    $scope.completeFinishedMedications(card, date_key);
-  }
-
-  $scope.completeFinishedMedications = function(card, date_key) {
-    if (card.completed_at != null || card.archived_at != null) return;
-
-    var schedule = $scope.findMedicationScheduleForCard(card)
-    if (schedule == null) return;
-
-    var medications = schedule.medications;
-    if (medications == null) return;
-
-    var now = (new Date()).toISOString();
-    var medStatus     = $scope.getMedsStatusArrays(schedule, medications, date_key);
-    var takeMeds      = medStatus.unfinished;
-    var skippedMeds   = medStatus.skipped;
-    var completedMeds = medStatus.done;
-
-    if (takeMeds.length == 0 && skippedMeds.length==0) {
-      Card.complete(card);
-    }
-  }
-
-  $scope.statusClass = function(card, date_key) {
-    $scope.checkCardComplete(card, date_key);
-    // Return cardClass: urgent/active/completed
-    if(card.type == CARD.TYPE.REMINDER)
-      return "badge-royal";
-    if (card.completed_at == null) {
-      if (card.type == CARD.TYPE.URGENT) {
-        return "badge-assertive";
-      } else {
-        var timeCutoff = new Date();
-        timeCutoff.setHours(timeCutoff.getHours()+3);
-        var cardTime = new Date(card.shown_at);
-        // If shown_at time is within 3 hours of now, mark card as "In Progress"
-        if (cardTime < timeCutoff) {
-          return "badge-energized";
-        } else {
-          return "badge-calm";
-        }
-
-      }
-    } else {
-      return "badge-balanced";
-    }
-  }
-
-
-  $scope.statusText = function(card, date_key) {
-    $scope.checkCardComplete(card, date_key);
-    // Return cardClass: urgent/active/completed
-    if (card.type==CARD.TYPE.REMINDER) {
-      return 'Reminder';
-    }
-    if (card.completed_at == null) {
-      if (card.type == CARD.TYPE.URGENT) {
-        return "Needs attention";
-      } else {
-        var timeCutoff = new Date();
-        timeCutoff.setHours(timeCutoff.getHours()+3);
-        var cardTime = new Date(card.shown_at);
-
-        // If shown_at time is within 3 hours of now, mark card as "In Progress"
-        if (cardTime < timeCutoff) {
-          return "In progress";
-        } else {
-          return "Upcoming";
-        }
-      }
-    } else {
-      return "Completed";
-    }
-  }
+  // $scope.checkCardComplete = function(card, date_key) {
+  //   $scope.completeFinishedMedications(card, date_key);
+  // }
 
   $scope.getTime = function(timestamp) {
     return new Date(timestamp);
   }
 
-  $scope.formatStr = function(str) {
-    var fstr = str.replace(/_/g, " ");
-    fstr = fstr.charAt(0).toUpperCase() + fstr.slice(1);
-    return fstr;
-  }
-
-  $scope.formatTitle = function(str) {
-    if (str == CARD.CATEGORY.MEDICATIONS_CABINET || str == CARD.CATEGORY.MEDICATIONS_SCHEDULE_CHANGE)
-      return 'Medications';
-    var fstr = str.replace("_schedule","");
-    fstr = fstr.charAt(0).toUpperCase() + fstr.slice(1);
-    return fstr;
-  }
-
-  /*
-   * gets the body for each cardClass
-   * @param index: this is the medication_schedule ID essentailly
-   * TODO: fix medication_schedule ID to be actually ID in firebase, probbaly need to to do when we push med SCheudle to firebase during onboarding
-   */
-   $scope.description = function(card, date_key) {
-     type = card.object_type
-     switch(type) {
-       case CARD.CATEGORY.MEDICATIONS_SCHEDULE:
-         return $scope.getMedicationsDescription(card, date_key);
-       case CARD.CATEGORY.MEDICATIONS_CABINET :
-         return $scope.getMedicationsCabinetDescription(card, date_key);
-       case CARD.CATEGORY.MEDICATIONS_SCHEDULE_CHANGE:
-        return 'Edited Medication Schedule';
-       default:
-         return [""];
-     } // end switch
-   }
-
-
-   $scope.getMedicationsCabinetDescription = function(card, date_key) {
-     //var date_key = card.shown_at.substring(0,10);
-
-    //  for(var i = 0; i < $scope.medHistory.length; i++)
-    //    var hist = $scope.medHistory[i];
-
-       if ($scope.medHistory.hasOwnProperty(date_key)) {
-         var medHistory = $scope.medHistory[date_key];
-         for(hist_id in medHistory) {
-           var hist = medHistory[hist_id];
-           if(hist_id == card.object_id) { //found proper history reference, construct stirng
-             for(var j = 0; j < $scope.medications.length; j++) {
-               var med = $scope.medications[j];
-               if(med.$id==hist.medication_id) {
-                 var reason = ""
-                 if(hist.reason!=null) {
-                   reason = " because " +  hist.reason
-                 }
-                 return "You took " + med.trade_name + reason;
-               }
-             }
-           }
-       }
-     }
-   }
-
-   $scope.constructMedItemString = function(itemsArray) {
-     var str = "";
-     for (var i = 0; i < itemsArray.length; i++) {
-       if (i != 0) str += ", ";
-       if (i != 0 && i == itemsArray.length - 1) str += " and ";
-       str += itemsArray[i].trade_name;
-     }
-     return str;
-   }
-
-  // Get description for Medication Cards
-  $scope.getMedicationsDescription = function(card, date_key) {
-     var schedule = $scope.findMedicationScheduleForCard(card);
-     if (schedule == null) return;
-     //var date_key = card.shown_at.substring(0,10);
-
-     var medications = schedule.medications;
-     var medStatus = $scope.getMedsStatusArrays(schedule, medications, date_key);
-     var takeMeds = medStatus.unfinished;
-     var skippedMeds = medStatus.skipped;
-     var completedMeds = medStatus.done;
-
-     // Create a string for each line for Take/Skipped/Completed meds
-     // TODO -- is there a clean way to do this in the UI to filter?
-     //         possible to have different UI templates depending on card category?
-     string = "";
-     if (takeMeds.length > 0) {
-      string += "You need to take ";
-      string += $scope.constructMedItemString(takeMeds);
-      string += ". ";
-    }
-
-    if (completedMeds.length > 0) {
-     string += "So far, you've taken "
-     string += $scope.constructMedItemString(completedMeds);
-     if (skippedMeds.length == 0) string += ".";
-    }
-
-     if (skippedMeds.length > 0) {
-       if (completedMeds.length > 0)
-        string += " and you've skipped "
-       else
-        string += " You've skipped "
-        string += $scope.constructMedItemString(skippedMeds);
-        string += ".";
-     }
-
-     if (takeMeds.length == 0 && completedMeds.length == 0 && skippedMeds.length == 0) {
-       string += "You have no medications scheduled for this time.";
-     }
-     return string;
-  }
-
-  $scope.constructItemString = function(itemsArray) {
-    var str = "";
-    for (var i = 0; i < itemsArray.length; i++) {
-      if (i != 0) str += ", ";
-      if (i != 0 && i == itemsArray.length - 1) str += " and ";
-      str += itemsArray[i];
-    }
-    return str;
-  }
+  // $scope.formatTitle = function(str) {
+  //   if (str == CARD.CATEGORY.MEDICATIONS_CABINET || str == CARD.CATEGORY.MEDICATIONS_SCHEDULE_CHANGE)
+  //     return 'Medications';
+  //   var fstr = str.replace("_schedule","");
+  //   fstr = fstr.charAt(0).toUpperCase() + fstr.slice(1);
+  //   return fstr;
+  // }
 
   /*
    * gets the body for each cardClass
@@ -361,7 +136,11 @@ angular.module('app.controllers')
     // Calculate today's cards
     today_timestamp        = new Date()
     $scope.today.timestamp = today_timestamp
-    $scope.today.cards     = Card.getRangeByDate(today_timestamp);
+    Card.today().then(function(response) {
+      $scope.today.cards = response.data.cards
+    }, function(response) {
+      // window.alert("SOMETHING went wrong")
+    })
 
     // Calculate tomorrow timestamps.
     tomorrow_timestamp = new Date();
@@ -382,8 +161,8 @@ angular.module('app.controllers')
     $scope.CARD = CARD;
 
     // NOTE: We run this just to have some cards generated.
-    Card.generateCardsFor(today_timestamp.toISOString());
-    Card.generateCardsFor(tomorrow_timestamp.toISOString());
+    // Card.generateCardsFor(today_timestamp.toISOString());
+    // Card.generateCardsFor(tomorrow_timestamp.toISOString());
   });
 
 

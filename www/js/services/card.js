@@ -1,6 +1,6 @@
 angular.module('app.services')
 
-.factory("Card", ["CARD", "Patient", "MedicationSchedule", "MeasurementSchedule", "Appointment","$firebaseArray", "$firebaseObject", function(CARD, Patient, MedicationSchedule, MeasurementSchedule, Appointment,$firebaseArray, $firebaseObject) {
+.factory("Card", ["CARD", "Patient", "MedicationSchedule", "MeasurementSchedule", "Appointment","$firebaseArray", "$firebaseObject", "$http", function(CARD, Patient, MedicationSchedule, MeasurementSchedule, Appointment,$firebaseArray, $firebaseObject, $http) {
   return {
     get: function() {
       var ref = this.ref();
@@ -11,6 +11,28 @@ angular.module('app.services')
       var ref = this.ref().child(dateISO);
       return $firebaseArray(ref);
     },
+    today: function() {
+      return $http({
+        method: "GET",
+        url:    onpoint.env.serverURL + "cards?when=today",
+        headers: {
+         "Authorization": "Bearer " + Patient.getToken()
+        }
+      })
+
+      // var dateISO = date.toISOString().substring(0,10);
+      //
+      // var yesterday = new Date();
+      // yesterday.setDate(date.getDate()-1);
+      // var yesterdayISO = yesterday.toISOString().substring(0,10);
+      //
+      // var tomorrow = new Date();
+      // tomorrow.setDate(date.getDate()+1);
+      // var tomorrowISO = tomorrow.toISOString().substring(0,10);
+      // var ref = this.ref().orderByKey().startAt(yesterdayISO).endAt(tomorrowISO);
+      // return $firebaseArray(ref);
+    },
+
     //Returns cards for date-1, date, and date+1
     getRangeByDate: function(date) {
       var dateISO = date.toISOString().substring(0,10);
