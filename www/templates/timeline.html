@@ -44,6 +44,13 @@
     <ion-slide-box active-slide="1" on-slide-changed="changeTimeline($index)" does-continue="false" show-pager="false">
 
       <ion-slide>
+        <div class="list card" ng-show="history.cards.length === 0">
+          <div class="item item-body">
+            Looks like you don't have any history yet.
+          </div>
+        </div>
+
+
         <div ng-repeat="date in history.cards | orderBy:'-'">
           <div class="card-section history">
             <hr class="responsive-col"></hr>
@@ -76,21 +83,15 @@
       </ion-slide>
 
       <ion-slide>
-        <!-- <div class="card-section current">
-          <hr class="responsive-col"></hr>
-          <h4 class="text-center">Today's Cards</h4>
-        </div> -->
-
-        <!--THIS IS FOR TESTING PURPOSES-->
-        <!-- <div ng-repeat="date in test">
-          <div ng-repeat="card in date | toArray | orderBy: 'shown_at'" ng-show="checkCardDate(card, today)">
-            date child: {{date.$id}} shown_at: {{card.shown_at}} FB ID: {{card.$id}}
+        <div class="list card" ng-show="today.cards.length === 0">
+          <div class="item item-body">
+            Looks like you don't have any cards due today.
           </div>
-        </div> -->
+        </div>
+
 
         <div ng-repeat="date in today.cards">
-          <!-- <div class="row" style="justify-content: center;" ng-repeat="c in cards | orderBy: 'shown_at' | filter: {archived_at: '!'}" on-swipe-right="swipeCard(c)" on-swipe-left="swipeCard(c)"> -->
-          <div class="row" style="justify-content: center;" ng-repeat="c in date | toArray | orderBy: 'shown_at' | filter: {archived_at: '!'}" ng-show="checkCardDate(c, today.timestamp)" on-swipe-right="swipeCard(c)" on-swipe-left="swipeCard(c)">
+          <div class="row" style="justify-content: center;" ng-repeat="c in date | toArray | orderBy: 'shown_at' | filter: {archived_at: '!'}" on-swipe-right="swipeCard(c)" on-swipe-left="swipeCard(c)">
             <div class="col responsive-col">
               <div class="list card">
 
@@ -132,15 +133,22 @@
 
             </div>
           </div>
+
         </div>
       </ion-slide>
 
 
 
       <ion-slide>
+        <div class="list card" ng-show="tomorrow.cards.length === 0">
+          <div class="item item-body">
+            Looks like you don't have any cards due tomorrow.
+          </div>
+        </div>
+
+
         <div ng-repeat="date in tomorrow.cards">
-          <div class="row" style="justify-content: center;" ng-repeat="c in date | toArray | orderBy: 'shown_at' | filter: {archived_at: '!', object_type:'!appointments'}" ng-show="checkCardDate(c, tomorrow.timestamp)" on-swipe-right="swipeCard(c)" on-swipe-left="swipeCard(c)">
-          <!-- <div class="row" style="justify-content: center;" ng-repeat="c in tomorrowCards | orderBy: 'shown_at' | filter: {archived_at: '!', object_type:'!appointments'}" on-swipe-right="swipeCard(c)" on-swipe-left="swipeCard(c)"> -->
+          <div class="row" style="justify-content: center;" ng-repeat="c in date | toArray | orderBy: 'shown_at' | filter: {archived_at: '!', object_type:'!appointments'}" on-swipe-right="swipeCard(c)" on-swipe-left="swipeCard(c)">
             <div class="col responsive-col">
 
               <div class="list card">
