@@ -358,43 +358,43 @@ angular.module('app.controllers')
   // Show popup when user clicks on + Add Time Slow
   // Allow user to input new name for timeslot
   // TODO -- allow user to pick days of the week for schedule
-  $scope.addTimeSlot = function() {
-    //console.log("$ionicHistory.currentStateName(): " + $ionicHistory.currentStateName());
-    if ($scope.slot.text && $scope.slot.time) {
-      hours = $scope.slot.time.getHours();
-      mins  = $scope.slot.time.getMinutes();
-      hours = ( String(hours).length == 1 ? "0" + String(hours) : String(hours) )
-      mins  = ( String(mins).length == 1 ? "0" + String(mins) : String(mins) )
-      var timeStr = hours + ":" + mins;
-      //console.log("Add Name:  " + $scope.slot.text + " days: " + $scope.slot.days);
-      var req = MedicationSchedule.addTimeSlot($scope.slot.text, $scope.slot.days, timeStr);
-
-      // Create a new Card for the new time slot
-      req.then(function(snapshot) {
-        var today = new Date();
-        var tomorrow = new Date();
-        tomorrow.setDate(tomorrow.getDate() + 1);
-        var obj = {time: timeStr, days: $scope.slot.days};
-
-        Card.createFromSchedSlot(CARD.CATEGORY.MEDICATIONS_SCHEDULE, snapshot.key(), obj, today.toISOString());
-        Card.createFromSchedSlot(CARD.CATEGORY.MEDICATIONS_SCHEDULE, snapshot.key(), obj, tomorrow.toISOString());
-      })
-
-      // Navigate to the correct page
-      if ($ionicHistory.currentStateName() == 'medication_scheduling.new') {
-        $state.go("carePlan.generatedMedSchedule");
-      }
-      if ($ionicHistory.currentStateName() == 'tabsController.newScheduleSlot') {
-        $state.go("tabsController.editMedSchedule");
-      }
-    } else {
-      $ionicPopup.show({
-        title: "Invalid input",
-        subTitle: "You have to enter both name and time for the new slot",
-        buttons: [{text: 'OK'}]
-      });
-    }
-  }
+  // $scope.addTimeSlot = function() {
+  //   //console.log("$ionicHistory.currentStateName(): " + $ionicHistory.currentStateName());
+  //   if ($scope.slot.text && $scope.slot.time) {
+  //     hours = $scope.slot.time.getHours();
+  //     mins  = $scope.slot.time.getMinutes();
+  //     hours = ( String(hours).length == 1 ? "0" + String(hours) : String(hours) )
+  //     mins  = ( String(mins).length == 1 ? "0" + String(mins) : String(mins) )
+  //     var timeStr = hours + ":" + mins;
+  //     //console.log("Add Name:  " + $scope.slot.text + " days: " + $scope.slot.days);
+  //     var req = MedicationSchedule.addTimeSlot($scope.slot.text, $scope.slot.days, timeStr);
+  //
+  //     // Create a new Card for the new time slot
+  //     req.then(function(snapshot) {
+  //       var today = new Date();
+  //       var tomorrow = new Date();
+  //       tomorrow.setDate(tomorrow.getDate() + 1);
+  //       var obj = {time: timeStr, days: $scope.slot.days};
+  //
+  //       // Card.createFromSchedSlot(CARD.CATEGORY.MEDICATIONS_SCHEDULE, snapshot.key(), obj, today.toISOString());
+  //       // Card.createFromSchedSlot(CARD.CATEGORY.MEDICATIONS_SCHEDULE, snapshot.key(), obj, tomorrow.toISOString());
+  //     })
+  //
+  //     // Navigate to the correct page
+  //     if ($ionicHistory.currentStateName() == 'medication_scheduling.new') {
+  //       $state.go("carePlan.generatedMedSchedule");
+  //     }
+  //     if ($ionicHistory.currentStateName() == 'tabsController.newScheduleSlot') {
+  //       $state.go("tabsController.editMedSchedule");
+  //     }
+  //   } else {
+  //     $ionicPopup.show({
+  //       title: "Invalid input",
+  //       subTitle: "You have to enter both name and time for the new slot",
+  //       buttons: [{text: 'OK'}]
+  //     });
+  //   }
+  // }
 
   $scope.editSlot = function(slot) {
     var index = $scope.schedule.indexOf(slot);
