@@ -16,9 +16,9 @@
       <ion-slide ng-controller="medImgCtrl">
             <div style="position: relative;">
               <h4 style="text-align: center">Schedule</h1>
-              <!-- <div style="position: absolute; right: 0; top: 0; text-align: right">
+              <div style="position: absolute; right: 0; top: 0; text-align: right">
                   <button style="color: blue; font-size: 18px" class=" button-clear button-positive" ui-sref='tabsController.editMedSchedule'>Edit</b>
-              </div> -->
+              </div>
             </div>
             <span ng-repeat = "dateSchedule in schedule | orderBy: 'time'">
               <a class="item item-divider item-icon-right" ui-sref="tabsController.medicationsSchedule({schedule_id: dateSchedule.$id})">
