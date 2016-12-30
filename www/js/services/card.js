@@ -216,98 +216,100 @@ angular.module('app.services')
       });
 
     },
-    createFromSchedule: function(ref, object_type, date) {
-      var that = this;
-      var now  = (new Date()).toISOString();
-      var date_key = date.substring(0,10);
-      ref.once("value", function(snap) {
-        console.log(snap)
-        snap.forEach(function(childSnap) {
-          var schedule = childSnap.val();
-          console.log(schedule)
-          //TODO: update these to be minutes from midnight.
-          var show = new Date(date);
-          //console.log(schedule.days)
-          //console.log(show.getDay())
-          if (schedule.days[show.getDay()]) { //only generate if scheduled for this day
-            if (object_type == CARD.CATEGORY.MEDICATIONS_SCHEDULE) {
-              show.setHours(parseInt(schedule.time.substring(0,2)));
-              show.setMinutes(parseInt(schedule.time.substring(3,5)));
-            } else if (object_type == CARD.CATEGORY.MEASUREMENTS_SCHEDULE) {
-              show.setHours(schedule.hour);
-              show.setMinutes(schedule.minute);
-            }
-
-            var card = {
-              type: CARD.TYPE.ACTION,
-              created_at: now,
-              updated_at: now,
-              shown_at: show.toISOString(),
-              completed_at: null,
-              archived_at: null,
-              num_comments: 0,
-              object_type: object_type,
-              object_id: childSnap.key()
-            }
-            that.create(date_key, card);
-          } //end if(schedule.days[show.getDay()])
-        })
-      })
-    },
-
+    // createFromSchedule: function(ref, object_type, date) {
+    //   var that = this;
+    //   var now  = (new Date()).toISOString();
+    //   var date_key = date.substring(0,10);
+    //   ref.once("value", function(snap) {
+    //     console.log(snap)
+    //     snap.forEach(function(childSnap) {
+    //       var schedule = childSnap.val();
+    //       console.log(schedule)
+    //       //TODO: update these to be minutes from midnight.
+    //       var show = new Date(date);
+    //       //console.log(schedule.days)
+    //       //console.log(show.getDay())
+    //       if (schedule.days[show.getDay()]) { //only generate if scheduled for this day
+    //         if (object_type == CARD.CATEGORY.MEDICATIONS_SCHEDULE) {
+    //           show.setHours(parseInt(schedule.time.substring(0,2)));
+    //           show.setMinutes(parseInt(schedule.time.substring(3,5)));
+    //         } else if (object_type == CARD.CATEGORY.MEASUREMENTS_SCHEDULE) {
+    //           show.setHours(schedule.hour);
+    //           show.setMinutes(schedule.minute);
+    //         }
+    //
+    //         var card = {
+    //           type: CARD.TYPE.ACTION,
+    //           created_at: now,
+    //           updated_at: now,
+    //           shown_at: show.toISOString(),
+    //           completed_at: null,
+    //           archived_at: null,
+    //           num_comments: 0,
+    //           object_type: object_type,
+    //           object_id: childSnap.key()
+    //         }
+    //         that.create(date_key, card);
+    //       } //end if(schedule.days[show.getDay()])
+    //     })
+    //   })
+    // },
+    //
 
     /*
      * @param date is in ISO format
      */
-    createFromObjectForDate: function(object_type, date) {
-      if (object_type == CARD.CATEGORY.MEDICATIONS_SCHEDULE) {
-        var defaultRef = MedicationSchedule.ref();
-        this.createFromSchedule(defaultRef, object_type, date);
-      }
-      else if (object_type == CARD.CATEGORY.MEASUREMENTS_SCHEDULE) {
-        var defaultRef = MeasurementSchedule.ref();
-        this.createFromSchedule(defaultRef, object_type, date);
-      }
-      else if(object_type == CARD.CATEGORY.APPOINTMENTS) {
-        this.createAppointmentCards(date, object_type);
-      }
-
-    },
+    // createFromObjectForDate: function(object_type, date) {
+    //   if (object_type == CARD.CATEGORY.MEDICATIONS_SCHEDULE) {
+    //     var defaultRef = MedicationSchedule.ref();
+    //     this.createFromSchedule(defaultRef, object_type, date);
+    //   }
+    //   else if (object_type == CARD.CATEGORY.MEASUREMENTS_SCHEDULE) {
+    //     var defaultRef = MeasurementSchedule.ref();
+    //     this.createFromSchedule(defaultRef, object_type, date);
+    //   }
+    //   else if(object_type == CARD.CATEGORY.APPOINTMENTS) {
+    //     this.createAppointmentCards(date, object_type);
+    //   }
+    //
+    // },
 
 
     // This method queries "2016-04-01" on "cards" key and
     // a) if key is not found, creates Medication and Measurement schedules.
     // b) if key is found, checks if the date has Measurement/Medication schedules,
     //    and if not, then generates them.
-    generateCardsFor: function(date) {
-      var that = this;
-      date_key = date.substring(0,10);
+    // generateCardsFor: function(date) {
+    //   var that = this;
+    //   date_key = date.substring(0,10);
+    //
+    //   var cardRef = this.ref().child(date_key);
+    //   cardRef.once("value", function (cardSnap) { //only do this once per day
+    //     if (!cardSnap.exists()) {
+    //       that.createFromObjectForDate(CARD.CATEGORY.MEDICATIONS_SCHEDULE, date)
+    //       // that.createFromObjectForDate(CARD.CATEGORY.MEASUREMENTS_SCHEDULE, date)
+    //       // that.createFromObjectForDate(CARD.CATEGORY.APPOINTMENTS, date)
+    //     } else {
+    //       // Check to make sure each has been generated
+    //       // var measExists = false;
+    //       var medsExists = false;
+    //       // var apptExists = false;
+    //       cardSnap.forEach(function(childSnap) {
+    //         // if (childSnap.val().object_type == CARD.CATEGORY.MEASUREMENTS_SCHEDULE) measExists = true;
+    //         if (childSnap.val().object_type == CARD.CATEGORY.MEDICATIONS_SCHEDULE) medsExists = true;
+    //         // if (childSnap.val().object_type == CARD.CATEGORY.APPOINTMENTS) apptExists = true;
+    //       });
+    //       if (!medsExists)
+    //         that.createFromObjectForDate(CARD.CATEGORY.MEDICATIONS_SCHEDULE, date)
+    //
+    //       // if (!measExists)
+    //       //   that.createFromObjectForDate(CARD.CATEGORY.MEASUREMENTS_SCHEDULE, date)
+    //       // if (!apptExists)
+    //       //   that.createFromObjectForDate(CARD.CATEGORY.APPOINTMENTS, date);
+    //     }
+    //   })
+    // }
+    //
 
-      var cardRef = this.ref().child(date_key);
-      cardRef.once("value", function (cardSnap) { //only do this once per day
-        if (!cardSnap.exists()) {
-          that.createFromObjectForDate(CARD.CATEGORY.MEDICATIONS_SCHEDULE, date)
-          // that.createFromObjectForDate(CARD.CATEGORY.MEASUREMENTS_SCHEDULE, date)
-          // that.createFromObjectForDate(CARD.CATEGORY.APPOINTMENTS, date)
-        } else {
-          // Check to make sure each has been generated
-          // var measExists = false;
-          var medsExists = false;
-          // var apptExists = false;
-          cardSnap.forEach(function(childSnap) {
-            // if (childSnap.val().object_type == CARD.CATEGORY.MEASUREMENTS_SCHEDULE) measExists = true;
-            if (childSnap.val().object_type == CARD.CATEGORY.MEDICATIONS_SCHEDULE) medsExists = true;
-            // if (childSnap.val().object_type == CARD.CATEGORY.APPOINTMENTS) apptExists = true;
-          });
-          if (!medsExists)
-            that.createFromObjectForDate(CARD.CATEGORY.MEDICATIONS_SCHEDULE, date)
-
-          // if (!measExists)
-          //   that.createFromObjectForDate(CARD.CATEGORY.MEASUREMENTS_SCHEDULE, date)
-          // if (!apptExists)
-          //   that.createFromObjectForDate(CARD.CATEGORY.APPOINTMENTS, date);
-        }
-      })
-    }
   }
 }])
