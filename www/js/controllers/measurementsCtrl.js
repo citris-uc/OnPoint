@@ -51,8 +51,10 @@ angular.module('app.controllers')
          var today = new Date();
          var tomorrow = new Date();
          tomorrow.setDate(tomorrow.getDate() + 1);
-         Card.createFromSchedSlot(CARD.CATEGORY.MEASUREMENTS_SCHEDULE, snapshot.key(), schedule, today.toISOString());
-         Card.createFromSchedSlot(CARD.CATEGORY.MEASUREMENTS_SCHEDULE, snapshot.key(), schedule, tomorrow.toISOString());
+
+        //  These will be called from Rails.
+        //  Card.createFromSchedSlot(CARD.CATEGORY.MEASUREMENTS_SCHEDULE, snapshot.key(), schedule, today.toISOString());
+        //  Card.createFromSchedSlot(CARD.CATEGORY.MEASUREMENTS_SCHEDULE, snapshot.key(), schedule, tomorrow.toISOString());
        })
 
        $state.go('carePlan.measurementSchedules');
