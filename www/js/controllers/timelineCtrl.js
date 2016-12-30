@@ -336,14 +336,9 @@ angular.module('app.controllers')
    */
   //  NOTE: Needed to open the page...
   $scope.openPage = function(card, type){
-    switch(type) {
-      case CARD.CATEGORY.MEDICATIONS_SCHEDULE :
-        var schedule = $scope.findMedicationScheduleForCard(card);
-        action = {tab: 'tabsController.medicationCardAction', params: {schedule_id: schedule.$id}};
-        return $state.go(action.tab, action.params);
-      default:
-        action = {tab: 'tabsController', params: {}}
-        return $state.go(action.tab, action.params);
+    if (type == CARD.CATEGORY.MEDICATIONS_SCHEDULE) {
+      var schedule = $scope.findMedicationScheduleForCard(card);
+      return $state.go('tabsController.medicationCardAction', {schedule_id: schedule.$id});
     }
   }
 
