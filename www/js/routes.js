@@ -157,16 +157,16 @@ angular.module('app.routes', [])
       }
     }
   })
-
-  .state('tabsController.editMedSchedule', {
-    url: '/medication_schedules/generated',
-    views: {
-      'medications-tab': {
-        templateUrl: 'templates/medications/edit_medication_schedule.html',
-        controller: 'medicationsSettingCtrl'
-      }
-    }
-  })
+  // 
+  // .state('tabsController.editMedSchedule', {
+  //   url: '/medication_schedules/generated',
+  //   views: {
+  //     'medications-tab': {
+  //       templateUrl: 'templates/medications/edit_medication_schedule.html',
+  //       controller: 'medicationsSettingCtrl'
+  //     }
+  //   }
+  // })
 
   .state('tabsController.newScheduleSlot', {
     url: '/medication_schedules/new_slot',
