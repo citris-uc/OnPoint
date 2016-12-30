@@ -1,6 +1,6 @@
 <link type="text/css" rel="stylesheet" href="css/timelineStyle.css"/>
 
-<ion-view title="{{ today | date:'MMMM dd, yyyy'}}" class = "timeline">
+<ion-view title="{{ today.timestamp | date:'MMMM dd, yyyy'}}" class = "timeline">
   <!-- <ion-nav-buttons side="primary">
     <button class="button button-icon icon ion-ios-gear-outline button-positive button-clear" ui-sref="tabsController.settings"></button>
   </ion-nav-buttons> -->
@@ -44,40 +44,7 @@
     <ion-slide-box active-slide="1" on-slide-changed="changeTimeline($index)" does-continue="false" show-pager="false">
 
       <ion-slide>
-        <div class="card-section history">
-          <hr class="responsive-col"></hr>
-          <h4 class="text-center">{{today| date:'MMMM dd, yyyy'}}</h4>
-        </div>
-        <span ng-repeat="date in cards">
-          <div class="row" style="justify-content: center;" ng-repeat="c in date | toArray | orderBy: 'shown_at' | filter: {archived_at: ''}" ng-show="checkCardDate(c, today)" >
-          <!-- <div class="row" style="justify-content: center;" ng-repeat="c in cards | orderBy: 'shown_at' | filter: {archived_at:''}"> -->
-            <div class="col responsive-col">
-              <div class="list card">
-
-                <div class="item item-icon-left">
-                  <i class="icon {{iconClass(c)}}"></i>
-                  <h2>{{formatTitle(c.object_type)}}</h2>
-                  <p>{{getTime(c.shown_at) | date: 'EEEE, MMMM dd h:mm a'}}</p>
-
-                  <span class="badge {{statusClass(c,date.$id)}}">{{statusText(c, date.$id)}}</span>
-                </div>
-
-                <div class="item item-body">
-                  {{description(c, date.$id)}}
-                </div>
-                  <div class="col responsive-col-md-25">
-                    <a class="item item-icon-left" ui-sref="tabsController.comments({card_id:c.$id, comment_id: c.comment_id})">
-                      <i class="icon ion-ios-chatbubble-outline"></i>
-                      Comment {{c.num_comments > 0 ? '('+c.num_comments+')' : ''}}
-                    </a>
-                  </div>
-              </div>
-
-            </div>
-          </div>
-        </span>
-
-        <div ng-repeat="date in history | orderBy:'-'">
+        <div ng-repeat="date in history.cards | orderBy:'-'">
           <div class="card-section history">
             <hr class="responsive-col"></hr>
             <h4 class="text-center">{{setLocaleDate(date.$id) | date:'MMMM dd, yyyy'}}</h4>
@@ -87,7 +54,7 @@
             <div class="col responsive-col">
               <div class="list card">
                 <div class="item item-icon-left">
-                  <i class="icon {{iconClass(c)}}"></i>
+                  <i class="icon ion-ios-medkit-outline"></i>
                   <h2>{{formatTitle(c.object_type)}}</h2>
                   <p>{{getTime(c.shown_at) | date: 'EEEE, MMMM dd h:mm a'}}</p>
                 </div>
@@ -121,14 +88,14 @@
           </div>
         </div> -->
 
-        <div ng-repeat="date in cards">
+        <div ng-repeat="date in today.cards">
           <!-- <div class="row" style="justify-content: center;" ng-repeat="c in cards | orderBy: 'shown_at' | filter: {archived_at: '!'}" on-swipe-right="swipeCard(c)" on-swipe-left="swipeCard(c)"> -->
-          <div class="row" style="justify-content: center;" ng-repeat="c in date | toArray | orderBy: 'shown_at' | filter: {archived_at: '!'}" ng-show="checkCardDate(c, today)" on-swipe-right="swipeCard(c)" on-swipe-left="swipeCard(c)">
+          <div class="row" style="justify-content: center;" ng-repeat="c in date | toArray | orderBy: 'shown_at' | filter: {archived_at: '!'}" ng-show="checkCardDate(c, today.timestamp)" on-swipe-right="swipeCard(c)" on-swipe-left="swipeCard(c)">
             <div class="col responsive-col">
               <div class="list card">
 
                 <div class="item item-icon-left">
-                  <i class="icon {{iconClass(c)}}"></i>
+                  <i class="icon ion-ios-medkit-outline"></i>
                   <h2>{{formatTitle(c.object_type)}} {{card_key}}</h2>
                   <p>{{getTime(c.shown_at) | date: 'EEEE, MMMM dd h:mm a'}}</p>
 
@@ -171,15 +138,15 @@
 
 
       <ion-slide>
-        <div ng-repeat="date in tomorrowCards">
-          <div class="row" style="justify-content: center;" ng-repeat="c in date | toArray | orderBy: 'shown_at' | filter: {archived_at: '!', object_type:'!appointments'}" ng-show="checkCardDate(c, tomorrow)" on-swipe-right="swipeCard(c)" on-swipe-left="swipeCard(c)">
+        <div ng-repeat="date in tomorrow.cards">
+          <div class="row" style="justify-content: center;" ng-repeat="c in date | toArray | orderBy: 'shown_at' | filter: {archived_at: '!', object_type:'!appointments'}" ng-show="checkCardDate(c, tomorrow.timestamp)" on-swipe-right="swipeCard(c)" on-swipe-left="swipeCard(c)">
           <!-- <div class="row" style="justify-content: center;" ng-repeat="c in tomorrowCards | orderBy: 'shown_at' | filter: {archived_at: '!', object_type:'!appointments'}" on-swipe-right="swipeCard(c)" on-swipe-left="swipeCard(c)"> -->
             <div class="col responsive-col">
 
               <div class="list card">
 
                 <div class="item item-icon-left">
-                  <i class="icon {{iconClass(c)}}"></i>
+                  <i class="icon ion-ios-medkit-outline"></i>
                   <h2>{{formatTitle(c.object_type)}}</h2>
                   <p>{{getTime(c.shown_at) | date: 'EEEE, MMMM dd h:mm a'}}</p>
                 </div>
