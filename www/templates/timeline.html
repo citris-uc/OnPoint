@@ -42,7 +42,6 @@
     <ion-refresher pulling-text="Pull to refresh" on-refresh="loadCards()" pulling-icon="ion-ios-refresh-empty"></ion-refresher>
 
     <ion-slide-box active-slide="1" on-slide-changed="changeTimeline($index)" does-continue="false" show-pager="false">
-
       <ion-slide>
         <div class="list card" ng-show="history.cards.length === 0">
           <div class="item item-body">

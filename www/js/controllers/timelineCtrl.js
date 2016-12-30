@@ -49,7 +49,14 @@ angular.module('app.controllers')
     // })
 
     if ($scope.timeline.pageIndex === 1) {
-      $scope.today.cards = Card.getRangeByDate(new Date());
+      Card.today().then(function(response) {
+        console.log(response)
+        $scope.today.cards =  response.data.cards;
+      }, function(response) {
+        console.log("EROR")
+        console.log(response)
+      })
+
     } else if ($scope.timeline.pageIndex == 0) {
       $scope.history.cards = Card.getHistory();
     } else if ($scope.timeline.pageIndex == 2) {
@@ -252,7 +259,11 @@ angular.module('app.controllers')
     // Calculate today's cards
     today_timestamp        = new Date()
     $scope.today.timestamp = today_timestamp
-    $scope.today.cards     = Card.getRangeByDate(today_timestamp);
+    Card.today().then(function(response) {
+      $scope.today.cards = response.data.cards
+    }, function(response) {
+      // window.alert("SOMETHING went wrong")
+    })
 
     // Calculate tomorrow timestamps.
     tomorrow_timestamp = new Date();
