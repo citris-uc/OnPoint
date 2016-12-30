@@ -87,40 +87,7 @@ angular.module('app.services')
 
     // TODO: This updates the existing scheduled cards.
     updateSchedCard: function(object_type, obj_id, object, date) {
-      // Only create if cards for the day have already been created
-      var that = this;
-      date_key = date.substring(0,10);
-
-      console.log(object)
-
-      var cardRef = this.ref().child(date_key);
-      cardRef.once("value", function (cardSnap) { //only do this once per day
-        if (cardSnap.exists()) {
-          cardSnap.forEach( function(cardRef) {
-            card = cardRef.val();
-            // Find the Card corresponding to the schedule
-            if (card.object_id == obj_id && card.object_type == object_type) {
-              var show = new Date(date);
-              if (object.days[show.getDay()]) { //only generate if scheduled for this day
-                if (object_type == CARD.CATEGORY.MEDICATIONS_SCHEDULE) {
-                  show.setHours(parseInt(object.time.substring(0,2)));
-                  show.setMinutes(parseInt(object.time.substring(3,5)));
-                } else if (object_type == CARD.CATEGORY.MEASUREMENTS_SCHEDULE) {
-                  show.setHours(object.hour);
-                  show.setMinutes(object.minute);
-                }
-
-                var now = new Date().toISOString();
-                var cardUpdate = {
-                  shown_at: show.toISOString(),
-                }
-                cardRef.ref().update(cardUpdate);
-
-              } //end if(schedule.days[show.getDay()])
-            }
-          })
-        }
-      })
+      // TODO: Call Rails.
     },
 
     createAdHoc: function(object_type, obj_id, date) {
