@@ -84,6 +84,8 @@ angular.module('app.services')
       })
       return req;
     },
+
+    // TODO: This updates the existing scheduled cards.
     updateSchedCard: function(object_type, obj_id, object, date) {
       // Only create if cards for the day have already been created
       var that = this;
@@ -138,43 +140,43 @@ angular.module('app.services')
       this.create(date_key, card);
     },
 
-    createFromSchedSlot: function(object_type, obj_id, object, date) {
-      // Only create if cards for the day have already been created
-      var that = this;
-      date_key = date.substring(0,10);
-
-      var cardRef = this.ref().child(date_key);
-      cardRef.once("value", function (cardSnap) { //only do this once per day
-        if (cardSnap.exists()) {
-          var show = new Date(date);
-          if (object.days[show.getDay()]) { //only generate if scheduled for this day
-            if (object_type == CARD.CATEGORY.MEDICATIONS_SCHEDULE) {
-              show.setHours(parseInt(object.time.substring(0,2)));
-              show.setMinutes(parseInt(object.time.substring(3,5)));
-            } else if (object_type == CARD.CATEGORY.MEASUREMENTS_SCHEDULE) {
-              show.setHours(object.hour);
-              show.setMinutes(object.minute);
-            }
-
-
-            var now = new Date().toISOString();
-            var card = {
-              type: CARD.TYPE.ACTION,
-              created_at: now,
-              updated_at: now,
-              shown_at: show.toISOString(),
-              completed_at: null,
-              archived_at: null,
-              num_comments: 0,
-              object_type: object_type,
-              object_id: obj_id
-            }
-            that.create(date_key, card);
-          } //end if(schedule.days[show.getDay()])
-
-        }
-      })
-    },
+    // createFromSchedSlot: function(object_type, obj_id, object, date) {
+    //   // Only create if cards for the day have already been created
+    //   var that = this;
+    //   date_key = date.substring(0,10);
+    //
+    //   var cardRef = this.ref().child(date_key);
+    //   cardRef.once("value", function (cardSnap) { //only do this once per day
+    //     if (cardSnap.exists()) {
+    //       var show = new Date(date);
+    //       if (object.days[show.getDay()]) { //only generate if scheduled for this day
+    //         if (object_type == CARD.CATEGORY.MEDICATIONS_SCHEDULE) {
+    //           show.setHours(parseInt(object.time.substring(0,2)));
+    //           show.setMinutes(parseInt(object.time.substring(3,5)));
+    //         } else if (object_type == CARD.CATEGORY.MEASUREMENTS_SCHEDULE) {
+    //           show.setHours(object.hour);
+    //           show.setMinutes(object.minute);
+    //         }
+    //
+    //
+    //         var now = new Date().toISOString();
+    //         var card = {
+    //           type: CARD.TYPE.ACTION,
+    //           created_at: now,
+    //           updated_at: now,
+    //           shown_at: show.toISOString(),
+    //           completed_at: null,
+    //           archived_at: null,
+    //           num_comments: 0,
+    //           object_type: object_type,
+    //           object_id: obj_id
+    //         }
+    //         that.create(date_key, card);
+    //       } //end if(schedule.days[show.getDay()])
+    //
+    //     }
+    //   })
+    // },
 
     // createFromSchedule: function(ref, object_type, date) {
     //   var that = this;
