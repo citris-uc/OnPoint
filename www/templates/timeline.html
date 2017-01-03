@@ -1,6 +1,6 @@
 <link type="text/css" rel="stylesheet" href="css/timelineStyle.css"/>
 
-<ion-view title="{{ today.timestamp | date:'MMMM dd, yyyy'}}" class = "timeline">
+<ion-view title="Timeline" class = "timeline">
   <!-- <ion-nav-buttons side="primary">
     <button class="button button-icon icon ion-ios-gear-outline button-positive button-clear" ui-sref="tabsController.settings"></button>
   </ion-nav-buttons> -->
@@ -50,23 +50,25 @@
         </div>
 
 
-        <div ng-repeat="date in history.cards | orderBy:'-'">
+        <!-- <div ng-repeat="date in history.cards | orderBy:'-'"> -->
+        <div ng-repeat="card in today.cards">
           <div class="card-section history">
             <hr class="responsive-col"></hr>
-            <h4 class="text-center">{{setLocaleDate(date.$id) | date:'MMMM dd, yyyy'}}</h4>
+            <h4 class="text-center">{{card.formatted_time}}</h4>
           </div>
 
-          <div class="row" style="justify-content: center;" ng-repeat="c in date | orderBy: 'shown_at'">
+          <div class="row" style="justify-content: center;">
             <div class="col responsive-col">
               <div class="list card">
-                <div class="item item-icon-left">
-                  <i class="icon ion-ios-medkit-outline"></i>
-                  <h2>{{formatTitle(c.object_type)}}</h2>
-                  <p>{{getTime(c.shown_at) | date: 'EEEE, MMMM dd h:mm a'}}</p>
+                <div class="item item-avatar">
+                  <img src="img/pill.png">
+                  <h2>{{card.title}}</h2>
+                  <p>{{card.formatted_time}}</p>
+                  <p>{{card.time_ago_in_words}}</p>
                 </div>
 
                 <div class="item item-body">
-                  {{description(c, date.$id)}}
+                  {{card.description}}
                 </div>
                 <div class="col responsive-col-md-25">
                   <a class="item item-icon-left" ui-sref="tabsController.comments({card_id:c.$id, comment_id: c.comment_id})">
@@ -148,29 +150,28 @@
         </div>
 
 
-        <div ng-repeat="date in tomorrow.cards">
-          <div class="row" style="justify-content: center;" ng-repeat="c in date | toArray | orderBy: 'shown_at' | filter: {archived_at: '!', object_type:'!appointments'}" on-swipe-right="swipeCard(c)" on-swipe-left="swipeCard(c)">
+        <div ng-repeat="card in tomorrow.cards">
+          <!-- <div class="row" style="justify-content: center;" ng-repeat="c in date | toArray | orderBy: 'shown_at' | filter: {archived_at: '!', object_type:'!appointments'}" on-swipe-right="swipeCard(c)" on-swipe-left="swipeCard(c)"> -->
+          <div class="row" style="justify-content: center;">
             <div class="col responsive-col">
 
               <div class="list card">
 
                 <div class="item item-icon-left">
                   <i class="icon ion-ios-medkit-outline"></i>
-                  <h2>{{formatTitle(c.object_type)}}</h2>
-                  <p>{{getTime(c.shown_at) | date: 'EEEE, MMMM dd h:mm a'}}</p>
+                  <h2>{{card.title}}</h2>
+                  <p>{{card.formatted_time}}</p>
                 </div>
 
                 <div class="item item-body">
                   <!-- Your weigh in is at 09:00 AM -->
-                  {{description(c, date.$id)}}
+                  {{card.description}}
                 </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-
-
       </ion-slide>
     </ion-slide-box>
 
