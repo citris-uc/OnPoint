@@ -7,13 +7,6 @@ angular.module('app.services')
       var ref = this.ref().child(today);
       return $firebaseArray(ref);
     },
-    // Return an object so we can directly get a date's histories instead of iterating thru array.
-    getHistoryRange: function(from, to) {
-      var fromISO = from.toISOString().substring(0,10);
-      var toISO = to.toISOString().substring(0,10);
-      var ref = this.ref().orderByKey().startAt(fromISO).endAt(toISO);
-      return $firebaseObject(ref);
-    },
     ref: function() {
       return Patient.ref().child("medication_histories");
     },
