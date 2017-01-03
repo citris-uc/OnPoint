@@ -51,16 +51,23 @@ angular.module('app.controllers')
     if ($scope.timeline.pageIndex === 1) {
       Card.today().then(function(response) {
         console.log(response)
-        $scope.today.cards =  response.data.cards;
+        $scope.today.cards = response.data.cards;
       }, function(response) {
-        console.log("EROR")
+        console.log("ERROR")
         console.log(response)
       })
 
     } else if ($scope.timeline.pageIndex == 0) {
       $scope.history.cards = Card.getHistory();
     } else if ($scope.timeline.pageIndex == 2) {
-      $scope.tomorrow.cards = Card.getRangeByDate($scope.tomorrow.timestamp);
+
+      Card.tomorrow().then(function(response) {
+        console.log(response)
+        $scope.tomorrow.cards = response.data.cards;
+      }, function(response) {
+        console.log("ERROR")
+        console.log(response)
+      })
     }
     $scope.$broadcast('scroll.refreshComplete');
   }
@@ -76,16 +83,16 @@ angular.module('app.controllers')
     return local
   }
 
-  $scope.findMedicationScheduleForCard = function(card) {
-    var schedule = null;
-
-    for (var i = 0; i < $scope.medSchedule.length; i++) {
-      if ($scope.medSchedule[i].$id == card.object_id) {
-        schedule = $scope.medSchedule[i];
-      }
-    }
-    return schedule;
-  }
+  // $scope.findMedicationScheduleForCard = function(card) {
+  //   var schedule = null;
+  //
+  //   for (var i = 0; i < $scope.medSchedule.length; i++) {
+  //     if ($scope.medSchedule[i].$id == card.object_id) {
+  //       schedule = $scope.medSchedule[i];
+  //     }
+  //   }
+  //   return schedule;
+  // }
 
   // $scope.checkCardComplete = function(card, date_key) {
   //   $scope.completeFinishedMedications(card, date_key);
@@ -110,12 +117,12 @@ angular.module('app.controllers')
    * TODO: fix other categories
    */
   //  NOTE: Needed to open the page...
-  $scope.openPage = function(card, type){
-    if (type == CARD.CATEGORY.MEDICATIONS_SCHEDULE) {
-      var schedule = $scope.findMedicationScheduleForCard(card);
-      return $state.go('tabsController.medicationCardAction', {schedule_id: schedule.$id});
-    }
-  }
+  // $scope.openPage = function(card, type){
+  //   if (type == CARD.CATEGORY.MEDICATIONS_SCHEDULE) {
+  //     var schedule = $scope.findMedicationScheduleForCard(card);
+  //     return $state.go('tabsController.medicationCardAction', {schedule_id: schedule.$id});
+  //   }
+  // }
 
   $scope.archive = function(card) {
     if (card.completed_at != null) {
@@ -130,9 +137,6 @@ angular.module('app.controllers')
   // to understand why we're doing everything in a beforeEnter event. Essentially,
   // we avoid stale data.
   $scope.$on('$ionicView.loaded', function(){
-    $scope.medications = Medication.get();
-    $scope.medSchedule = MedicationSchedule.get()
-
     // Calculate today's cards
     today_timestamp        = new Date()
     $scope.today.timestamp = today_timestamp
@@ -146,12 +150,15 @@ angular.module('app.controllers')
     tomorrow_timestamp = new Date();
     tomorrow_timestamp.setDate(today_timestamp.getDate() + 1);
     $scope.tomorrow.timestamp = tomorrow_timestamp
-    $scope.tomorrow.cards     = Card.getRangeByDate(tomorrow_timestamp);
+    Card.tomorrow().then(function(response) {
+      $scope.tomorrow.cards = response.data.cards
+    }, function(response) {
+      // window.alert("SOMETHING went wrong")
+    })
 
     // Fetch medication history
     yesterday_timestamp = new Date();
     yesterday_timestamp.setDate(today_timestamp.getDate() - 1);
-    $scope.medHistory =  MedicationHistory.getHistoryRange(yesterday_timestamp, tomorrow_timestamp);
 
 
     // We load cards and history in one cycle. Any changes will be reflected

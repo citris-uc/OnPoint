@@ -19,33 +19,15 @@ angular.module('app.services')
          "Authorization": "Bearer " + Patient.getToken()
         }
       })
-
-      // var dateISO = date.toISOString().substring(0,10);
-      //
-      // var yesterday = new Date();
-      // yesterday.setDate(date.getDate()-1);
-      // var yesterdayISO = yesterday.toISOString().substring(0,10);
-      //
-      // var tomorrow = new Date();
-      // tomorrow.setDate(date.getDate()+1);
-      // var tomorrowISO = tomorrow.toISOString().substring(0,10);
-      // var ref = this.ref().orderByKey().startAt(yesterdayISO).endAt(tomorrowISO);
-      // return $firebaseArray(ref);
     },
-
-    //Returns cards for date-1, date, and date+1
-    getRangeByDate: function(date) {
-      var dateISO = date.toISOString().substring(0,10);
-
-      var yesterday = new Date();
-      yesterday.setDate(date.getDate()-1);
-      var yesterdayISO = yesterday.toISOString().substring(0,10);
-
-      var tomorrow = new Date();
-      tomorrow.setDate(date.getDate()+1);
-      var tomorrowISO = tomorrow.toISOString().substring(0,10);
-      var ref = this.ref().orderByKey().startAt(yesterdayISO).endAt(tomorrowISO);
-      return $firebaseArray(ref);
+    tomorrow: function() {
+      return $http({
+        method: "GET",
+        url:    onpoint.env.serverURL + "cards?when=tomorrow",
+        headers: {
+         "Authorization": "Bearer " + Patient.getToken()
+        }
+      })
     },
     getById: function(id) {
       var ref = this.todaysRef().child(id)
