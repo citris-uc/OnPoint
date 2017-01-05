@@ -59,6 +59,10 @@ angular.module('app.controllers')
     }
   }
 
+  $scope.openPage = function(card, type){
+    return $state.go('tabsController.medicationCardAction', {schedule_id: card.object_id});
+  }
+
   // See http://www.gajotres.net/understanding-ionic-view-lifecycle/
   // to understand why we're doing everything in a beforeEnter event.
   // Essentially, we avoid stale data.
