@@ -50,11 +50,6 @@ Source: http://codepen.io/niyando/pen/GpEeQR
         //TODO: much later, delete this.
         Medication.setDefaultMeds(); // Setting default meds/instructions for patient once they register
 
-
-
-        var onboardingRef = Patient.ref().child('onboarding');
-        onboardingRef.set({'completed':false,'state':'carePlan.setup'})
-
         //Use UPDATE, to NOT OVERWRITE email address!
         var req = ref.update($scope.user) //Setting Patient Information.
         req.then(function(ref) {
@@ -63,8 +58,7 @@ Source: http://codepen.io/niyando/pen/GpEeQR
             disableBack: true,
           })
 
-          //TODO: redirect to onboarding process
-          $state.go("carePlan.setup");
+          $state.go("intro.welcome");
         })
 
       }).catch(function(error) {

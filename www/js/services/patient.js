@@ -16,6 +16,8 @@ angular.module('app.services')
     },
     set: function(patient) {
       // this.setToken(patient.token);
+      console.log("Setting patient...")
+      console.log(patient)
       $window.localStorage.setItem("patient", JSON.stringify(patient || {}));
     },
     setAttribute: function(attr, value) {

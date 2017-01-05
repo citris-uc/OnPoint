@@ -110,8 +110,11 @@ angular.module('app.controllers')
    console.log($scope.scheduledMedications)
 
    $scope.completeMedicationIdentification = function() {
-     var medicationIdRef = Patient.ref().child('medication_identification');
-     medicationIdRef.set({'completed':true}).then(function(response) {
+     var medicationIdRef = Patient.ref().child('onboarding');
+     medicationIdRef.set({'medication_identification':true}).then(function(response) {
+       pat = Patient.get()
+       pat.onboarding.medication_identification = true
+       Patient.set(pat)
        $state.go("medication_scheduling.welcome")
      })
    }

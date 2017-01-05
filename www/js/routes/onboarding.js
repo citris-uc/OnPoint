@@ -1,8 +1,6 @@
 angular.module('app.routes')
 
 .config(function($stateProvider, $urlRouterProvider) {
-  $urlRouterProvider.otherwise('/onboarding/welcome')
-
   // Ionic uses AngularUI Router which uses the concept of states
   // Learn more here: https://github.com/angular-ui/ui-router
   // Set up the various states which the app can be in.
@@ -11,6 +9,7 @@ angular.module('app.routes')
   .state('onboarding', {
     url: '/onboarding',
     templateUrl: 'templates/onboarding/menu.html',
+    controller: "onboardingCtrl",
     abstract: true
   })
   .state('onboarding.welcome', {
@@ -18,6 +17,7 @@ angular.module('app.routes')
     views: {
       'onboarding': {
         templateUrl: 'templates/onboarding/welcome.html',
+        controller: "onboardingCtrl"
       }
     }
   })
@@ -42,14 +42,15 @@ angular.module('app.routes')
     views: {
       'onboarding': {
         templateUrl: 'templates/onboarding/timeline.html',
+        controller: "onboardingCtrl"
       }
     }
   })
-  .state('onboarding.finish', {
+  .state('onboarding.ready_to_start', {
     url: '/finish',
     views: {
       'onboarding': {
-        templateUrl: 'templates/onboarding/finish.html',
+        templateUrl: 'templates/onboarding/ready_to_start.html',
         controller: "onboardingCtrl"
       }
     }

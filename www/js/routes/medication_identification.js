@@ -1,8 +1,6 @@
 angular.module('app.routes')
 
 .config(function($stateProvider, $urlRouterProvider) {
-  $urlRouterProvider.otherwise('/medication_identification/welcome')
-
   // Ionic uses AngularUI Router which uses the concept of states
   // Learn more here: https://github.com/angular-ui/ui-router
   // Set up the various states which the app can be in.
@@ -10,13 +8,14 @@ angular.module('app.routes')
   $stateProvider
   .state('medication_identification', {
     url: '/medication_identification',
-    templateUrl: 'templates/medication_identification/menu.html',
+    templateUrl: 'templates/onboarding/menu.html',
+    controller: "onboardingCtrl",
     abstract: true
   })
   .state('medication_identification.welcome', {
     url: '/welcome',
     views: {
-      'menuContent': {
+      'onboarding': {
         templateUrl: 'templates/medication_identification/welcome.html',
       }
     }
@@ -24,7 +23,7 @@ angular.module('app.routes')
   .state('medication_identification.start', {
     url: '/start',
     views: {
-      'menuContent': {
+      'onboarding': {
         templateUrl: 'templates/medication_identification/start.html',
         controller: 'medicationsListCtrl'
       }
@@ -33,7 +32,7 @@ angular.module('app.routes')
   .state('medication_identification.new', {
     url: '/new',
     views: {
-      'menuContent': {
+      'onboarding': {
         templateUrl: 'templates/medication_identification/new.html',
         controller: 'newMedicationCtrl'
       }
@@ -42,7 +41,7 @@ angular.module('app.routes')
   .state('medication_identification.search', {
     url: '/search',
     views: {
-      'menuContent': {
+      'onboarding': {
         templateUrl: 'templates/medication_identification/search.html',
         controller: 'medicationSearchCtrl'
       }
@@ -51,7 +50,7 @@ angular.module('app.routes')
   .state('medication_identification.edit', {
     url: '/:id/edit',
     views: {
-      'menuContent': {
+      'onboarding': {
         templateUrl: 'templates/medication_identification/edit.html',
       }
     }
@@ -59,7 +58,7 @@ angular.module('app.routes')
   .state('medication_identification.medication', {
     url: '/:id',
     views: {
-      'menuContent': {
+      'onboarding': {
         templateUrl: 'templates/medication_identification/show.html',
         controller: 'medicationViewCtrl'
       }

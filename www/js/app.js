@@ -73,17 +73,26 @@ angular.module('app', ['ionic', 'firebase', 'app.controllers', 'app.routes', 'ap
   $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams, options) {
     console.log("State changing...")
     if (toState.name.indexOf("onboarding") == -1) {
-      req = Patient.ref().child('onboarding').once("value", function(snapshot) {
-      onboarding = snapshot.val()
-        if (!onboarding || !onboarding.completed) {
-          $ionicHistory.nextViewOptions({
-            disableAnimate: true,
-            disableBack: true,
-            historyRoot: true
-          })
-          $state.go('onboarding.welcome');
-        }
-      });
+      // Save the onboarding state locally.
+      onboarding = Patient.get().onboarding
+      if (!onboarding) {
+        req = Patient.ref().child('onboarding').once("value", function(snapshot) {
+          onboarding = snapshot.val()
+          patient = Patient.get()
+          patient.onboarding = snapshot.val()
+          Patient.set(patient)
+        });
+      }
+
+      onboarding = Patient.get().onboarding
+      if (!onboarding.intro) {
+        $ionicHistory.nextViewOptions({
+          disableAnimate: true,
+          disableBack: true,
+          historyRoot: true
+        })
+        $state.go('onboarding.welcome');
+      }
     }
 
   });

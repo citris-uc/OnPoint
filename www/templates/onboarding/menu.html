@@ -20,15 +20,16 @@
       <ion-list>
         <ion-item class="icon item-icon-right" menu-close ui-sref="onboarding.welcome">
           Onboarding
-          <i class="icon ion-ios-checkmark-empty"></i>
+          {{patient.onboarding.intro}}
+          <i class="icon" ng-class="{'ion-ios-checkmark-empty': patient.onboarding.intro}"></i>
         </ion-item>
         <ion-item class="icon item-icon-right" menu-close ui-sref="medication_identification.welcome">
           Medication Identification
-          <i class="icon ion-ios-checkmark-empty"></i>
+          <i class="icon" ng-class="{'ion-ios-checkmark-empty': patient.onboarding.medication_identification}"></i>
         </ion-item>
         <ion-item class="icon item-icon-right" menu-close ui-sref="medication_scheduling.welcome">
           Medication Scheduling
-          <i class="icon ion-ios-checkmark-empty"></i>
+          <i class="icon" ng-class="{'ion-ios-checkmark-empty': patient.onboarding.medication_scheduling}"></i>
         </ion-item>
       </ion-list>
     </ion-content>

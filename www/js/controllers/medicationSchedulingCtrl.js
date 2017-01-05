@@ -53,9 +53,15 @@ angular.module('app.controllers')
     Card.createAdHoc(CARD.CATEGORY.MEDICATIONS_SCHEDULE_CHANGE, oldScheduleRef, (new Date()).toISOString())
 
     //Done onboarding!
-    var ref = Patient.ref();
-    var req = ref.child('medication_scheduling').update({'completed':true})
-    $state.go("medication_scheduling.fill_pillbox_welcome");
+    var medicationIdRef = Patient.ref().child('onboarding');
+    medicationIdRef.set({'medication_scheduling':true}).then(function(response) {
+      // $state.go("onboarding.complete")
+      pat = Patient.get()
+      pat.onboarding.medication_scheduling = true
+      Patient.set(pat)
+      $state.go("medication_scheduling.fill_pillbox_welcome");
+    })
+
   }
 
   $scope.addMedicationModal = function(slotId) {
@@ -298,8 +304,17 @@ angular.module('app.controllers')
   }
 
   $scope.completeMedicationScheduling = function() {
-    var medicationIdRef = Patient.ref().child('medication_scheduling');
-    medicationIdRef.set({'completed':true}).then(function(response) {
+    // var medicationIdRef = Patient.ref().child('medication_scheduling');
+    // medicationIdRef.set({'completed':true}).then(function(response) {
+    //   $state.go("onboarding.complete")
+    // })
+    var medicationIdRef = Patient.ref().child('onboarding');
+    medicationIdRef.set({'medication_scheduling':true}).then(function(response) {
+      // $state.go("onboarding.complete")
+      pat = Patient.get()
+      pat.onboarding.medication_scheduling = true
+      Patient.set(pat)
+
       $state.go("onboarding.complete")
     })
   }
