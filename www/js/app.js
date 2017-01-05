@@ -135,10 +135,10 @@ angular.module('app', ['ionic', 'firebase', 'app.controllers', 'app.routes', 'ap
           $rootScope.modal.show();
         })
       }
-    } else if (response.status !== -1 && response.error.data) {
-      navigator.notification.alert(response.error.data.message, null, "Server not responding", "OK")
-    } else if (response.error.status === 422 && response.error.data) {
-      navigator.notification.alert(response.error.data.message, null, "Server not responding", "OK")
+    } else if (response.status !== -1 && response.error) {
+      navigator.notification.alert(response.error.data.error, null, "Server not responding", "OK")
+    } else if (response.error.status === 422 && response.data.error) {
+      navigator.notification.alert(response.data.error, null, "Server not responding", "OK")
     } else if (response.error.status === -1) {
       navigator.notification.alert("We couldn't reach the server. Try again later.", null, "Server not responding", "OK")
     } else {

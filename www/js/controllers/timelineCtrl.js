@@ -1,6 +1,6 @@
 angular.module('app.controllers')
 
-.controller('timelineCtrl', function($scope, $state, Card, CARD, Comment, Medication, MedicationSchedule, Measurement, MeasurementSchedule, MedicationHistory, Appointment, Notes, $ionicSlideBoxDelegate, Patient) {
+.controller('timelineCtrl', function($scope, $state, Card, CARD, Comment, Medication, MedicationSchedule, Measurement, MeasurementSchedule, MedicationHistory, Appointment, Notes, $ionicSlideBoxDelegate, $ionicLoading, Patient) {
   $scope.timeline = {pageIndex: 1}
   $scope.today   = {timestamp: "", cards: []}
   $scope.history = {timestamp: "", cards: []}
@@ -19,22 +19,24 @@ angular.module('app.controllers')
   // if we're on Today view, then we'll load cards for today/tomorrow. On the
   // History view, we'll load all cards.
   $scope.loadCards = function() {
+    $ionicLoading.show();
+
     if ($scope.timeline.pageIndex === 1) {
       Card.today().then(function(response) {
         $scope.today.cards = response.data.cards;
       }, function(response) {
-        console.log(response)
-        console.log("^ Something went wrong loading today's cards...")
+        $scope.$emit(onpoint.env.error, {error: response})
+      }).finally(function(response) {
+        $ionicLoading.hide();
       })
 
     } else if ($scope.timeline.pageIndex == 0) {
-
-
       Card.past().then(function(response) {
         $scope.history.cards = response.data.cards
       }, function(response) {
-        console.log(response)
-        console.log("^ Something went wrong loading historical cards...")
+        $scope.$emit(onpoint.env.error, {error: response})
+      }).finally(function(response) {
+        $ionicLoading.hide();
       })
 
 
@@ -43,8 +45,9 @@ angular.module('app.controllers')
       Card.tomorrow().then(function(response) {
         $scope.tomorrow.cards = response.data.cards;
       }, function(response) {
-        console.log(response)
-        console.log("^ Something went wrong loading tomorrow's cards...")
+        $scope.$emit(onpoint.env.error, {error: response})
+      }).finally(function(response) {
+        $ionicLoading.hide();
       })
     }
     $scope.$broadcast('scroll.refreshComplete');
@@ -54,6 +57,10 @@ angular.module('app.controllers')
     if (card.completed_at != null) {
       Card.archive(card);
     }
+  }
+
+  $scope.openPage = function(card, type){
+    return $state.go('tabsController.medicationCardAction', {schedule_id: card.object_id});
   }
 
   // See http://www.gajotres.net/understanding-ionic-view-lifecycle/

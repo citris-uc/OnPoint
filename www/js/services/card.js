@@ -95,21 +95,14 @@ angular.module('app.services')
       // TODO: Call Rails.
     },
 
-    createAdHoc: function(object_type, obj_id, date) {
-      date_key = date.substring(0,10);
-      var now = new Date().toISOString();
-      var card = {
-        type: CARD.TYPE.INFO,
-        created_at: now,
-        updated_at: now,
-        shown_at: now,
-        completed_at: now,
-        archived_at: now,
-        num_comments: 0,
-        object_type: object_type,
-        object_id: obj_id
-      };
-      this.create(date_key, card);
+    forceGenerate: function() {
+      return $http({
+        method: "DELETE",
+        url:    onpoint.env.serverURL + "cards/force",
+        headers: {
+         "Authorization": "Bearer " + Patient.getToken()
+        }
+      })
     },
 
     // createFromSchedSlot: function(object_type, obj_id, object, date) {

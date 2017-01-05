@@ -38,6 +38,7 @@ angular.module('app.services')
           instanceFB.reason = typeof(medication.reason)==='undefined'? null:medication.reason;
           var medRef = snapshot.ref();
           cabHistRef = medRef.push(instanceFB);
+          // TODO :This no longer exists because we use "force" in Rails.
           Card.createAdHoc(CARD.CATEGORY.MEDICATIONS_CABINET, cabHistRef.key(), (new Date()).toISOString())
         }
         else {
