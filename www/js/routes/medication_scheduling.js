@@ -1,8 +1,6 @@
 angular.module('app.routes')
 
 .config(function($stateProvider, $urlRouterProvider) {
-  $urlRouterProvider.otherwise('/medication_scheduling/welcome')
-
   // Ionic uses AngularUI Router which uses the concept of states
   // Learn more here: https://github.com/angular-ui/ui-router
   // Set up the various states which the app can be in.
@@ -10,13 +8,14 @@ angular.module('app.routes')
   $stateProvider
   .state('medication_scheduling', {
     url: '/medication_scheduling',
-    templateUrl: 'templates/medication_scheduling/menu.html',
+    templateUrl: 'templates/onboarding/menu.html',
+    controller: "onboardingCtrl",
     abstract: true
   })
   .state('medication_scheduling.welcome', {
     url: '/welcome',
     views: {
-      'menuContent': {
+      'onboarding': {
         templateUrl: 'templates/medication_scheduling/welcome.html',
       }
     }
@@ -24,7 +23,7 @@ angular.module('app.routes')
   .state('medication_scheduling.start', {
     url: '/start',
     views: {
-      'menuContent': {
+      'onboarding': {
         templateUrl: 'templates/medication_scheduling/start.html',
         controller: 'medicationSchedulingCtrl'
       }
@@ -33,7 +32,7 @@ angular.module('app.routes')
   .state('medication_scheduling.new', {
     url: '/new',
     views: {
-      'menuContent': {
+      'onboarding': {
         templateUrl: 'templates/medication_scheduling/new.html',
         controller: 'newMedicationScheduleSlotCtrl'
       }
@@ -42,7 +41,7 @@ angular.module('app.routes')
   .state('medication_scheduling.edit', {
     url: '/:id/edit',
     views: {
-      'menuContent': {
+      'onboarding': {
         templateUrl: 'templates/medication_scheduling/edit.html',
         controller: 'editMedicationScheduleSlotCtrl'
       }
@@ -51,7 +50,7 @@ angular.module('app.routes')
   .state('medication_scheduling.fill_pillbox_welcome', {
     url: '/fill_pillbox_welcome',
     views: {
-      'menuContent': {
+      'onboarding': {
         templateUrl: 'templates/medication_scheduling/fill_pillbox_welcome.html',
         controller: 'medFillMainCtrl'
       }
@@ -60,7 +59,7 @@ angular.module('app.routes')
   .state('medication_scheduling.fill_pillbox', {
     url: '/fill_pillbox',
     views: {
-      'menuContent': {
+      'onboarding': {
         templateUrl: 'templates/medication_scheduling/fill_pillbox.html',
         controller: 'medFillMainCtrl'
       }
