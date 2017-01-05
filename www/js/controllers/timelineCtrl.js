@@ -23,18 +23,14 @@ angular.module('app.controllers')
       Card.today().then(function(response) {
         $scope.today.cards = response.data.cards;
       }, function(response) {
-        console.log(response)
-        console.log("^ Something went wrong loading today's cards...")
+        $scope.$emit(onpoint.env.error, {error: response})
       })
 
     } else if ($scope.timeline.pageIndex == 0) {
-
-
       Card.past().then(function(response) {
         $scope.history.cards = response.data.cards
       }, function(response) {
-        console.log(response)
-        console.log("^ Something went wrong loading historical cards...")
+        $scope.$emit(onpoint.env.error, {error: response})
       })
 
 
@@ -43,8 +39,7 @@ angular.module('app.controllers')
       Card.tomorrow().then(function(response) {
         $scope.tomorrow.cards = response.data.cards;
       }, function(response) {
-        console.log(response)
-        console.log("^ Something went wrong loading tomorrow's cards...")
+        $scope.$emit(onpoint.env.error, {error: response})
       })
     }
     $scope.$broadcast('scroll.refreshComplete');
