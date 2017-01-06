@@ -98,7 +98,6 @@ angular.module('app', ['ionic', 'firebase', 'app.controllers', 'app.routes', 'ap
   });
 
   Patient.auth().$onAuth(function(authData) {
-    console.log("$onAuth called...")
     if (authData)
       Patient.setAttribute("uid", authData.uid)
     else
@@ -126,29 +125,36 @@ angular.module('app', ['ionic', 'firebase', 'app.controllers', 'app.routes', 'ap
   }
 
   $rootScope.$on(onpoint.env.error, function(event, response) {
-    if (response.error.status == 401) {
-      // Patient.setToken(null);
-
-      if ( !$rootScope.modal || ($rootScope.modal && !$rootScope.modal.isShown()) ) {
-        loadLoginModal().then(function() {
-          $rootScope.state.error = "Your session has expired"
-          $rootScope.modal.show();
-        })
+    console.log("Received response...")
+    if (response.error) {
+      if (response.error.status == 401) {
+        if ( !$rootScope.modal || ($rootScope.modal && !$rootScope.modal.isShown()) ) {
+          loadLoginModal().then(function() {
+            $rootScope.state.error = "Your session has expired"
+            $rootScope.modal.show();
+          })
+        }
+      } else if (response.error.message) {
+        navigator.notification.alert(response.error.message, null, "Contact dmitriskj@gmail.com", "OK")
+      } else if (response.error.status == 500) {
+        navigator.notification.alert("Something went wrong on our end.", null, "Server not responding", "OK")
+      } else if (response.error.status == 0) {
+        navigator.notification.alert("We couldn't connect to the server. Are you connected to the internet?", null, "Server not responding", "OK")
+      } else if (response.error.status === 422) {
+        navigator.notification.alert(response.data.error, null, "Server not responding", "OK")
+      } else if (response.error && response.error.status === -1) {
+        navigator.notification.alert("We couldn't reach the server. Try again later.", null, "Server not responding", "OK")
+      } else if (response.error.status !== -1) {
+        navigator.notification.alert("Something went wrong on our end.", null, "Server not responding", "OK")
       }
-    } else if (response.status !== -1 && response.error) {
-      navigator.notification.alert(response.error.data.error, null, "Server not responding", "OK")
-    } else if (response.error.status === 422 && response.data.error) {
-      navigator.notification.alert(response.data.error, null, "Server not responding", "OK")
-    } else if (response.error.status === -1) {
-      navigator.notification.alert("We couldn't reach the server. Try again later.", null, "Server not responding", "OK")
     } else {
       navigator.notification.alert("Something went wrong", null, "Contact dmitriskj@gmail.com", "OK")
     }
   })
 
-  $rootScope.$on(onpoint.env.auth.success, function(event, authData) {
-    // Patient.setToken(data.token);
-    Patient.set(authData)
+  $rootScope.$on(onpoint.env.auth.success, function(event, response) {
+    Patient.setAttribute("token", response.token)
+    Patient.setAttribute("uid", response.uid)
 
     if ($rootScope.modal)
       $rootScope.modal.remove().then(function() {

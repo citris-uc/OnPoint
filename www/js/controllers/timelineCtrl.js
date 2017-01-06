@@ -2,8 +2,8 @@ angular.module('app.controllers')
 
 .controller('timelineCtrl', function($scope, $state, Card, CARD, Comment, Medication, MedicationSchedule, Measurement, MeasurementSchedule, MedicationHistory, Appointment, Notes, $ionicSlideBoxDelegate, $ionicLoading, Patient) {
   $scope.timeline = {pageIndex: 1}
-  $scope.today   = {timestamp: "", cards: []}
-  $scope.history = {timestamp: "", cards: []}
+  $scope.today    = {timestamp: "", cards: []}
+  $scope.history  = {timestamp: "", cards: []}
   $scope.tomorrow = {timestamp: "", cards: []}
 
   $scope.changeTimeline = function(pageIndex) {

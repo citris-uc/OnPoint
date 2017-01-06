@@ -15,9 +15,6 @@ angular.module('app.services')
       return JSON.parse($window.localStorage.getItem("patient") || "{}");
     },
     set: function(patient) {
-      // this.setToken(patient.token);
-      console.log("Setting patient...")
-      console.log(patient)
       $window.localStorage.setItem("patient", JSON.stringify(patient || {}));
     },
     setAttribute: function(attr, value) {
@@ -49,7 +46,7 @@ angular.module('app.services')
         $window.localStorage.setItem("token", token);
     },
     getToken: function() {
-      return this.get().authData.token
+      return this.get().token
     },
     ref: function() {
       var patientRef = new Firebase(onpoint.env.mainURL + "patients/");
