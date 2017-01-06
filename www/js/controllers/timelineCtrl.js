@@ -60,7 +60,7 @@ angular.module('app.controllers')
   }
 
   $scope.openPage = function(card, type){
-    return $state.go('tabsController.medicationCardAction', {schedule_id: card.object_id});
+    return $state.go('tabsController.medication_schedule', {schedule_id: card.object_id});
   }
 
   // See http://www.gajotres.net/understanding-ionic-view-lifecycle/

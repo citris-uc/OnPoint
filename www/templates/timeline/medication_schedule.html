@@ -1,0 +1,64 @@
+<link type="text/css" rel="stylesheet" href="css/onboardingStyle.css"/>
+
+<ion-view title="{{ schedule.slot | uppercase }}">
+  <ion-content overflow-scroll="true" padding="false" class="has-header" ng-controller="medImgCtrl">
+
+    <div class="list">
+      <div class="item item-divider item-energized">
+        Needs Attention
+      </div>
+
+      <div class="item item-icon-left" ng-if="decidedAllMeds()" ng-click="goBack()">
+        <i class="icon ion-ios-arrow-left"></i>
+        <p class="text-center">No more medications need your attention. Complete.</>
+      </div>
+
+      <ion-item ng-show="!didTakeMed(med) && !didSkipMed(med)" ui-sref="tabsController.medication_schedule.medication({medication_name: med})" class="item-icon-right" ng-repeat="med in schedule.medications">
+        {{med}}
+      </ion-item>
+
+      <div class="item item-divider item-balanced">
+        Taken
+      </div>
+
+      <div class="item item-icon-left" ng-if="!hasTakenMeds()">
+        <p class="text-center">You haven't taken any medications.</>
+      </div>
+
+      <ion-item ng-show="didTakeMed(med)" ui-sref="tabsController.medication_schedule.medication({medication_name: med})" class="item-icon-right" ng-repeat="med in schedule.medications">
+        {{med}}
+      </ion-item>
+
+
+      <div class="item item-divider item-assertive">
+        Skipped
+      </div>
+
+      <div class="item item-icon-left" ng-if="!hasSkippedMeds()">
+        <p class="text-center">You haven't skipped any medications.</>
+      </div>
+
+      <ion-item ng-show="didSkipMed(med)" ui-sref="tabsController.medication_schedule.medication({medication_name: med})" class="item-icon-right" ng-repeat="med in schedule.medications">
+        {{med}}
+      </ion-item>
+
+
+    </div>
+
+
+    <!-- <div class="list">
+      <a class="item medstyle" ng-repeat="med in schedule.medications" ng-click="directToMed(schedule.$id, med)" ng-hide="didTakeMed(med)"
+      ng-style="{'color': (didSkipMed(med) ? 'grey' : 'black') }" style="background-image: url({{getMedImg(med)}})">
+        {{med}}
+      </a>
+    </div>
+    <li class="item" ng-hide="containMeds()">
+      You have taken all meds for this time slot!
+      <button class="button button-positive button-block" ng-click="goBack()" >Okay</button>
+    </li>
+
+    <div ng-hide="!containMeds()" >
+      <button class="button button-positive button-block" ng-click="takeAll()" >Take All</button>
+    </div> -->
+  </ion-content>
+</ion-view>
