@@ -71,21 +71,18 @@ angular.module('app', ['ionic', 'firebase', 'app.controllers', 'app.routes', 'ap
   // We check if the user is logged-in, and if not, then we cancel the current
   // state transition and go to the login screen.
   $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams, options) {
-    console.log("State changing...")
     if (toState.name.indexOf("onboarding") == -1) {
       // Save the onboarding state locally.
       onboarding = Patient.get().onboarding
-      if (!onboarding) {
+      if (onboarding == undefined || onboarding == null) {
         req = Patient.ref().child('onboarding').once("value", function(snapshot) {
-          onboarding = snapshot.val()
-          patient = Patient.get()
-          patient.onboarding = snapshot.val()
-          Patient.set(patient)
+          Patient.setAttribute("onboarding", snapshot.val() || "")
         });
       }
 
       onboarding = Patient.get().onboarding
-      if (!onboarding.intro) {
+      if (!onboarding || !onboarding.intro) {
+        event.preventDefault()
         $ionicHistory.nextViewOptions({
           disableAnimate: true,
           disableBack: true,
