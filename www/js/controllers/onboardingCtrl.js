@@ -3,12 +3,14 @@ angular.module('app.controllers')
   $scope.patient = Patient.get()
   console.log($scope.patient)
 
+  $scope.logout = function() {
+    Patient.logout()
+  }
+
   $scope.completeOnboarding = function() {
     var onboardingRef = Patient.ref().child('onboarding');
     onboardingRef.set({'intro':true}).then(function(response) {
-      pat = Patient.get()
-      pat.onboarding.intro = true
-      Patient.set(pat)
+      Patient.setAttribute("onboarding", {"intro": true})
       $state.go("medication_identification.welcome")
     })
   }

@@ -11,12 +11,6 @@ angular.module('app.controllers')
   $scope.showError = false;
   $scope.medication = {}
 
-  //Saving State of onboarding progress into firebase
-  // $scope.$on('$ionicView.beforeEnter', function(){
-  //   var ref = Patient.ref();
-  //   var req = ref.child('onboarding').update({'state':$state.current.name})
-  //  });
-
   $scope.$on("$ionicView.loaded", function() {
     if ($scope.schedule.length == 0) {
       MedicationSchedule.setDefaultSchedule()
@@ -55,10 +49,9 @@ angular.module('app.controllers')
     //Done onboarding!
     var medicationIdRef = Patient.ref().child('onboarding');
     medicationIdRef.set({'medication_scheduling':true}).then(function(response) {
-      // $state.go("onboarding.complete")
-      pat = Patient.get()
-      pat.onboarding.medication_scheduling = true
-      Patient.set(pat)
+      onboarding = Patient.get().onboarding
+      onboarding.medication_scheduling = true
+      Patient.setAttribute("onboarding", onboarding)
       $state.go("medication_scheduling.fill_pillbox_welcome");
     })
 

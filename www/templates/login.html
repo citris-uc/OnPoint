@@ -6,7 +6,7 @@
     </div>
 
     <div class="center-form">
-      <form ng-submit="signup()" ng-if="view === 'signup'">
+      <form ng-submit="signup()" ng-if="state.view === 'signup'">
         <div class="list list-inset">
           <label class="item item-input text-center">
             <img class="icon ion-image" ng-src="img/onPoint_logo.png"></img>
@@ -33,8 +33,6 @@
             <input type="password" placeholder="Password confirmation" ng-model="user.password_confirmation">
           </label>
 
-
-
           <div class="button-bar button-balanced padding">
             <a grouped-radio="'male'" ng-model="user.gender">Male</a>
             <a grouped-radio="'female'" ng-model="user.gender">Female</a>
@@ -52,7 +50,7 @@
       </form>
 
 
-      <form ng-submit="login()" ng-if="view === 'login'">
+      <form ng-submit="login()" ng-if="state.view === 'login'">
         <div class="list list-inset">
           <label class="item item-input text-center">
             <img class="icon ion-image" ng-src="img/onPoint_logo.png"></img>
@@ -75,10 +73,10 @@
 
 
       <div class="padding text-center">
-        <a ng-click="toggleTo('login')" href="#" ng-if="view === 'signup'">
+        <a ng-click="toggleTo('login')" href="#" ng-if="state.view === 'signup'">
           Already have an account?
         </a>
-        <a ng-click="toggleTo('signup')" href="#" ng-if="view === 'login'">
+        <a ng-click="toggleTo('signup')" href="#" ng-if="state.view === 'login'">
           Create an account
         </a>
       </div>

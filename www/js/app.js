@@ -71,21 +71,18 @@ angular.module('app', ['ionic', 'firebase', 'app.controllers', 'app.routes', 'ap
   // We check if the user is logged-in, and if not, then we cancel the current
   // state transition and go to the login screen.
   $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams, options) {
-    console.log("State changing...")
     if (toState.name.indexOf("onboarding") == -1) {
       // Save the onboarding state locally.
       onboarding = Patient.get().onboarding
-      if (!onboarding) {
+      if (onboarding == undefined || onboarding == null) {
         req = Patient.ref().child('onboarding').once("value", function(snapshot) {
-          onboarding = snapshot.val()
-          patient = Patient.get()
-          patient.onboarding = snapshot.val()
-          Patient.set(patient)
+          Patient.setAttribute("onboarding", snapshot.val() || "")
         });
       }
 
       onboarding = Patient.get().onboarding
-      if (!onboarding.intro) {
+      if (!onboarding || !onboarding.intro) {
+        event.preventDefault()
         $ionicHistory.nextViewOptions({
           disableAnimate: true,
           disableBack: true,
@@ -98,7 +95,6 @@ angular.module('app', ['ionic', 'firebase', 'app.controllers', 'app.routes', 'ap
   });
 
   Patient.auth().$onAuth(function(authData) {
-    console.log("$onAuth called...")
     if (authData)
       Patient.setAttribute("uid", authData.uid)
     else
@@ -126,29 +122,36 @@ angular.module('app', ['ionic', 'firebase', 'app.controllers', 'app.routes', 'ap
   }
 
   $rootScope.$on(onpoint.env.error, function(event, response) {
-    if (response.error.status == 401) {
-      // Patient.setToken(null);
-
-      if ( !$rootScope.modal || ($rootScope.modal && !$rootScope.modal.isShown()) ) {
-        loadLoginModal().then(function() {
-          $rootScope.state.error = "Your session has expired"
-          $rootScope.modal.show();
-        })
+    console.log("Received response...")
+    if (response.error) {
+      if (response.error.status == 401) {
+        if ( !$rootScope.modal || ($rootScope.modal && !$rootScope.modal.isShown()) ) {
+          loadLoginModal().then(function() {
+            $rootScope.state.error = "Your session has expired"
+            $rootScope.modal.show();
+          })
+        }
+      } else if (response.error.message) {
+        navigator.notification.alert(response.error.message, null, "Contact dmitriskj@gmail.com", "OK")
+      } else if (response.error.status == 500) {
+        navigator.notification.alert("Something went wrong on our end.", null, "Server not responding", "OK")
+      } else if (response.error.status == 0) {
+        navigator.notification.alert("We couldn't connect to the server. Are you connected to the internet?", null, "Server not responding", "OK")
+      } else if (response.error.status === 422) {
+        navigator.notification.alert(response.data.error, null, "Server not responding", "OK")
+      } else if (response.error && response.error.status === -1) {
+        navigator.notification.alert("We couldn't reach the server. Try again later.", null, "Server not responding", "OK")
+      } else if (response.error.status !== -1) {
+        navigator.notification.alert("Something went wrong on our end.", null, "Server not responding", "OK")
       }
-    } else if (response.status !== -1 && response.error) {
-      navigator.notification.alert(response.error.data.error, null, "Server not responding", "OK")
-    } else if (response.error.status === 422 && response.data.error) {
-      navigator.notification.alert(response.data.error, null, "Server not responding", "OK")
-    } else if (response.error.status === -1) {
-      navigator.notification.alert("We couldn't reach the server. Try again later.", null, "Server not responding", "OK")
     } else {
       navigator.notification.alert("Something went wrong", null, "Contact dmitriskj@gmail.com", "OK")
     }
   })
 
-  $rootScope.$on(onpoint.env.auth.success, function(event, authData) {
-    // Patient.setToken(data.token);
-    Patient.set(authData)
+  $rootScope.$on(onpoint.env.auth.success, function(event, response) {
+    Patient.setAttribute("token", response.token)
+    Patient.setAttribute("uid", response.uid)
 
     if ($rootScope.modal)
       $rootScope.modal.remove().then(function() {
