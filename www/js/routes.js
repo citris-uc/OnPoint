@@ -15,15 +15,10 @@ angular.module('app.routes', [])
     controller: 'loginCtrl'
   })
 
-  .state('register', {
-    url: '/register/:email/:password',
-    templateUrl: 'templates/session/register.html',
-    controller: 'registrationCtrl'
-  })
-
   .state('tabsController', {
     url: '/tabs',
     templateUrl: 'templates/app.html',
+    controller: "appCtrl",
     abstract:true
   })
 

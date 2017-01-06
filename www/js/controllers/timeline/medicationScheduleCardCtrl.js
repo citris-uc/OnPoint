@@ -5,9 +5,6 @@ angular.module('app.controllers')
   $scope.schedule           = MedicationSchedule.findByID($stateParams.schedule_id);
   $scope.medicationHistory  = MedicationHistory.getTodaysHistory();
   $scope.medications        = Medication.get();
-  // console.log($scope.schedule)
-  // console.log($scope.medications)
-  // console.log($scope.medicationHistory)
 
   if ($stateParams.medication_name) {
     var req = Medication.getByTradeName($stateParams.medication_name)
