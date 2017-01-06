@@ -18,6 +18,16 @@ angular.module('app.services')
   input_medications = [];
 
   return {
+    findMedicationByName: function(name, list) {
+      for(var i = 0; i < list.length; i++) {
+        if (list[i].trade_name == name) {
+          return list[i]
+        }
+      }
+
+      return null
+    },
+
     getDefaultMedications: function() {
       return medications;
     },
