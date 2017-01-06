@@ -5,7 +5,7 @@
     <button class="button icon-right ion-ios-plus-empty button-clear button-positive" ui-sref="medication_scheduling.new"></button>
   </ion-nav-buttons>
 
-  <ion-content overflow-scroll="true" padding="false" class="has-header" ng-controller="medImgCtrl">
+  <ion-content overflow-scroll="true" padding="false" class="has-header has-footer" ng-controller="medImgCtrl">
 
     <ul class="list">
       <div ng-repeat="dateSchedule in schedule | orderBy: 'time'">
@@ -47,11 +47,11 @@
 
   </ion-content>
 
-
-  <div class="bar bar-footer bar-balanced">
-    <div class="buttons full-width">
-      <button id="medSched-next" class="button button-clear" ng-click="saveMedicationSchedule()" ng-disabled="disableGenerate()">Save and Continue</div>
+  <ion-footer-bar align-title="middle" class="bar-balanced">
+    <div class="buttons full-width" ng-click="saveMedicationSchedule()" ng-disabled="disableGenerate()">
+      <button class="button button-clear">Save and Continue</button>
     </div>
-  </div>
+  </ion-footer-bar>
+
 
 </ion-view>

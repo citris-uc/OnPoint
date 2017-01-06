@@ -107,34 +107,21 @@ angular.module('app.controllers')
 
 .controller('medicationsListCtrl', function($scope, $state, Patient, Medication, MedicationSchedule) {
    $scope.scheduledMedications = Medication.get();
-   console.log($scope.scheduledMedications)
 
    $scope.completeMedicationIdentification = function() {
-     var medicationIdRef = Patient.ref().child('onboarding');
-     medicationIdRef.set({'medication_identification':true}).then(function(response) {
-       pat = Patient.get()
-       pat.onboarding.medication_identification = true
-       Patient.set(pat)
+     Medication.setDefaultMeds()
+
+     var ref = Patient.ref().child('onboarding');
+     ref.set({'medication_identification':true}).then(function(response) {
+       onboarding = Patient.get().onboarding
+       onboarding.medication_identification = true
+       Patient.setAttribute("onboarding", onboarding)
        $state.go("medication_scheduling.welcome")
      })
    }
 
-   $scope.scheduledMeds = function() {
-     for(var i = 0; i <$scope.scheduledMedications.length; i++ ) {
-       if($scope.scheduledMedications[i].user_input)
-        return true
-     }
-     return false
-   }
-
    $scope.disableGenerate = function() {
-     for(var i = 0; i <$scope.scheduledMedications.length; i++ ) {
-       if(!$scope.scheduledMedications[i].user_input) {
-         console.log("yo")
-        return true
-      }
-     }
-     return false
+     return ($scope.scheduledMedications.length == 0)
    }
 
    //Saving State of onboarding progress into firebase
