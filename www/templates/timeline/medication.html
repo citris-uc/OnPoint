@@ -1,0 +1,39 @@
+<ion-view>
+  <ion-nav-title>{{medication.trade_name}} ({{medication.name}})</ion-nav-title>
+    <ion-content overflow-scroll="true" padding="false" class="has-header" ng-controller="medImgCtrl">
+      <div class="list">
+        <div class="item item-avatar">
+          <img src="img/{{medication.img}}">
+          <h2>
+            {{medication.trade_name}}
+            <span class="item-note">{{medication.dose}} mg</span>
+          </h2>
+
+          <p>
+            {{medication.name}}
+            <span class="item-note">{{medication.tablets}} tablet</span>
+          </p>
+        </div>
+
+        <div class="item item-body">
+          <h3>Instructions</h3>
+          <p>{{medication.instructions}}</p>
+        </div>
+        <div class="item item-body">
+          <h3>Purpose</h3>
+          <p>{{medication.purpose}}</p>
+        </div>
+
+        <div class="item item-body">
+          <div class = "row">
+            <div class = "col">
+              <button class="button button-block button-light" ng-click="skipMedication()">Skip</button>
+            </div>
+            <div class="col">
+              <button class="button button-block button-balanced" ng-click="takeMedication()">Take</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ion-content>
+</ion-view>
