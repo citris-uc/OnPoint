@@ -26,22 +26,48 @@
     <ion-header-bar class="bar-stable">
       <h1 class="title">Menu</h1>
     </ion-header-bar>
-    <ion-content>
+    <ion-content scroll="false" padding="false" style="top:0px !important;" class="side-menu-left side-menu-gradient">
+      <div class="spacer" style="width: 268px; height: 32px;"></div>
+      <div class="profile-image">
+        <img src="img/profile.png" style="display: block; width: 40%; height: auto; margin-left: auto; margin-right: auto;">
+      </div>
+      <h3 style="color:white; text-align:center;">{{patient.first_name}}</h3>
+      <p style="color:white; text-align:center;">{{patient.email}}</p>
+      <div class="spacer" style="width: 100%; height: 34px; border-top: 1px solid white;"></div>
       <ion-list>
-        <ion-item class="icon item-icon-right" menu-close ui-sref="onboarding.welcome">
-          Onboarding
+        <ion-item menu-close ui-sref="tabsController.timeline" class="icon item-icon-left side-menu-item" active-page-highlight="">
+          <i class="icon ion-ios-home-outline"></i>
+          Timeline
+        </ion-item>
+        <ion-item class="icon item-icon-left side-menu-item" menu-close ui-sref="tabsController.medication" active-page-highlight="">
+          <i class="icon ion-ios-medkit-outline"></i>
+          My Medications
+        </ion-item>
+        <ion-item class="icon item-icon-left side-menu-item" menu-close ui-sref="tabsController.medication" active-page-highlight="">
+          <i class="icon ion-ios-calendar-outline"></i>
+          My Schedule
+        </ion-item>
+        <ion-item class="icon item-icon-left side-menu-item" menu-close ui-sref="tabsController.medication" active-page-highlight="">
+          <i class="icon ion-ios-box-outline"></i>
+          My Pillbox
+        </ion-item>
+
+        <div class="item item-divider item-balanced">Onboarding</div>
+        <ion-item class="icon item-icon-right side-menu-item" menu-close ui-sref="onboarding.welcome" active-page-highlight="">
+          Introduction
           <i class="icon ion-ios-checkmark-empty"></i>
         </ion-item>
-        <ion-item class="icon item-icon-right" menu-close ui-sref="medication_identification.welcome">
+        <ion-item class="icon item-icon-right side-menu-item" menu-close ui-sref="medication_identification.welcome" active-page-highlight="">
           Medication Identification
           <i class="icon ion-ios-checkmark-empty"></i>
         </ion-item>
-        <ion-item class="icon item-icon-right" menu-close ui-sref="medication_scheduling.welcome">
+        <ion-item class="icon item-icon-right side-menu-item" menu-close ui-sref="medication_scheduling.welcome" active-page-highlight="">
           Medication Scheduling
           <i class="icon ion-ios-checkmark-empty"></i>
         </ion-item>
       </ion-list>
     </ion-content>
+
 
     <ion-footer-bar align-title="center" class="bar-stable">
       <h1 class="title" ng-click="logout()">Logout</h1>
