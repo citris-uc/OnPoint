@@ -153,10 +153,12 @@ angular.module('app', ['ionic', 'firebase', 'app.controllers', 'app.routes', 'ap
     Patient.setAttribute("token", response.token)
     Patient.setAttribute("uid", response.uid)
 
-    if ($rootScope.modal)
-      $rootScope.modal.remove().then(function() {
-        $rootScope.$broadcast(onpoint.env.data.refresh);
-      })
+    $ionicHistory.clearCache().then(function() {
+      if ($rootScope.modal)
+        $rootScope.modal.remove().then(function() {
+          $rootScope.$broadcast(onpoint.env.data.refresh);
+        })
+    })
   })
 
   $rootScope.$on(onpoint.env.auth.failure, function(event, data) {
