@@ -105,18 +105,31 @@ angular.module('app.controllers')
 })
 
 
-.controller('medicationsListCtrl', function($scope, $state, Patient, Medication, MedicationSchedule) {
+.controller('medicationsListCtrl', function($scope, $state, Patient, Medication, MedicationSchedule, $ionicLoading) {
    $scope.scheduledMedications = Medication.get();
 
    $scope.completeMedicationIdentification = function() {
-     Medication.setDefaultMeds()
+     $ionicLoading.show();
 
-     var ref = Patient.ref().child('onboarding');
-     ref.set({'medication_identification':true}).then(function(response) {
-       onboarding = Patient.get().onboarding
-       onboarding.medication_identification = true
-       Patient.setAttribute("onboarding", onboarding)
-       $state.go("medication_scheduling.welcome")
+     console.log("Completing...")
+     Medication.setDefaultMeds().then(function(response) {
+
+       console.log(response)
+
+       MedicationSchedule.setDefaultSchedule().then(function(response) {
+
+         var ref = Patient.ref().child('onboarding');
+         ref.set({'medication_identification':true}).then(function(response) {
+           onboarding = Patient.get().onboarding
+           onboarding.medication_identification = true
+           Patient.setAttribute("onboarding", onboarding)
+
+           $ionicLoading.hide();
+
+           $state.go("medication_scheduling.welcome")
+         })
+
+       })
      })
    }
 
