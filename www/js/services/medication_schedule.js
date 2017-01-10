@@ -3,47 +3,19 @@ angular.module('app.services')
 
 // This factory is responsible for defining a Medication Schedule
 // that the patient usually adheres to.
-.factory('MedicationSchedule', ["Medication", "Patient","$firebaseObject", "$firebaseArray", function(Medication, Patient, $firebaseObject,$firebaseArray) {
-  /*
-   * This is default schedule for testing purposes
-   * TODO: (much later) delete this.
-   */
-  schedule = [
-    {
-      time: "08:00",
-      name: "Morning",
-      days: [true, true, true, true, true, true, true], //array descirbing days of week to do this action
-      medications: ["Lasix", "Toprol XL", "Zestril", "Coumadin", "Riomet"]
-    },
-    {
-      time: "13:00",
-      name: "Afternoon",
-      days: [true, true, true, true, true, true, true], //array descirbing days of week to do this action,
-      medications: ["Lasix", "Toprol XL", "Zestril", "Riomet"]
-    },
-    {
-      time: "19:00",
-      name: "Evening",
-      days: [true, true, true, true, true, true, true], //array descirbing days of week to do this action,
-      medications: ["Lipitor"]
-    }
-  ]
-
+.factory('MedicationSchedule', ["Medication", "Patient","$firebaseObject", "$firebaseArray", "$http", function(Medication, Patient, $firebaseObject,$firebaseArray, $http) {
   return {
     /*
      * Temporary method for clinician testing
      */
     setDefaultSchedule: function() {
-      // var ref = this.ref().child("default")
-      var ref = this.ref()
-      ref.once("value", function(snapshot) {
-        if (!snapshot.exists()) { //only push default schedule once.
-          for(var i = 0; i < schedule.length; i++) {
-            ref.push(schedule[i]);
-          }
+      return $http({
+        method: "POST",
+        url:    onpoint.env.serverURL + "medication_schedule",
+        headers: {
+         "Authorization": "Bearer " + Patient.getToken()
         }
       })
-
     },
 
     ref: function() {
@@ -59,7 +31,29 @@ angular.module('app.services')
     get: function() {
       // var ref = this.ref().child("default");
       var ref = this.ref()
-      return $firebaseArray(ref);
+      return $firebaseArray(ref)
+
+      // .$loaded().then(function(response) {
+      //   console.log(response)
+      //   return response
+
+        // med_names = []
+        //
+        // var uid = Patient.uid();
+        // query = Patient.ref(uid).child("medications")
+        // query.once("value").then(function(snapshot) {
+        //
+        //   snapshot.forEach(function(childSnapshot) {
+        //     // key will be "ada" the first time and "alan" the second time
+        //     var key = childSnapshot.key;
+        //     // console.log(key)
+        //     // childData will be the actual contents of the child
+        //     var childData = childSnapshot.val();
+        //     if (childData)
+        //       med_names = childData.map(function(med) { return med.trade_name})
+        //   });
+        // })
+      // });
     },
 
     /*

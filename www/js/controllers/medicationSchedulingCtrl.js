@@ -11,11 +11,7 @@ angular.module('app.controllers')
   $scope.showError = false;
   $scope.medication = {}
 
-  $scope.$on("$ionicView.loaded", function() {
-    if ($scope.schedule.length == 0) {
-      MedicationSchedule.setDefaultSchedule()
-    }
-  })
+  console.log(Patient.getToken())
 
   $scope.sortSchedule = function() {
     $scope.schedule.sort(function(a, b){var dat1 = a.time.split(":"); var dat2 = b.time.split(":");
