@@ -66,22 +66,42 @@ angular.module('app.controllers')
 })
 
 // TODO: Implement once we have RxNorm. See #516
-.controller('medicationSearchCtrl', function($scope, $state, $ionicPopup, $templateCache, $ionicPopover, Medication) {
+.controller('medicationSearchCtrl', function($scope, $state, $ionicPopup, $ionicPopover, Medication, $ionicLoading) {
     // $scope.medications = Medication.get();
     $scope.medication = {};
-    $scope.params = {};
+    $scope.params     = {};
+    $scope.drugs      = [];
 
     $scope.search = function() {
-      $scope.locations     = []
-      $scope.state.loading = true
-      Medicat.search($scope.params.search).then(function(response) {
-        $scope.locations = response.data.locations
+      $ionicLoading.show()
+
+      Medication.search($scope.params.search).then(function(response) {
+        $scope.drugs = response.data
       }, function(response) {
-        $scope.$emit(onpoint.env.error, {error: response})
+        $scope.$emit(onpoint.env.error, response)
       }).finally(function() {
-       $scope.state.loading = false;
+       $ionicLoading.hide()
       });
     }
+
+
+})
+
+
+.controller('medicationMatchCtrl', function($scope, $state, $ionicPopup, $ionicPopover, Medication, $ionicLoading) {
+  $scope.drug = {}
+
+  $scope.$on("$ionicView.loaded", function() {
+    $ionicLoading.show()
+
+    Medication.searchByRXCUI($state.params.rxcui).then(function(response) {
+      console.log(response.data)
+      $scope.drug = response.data
+    }).finally(function(res) {
+      $ionicLoading.hide()
+    })
+  })
+
 
 
 })

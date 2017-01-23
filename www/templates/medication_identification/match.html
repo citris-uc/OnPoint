@@ -1,0 +1,29 @@
+<ion-view title="Match">
+  <ion-content>
+    <div class="list card" ng-if="drug">
+      <div class="item">
+        <h2>{{drug.sbd[0].name}}</h2>
+        <p>{{drug.sbd[0].synonym}}</p>
+      </div>
+
+      <div class="item item-body">
+        <img class="full-image" src="{{drug.images[0].imageUrl}}" ng-if="drug.images[0]">
+        <img class="full-image" src="img/pill.png" ng-if="!drug.images[0]">
+        <p>
+          TODO TODO TODO: Fetch data from DailyMed for instructions, purpose, what else?
+        </p>
+        <!-- <p>
+          <a href="#" class="subdued">1 Like</a>
+          <a href="#" class="subdued">5 Comments</a>
+        </p> -->
+      </div>
+    </div>
+  </ion-content>
+
+  <div class="bar bar-footer bar-balanced">
+    <div class="buttons full-width">
+      <button class="button button-clear" ng-click="save()">Add</div>
+    </div>
+  </div>
+
+</ion-view>

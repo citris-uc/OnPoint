@@ -5,7 +5,7 @@
         <div class="item item-input-inset">
           <label class="item-input-wrapper">
             <i class="icon ion-ios-search placeholder-icon"></i>
-            <input type="text" ng-model="params.search" placeholder="E.g. barcode or name...">
+            <input type="text" ng-model="params.search" placeholder="E.g. barcode or brand name...">
           </label>
           <button type="submit" class="button button-small button-clear button-positive" ng-disabled="params.search.length == 0">
             Search
@@ -31,13 +31,19 @@
       <div class="item text-center">
         No results found. We'll display matching medication here.
       </div>
-      <ion-item class="item-icon-right" ng-repeat="visit in visits" ui-sref="app.visit({id: visit.id})">
-        <h2>{{visit.visited_at}}</h2>
-        <p>{{visit.location}}</p>
-        <p>{{visit.inspections}} inspections</p>
-        <i class="icon ion-ios-arrow-right"></i>
-      </ion-item>
-      <ion-item ng-if="visits.length == 0 && state.firstLoad == false" class="text-center">
+      <div ng-repeat="drug in drugs" ng-if="drug.sbd">
+        <div class="item item-divider">
+         {{drug.rxcui}}
+       </div>
+       <ion-item class="item-icon-right" ng-repeat="brand in drug.sbd" ui-sref="medication_identification.match({rxcui: drug.rxcui})">
+         <h2>{{brand.name}}</h2>
+         <p>{{brand.synonym}}</p>
+         <i class="icon ion-ios-arrow-right"></i>
+       </ion-item>
+     </div>
+
+
+      <ion-item ng-if="drugs.length == 0 && state.firstLoad == false" class="text-center">
         <h2>No visits found. Have you visited any locations?</h2>
       </ion-item>
     </ion-list>

@@ -38,6 +38,15 @@ angular.module('app.routes')
       }
     }
   })
+  .state('medication_identification.match', {
+    url: '/match/:rxcui',
+    views: {
+      'onboarding': {
+        templateUrl: 'templates/medication_identification/match.html',
+        controller: 'medicationMatchCtrl'
+      }
+    }
+  })
   .state('medication_identification.search', {
     url: '/search',
     views: {
