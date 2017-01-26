@@ -20,10 +20,10 @@
             Add a medication
           </ion-item>
 
-          <ion-item class="item-icon-left item-icon-right" ng-repeat="med in dateSchedule.medications" dnd-type="'medType'" dnd-draggable="med" dnd-moved="dateSchedule.medications.splice($index, 1)" dnd-effect-allowed="move">
+          <ion-item class="item-icon-left" ng-repeat="med in dateSchedule.medications" dnd-type="'medType'" dnd-draggable="med" dnd-moved="dateSchedule.medications.splice($index, 1)" dnd-effect-allowed="move">
             <i class="icon ion-ios-minus assertive" ng-click="removeMedication(dateSchedule.$id, med)"></i>
             {{med}}
-            <i class="icon ion-navicon"></i>
+            <!-- <i class="icon ion-navicon"></i> -->
           </ion-item>
         </div>
       </div>
@@ -48,8 +48,8 @@
   </ion-content>
 
   <ion-footer-bar align-title="middle" class="bar-balanced">
-    <div class="buttons full-width" ng-click="saveMedicationSchedule()" ng-disabled="disableGenerate()">
-      <button class="button button-clear">Save and Continue</button>
+    <div class="buttons full-width" ng-click="completeMedicationScheduling()" ng-disabled="disableGenerate()">
+      <button class="button button-clear">Continue to Pillbox</button>
     </div>
   </ion-footer-bar>
 

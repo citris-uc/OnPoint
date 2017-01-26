@@ -1,13 +1,13 @@
 <ion-view title="Search for medication">
   <div class="content bar-subheader">
-    <form ng-submit="search()">
+    <form ng-submit="search()" name="searchForm">
       <div class="list">
         <div class="item item-input-inset">
           <label class="item-input-wrapper">
             <i class="icon ion-ios-search placeholder-icon"></i>
-            <input type="text" ng-model="params.search" placeholder="E.g. barcode or brand name...">
+            <input type="text" ng-model="params.search" placeholder="Enter a barcode or a brand name...">
           </label>
-          <button type="submit" class="button button-small button-clear button-positive" ng-disabled="params.search.length == 0">
+          <button type="submit" class="button button-small button-balanced" ng-disabled="params.search.length == 0">
             Search
           </button>
         </div>
@@ -15,26 +15,27 @@
     </form>
   </div>
 
-  <ion-content class="has-subheader">
+  <ion-content class="has-subheader" has-bouncing="false">
     <ion-list>
-      <div class="item">
+      <!-- <ion-item ng-if="state.firstLoad == true" class="text-center">
+        <ion-spinner></ion-spinner>
+      </ion-item> -->
+      <!-- <div class="item">
         Can't find it?
         <a ui-sref="medication_identification.new">
           Click here
         </a>
         to manually add it.
-      </div>
+      </div> -->
 
-      <!-- <ion-item ng-if="state.firstLoad == true" class="text-center">
-        <ion-spinner></ion-spinner>
-      </ion-item> -->
-      <div class="item text-center">
+
+      <div class="item text-center" ng-show="!!params.noDrugMatch">
         No results found. We'll display matching medication here.
       </div>
       <div ng-repeat="drug in drugs" ng-if="drug.sbd">
-        <div class="item item-divider">
+        <!-- <div class="item item-divider">
          {{drug.rxcui}}
-       </div>
+       </div> -->
        <ion-item class="item-icon-right" ng-repeat="brand in drug.sbd" ui-sref="medication_identification.match({rxcui: drug.rxcui})">
          <h2>{{brand.name}}</h2>
          <p>{{brand.synonym}}</p>
