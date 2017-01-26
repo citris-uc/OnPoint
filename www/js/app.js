@@ -47,7 +47,7 @@ angular.module('app', ['ionic', 'firebase', 'app.controllers', 'app.routes', 'ap
 })
 
 
-.run(function($ionicPlatform, $rootScope, Patient, $state, $ionicHistory, $ionicModal) {
+.run(function($ionicPlatform, $rootScope, Patient, $state, $ionicHistory, $ionicModal, Onboarding) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -65,6 +65,12 @@ angular.module('app', ['ionic', 'firebase', 'app.controllers', 'app.routes', 'ap
       navigator.notification = window
     }
 
+    $rootScope.patient = {}
+    Patient.getFromFirebase().then(function(doc) {
+      console.log("getFromFirebase....")
+      console.log(doc.val())
+      $rootScope.patient = doc.val()
+    })
   });
 
   // The authentication hook that is triggered on every state transition.
@@ -72,31 +78,27 @@ angular.module('app', ['ionic', 'firebase', 'app.controllers', 'app.routes', 'ap
   // state transition and go to the login screen.
   $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams, options) {
     if (toState.name.indexOf("onboarding") == -1) {
-      // Save the onboarding state locally.
-      onboarding = Patient.get().onboarding
-      if (onboarding == undefined || onboarding == null) {
-        req = Patient.ref().child('onboarding').once("value", function(snapshot) {
-          Patient.setAttribute("onboarding", snapshot.val() || "")
-        });
-      }
 
-      onboarding = Patient.get().onboarding
-      if (!onboarding || !onboarding.intro) {
-        event.preventDefault()
-        $ionicHistory.nextViewOptions({
-          disableAnimate: true,
-          disableBack: true,
-          historyRoot: true
-        })
-        $state.go('onboarding.welcome');
-      }
+      Onboarding.getFromCloud().then(function(doc) {
+        onboarding = doc.val()
+        console.log("getFromCloud...")
+        console.log(onboarding)
+        if (!onboarding) {
+          event.preventDefault()
+          $ionicHistory.nextViewOptions({
+            disableAnimate: true,
+            disableBack: true,
+            historyRoot: true
+          })
+          $state.go('onboarding.welcome');
+        }
+      })
     }
-
   });
 
   Patient.auth().$onAuth(function(authData) {
     if (authData)
-      Patient.setAttribute("uid", authData.uid)
+      $rootScope.$emit(onpoint.env.auth.success, authData)
     else
       $rootScope.$emit(onpoint.env.error, {error: {status: 401}})
   })
@@ -168,7 +170,4 @@ angular.module('app', ['ionic', 'firebase', 'app.controllers', 'app.routes', 'ap
       })
     }
   })
-
-
-
 })
