@@ -54,9 +54,10 @@ angular.module('app.controllers')
     $scope.state.loading = true;
 
     Patient.auth().$createUser($scope.user).then(function(response) {
-      Patient.set($scope.user)
-      Patient.setAttribute("uid", response.uid)
-      $scope.login()
+      Patient.setUID(response.uid)
+      Patient.create($scope.user).then(function() {
+        $scope.login()
+      })
     }).catch(function(response) {
       $scope.$emit(onpoint.env.error, {status: 401, error: response})
     }).finally(function() {
