@@ -1,5 +1,5 @@
 angular.module('app.controllers')
-.controller('medicationSchedulingCtrl', function($scope, $state, $ionicPopup,$ionicHistory, $ionicModal, DAYOFWEEK, Patient, Medication, MedicationSchedule, MedicationHistory, CARD, Card) {
+.controller('medicationSchedulingCtrl', function($scope, $state, $ionicHistory, $ionicModal, DAYOFWEEK, Patient, Medication, MedicationSchedule, MedicationHistory, CARD, Card, Onboarding, $ionicLoading) {
 
   // TODO --> use MedicationSchedule and FB
   $scope.CARD = CARD;
@@ -10,12 +10,6 @@ angular.module('app.controllers')
   $scope.slot = {days:[true, true, true, true, true, true, true]};
   $scope.showError = false;
   $scope.medication = {}
-
-  $scope.$on("$ionicView.loaded", function() {
-    if ($scope.schedule.length == 0) {
-      MedicationSchedule.setDefaultSchedule()
-    }
-  })
 
   $scope.sortSchedule = function() {
     $scope.schedule.sort(function(a, b){var dat1 = a.time.split(":"); var dat2 = b.time.split(":");
@@ -37,25 +31,6 @@ angular.module('app.controllers')
       }
       return item;
   };
-
-  $scope.saveMedicationSchedule = function() {
-    for(var i = 0; i < $scope.schedule.length; i++) {
-      $scope.schedule.$save($scope.schedule[i]);
-    }
-
-    // This will force-generate cards for today and tomorrow (if not already exist).
-    Card.forceGenerate()
-
-    //Done onboarding!
-    var medicationIdRef = Patient.ref().child('onboarding');
-    medicationIdRef.set({'medication_scheduling':true}).then(function(response) {
-      onboarding = Patient.get().onboarding
-      onboarding.medication_scheduling = true
-      Patient.setAttribute("onboarding", onboarding)
-      $state.go("medication_scheduling.fill_pillbox_welcome");
-    })
-
-  }
 
   $scope.addMedicationModal = function(slotId) {
     $scope.currentSlotID = slotId
@@ -87,6 +62,20 @@ angular.module('app.controllers')
     console.log(medication)
     MedicationSchedule.removeMedication(slotID, medication)
   }
+
+  $scope.completeMedicationScheduling = function() {
+    $ionicLoading.show({hideOnStateChange: true})
+
+    // This will force-generate cards for today and tomorrow (if not already exist).
+    Card.forceGenerate().then(function(res) {
+      Onboarding.ref().update({'medication_scheduling':true}).then(function(response) {
+        $state.go("medication_scheduling.fill_pillbox_welcome", {}, {reload: true});
+      })
+    }).finally(function(res) {
+      $ionicLoading.hide();
+    })
+  }
+
 
 })
 
