@@ -1,8 +1,12 @@
 angular.module('app.controllers')
-.controller('onboardingCtrl', function($scope, $state, Patient, $ionicSlideBoxDelegate) {
+.controller('onboardingCtrl', function($scope, $state, Patient, $ionicSlideBoxDelegate, Onboarding) {
   $scope.logout = function() {
     Patient.logout()
   }
+
+  Onboarding.getFromCloud().then(function(doc) {
+    $scope.onboarding = doc.val()
+  })
 
   $scope.next = function() {
      $ionicSlideBoxDelegate.next();
@@ -17,10 +21,8 @@ angular.module('app.controllers')
    };
 
   $scope.completeOnboarding = function() {
-    var onboardingRef = Patient.ref().child('onboarding');
-    onboardingRef.set({'intro':true}).then(function(response) {
-      Patient.setAttribute("onboarding", {"intro": true})
-      $state.go("medication_identification.start")
+    Onboarding.ref().update({'intro':true}).then(function(response) {
+      $state.go("medication_identification.start", {}, {reload: true})
     })
   }
 })
