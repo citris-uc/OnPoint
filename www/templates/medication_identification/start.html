@@ -5,13 +5,12 @@
 
   <ion-content overflow-scroll="true" class="has-footer">
     <ul class="list">
-      <li class="item text-center" ng-show="disableGenerate()">
+      <li class="item text-center item-text-wrap" ng-show="disableGenerate()">
         You haven't added any medications! Use the + icon in the navigation bar
         to add a medication.
       </li>
-      <li class="item text-center" ng-show="disabledGenerate()">
+      <li ng-click="generateDefaultMeds()" class="item text-center item-text-wrap" ng-show="disableGenerate()">
         For now (dev mode): click here to generate a generic schedule of default meds
-        <a ng-click="generateDefaultMeds()">Click here</a>
       </li>
 
       <li class="item item-icon-right"  ng-repeat="med in scheduledMedications" ui-sref="medication_identification.medication({id: med.$id})">
