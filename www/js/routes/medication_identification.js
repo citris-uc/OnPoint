@@ -56,14 +56,6 @@ angular.module('app.routes')
       }
     }
   })
-  .state('medication_identification.edit', {
-    url: '/:id/edit',
-    views: {
-      'onboarding': {
-        templateUrl: 'templates/medication_identification/edit.html',
-      }
-    }
-  })
   .state('medication_identification.medication', {
     url: '/:id',
     views: {
