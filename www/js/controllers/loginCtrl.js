@@ -56,7 +56,10 @@ angular.module('app.controllers')
     Patient.auth().$createUser($scope.user).then(function(response) {
       Patient.setUID(response.uid)
       Patient.create($scope.user).then(function() {
-        $scope.login()
+        $ionicHistory.clearCache().then(function() {
+          $state.go("onboarding.welcome", {}, {reload: true})
+          $scope.login()
+        })
       })
     }).catch(function(response) {
       $scope.$emit(onpoint.env.error, {status: 401, error: response})

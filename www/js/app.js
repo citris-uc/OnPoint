@@ -155,7 +155,7 @@ angular.module('app', ['ionic', 'firebase', 'app.controllers', 'app.routes', 'ap
           navigator.notification.alert("Something went wrong on our end.", null, "Server not responding", "OK")
         }
       } else {
-        navigator.notification.alert("Something went wrong", null, "Contact dmitriskj@gmail.com", "OK")
+        navigator.notification.alert("Something went wrong: " + JSON.stringify(response), null, "Contact dmitriskj@gmail.com", "OK")
       }
     }
   })

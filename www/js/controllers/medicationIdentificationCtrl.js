@@ -78,6 +78,7 @@ angular.module('app.controllers')
         $scope.drugs = response.data
         $scope.params.noDrugMatch = ($scope.drugs == 0)
       }, function(response) {
+        console.log(JSON.stringify(response))
         $scope.$emit(onpoint.env.error, response)
       }).finally(function() {
        $ionicLoading.hide()
