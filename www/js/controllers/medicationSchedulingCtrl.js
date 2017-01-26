@@ -285,20 +285,20 @@ angular.module('app.controllers')
     return notSelected;
   }
 
-  $scope.completeMedicationScheduling = function() {
-    // var medicationIdRef = Patient.ref().child('medication_scheduling');
-    // medicationIdRef.set({'completed':true}).then(function(response) {
-    //   $state.go("onboarding.complete")
-    // })
-    var medicationIdRef = Patient.ref().child('onboarding');
-    medicationIdRef.set({'medication_scheduling':true}).then(function(response) {
-      // $state.go("onboarding.complete")
-      pat = Patient.get()
-      pat.onboarding.medication_scheduling = true
-      Patient.set(pat)
-
-      $state.go("onboarding.complete")
-    })
-  }
+  // $scope.completeMedicationScheduling = function() {
+  //   // var medicationIdRef = Patient.ref().child('medication_scheduling');
+  //   // medicationIdRef.set({'completed':true}).then(function(response) {
+  //   //   $state.go("onboarding.complete")
+  //   // })
+  //   var medicationIdRef = Patient.ref().child('onboarding');
+  //   medicationIdRef.set({'medication_scheduling':true}).then(function(response) {
+  //     // $state.go("onboarding.complete")
+  //     pat = Patient.get()
+  //     pat.onboarding.medication_scheduling = true
+  //     Patient.set(pat)
+  //
+  //     $state.go("onboarding.complete")
+  //   })
+  // }
 
 })
