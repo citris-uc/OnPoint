@@ -1,5 +1,5 @@
 <ion-modal-view class="login-modal" ng-controller="loginCtrl">
-  <ion-content has-bouncing="false" class="login-view" scroll="false">
+  <ion-content has-bouncing="false" class="login-view">
 
     <div class="error-box" ng-if="state.error">
       <p>{{state.error}}</p>
@@ -8,7 +8,7 @@
     <div class="center-form">
       <form ng-submit="signup()" ng-if="state.view === 'signup'">
         <div class="list list-inset">
-          <label class="item item-input text-center">
+          <label class="item item-input text-center hide-on-keyboard-open">
             <img class="icon ion-image" ng-src="img/onPoint_logo.png"></img>
           </label>
 

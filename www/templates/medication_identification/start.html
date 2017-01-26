@@ -3,14 +3,18 @@
     <button class="button icon-right ion-ios-plus-empty button-clear" ui-sref="medication_identification.search"></button>
   </ion-nav-buttons>
 
-  <ion-content overflow-scroll="true">
+  <ion-content overflow-scroll="true" class="has-footer">
     <ul class="list">
       <li class="item text-center" ng-show="disableGenerate()">
         You haven't added any medications! Use the + icon in the navigation bar
         to add a medication.
       </li>
+      <li class="item text-center" ng-show="disabledGenerate()">
+        For now (dev mode): click here to generate a generic schedule of default meds
+        <a ng-click="generateDefaultMeds()">Click here</a>
+      </li>
 
-      <li class="item item-icon-right"  ng-repeat="med in scheduledMedications" ng-show="med.user_input" ui-sref="medication_identification.medication({id: med.$id})">
+      <li class="item item-icon-right"  ng-repeat="med in scheduledMedications" ui-sref="medication_identification.medication({id: med.$id})">
         <h2>{{med.trade_name}}</h2>
         <p>Dose: {{med.dose}}, tablets: {{med.tablets}}</p>
         <p>Instructions: {{med.instructions}}</p>

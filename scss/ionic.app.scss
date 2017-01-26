@@ -27,6 +27,16 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
   }
 }
 
+.list {
+  .item-input-inset {
+    label.item-input-wrapper {
+      input {
+        width: 100%;
+      }
+    }
+  }
+}
+
 .bottom-form{
     position:absolute;
     bottom:0px;
@@ -206,7 +216,11 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
   // top: 50%;
   left: 50%;
   position: absolute;
-  transform: translate(-50%, 10%);
+  transform: translate(-50%, 0%);
+
+  .list-inset {
+    margin-bottom: 0px;
+  }
 
   label{
     background-color: rgba(255,255,255,0.7);
@@ -294,4 +308,47 @@ $SIDEMENU_TRANSPARENCY: rgba(255,255,255,0.4);
     -moz-box-shadow: 0px 0px 142px -37px rgba(0,0,0,0.75);
     box-shadow: 0px 0px 142px -37px rgba(0,0,0,0.75);
   }
+}
+
+
+
+.onboarding {
+  p {
+    font-size: 16px;
+  }
+  .slider {
+    height: 100%;
+  }
+  .slider-slide {
+    padding-top: 80px;
+    color: #000;
+    background-color: #fff;
+    text-align: center;
+
+    font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+    font-weight: 300;
+  }
+
+  #logo {
+    margin: 30px 0px;
+  }
+
+  #list {
+    width: 200px;
+    margin: 30px auto;
+    font-size: 16px;
+  }
+  #list ol {
+    margin-top: 30px;
+  }
+  #list ol li {
+    text-align: left;
+    list-style: decimal;
+    margin: 10px 0px;
+  }
+
+  .button.ng-hide{
+    display:none;
+  }
+
 }

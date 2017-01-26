@@ -47,7 +47,7 @@ angular.module('app', ['ionic', 'firebase', 'app.controllers', 'app.routes', 'ap
 })
 
 
-.run(function($ionicPlatform, $rootScope, Patient, $state, $ionicHistory, $ionicModal) {
+.run(function($ionicPlatform, $rootScope, Patient, $state, $ionicHistory, $ionicModal, Onboarding) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -65,6 +65,12 @@ angular.module('app', ['ionic', 'firebase', 'app.controllers', 'app.routes', 'ap
       navigator.notification = window
     }
 
+    $rootScope.patient = {}
+    Patient.getFromFirebase().then(function(doc) {
+      console.log("getFromFirebase....")
+      console.log(doc.val())
+      $rootScope.patient = doc.val()
+    })
   });
 
   // The authentication hook that is triggered on every state transition.
@@ -72,31 +78,27 @@ angular.module('app', ['ionic', 'firebase', 'app.controllers', 'app.routes', 'ap
   // state transition and go to the login screen.
   $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams, options) {
     if (toState.name.indexOf("onboarding") == -1) {
-      // Save the onboarding state locally.
-      onboarding = Patient.get().onboarding
-      if (onboarding == undefined || onboarding == null) {
-        req = Patient.ref().child('onboarding').once("value", function(snapshot) {
-          Patient.setAttribute("onboarding", snapshot.val() || "")
-        });
-      }
 
-      onboarding = Patient.get().onboarding
-      if (!onboarding || !onboarding.intro) {
-        event.preventDefault()
-        $ionicHistory.nextViewOptions({
-          disableAnimate: true,
-          disableBack: true,
-          historyRoot: true
-        })
-        $state.go('onboarding.welcome');
-      }
+      Onboarding.getFromCloud().then(function(doc) {
+        onboarding = doc.val()
+        console.log("getFromCloud...")
+        console.log(onboarding)
+        if (!onboarding) {
+          event.preventDefault()
+          $ionicHistory.nextViewOptions({
+            disableAnimate: true,
+            disableBack: true,
+            historyRoot: true
+          })
+          $state.go('onboarding.welcome');
+        }
+      })
     }
-
   });
 
   Patient.auth().$onAuth(function(authData) {
     if (authData)
-      Patient.setAttribute("uid", authData.uid)
+      $rootScope.$emit(onpoint.env.auth.success, authData)
     else
       $rootScope.$emit(onpoint.env.error, {error: {status: 401}})
   })
@@ -122,41 +124,55 @@ angular.module('app', ['ionic', 'firebase', 'app.controllers', 'app.routes', 'ap
   }
 
   $rootScope.$on(onpoint.env.error, function(event, response) {
-    console.log("Received response...")
-    if (response.error) {
-      if (response.error.status == 401) {
-        if ( !$rootScope.modal || ($rootScope.modal && !$rootScope.modal.isShown()) ) {
-          loadLoginModal().then(function() {
-            $rootScope.state.error = "Your session has expired"
-            $rootScope.modal.show();
-          })
-        }
-      } else if (response.error.message) {
-        navigator.notification.alert(response.error.message, null, "Contact dmitriskj@gmail.com", "OK")
-      } else if (response.error.status == 500) {
-        navigator.notification.alert("Something went wrong on our end.", null, "Server not responding", "OK")
-      } else if (response.error.status == 0) {
-        navigator.notification.alert("We couldn't connect to the server. Are you connected to the internet?", null, "Server not responding", "OK")
-      } else if (response.error.status === 422) {
-        navigator.notification.alert(response.data.error, null, "Server not responding", "OK")
-      } else if (response.error && response.error.status === -1) {
-        navigator.notification.alert("We couldn't reach the server. Try again later.", null, "Server not responding", "OK")
-      } else if (response.error.status !== -1) {
-        navigator.notification.alert("Something went wrong on our end.", null, "Server not responding", "OK")
+    if (response.error && (response.error.status == 401 || response.error.status == 403) ) {
+      if ( !$rootScope.modal || ($rootScope.modal && !$rootScope.modal.isShown()) ) {
+        loadLoginModal().then(function() {
+          $rootScope.state.error = "Your session has expired"
+          $rootScope.modal.show();
+        })
       }
     } else {
-      navigator.notification.alert("Something went wrong", null, "Contact dmitriskj@gmail.com", "OK")
+
+      if (response.error) {
+        if (response.error.status == 401) {
+          if ( !$rootScope.modal || ($rootScope.modal && !$rootScope.modal.isShown()) ) {
+            loadLoginModal().then(function() {
+              $rootScope.state.error = "Your session has expired"
+              $rootScope.modal.show();
+            })
+          }
+        } else if (response.error.message) {
+          navigator.notification.alert(response.error.message, null, "Contact dmitriskj@gmail.com", "OK")
+        } else if (response.error.status == 500) {
+          navigator.notification.alert("Something went wrong on our end.", null, "Server not responding", "OK")
+        } else if (response.error.status == 0) {
+          navigator.notification.alert("We couldn't connect to the server. Are you connected to the internet?", null, "Server not responding", "OK")
+        } else if (response.error.status === 422) {
+          navigator.notification.alert(response.data.error, null, "Server not responding", "OK")
+        } else if (response.error && response.error.status === -1) {
+          navigator.notification.alert("We couldn't reach the server. Try again later.", null, "Server not responding", "OK")
+        } else if (response.error.status !== -1) {
+          navigator.notification.alert("Something went wrong on our end.", null, "Server not responding", "OK")
+        }
+      } else {
+        navigator.notification.alert("Something went wrong", null, "Contact dmitriskj@gmail.com", "OK")
+      }
     }
   })
 
   $rootScope.$on(onpoint.env.auth.success, function(event, response) {
-    Patient.setAttribute("token", response.token)
-    Patient.setAttribute("uid", response.uid)
+    console.log("Successfuly auth: ")
+    console.log(response)
+    console.log("----")
+    Patient.setToken(response.token)
+    Patient.setUID(response.uid)
 
-    if ($rootScope.modal)
-      $rootScope.modal.remove().then(function() {
-        $rootScope.$broadcast(onpoint.env.data.refresh);
-      })
+    $ionicHistory.clearCache().then(function() {
+      if ($rootScope.modal)
+        $rootScope.modal.remove().then(function() {
+          $rootScope.$broadcast(onpoint.env.data.refresh);
+        })
+    })
   })
 
   $rootScope.$on(onpoint.env.auth.failure, function(event, data) {
@@ -168,7 +184,4 @@ angular.module('app', ['ionic', 'firebase', 'app.controllers', 'app.routes', 'ap
       })
     }
   })
-
-
-
 })

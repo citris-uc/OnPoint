@@ -25,6 +25,8 @@ angular.module('app.controllers')
       Card.today().then(function(response) {
         $scope.today.cards = response.data.cards;
       }, function(response) {
+        // NOTE: For some reason, finally() is not triggered.
+        $ionicLoading.hide();
         $scope.$emit(onpoint.env.error, {error: response})
       }).finally(function(response) {
         $ionicLoading.hide();
@@ -34,6 +36,8 @@ angular.module('app.controllers')
       Card.past().then(function(response) {
         $scope.history.cards = response.data.cards
       }, function(response) {
+        // NOTE: For some reason, finally() is not triggered.
+        $ionicLoading.hide();
         $scope.$emit(onpoint.env.error, {error: response})
       }).finally(function(response) {
         $ionicLoading.hide();
@@ -45,6 +49,8 @@ angular.module('app.controllers')
       Card.tomorrow().then(function(response) {
         $scope.tomorrow.cards = response.data.cards;
       }, function(response) {
+        // NOTE: For some reason, finally() is not triggered.
+        $ionicLoading.hide();
         $scope.$emit(onpoint.env.error, {error: response})
       }).finally(function(response) {
         $ionicLoading.hide();

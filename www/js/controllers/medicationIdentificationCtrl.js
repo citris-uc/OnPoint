@@ -66,20 +66,21 @@ angular.module('app.controllers')
 })
 
 // TODO: Implement once we have RxNorm. See #516
-.controller('medicationSearchCtrl', function($scope, $state, $ionicPopup, $templateCache, $ionicPopover, Medication) {
-    // $scope.medications = Medication.get();
+.controller('medicationSearchCtrl', function($scope, $state, Medication, $ionicLoading, Patient) {
     $scope.medication = {};
-    $scope.params = {};
+    $scope.params     = {noDrugMatch: false};
+    $scope.drugs      = [];
 
     $scope.search = function() {
-      $scope.locations     = []
-      $scope.state.loading = true
-      Medicat.search($scope.params.search).then(function(response) {
-        $scope.locations = response.data.locations
+      $ionicLoading.show()
+
+      Medication.search($scope.params.search).then(function(response) {
+        $scope.drugs = response.data
+        $scope.params.noDrugMatch = ($scope.drugs == 0)
       }, function(response) {
-        $scope.$emit(onpoint.env.error, {error: response})
+        $scope.$emit(onpoint.env.error, response)
       }).finally(function() {
-       $scope.state.loading = false;
+       $ionicLoading.hide()
       });
     }
 
@@ -87,8 +88,44 @@ angular.module('app.controllers')
 })
 
 
-.controller('medicationViewCtrl', function($scope, $state, $stateParams, Medication) {
-   $scope.medication = Medication.getById($stateParams.id);
+.controller('medicationMatchCtrl', function($scope, $state, $ionicPopover, Medication, $ionicLoading, $ionicHistory) {
+  $scope.drug       = {}
+  $scope.medication = {}
+
+  $scope.$on("$ionicView.loaded", function() {
+    $ionicLoading.show()
+
+    Medication.searchByRXCUI($state.params.rxcui).then(function(response) {
+      $scope.drug = response.data
+    }).finally(function(res) {
+      $ionicLoading.hide()
+    })
+  })
+
+  $scope.add = function() {
+    $ionicHistory.goBack(-2)
+
+    // TODO TODO
+    // firebaseRecord = $scope.medication
+    // firebaseRecord["trade_name"]   = $scope.medication.trade_name
+    // firebaseRecord['instructions'] = $scope.medication.instructions
+    // firebaseRecord['dose']    = $scope.medication.dose
+    // firebaseRecord['purpose'] = $scope.medication.purpose
+    // firebaseRecord['notes']   = $scope.medication.notes
+    //
+    // Medication.get().$add($scope.medication).then(function(response) {
+    //   console.log(response)
+    //   $ionicHistory.goBack(-2)
+    // }, function(response) {
+    //   console.log("Error")
+    //   console.log(response)
+    // })
+  }
+})
+
+
+.controller('medicationViewCtrl', function($scope, $state, Medication, $ionicHistory) {
+   $scope.medication = Medication.getById($state.params.id);
    $scope.removeMedication = function() {
      $scope.medication.$remove().then(function(response) {
 
@@ -102,31 +139,37 @@ angular.module('app.controllers')
        $scope.$emit(onpoint.env.error, {error: response})
      })
    }
+
+   $scope.update = function() {
+     $scope.medication.$save().then(function(res) {
+       $ionicHistory.goBack(-1)
+     })
+   }
 })
 
 
-.controller('medicationsListCtrl', function($scope, $state, Patient, Medication, MedicationSchedule) {
+.controller('medicationsListCtrl', function($scope, $state, Patient, Medication, MedicationSchedule, Onboarding, $ionicLoading) {
    $scope.scheduledMedications = Medication.get();
+   console.log($scope.scheduledMedications)
+
+   $scope.generateDefaultMeds = function() {
+     Medication.setDefaultMeds()
+     $state.go("medication_identification.start", {}, {reload: true})
+   }
 
    $scope.completeMedicationIdentification = function() {
-     Medication.setDefaultMeds()
-
-     var ref = Patient.ref().child('onboarding');
-     ref.set({'medication_identification':true}).then(function(response) {
-       onboarding = Patient.get().onboarding
-       onboarding.medication_identification = true
-       Patient.setAttribute("onboarding", onboarding)
-       $state.go("medication_scheduling.welcome")
+     $ionicLoading.show({hideOnStateChange: true})
+     MedicationSchedule.setDefaultSchedule().then(function(res) {
+       $ionicLoading.hide()
+       Onboarding.ref().update({'medication_identification':true}).then(function(response) {
+         $state.go("medication_scheduling.start")
+       })
+     }).catch(function(res) {
+       $ionicLoading.hide()
      })
    }
 
    $scope.disableGenerate = function() {
      return ($scope.scheduledMedications.length == 0)
    }
-
-   //Saving State of onboarding progress into firebase
-   $scope.$on('$ionicView.beforeEnter', function(){
-     var ref = Patient.ref();
-     var req = ref.child('onboarding').update({'state':$state.current.name})
-    });
 })

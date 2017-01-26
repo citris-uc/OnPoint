@@ -9,34 +9,41 @@ angular.module('app.services')
 .factory('Patient', function($window, $firebaseAuth, $firebaseObject) {
   return {
     uid: function() {
-      return this.get().uid;
+      return $window.localStorage.getItem("uid")
+    },
+    setUID: function(uid) {
+      return $window.localStorage.setItem("uid", uid)
     },
     get: function() {
-      return JSON.parse($window.localStorage.getItem("patient") || "{}");
+      patient = $window.localStorage.getItem("patient")
+      if (patient)
+        return JSON.parse(patient)
+      else
+        return {}
+    },
+    getFromFirebase: function() {
+      var ref = new Firebase(onpoint.env.mainURL + "patients/");
+      var uid = this.uid();
+      return ref.child(uid).child("patient").once("value")
     },
     set: function(patient) {
-      $window.localStorage.setItem("patient", JSON.stringify(patient || {}));
+      if (patient)
+        $window.localStorage.setItem("patient", JSON.stringify(patient));
+      else
+        $window.localStorage.setItem("patient", null)
     },
+    create: function(patient) {
+      thisPatient = this
+      var ref = new Firebase(onpoint.env.mainURL + "patients/");
+      var uid = this.uid();
+      return ref.child(uid).child("patient").set(patient).then(function(response) {
+        thisPatient.set(patient)
+      })
+    },
+
     setAttribute: function(attr, value) {
       patient = this.get()
       patient[attr] = value
-      this.set(patient)
-    },
-    // DEPRECIATED: because moving to register screen
-    // create: function(email, authData) {
-    //   // Create the patient, add to localstorage, and add the token.
-    //   patient = {email: email, uid: authData.uid, profileImageUrl: authData.profileImageUrl}
-    //   //this.set(patient) //authData will only contain UID
-    //   this.ref(authData.uid).set({email: email})
-    //   //this.setToken(authData.token) //authData will only contain UID
-    // },
-    getProfile: function() {
-      ref = this.ref().child('profile')
-      return $firebaseObject(ref)
-    },
-    setProfilePicture: function(profileImageUrl) {
-      patient = this.get();
-      patient.profileImageUrl = profileImageUrl;
       this.set(patient)
     },
     setToken: function(token) {
@@ -46,24 +53,26 @@ angular.module('app.services')
         $window.localStorage.setItem("token", token);
     },
     getToken: function() {
-      return this.get().token
+      return $window.localStorage.getItem("token");
     },
     ref: function() {
       var patientRef = new Firebase(onpoint.env.mainURL + "patients/");
       var uid = this.uid();
       // TODO: Remove the ref for all patients... Otherwise, we end up adding stuff
       // to the /patients/ resource when it should be for /patients/:uid resource.
-      if (uid)
+      if (uid) {
         return patientRef.child(uid);
-      else
+      } else
         return patientRef;
     },
     auth: function() {
       return $firebaseAuth(this.ref());
     },
     logout: function() {
-      // this.setToken(null);
-      return this.auth().$unauth();
+      thisPatient = this
+      thisPatient.setToken("")
+      thisPatient.setUID("")
+      return this.auth().$unauth()
     }
   };
 })

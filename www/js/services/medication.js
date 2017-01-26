@@ -1,6 +1,6 @@
 angular.module('app.services')
 
-.factory('Medication',["Patient","$firebaseObject", "$firebaseArray", function(Patient, $firebaseObject,$firebaseArray) {
+.factory('Medication',["Patient","$firebaseObject", "$firebaseArray", "$http", function(Patient, $firebaseObject,$firebaseArray, $http) {
   /*
    * These are default medcations set/instructions for testing purposes
    * TODO: delete id field
@@ -27,6 +27,26 @@ angular.module('app.services')
   input_medications = [];
 
   return {
+    search: function(query) {
+      return $http({
+        method: "GET",
+        url:    onpoint.env.serverURL + "drugs?query=" + query,
+        headers: {
+         "Authorization": "Bearer " + Patient.getToken()
+        }
+      })
+    },
+
+    searchByRXCUI: function(rxcui) {
+      return $http({
+        method: "GET",
+        url:    onpoint.env.serverURL + "drugs/rxcui?rxcui=" + rxcui,
+        headers: {
+         "Authorization": "Bearer " + Patient.getToken()
+        }
+      })
+    },
+
     findMedicationByName: function(name, list) {
       for(var i = 0; i < list.length; i++) {
         if (list[i].trade_name == name) {
