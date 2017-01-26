@@ -1,17 +1,125 @@
-<ion-view title="Welcome to OnPoint">
-  <ion-content overflow-scroll="true">
-    <div class="list card">
-      <div class="item item-text-wrap">
-        Welcome to OnPoint onboarding. In the next few screens, we will
-        help you add your medications, setup a medication schedule, and
-        teach you about the app's features.
+<ion-view class="onboarding" view-title="Intro">
+  <ion-nav-buttons side="left">
+    <!-- <button class="button button-positive button-clear no-animation"
+            ng-click="startApp()" ng-show="!slideIndex">
+      Skip Intro
+    </button> -->
+    <button class="button button-icon button-clear ion-navicon" ng-show="!slideIndex" menu-toggle="left">
+    </button>
+    <button class="button button-positive button-clear no-animation"
+            ng-click="previous()" ng-show="slideIndex > 0">
+      Previous
+    </button>
+  </ion-nav-buttons>
+  <ion-nav-buttons side="right">
+    <button class="button button-positive button-clear no-animation"
+            ng-click="next()" ng-show="slideIndex != 5">
+      Next
+    </button>
+    <button class="button button-positive button-clear no-animation"
+            ng-click="completeOnboarding()" ng-show="slideIndex == 5">
+      Start
+    </button>
+  </ion-nav-buttons>
+  <ion-slide-box on-slide-changed="slideChanged(index)">
+    <ion-slide>
+      <h3>Welcome to OnPoint!</h3>
+      <div id="logo">
+        <img src="img/onPoint_logo.png">
       </div>
+      <h5>
+        OnPoint helps you manage your medication schedule with an organized
+        timeline, clever alerts, and real-time communication with your care team.
+      </h5>
+      <h5>
+        Swipe left to continue.
+      </h5>
+    </ion-slide>
+    <ion-slide>
+      <h3>Setting up OnPoint</h3>
 
-      <a class="item item-icon-right positive" ui-sref="onboarding.identify_meds">
-        <i class="icon ion-ios-arrow-right"></i>
-        Proceed
-      </a>
+      <div id="list">
+        <h5>
+          We'll help you get setup with OnPoint in just three steps:
+        </h5>
+        <ol>
+          <li>Identify your medications,</li>
+          <li>Create a schedule from your medications,</li>
+          <li>Use the Timeline to manage your schedule and appointments.</li>
+        </ol>
+      </div>
+    </ion-slide>
+    <ion-slide>
+      <h3>Identifying medications</h3>
+      <p>
+        The first step in the app will be to add medications. We offer multiple ways
+        to identify your medication, including searching by name or searching by barcode.
+      </p>
+    </ion-slide>
 
-    </div>
-  </ion-content>
+    <ion-slide>
+      <h3>Scheduling medications</h3>
+      <p>
+        After you've identified all your medication, we will help you schedule the medications
+        so that you can receive timely notifications.
+      </p>
+    </ion-slide>
+
+    <ion-slide>
+      <h3>Using the timeline</h3>
+      <p>
+        Once you have a medication schedule setup, your main interaction with the app
+        will be through the timeline. The timeline is a central place for you to view
+        your medication schedule, be notified of what medications you have taken, and be
+        aware of medication you have yet to take. The timeline keeps you on track, on point.
+      </p>
+    </ion-slide>
+
+    <ion-slide>
+      <h3>That's it!</h3>
+      <p>
+        Congratulations on completing the introductory part of Onboarding.
+        Let's now move on to identifying your medications.
+      </p>
+
+      <p>
+        Tap Start on top right to begin.
+      </p>
+    </ion-slide>
+  </ion-slide-box>
 </ion-view>
+
+
+
+<!-- <ion-view title="Welcome to OnPoint">
+  <ion-content scroll="false">
+
+
+    <ion-slide-box does-continue="false" show-pager="true">
+      <ion-slide>
+        <div class="item item-text-wrap">
+          Welcome to OnPoint onboarding. In the next few screens, we will
+          help you add your medications, setup a medication schedule, and
+          teach you about the app's features.
+        </div>
+      </ion-slide>
+
+      <ion-slide>
+        <div class="item item-text-wrap">
+          The first step in the app will be to add medications. We offer multiple ways
+          to identify your medication, including searching by name or searching by barcode.
+        </div>
+
+      </ion-slide>
+
+
+
+      <ion-slide>
+
+      </ion-slide>
+    </ion-slide-box>
+
+
+
+  </ion-content>
+</ion-view> -->
