@@ -10,6 +10,6 @@ onpoint.env = {
   },
   baseURL: "https://onpointhealth.herokuapp.com/api/v0/",
   mainURL: "https://vivid-inferno-5187.firebaseio.com/",
-  serverURL: "http://localhost:5000/api/v0",
+  serverURL: "https://onpointhealth.herokuapp.com/api/v0",
   debug: false
 }
