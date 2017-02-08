@@ -21,12 +21,14 @@ angular.module('app.services')
       })
     },
     today: function() {
-      return $http({
-        method: "GET",
-        url:    onpoint.env.serverURL + "cards?when=today",
-        headers: {
-         "Authorization": "Bearer " + Patient.getToken()
-        }
+      return Patient.get().then(function(p) {
+        return $http({
+          method: "GET",
+          url:    onpoint.env.serverURL + "cards?when=today",
+          headers: {
+           "Authorization": "Bearer " + p.token
+          }
+        })
       })
     },
     tomorrow: function() {
@@ -96,13 +98,15 @@ angular.module('app.services')
     },
 
     forceGenerate: function() {
-      return $http({
-        method: "DELETE",
-        url:    onpoint.env.serverURL + "cards/force",
-        headers: {
-         "Authorization": "Bearer " + Patient.getToken()
-        }
-      })
+      return Patient.get().then(function(p) {
+        return $http({
+          method: "DELETE",
+          url:    onpoint.env.serverURL + "cards/force",
+          headers: {
+           "Authorization": "Bearer " + p.token
+          }
+        })
+      }).catch(console.log.bind(console));
     },
 
     // createFromSchedSlot: function(object_type, obj_id, object, date) {

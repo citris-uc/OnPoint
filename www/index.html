@@ -18,6 +18,12 @@
 
     <link href="css/ionic.app.css" rel="stylesheet">
 
+    <script src="lib/pouchdb/dist/pouchdb.min.js"></script>
+    <script src="lib/pouchdb-upsert/dist/pouchdb.upsert.min.js"></script>
+
+    <script src="lib/moment/min/moment.min.js"></script>
+    <script src="lib/angular-moment/angular-moment.min.js"></script>
+
     <!--FIREBASE! -->
     <script src="https://cdn.firebase.com/js/client/2.4.1/firebase.js"></script>
 
@@ -32,6 +38,7 @@
     <script src="js/constants.js"></script>
     <script src="js/controllers.js"></script>
 
+    <script src="js/services/pouch.js"></script>
     <script src="js/services/medication.js"></script>
     <script src="js/services/medication_schedule.js"></script>
     <script src="js/services/medication_history.js"></script>
@@ -56,6 +63,17 @@
     <script src="js/controllers/settingsCtrl.js"></script>
     <script src="js/controllers/notesCtrl.js"></script>
     <script src="js/controllers/onboardingCtrl.js"></script>
+    <script src="js/controllers/profileCtrl.js"></script>
+
+    <script src="js/controllers/medication_identification/medicationMatchCtrl.js"></script>
+    <script src="js/controllers/medication_identification/medicationSearchCtrl.js"></script>
+    <script src="js/controllers/medication_identification/newMedicationCtrl.js"></script>
+    <script src="js/controllers/medication_identification/medicationViewCtrl.js"></script>
+
+    <script src="js/controllers/medication_scheduling/editMedicationScheduleCtrl.js"></script>
+    <script src="js/controllers/medication_scheduling/medicationScheduleCtrl.js"></script>
+    <script src="js/controllers/medication_scheduling/newMedicationScheduleSlotCtrl.js"></script>
+
 
     <script src="js/controllers/timeline/medicationScheduleCardCtrl.js"></script>
 

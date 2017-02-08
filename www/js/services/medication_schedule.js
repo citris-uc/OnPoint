@@ -34,81 +34,69 @@ angular.module('app.services')
      * Temporary method for clinician testing
      */
     setDefaultSchedule: function() {
-      // var ref = this.ref().child("default")
-      var ref = this.ref()
-      return ref.once("value", function(snapshot) {
-        if (!snapshot.exists()) { //only push default schedule once.
-          for(var i = 0; i < schedule.length; i++) {
-            ref.push(schedule[i]);
+      return Patient.get().then(function(p) {
+        return Patient.ref(p.uid).child("medication_schedule").once("value", function(snapshot) {
+          if (!snapshot.exists()) { //only push default schedule once.
+            for(var i = 0; i < schedule.length; i++) {
+              ref.push(schedule[i]);
+            }
           }
-        }
+        })
       })
     },
 
-    ref: function() {
-      var uid = Patient.uid();
-      return Patient.ref(uid).child("medication_schedule")
-    },
-
-    /*
-     * queries firebase data and returns the default from firebase
-     * returns a $firebaseArray, this IS NOT A PROMISE. CANNOT CALL THE THEN METHOD ON this
-     * use this to display the schedule on the view layer.
-     */
     get: function() {
-      // var ref = this.ref().child("default");
-      var ref = this.ref()
-      return $firebaseArray(ref);
+      return Patient.get().then(function(p) {
+        return $firebaseArray(Patient.ref(p.uid).child("medication_schedule"))
+      })
     },
 
-    /*
-     * queries firebase data and returns the default from firebase
-     * this method will return a PROMISE, so we can call the then method on the promise
-     * and update other $scope variables once the promise has been fulfilled.
-     * use this when we need to use the schedule to create other things, i.e. generateCardsForToday()
-     */
-    getAsPromise: function() {
-      // var ref = this.ref().child("default").once("value");
-      var ref =this.ref().once("value");
-      return ref;
-    },
+    // getAsPromise: function() {
+    //   // var ref = this.ref().child("default").once("value");
+    //   var ref =this.ref().once("value");
+    //   return ref;
+    // },
 
-    /*
-     * querues firebase returns a specific scheduleId within this patients
-     * firebase default
-     * returns a $firebaseObject, THIS IS NOT A PROMISE. TREAT IT LIKE A REAL OBJECT
-     * use this to display the specific schedule on an html page.
-     */
-    findByID: function(id) {
-      // var ref = this.ref().child("default").child(id)
-      var ref = this.ref().child(id)
-      return $firebaseObject(ref);
+    getByID: function(id) {
+      return Patient.get().then(function(p) {
+        return $firebaseObject(Patient.ref(p.uid).child("medication_schedule").child(id)).$loaded();
+      })
     },
 
     // Add a time slot to the schedule
-    addTimeSlot: function(slotName, daysArray, time){
-      var ref = this.get();
-      var instanceFB =  { //use this if adding new element
+    add: function(slot){
+      hours = slot.time.getHours();
+      mins  = slot.time.getMinutes();
+      hours = ( String(hours).length == 1 ? "0" + String(hours) : String(hours) )
+      mins  = ( String(mins).length == 1 ? "0" + String(mins) : String(mins) )
+      time  = hours + ":" + mins;
+
+      var instanceFB =  {
         time: time,
-        name: slotName,
-        days: daysArray,
+        name: slot.name,
+        days: slot.days
       };
-      return ref.$add(instanceFB);
+
+      return this.get().then(function(docs) {
+        docs.$add(instanceFB);
+      })
     },
 
     addMedication: function(id, medication) {
-      console.log(id)
-      console.log(medication)
-      that = this
-      slot = that.findByID(id)
-      slot.$loaded().then(function(response) {
-        medications = response.medications
-        if (medications.indexOf(medication) === -1) {
-          medications.push(medication)
-          slot.medications = medications
-          slot.$save()
+      return this.getByID(id).then(function(slot) {
+        console.log(slot)
+        if (!slot.medications) {
+          slot.medications = []
         }
+
+        if (slot.medications.indexOf(medication) === -1) {
+          slot.medications.push(medication)
+        }
+
+        return slot.$save()
       })
+
+
 
       // .on("value", function(snap) {
       //   meds = snap.val()
@@ -137,20 +125,33 @@ angular.module('app.services')
     },
 
     removeMedication: function(id, medication) {
-      that = this
-      this.ref().child(id).child("medications").on("value", function(response) {
-        medications = response.val()
-        for (var i=0; i < medications.length; i++) {
-          if (medications[i] == medication) {
-            medications.splice(i, 1)
-            break
+      thisMS = this
+
+      return Patient.get().then(function(p) {
+        ref = Patient.ref(p.uid).child("medication_schedule").child(id)
+        return $firebaseArray(ref.child("medications")).$loaded().then(function(res) {
+
+          for(var i = 0; i < res.length; i++) {
+            if (medication == res[i].$value)
+              res.$remove(i);
           }
-        }
-        that.ref().child(id).update({medications: medications})
+        }).catch(function(err) {
+          console.log(err)
+        })
+
+        // return ref.child("medications").on("value", function(response) {
+        //   console.log(response.val())
+        //   medications = response.val()
+        //   for (var i=0; i < medications.length; i++) {
+        //     if (medications[i] == medication) {
+        //       medications.splice(i, 1)
+        //       break
+        //     }
+        //   }
+        //
+        //   return ref.update({medications: medications})
+        // })
       })
-
-
-      // console.log(index)
     }
   };
 }])

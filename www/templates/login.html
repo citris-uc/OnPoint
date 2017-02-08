@@ -42,7 +42,7 @@
         </div>
 
         <div class="padding">
-          <button class="button button-balanced button-block" type="submit">
+          <button class="button button-balanced button-block" type="submit" ng-disabled="!user.email || !user.password || !user.password_confirmation || !user.gender || !user.first_name || !user.last_name || !user.age">
             <span ng-hide="state.loading">Signup</span>
             <ion-spinner icon="ios-small" class="spinner-stable" ng-show="state.loading"></ion-spinner>
           </button>
@@ -64,7 +64,7 @@
         </div>
 
         <div class="padding">
-          <button class="button button-balanced button-block" type="submit">
+          <button class="button button-balanced button-block" type="submit" ng-disabled="!user.email || !user.password">
             <span ng-hide="state.loading">Login</span>
             <ion-spinner icon="ios-small" class="spinner-stable" ng-show="state.loading"></ion-spinner>
           </button>

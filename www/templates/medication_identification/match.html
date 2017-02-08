@@ -1,4 +1,4 @@
-<ion-view title="Match">
+<ion-view>
   <ion-content>
     <div class="list card" ng-if="drug">
       <div class="item">
@@ -7,8 +7,6 @@
       </div>
 
       <div class="item item-body">
-        <img class="full-image" src="{{drug.images[0].imageUrl}}" ng-if="drug.images[0]">
-        <img class="full-image" src="img/pill.png" ng-if="!drug.images[0]">
         <p>
           TODO TODO TODO: Fetch data from DailyMed for instructions, purpose, what else?
         </p>
@@ -16,6 +14,11 @@
           <a href="#" class="subdued">1 Like</a>
           <a href="#" class="subdued">5 Comments</a>
         </p> -->
+      </div>
+
+      <div class="item item-body">
+        <img class="full-image" src="{{drug.images[0].imageUrl}}" ng-if="drug.images[0]">
+        <img class="full-image" src="img/pill.png" ng-if="!drug.images[0]">
       </div>
     </div>
   </ion-content>

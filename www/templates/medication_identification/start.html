@@ -9,7 +9,7 @@
         You haven't added any medications! Use the + icon in the navigation bar
         to add a medication.
       </li>
-      <li ng-click="generateDefaultMeds()" class="item text-center item-text-wrap" ng-show="disableGenerate()">
+      <li ng-click="generateDefaultMeds()" class="item text-center item-text-wrap" ng-show="scheduledMedications.length == 0">
         For now (dev mode): click here to generate a generic schedule of default meds
       </li>
 

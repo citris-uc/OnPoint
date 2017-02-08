@@ -6,29 +6,30 @@
   <form ng-submit="update()">
     <ion-content>
       <div class="list">
-        <label class="item item-input item-select">
+        <label class="item item-input">
           <span class="input-label">Medication Name</span>
-            <input type="text" placeholder="metoprolol" ng-model="medication.trade_name"></input>
+          <input type="text" ng-model="medication.trade_name"></input>
         </label>
 
         <label class="item item-input">
-           <span class="input-label">Dosage</span>
-          <input type="number" min="0" placeholder="Dose (e.g. 25)" ng-model="medication.dose" ></input>
+          <span class="input-label">Dosage</span>
+          <input type="number" min="0" ng-model="medication.dose" ></input>
           <span>mg</span>
         </label>
 
         <label class="item item-input">
           <span class="input-label">Instructions</span>
-          <input type="text" placeholder="Instructions (e.g. orally)" ng-model="medication.instructions"></input>
+          <textarea ng-model="medication.instructions"></textarea>
         </label>
 
         <label class="item item-input">
           <span class="input-label">Purpose</span>
-          <input type="text" placeholder="Purpose (e.g. used to treat heart failure)" ng-model="medication.purpose"></input>
+          <textarea ng-model="medication.purpose"></textarea>
         </label>
 
         <label class="item item-input">
-          <input type="text" placeholder="Any other notes?" ng-model="medication.notes"></input>
+          <span class="input-label">Notes</span>
+          <textarea ng-model="medication.notes"></textarea>
         </label>
       </div>
     </ion-content>

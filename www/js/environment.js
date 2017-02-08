@@ -8,8 +8,8 @@ onpoint.env = {
   data: {
     refresh: "data.refresh"
   },
-  baseURL: "https://onpointhealth.herokuapp.com/api/v0/",
+  baseURL: "http://localhost:5000/api/v0/",
   mainURL: "https://vivid-inferno-5187.firebaseio.com/",
-  serverURL: "https://onpointhealth.herokuapp.com/api/v0/",
-  debug: false
+  serverURL: "http://localhost:5000/api/v0/",
+  debug: true
 }

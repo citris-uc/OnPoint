@@ -6,7 +6,8 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('app', ['ionic', 'firebase', 'app.controllers', 'app.routes', 'app.services', 'app.directives', 'app.constants', 'dndLists'])
+
+angular.module('app', ['ionic', 'firebase', 'app.controllers', 'app.routes', 'app.services', 'app.directives', 'app.constants', 'dndLists', 'angularMoment'])
 
 //src: https://github.com/fmquaglia/ngOrderObjectBy
 .filter('orderObjectBy', function() {
@@ -48,6 +49,10 @@ angular.module('app', ['ionic', 'firebase', 'app.controllers', 'app.routes', 'ap
 
 
 .run(function($ionicPlatform, $rootScope, Patient, $state, $ionicHistory, $ionicModal, Onboarding) {
+  Patient.get().then(function(patient) {
+    $rootScope.patient = patient
+  })
+
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -64,44 +69,49 @@ angular.module('app', ['ionic', 'firebase', 'app.controllers', 'app.routes', 'ap
     if (!navigator.notification) {
       navigator.notification = window
     }
+  });
 
-    $rootScope.patient = {}
-    Patient.getFromFirebase().then(function(doc) {
-      console.log("getFromFirebase....")
-      console.log(doc.val())
-      $rootScope.patient = doc.val()
+
+  $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams, options) {
+    Patient.get().then(function(p) {
+      console.log(p)
+      if (!p || !p.uid)
+        $rootScope.$emit(onpoint.env.auth.failure, {})
+    }).catch(function(err) {
+      console.log(err)
+      $rootScope.$emit(onpoint.env.auth.failure, {})
     })
   });
 
   // The authentication hook that is triggered on every state transition.
   // We check if the user is logged-in, and if not, then we cancel the current
   // state transition and go to the login screen.
-  $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams, options) {
-    if (toState.name.indexOf("onboarding") == -1) {
+  // $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams, options) {
+  //   if (toState.name.indexOf("onboarding") == -1) {
+  //
+  //     Onboarding.getFromCloud().then(function(doc) {
+  //       onboarding = doc.val()
+  //       console.log("getFromCloud...")
+  //       console.log(onboarding)
+  //       if (!onboarding) {
+  //         event.preventDefault()
+  //         $ionicHistory.nextViewOptions({
+  //           disableAnimate: true,
+  //           disableBack: true,
+  //           historyRoot: true
+  //         })
+  //         $state.go('onboarding.welcome');
+  //       }
+  //     })
+  //   }
+  // });
 
-      Onboarding.getFromCloud().then(function(doc) {
-        onboarding = doc.val()
-        console.log("getFromCloud...")
-        console.log(onboarding)
-        if (!onboarding) {
-          event.preventDefault()
-          $ionicHistory.nextViewOptions({
-            disableAnimate: true,
-            disableBack: true,
-            historyRoot: true
-          })
-          $state.go('onboarding.welcome');
-        }
-      })
-    }
-  });
-
-  Patient.auth().$onAuth(function(authData) {
-    if (authData)
-      $rootScope.$emit(onpoint.env.auth.success, authData)
-    else
-      $rootScope.$emit(onpoint.env.error, {error: {status: 401}})
-  })
+  // Patient.auth().$onAuth(function(authData) {
+  //   if (authData)
+  //     $rootScope.$emit(onpoint.env.auth.success, authData)
+  //   else
+  //     $rootScope.$emit(onpoint.env.error, {error: {status: 401}})
+  // })
 
 
   //----------------------------------------------------------------------------\
@@ -124,6 +134,11 @@ angular.module('app', ['ionic', 'firebase', 'app.controllers', 'app.routes', 'ap
   }
 
   $rootScope.$on(onpoint.env.error, function(event, response) {
+    console.log(response)
+    if (response.name == "Error")
+      navigator.notification.alert(response.message, null, "Login failed", "OK")
+      return
+
     if (response.error && (response.error.status == 401 || response.error.status == 403) ) {
       if ( !$rootScope.modal || ($rootScope.modal && !$rootScope.modal.isShown()) ) {
         loadLoginModal().then(function() {
@@ -161,12 +176,6 @@ angular.module('app', ['ionic', 'firebase', 'app.controllers', 'app.routes', 'ap
   })
 
   $rootScope.$on(onpoint.env.auth.success, function(event, response) {
-    console.log("Successfuly auth: ")
-    console.log(response)
-    console.log("----")
-    Patient.setToken(response.token)
-    Patient.setUID(response.uid)
-
     $ionicHistory.clearCache().then(function() {
       if ($rootScope.modal)
         $rootScope.modal.remove().then(function() {
@@ -176,12 +185,13 @@ angular.module('app', ['ionic', 'firebase', 'app.controllers', 'app.routes', 'ap
   })
 
   $rootScope.$on(onpoint.env.auth.failure, function(event, data) {
-    // Patient.setToken(null);
-    if ( !$rootScope.modal || ($rootScope.modal && !$rootScope.modal.isShown()) ) {
-      loadLoginModal().then(function() {
-        $rootScope.state.error = data.message
-        $rootScope.modal.show();
-      })
-    }
+    Patient.destroy().then(function(par) {
+      if ( !$rootScope.modal || ($rootScope.modal && !$rootScope.modal.isShown()) ) {
+        loadLoginModal().then(function() {
+          $rootScope.state.error = data.message
+          $rootScope.modal.show();
+        })
+      }
+    }).catch(console.log.bind(console));
   })
 })

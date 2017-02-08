@@ -28,7 +28,7 @@ angular.module('app.controllers')
 })
 
 
-.controller('loginCtrl', function($scope, $state, $ionicHistory, Patient, $ionicPopup) {
+.controller('loginCtrl', function($scope, $state, $ionicHistory, Patient, $ionicLoading) {
   $scope.state = {loading: false, error: null, view: "login"}
   $scope.user  = {};
 
@@ -38,15 +38,14 @@ angular.module('app.controllers')
   }
 
   $scope.login = function(){
-    $scope.state.loading = true;
+    $ionicLoading.show({hideOnStateChange: true})
 
-    Patient.auth().$authWithPassword($scope.user).then(function(response) {
+    Patient.login($scope.user).then(function(response) {
       $scope.$emit(onpoint.env.auth.success, response)
     }).catch(function(response) {
-      $scope.state.loading = false;
-      $scope.$emit(onpoint.env.error, {error: response})
+      $scope.$emit(onpoint.env.error, response)
     }).finally(function() {
-      $scope.state.loading = false;
+      $ionicLoading.hide()
     })
   }
 

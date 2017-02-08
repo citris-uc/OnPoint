@@ -28,23 +28,27 @@ angular.module('app.services')
 
   return {
     search: function(query) {
-      return $http({
-        method: "GET",
-        url:    onpoint.env.serverURL + "drugs?query=" + query,
-        headers: {
-         "Authorization": "Bearer " + Patient.getToken()
-        }
-      })
+      return Patient.get().then(function(p) {
+        return $http({
+          method: "GET",
+          url:    onpoint.env.serverURL + "drugs?query=" + query,
+          headers: {
+           "Authorization": "Bearer " + p.token
+          }
+        })
+      }).catch(console.log.bind(console));
     },
 
     searchByRXCUI: function(rxcui) {
-      return $http({
-        method: "GET",
-        url:    onpoint.env.serverURL + "drugs/rxcui?rxcui=" + rxcui,
-        headers: {
-         "Authorization": "Bearer " + Patient.getToken()
-        }
-      })
+      return Patient.get().then(function(p) {
+        return $http({
+          method: "GET",
+          url:    onpoint.env.serverURL + "drugs/rxcui?rxcui=" + rxcui,
+          headers: {
+           "Authorization": "Bearer " + p.token
+          }
+        })
+      }).catch(console.log.bind(console));
     },
 
     findMedicationByName: function(name, list) {
@@ -72,14 +76,16 @@ angular.module('app.services')
       }
     },
 
-    ref: function() {
-      var uid = Patient.uid();
-      return Patient.ref(uid).child("medications")
-    },
+    // ref: function() {
+    //   return Patient.get().then(function(p) {
+    //     return Patient.ref(uid).child("medications")
+    //   })
+    // },
 
     cabRef: function(){
-      var uid = Patient.uid();
-      return Patient.ref(uid).child("cabinet_medications")
+      return Patient.get().then(function(p) {
+        return Patient.ref(p.uid).child("cabinet_medications")
+      })
     },
     saveCabMed: function(newCabMed) {
       this.cabRef().push(newCabMed)
@@ -88,17 +94,18 @@ angular.module('app.services')
       this.ref().push(med)
     },
     get: function() {
-      var ref = this.ref();
-      return $firebaseArray(ref);
-      // return medications;
+      return Patient.get().then(function(p) {
+        return $firebaseArray(Patient.ref(p.uid).child("medications"))
+      })
     },
     getCabMeds: function(){
       var ref = this.cabRef();
       return $firebaseArray(ref);
     },
     getById: function(med_id){
-       console.log(med_id);
-      return $firebaseObject(this.ref().child(med_id));
+      return Patient.get().then(function(p) {
+        return $firebaseObject(Patient.ref(p.uid).child("medications").child(med_id));
+      })
     },
     getByTradeName: function(trade_name) {
       // for (var i = 0; i < medications.length; i++) {
