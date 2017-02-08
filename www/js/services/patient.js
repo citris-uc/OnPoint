@@ -22,29 +22,29 @@ angular.module('app.services')
       }).catch(console.log.bind(console));
     },
     getFromFirebase: function() {
+      thisP = this
       return this.get().then(function(p) {
-        var ref = new Firebase(onpoint.env.mainURL + "patients/").child(p.uid)
-        return ref.child("session").once("value")
+        return thisP.ref().child("session").once("value")
       })
     },
     create: function(patient) {
-      thisPatient = this
+      thisP = this
       return this.get().then(function(p) {
-        var ref = new Firebase(onpoint.env.mainURL + "patients/");
-        return ref.child(p.uid).child("session").set(patient).then(function(response) {
+        return thisP.ref(p.uid).child("session").set(patient).then(function(response) {
+          console.log("SAVING ")
+          console.log(response)
           thisPatient.save(patient)
         })
       })
     },
     destroy: function() {
-      thisPatient = this
+      thisP = this
       return this.get().then(function(p) {
         return Pouch.patientsDB.remove(p).then(function(doc) {
           return p
         })
       }).then(function(p) {
-        var patientRef = new Firebase(onpoint.env.mainURL + "patients/").child(p.uid)
-        return $firebaseAuth(thisPatient.ref()).$unauth()
+        return $firebaseAuth(thisP.ref(p.uid)).$unauth()
       }).catch(console.log.bind(console));
     },
     login: function(user) {
@@ -52,38 +52,21 @@ angular.module('app.services')
       patientRef = new Firebase(onpoint.env.mainURL + "patients/")
       return $firebaseAuth(patientRef).$authWithPassword(user).then(function(res) {
         patient                 = res
-        patient.email           = res.password.email
         patient.profileImageURL = res.password.profileImageURL
+        return thisP.save(patient)
+      })
+    },
+    create: function(user) {
+      thisP = this
+      patientRef = new Firebase(onpoint.env.mainURL + "patients/")
+      return $firebaseAuth(patientRef).$createUser(user).then(function(res) {
+        patient     = user
+        patient.uid = res.uid
         return thisP.save(patient)
       })
     },
     ref: function(uid) {
       return new Firebase(onpoint.env.mainURL + "patients/").child(uid);
     },
-
-    // uid: function() {
-    //   return $window.localStorage.getItem("uid")
-    // },
-    // setUID: function(uid) {
-    //   return $window.localStorage.setItem("uid", uid)
-    // },
-    // setAttribute: function(attr, value) {
-    //   patient = this.get()
-    //   patient[attr] = value
-    //   this.set(patient)
-    // },
-    // setToken: function(token) {
-    //   if (token == null)
-    //     $window.localStorage.setItem("token", "");
-    //   else
-    //     $window.localStorage.setItem("token", token);
-    // },
-    // getToken: function() {
-    //   return $window.localStorage.getItem("token");
-    // },
-
-    // auth: function() {
-    //   return $firebaseAuth(this.ref());
-    // },
   };
 })

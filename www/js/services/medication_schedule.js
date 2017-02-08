@@ -3,7 +3,7 @@ angular.module('app.services')
 
 // This factory is responsible for defining a Medication Schedule
 // that the patient usually adheres to.
-.factory('MedicationSchedule', ["Medication", "Patient","$firebaseObject", "$firebaseArray", function(Medication, Patient, $firebaseObject,$firebaseArray) {
+.factory('MedicationSchedule', ["Medication", "Patient","$firebaseObject", "$firebaseArray", "$q", function(Medication, Patient, $firebaseObject, $firebaseArray, $q) {
   /*
    * This is default schedule for testing purposes
    * TODO: (much later) delete this.
@@ -35,13 +35,8 @@ angular.module('app.services')
      */
     setDefaultSchedule: function() {
       return Patient.get().then(function(p) {
-        return Patient.ref(p.uid).child("medication_schedule").once("value", function(snapshot) {
-          if (!snapshot.exists()) { //only push default schedule once.
-            for(var i = 0; i < schedule.length; i++) {
-              ref.push(schedule[i]);
-            }
-          }
-        })
+        ref = Patient.ref(p.uid).child("medication_schedule")
+        return $q.all( schedule.map(function(row) { return ref.push(row)}) )
       })
     },
 
@@ -50,12 +45,6 @@ angular.module('app.services')
         return $firebaseArray(Patient.ref(p.uid).child("medication_schedule"))
       })
     },
-
-    // getAsPromise: function() {
-    //   // var ref = this.ref().child("default").once("value");
-    //   var ref =this.ref().once("value");
-    //   return ref;
-    // },
 
     getByID: function(id) {
       return Patient.get().then(function(p) {

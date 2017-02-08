@@ -51,6 +51,7 @@ angular.module('app', ['ionic', 'firebase', 'app.controllers', 'app.routes', 'ap
 .run(function($ionicPlatform, $rootScope, Patient, $state, $ionicHistory, $ionicModal, Onboarding) {
   Patient.get().then(function(patient) {
     $rootScope.patient = patient
+    console.log(patient)
   })
 
   $ionicPlatform.ready(function() {
@@ -74,7 +75,6 @@ angular.module('app', ['ionic', 'firebase', 'app.controllers', 'app.routes', 'ap
 
   $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams, options) {
     Patient.get().then(function(p) {
-      console.log(p)
       if (!p || !p.uid)
         $rootScope.$emit(onpoint.env.auth.failure, {})
     }).catch(function(err) {
@@ -132,6 +132,14 @@ angular.module('app', ['ionic', 'firebase', 'app.controllers', 'app.routes', 'ap
       $rootScope.modal = modal;
     });
   }
+
+  $rootScope.logout = function() {
+    Patient.destroy().then(function() {
+      $ionicHistory.clearCache().then(function(response) {
+        $rootScope.$emit(onpoint.env.auth.failure, {})
+      })
+    })
+  };
 
   $rootScope.$on(onpoint.env.error, function(event, response) {
     console.log(response)

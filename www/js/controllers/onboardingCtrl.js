@@ -17,17 +17,8 @@ angular.module('app.controllers')
   };
 
   $scope.completeOnboarding = function() {
-    Onboarding.ref().update({'intro':true}).then(function(response) {
+    Onboarding.update({'intro':true}).then(function(response) {
       $state.go("medication_identification.start", {}, {reload: true})
     })
   }
-
-  $scope.logout = function() {
-    Patient.destoy().then(function(doc) {
-      $ionicHistory.clearCache().then(function(response) {
-        $scope.$emit(onpoint.env.auth.failure, {})
-      })
-    })
-  }
-
 })

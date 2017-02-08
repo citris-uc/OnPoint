@@ -50,20 +50,17 @@ angular.module('app.controllers')
   }
 
   $scope.signup = function()   {
-    $scope.state.loading = true;
+    $ionicLoading.show({hideOnStateChange: true})
 
-    Patient.auth().$createUser($scope.user).then(function(response) {
-      Patient.setUID(response.uid)
-      Patient.create($scope.user).then(function() {
-        $ionicHistory.clearCache().then(function() {
-          $state.go("onboarding.welcome", {}, {reload: true})
-          $scope.login()
-        })
+    Patient.create($scope.user).then(function(response) {
+      $ionicHistory.clearCache().then(function() {
+        $state.go("onboarding.welcome", {}, {reload: true})
+        $scope.login()
       })
     }).catch(function(response) {
-      $scope.$emit(onpoint.env.error, {status: 401, error: response})
+      $scope.$emit(onpoint.env.error, response)
     }).finally(function() {
-      $scope.state.loading = false;
+      $ionicLoading.hide()
     })
   }
 })
