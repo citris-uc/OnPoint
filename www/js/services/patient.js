@@ -21,21 +21,30 @@ angular.module('app.services')
         return patient
       }).catch(console.log.bind(console));
     },
+    update: function(patient) {
+      thisP = this
+      return this.saveProfileToFirebase(patient).then(function() {
+        return thisP.save(patient)
+      })
+    },
+    saveProfileToFirebase: function(patient) {
+      console.log("Patient#saveProfileToFirebase...")
+      console.log(patient)
+      thisP = this
+      return this.get().then(function(p) {
+        return thisP.ref(p.uid).child("profile").update(patient)
+      }).then(function(response) {
+        return thisP.save(patient)
+      })
+    },
+
     getFromFirebase: function() {
       thisP = this
       return this.get().then(function(p) {
-        return thisP.ref().child("session").once("value")
-      })
-    },
-    create: function(patient) {
-      thisP = this
-      return this.get().then(function(p) {
-        return thisP.ref(p.uid).child("session").set(patient).then(function(response) {
-          console.log("SAVING ")
-          console.log(response)
-          thisPatient.save(patient)
-        })
-      })
+        return thisP.ref(p.uid).child("profile").once("value")
+      }).then(function(doc) {
+        return doc.val()
+      }).catch(console.log.bind(console));
     },
     destroy: function() {
       thisP = this
@@ -51,9 +60,11 @@ angular.module('app.services')
       thisP = this
       patientRef = new Firebase(onpoint.env.mainURL + "patients/")
       return $firebaseAuth(patientRef).$authWithPassword(user).then(function(res) {
-        patient                 = res
+        console.log("LOGGING USER IN WITH: ")
+        console.log(res)
+        patient                 = {}
         patient.profileImageURL = res.password.profileImageURL
-        return thisP.save(patient)
+        return thisP.update(patient)
       })
     },
     create: function(user) {
@@ -63,6 +74,8 @@ angular.module('app.services')
         patient     = user
         patient.uid = res.uid
         return thisP.save(patient)
+      }).then(function() {
+        return thisP.update(patient)
       })
     },
     ref: function(uid) {
