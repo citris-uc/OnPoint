@@ -60,7 +60,16 @@
           <div class="row" style="justify-content: center;">
             <div class="col responsive-col">
               <div class="list card">
-                <div class="item item-avatar">
+                <div class="item">
+                  <div class="row">
+                    <div class="col-10">
+                      <h2>{{card.short_timestamp}}</h2>
+                    </div>
+
+                    <div class="col-90">{{card}}</div>
+                  </div>
+                </div>
+                <!-- <div class="item item-avatar">
                   <img src="img/pill.png">
                   <h2>{{card.title}}</h2>
                   <p>{{card.formatted_time}}</p>
@@ -75,7 +84,7 @@
                     <i class="icon ion-ios-chatbubble-outline"></i>
                     Comment {{c.num_comments > 0 ? '('+c.num_comments+')' : ''}}
                   </a>
-                </div>
+                </div> -->
               </div>
 
             </div>
@@ -95,10 +104,22 @@
           <!-- ng-repeat="c in date | toArray | orderBy: 'shown_at' | filter: {archived_at: '!'}"  -->
           <div class="row" style="justify-content: center;" on-swipe-right="swipeCard(card)" on-swipe-left="swipeCard(card)">
             <div class="col responsive-col">
-              <div class="list card">
+              <div class="list card" ng-click="openPage(card, card.object_type)">
+                <div class="item">
+                  <div class="row">
+                    <div class="col-10">
+                      <p style="font-size:20px; font-weight:bold;">{{card.short_timestamp}}</p>
+                    </div>
+
+                    <div class="col-90">{{card.description}}</div>
+                  </div>
+                </div>
+              </div>
+
+
+              <!-- <div class="list card">
 
                 <div class="item item-avatar">
-                  <!-- <i class="icon ion-ios-medkit-outline"></i> -->
                   <img src="img/pill.png">
                   <h2>{{card.title}}</h2>
                   <p>{{card.formatted_time}}</p>
@@ -132,7 +153,9 @@
                     </a>
                   </div>
                 </div>
-              </div>
+
+
+              </div> -->
 
             </div>
           </div>
