@@ -66,6 +66,7 @@ angular.module('app.services')
       })
     },
     ref: function(uid) {
+      console.log(uid)
       return new Firebase(onpoint.env.mainURL + "patients/").child(uid);
     },
   };

@@ -2,9 +2,21 @@ angular.module('app.controllers')
 
 
 .controller("medicationScheduleCardCtrl", function($scope, $state, $stateParams, $ionicHistory, Medication, MedicationSchedule, MedicationDosage, MedicationHistory, $ionicPopup) {
-  $scope.schedule           = MedicationSchedule.findByID($stateParams.schedule_id);
-  $scope.medicationHistory  = MedicationHistory.getTodaysHistory();
-  $scope.medications        = Medication.get();
+
+  MedicationSchedule.getByID($stateParams.schedule_id).then(function(doc) {
+    $scope.schedule = doc
+  })
+
+
+  MedicationHistory.getTodaysHistory().then(function(doc) {
+    $scope.medicationHistory = doc
+  })
+
+  Medication.get().then(function(res) {
+    console.log(res)
+    $scope.medications        = res
+  })
+
 
   if ($stateParams.medication_name) {
     var req = Medication.getByTradeName($stateParams.medication_name)
