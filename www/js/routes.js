@@ -22,12 +22,12 @@ angular.module('app.routes', [])
     abstract:true
   })
 
-  .state('tabsController.settings', {
-    url: '/settings',
+  .state('tabsController.profile', {
+    url: '/profile',
     views: {
       'timeline-tab': {
-        templateUrl: 'templates/settings.html',
-        controller: 'settingsCtrl'
+        templateUrl: 'templates/profile.html',
+        controller: 'profileCtrl'
       }
     }
   })

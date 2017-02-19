@@ -6,17 +6,17 @@
     </button> -->
     <button class="button button-icon button-clear ion-navicon" ng-show="!slideIndex" menu-toggle="left">
     </button>
-    <button class="button button-positive button-clear no-animation"
+    <button class="button button-clear no-animation"
             ng-click="previous()" ng-show="slideIndex > 0">
       Previous
     </button>
   </ion-nav-buttons>
   <ion-nav-buttons side="right">
-    <button class="button button-positive button-clear no-animation"
+    <button class="button button-clear no-animation"
             ng-click="next()" ng-show="slideIndex != 5">
-      Next
+      <i class="icon ion-ios-arrow-right"></i>
     </button>
-    <button class="button button-positive button-clear no-animation"
+    <button class="button button-clear no-animation"
             ng-click="completeOnboarding()" ng-show="slideIndex == 5">
       Start
     </button>

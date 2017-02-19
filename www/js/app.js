@@ -7,7 +7,7 @@
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
 
-angular.module('app', ['ionic', 'firebase', 'app.controllers', 'app.routes', 'app.services', 'app.directives', 'app.constants', 'dndLists', 'angularMoment'])
+angular.module('app', ['ionic', 'firebase', 'app.controllers', 'app.routes', 'app.services', 'app.directives', 'app.constants', 'dndLists', 'angularMoment', "ngCordova"])
 
 //src: https://github.com/fmquaglia/ngOrderObjectBy
 .filter('orderObjectBy', function() {
@@ -48,11 +48,12 @@ angular.module('app', ['ionic', 'firebase', 'app.controllers', 'app.routes', 'ap
 })
 
 
-.run(function($ionicPlatform, $rootScope, Patient, $state, $ionicHistory, $ionicModal, Onboarding) {
+.run(function($ionicPlatform, $rootScope, Patient, $state, $ionicHistory, $ionicModal, Onboarding, $ionicSideMenuDelegate) {
   Patient.get().then(function(patient) {
     $rootScope.patient = patient
     console.log(patient)
   })
+
 
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -202,4 +203,16 @@ angular.module('app', ['ionic', 'firebase', 'app.controllers', 'app.routes', 'ap
       }
     }).catch(console.log.bind(console));
   })
+
+  // Avoid keeping the sidemenu stale.
+  $rootScope.$watch(function () {
+    return $ionicSideMenuDelegate.isOpen(true);
+  }, function(isOpen) {
+    if (isOpen == true) {
+      Patient.get().then(function(doc) {
+        $rootScope.patient = doc;
+      })
+    }
+  })
+
 })

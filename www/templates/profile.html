@@ -1,0 +1,43 @@
+<ion-view view-title="Profile">
+  <form ng-submit="update()">
+    <ion-content class="has-footer">
+      <div class="list">
+        <!-- <a class="item item-avatar" ng-click="loadCamera()">
+          <img src="img/photo.png" ng-if="!patient.profile_photo">
+          <img src="{{patient.profile_photo}}" ng-if="!!patient.profile_photo">
+          <h2>{{patient.display_name}}</h2>
+          <p ng-if="!patient.profile_photo">No photo added. Tap to add a photo.</p>
+          <p ng-if="!!patient.profile_photo">Tap to take a new profile photo.</p>
+        </a> -->
+
+        <label class="item item-input item-stacked-label">
+          <span class="input-label">First Name</span>
+          <input type="text" ng-model="patient.first_name">
+        </label>
+        <label class="item item-input item-stacked-label">
+          <span class="input-label">Last Name</span>
+          <input type="text" ng-model="patient.last_name">
+        </label>
+        <label class="item item-input item-stacked-label">
+          <span class="input-label">Email</span>
+          <input type="text" ng-model="patient.email" disabled>
+        </label>
+        <label class="item item-input item-stacked-label">
+          <span class="input-label">Age</span>
+          <input type="number" ng-model="patient.age">
+        </label>
+        <label class="item item-input item-select">
+          <div class="input-label">Gender</div>
+          <select ng-model="patient.gender" ng-options="g.value as g.display for g in genders"></select>
+        </label>
+      </div>
+    </ion-content>
+
+
+    <div class="bar bar-footer bar-balanced">
+      <div class="row" style="padding: 0px;">
+        <button type="submit" class="col button button-clear">Update</button>
+      </div>
+    </div>
+  </form>
+</ion-view>

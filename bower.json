@@ -8,6 +8,7 @@
     "pouchdb": "~6.1.2",
     "pouchdb-upsert": "~2.0.1",
     "moment": "~2.17.1",
-    "angular-moment": "~1.0.1"
+    "angular-moment": "~1.0.1",
+    "ngCordova": "~0.1.27-alpha"
   }
 }
