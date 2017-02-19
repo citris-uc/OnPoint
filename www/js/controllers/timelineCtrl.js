@@ -20,11 +20,17 @@ angular.module('app.controllers')
   // History view, we'll load all cards.
   $scope.loadCards = function() {
     $ionicLoading.show();
+    console.log("LOading cards...")
+    console.log($scope.timeline)
 
     if ($scope.timeline.pageIndex === 1) {
-      Card.today().then(function(response) {
+      req = Card.today()
+      req.then(function(response) {
+        console.log(response)
         $scope.today.cards = response.data.cards;
-      }, function(response) {
+      })
+      req.catch(function(response) {
+        console.log(response)
         // NOTE: For some reason, finally() is not triggered.
         $ionicLoading.hide();
         $scope.$emit(onpoint.env.error, {error: response})

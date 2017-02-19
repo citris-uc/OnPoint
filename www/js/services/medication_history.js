@@ -4,11 +4,10 @@ angular.module('app.services')
   return {
     getTodaysHistory: function() {
       var today = ((new Date()).toISOString()).substring(0,10) //Only get the date: YYYY-MM-DD
-      var ref = this.ref().child(today);
-      return $firebaseArray(ref);
-    },
-    ref: function() {
-      return Patient.ref().child("medication_histories");
+
+      return Patient.get().then(function(p) {
+        return $firebaseArray(Patient.ref(p.uid).child("medication_histories").child(today));
+      })
     },
     create_or_update: function(medication, schedule, choice) {
       return $http({
