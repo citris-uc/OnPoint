@@ -21,6 +21,10 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 // Include all of Ionic
 @import "www/lib/ionic/scss/ionic";
 
+.bar-onpoint {
+  background-color: #51AB51 !important;
+}
+
 .tabs-top {
   .tab-item {
     max-width: 50%;
