@@ -38,8 +38,17 @@ angular.module('app.routes')
       }
     }
   })
+  .state('medication_identification.ocr_match', {
+    url: '/ocr_match?:ocr',
+    views: {
+      'onboarding': {
+        templateUrl: 'templates/medication_identification/ocr_match.html',
+        controller: 'ocrMedicationMatchCtrl'
+      }
+    }
+  })
   .state('medication_identification.match', {
-    url: '/match/:rxcui',
+    url: '/match/:rxcui?:ocr',
     views: {
       'onboarding': {
         templateUrl: 'templates/medication_identification/match.html',
