@@ -25,13 +25,9 @@ angular.module('app.controllers')
     })
   }
 
-  $scope.removeMedication = function() {
-    $scope.medication.$remove().then(function(response) {
-      $ionicHistory.nextViewOptions({
-        disableBack: true,
-        historyRoot: true
-      })
-      $state.go("medication_identification.start")
+  $scope.remove = function() {
+    $scope.drug.$remove().then(function(response) {
+      $ionicHistory.goBack(-1)
     }).catch(function(response) {
       $scope.$emit(onpoint.env.error, response)
     })
