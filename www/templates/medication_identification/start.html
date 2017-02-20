@@ -5,19 +5,18 @@
 
   <ion-content overflow-scroll="true" class="has-footer">
     <ul class="list">
-      <li class="item text-center item-text-wrap" ng-show="scheduledMedications.length == 0">
+      <li class="item text-center item-text-wrap" ng-show="medications.length == 0">
         You haven't added any medications! Use the + icon in the navigation bar
         to add a medication.
       </li>
-      <!-- <li ng-click="generateDefaultMeds()" class="item text-center item-text-wrap" ng-show="scheduledMedications.length == 0">
+      <!-- <li ng-click="generateDefaultMeds()" class="item text-center item-text-wrap" ng-show="medications.length == 0">
         For now (dev mode): click here to generate a generic schedule of default meds
       </li> -->
 
-      <li class="item item-icon-right"  ng-repeat="med in scheduledMedications" ui-sref="medication_identification.medication({id: med.$id})">
-        <h2>{{med.trade_name}}</h2>
-        <p>Dose: {{med.dose}}, tablets: {{med.tablets}}</p>
-        <p>Instructions: {{med.instructions}}</p>
-        <p>Purpose: {{med.purpose}}
+      <li class="item item-icon-right"  ng-repeat="med in medications" ui-sref="medication_identification.medication({id: med.$id})">
+        <h2>{{med.name}}</h2>
+        <p>{{med.dosage}} {{med.units}}</p>
+        <p>{{med.frequency}} {{med.administration}}</p>
         <i class="icon ion-ios-arrow-right"></i>
         <li
       </li>
@@ -26,7 +25,7 @@
 
   <div class="bar bar-footer bar-balanced">
     <div class="buttons full-width">
-      <button class="button button-clear" ng-click="completeMedicationIdentification()" ng-disabled="scheduledMedications.length == 0">Proceed to Medication Schedule</div>
+      <button class="button button-clear" ng-click="completeMedicationIdentification()" ng-disabled="medications.length == 0">Proceed to Medication Schedule</div>
     </div>
   </div>
 

@@ -1,8 +1,18 @@
 angular.module('app.controllers')
 .controller('medicationsListCtrl', function($scope, $state, Patient, Medication, MedicationSchedule, Onboarding, $ionicLoading) {
+  $scope.medications = []
+
+  $scope.$on("$ionicView.loaded", function() {
+    $ionicLoading.show({template: "<ion-spinner></ion-spinner><br>Loading list of medications...", hideOnStateChange: true})
+
+    Medication.get().then(function(meds) {
+      $ionicLoading.hide()
+      $scope.medications = meds
+    })
+  })
 
    $scope.generateDefaultMeds = function() {
-     $ionicLoading.show({hideOnStateChange: true})
+     $ionicLoading.show({template: "<ion-spinner></ion-spinner><br>Loading list of medications...", hideOnStateChange: true})
 
      Medication.setDefaultMeds().then(function() {
        return $ionicLoading.hide()
@@ -25,14 +35,4 @@ angular.module('app.controllers')
        $ionicLoading.hide()
      })
    }
-
-
-   $scope.$on("$ionicView.loaded", function() {
-     $ionicLoading.show({hideOnStateChange: true})
-     Medication.get().then(function(meds) {
-       $ionicLoading.hide()
-       $scope.scheduledMedications = meds
-     })
-   })
-
 })

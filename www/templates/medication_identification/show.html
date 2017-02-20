@@ -1,45 +1,52 @@
 <ion-view title="{{medication.trade_name}}">
   <ion-nav-buttons side="right">
-    <button class="button icon-right button-assertive button-clear" ng-click="removeMedication()">Remove</button>
+    <button class="button icon-right button-clear" ng-click="remove()">Remove</button>
   </ion-nav-buttons>
 
   <form ng-submit="update()">
-    <ion-content>
-      <div class="list">
-        <label class="item item-input">
-          <span class="input-label">Medication Name</span>
-          <input type="text" ng-model="medication.trade_name"></input>
+    <ion-content class="has-footer">
+      <div class="list" ng-if="drug">
+        <label class="item item-input item-stacked-label">
+          <span class="input-label">Name</span>
+          <input type="text" ng-model="drug.name" disabled>
         </label>
-
-        <label class="item item-input">
+        <label class="item item-input item-stacked-label">
+          <span class="input-label">Administration</span>
+          <input type="text" ng-model="drug.administration">
+        </label>
+        <label class="item item-input item-stacked-label item-select">
           <span class="input-label">Dosage</span>
-          <input type="number" min="0" ng-model="medication.dose" ></input>
-          <span>mg</span>
+          <div class="row">
+            <div class="col-50">
+              <input type="text" ng-model="drug.dosage">
+            </div>
+            <div class="col-50">
+              <select ng-model="drug.units" ng-options="g.value as g.display for g in units"></select>
+            </div>
+          </div>
         </label>
-
-        <label class="item item-input">
-          <span class="input-label">Instructions</span>
-          <textarea ng-model="medication.instructions"></textarea>
+        <label class="item item-input item-stacked-label">
+          <span class="input-label">Frequency</span>
+          <input type="text" ng-model="drug.frequency">
         </label>
-
-        <label class="item item-input">
+        <label class="item item-input item-stacked-label item-text-wrap">
           <span class="input-label">Purpose</span>
-          <textarea ng-model="medication.purpose"></textarea>
+          <p ng-bind-html="drug.purpose"></p>
+          <!-- <input type="text" ng-model="drug.purpose"
+           disabled> -->
         </label>
 
-        <label class="item item-input">
-          <span class="input-label">Notes</span>
-          <textarea ng-model="medication.notes"></textarea>
-        </label>
+        <div class="item item-body">
+          <img class="full-image" src="{{drug.pill_images[0].imageUrl}}" ng-if="drug.pill_images.length > 0">
+          <p class="text-center" ng-if="!drug.pill_images || drug.pill_images.length == 0">No pill image found</p>
+        </div>
       </div>
     </ion-content>
 
-
     <div class="bar bar-footer bar-balanced">
-      <div class="row" style="padding: 0px;">
-        <button type="submit" class="col button button-clear">Update</button>
+      <div class="buttons full-width">
+        <button class="button button-clear" type="submit">Update</div>
       </div>
     </div>
   </form>
-
 </ion-view>
