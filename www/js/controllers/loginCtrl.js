@@ -32,6 +32,8 @@ angular.module('app.controllers')
   $scope.state = {loading: false, error: null, view: "login"}
   $scope.user  = {};
 
+  $scope.genders = [{value: "male", display: "Male"}, {value: "female", display: "Female"}]
+
   $scope.toggleTo = function(name) {
     $scope.state.error = null
     $scope.state.view  = name
@@ -52,6 +54,7 @@ angular.module('app.controllers')
   $scope.signup = function()   {
     $ionicLoading.show({hideOnStateChange: true})
 
+    console.log($scope.user)
     Patient.create($scope.user).then(function(response) {
       $ionicHistory.clearCache().then(function() {
         $state.go("onboarding.welcome", {}, {reload: true})

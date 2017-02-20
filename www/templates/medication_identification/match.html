@@ -1,24 +1,39 @@
 <ion-view>
-  <ion-content>
-    <div class="list card" ng-if="drug">
-      <div class="item">
-        <h2>{{drug.sbd[0].name}}</h2>
-        <p>{{drug.sbd[0].synonym}}</p>
-      </div>
+  <ion-content class="has-footer">
+    <div class="list" ng-if="drug">
+      <label class="item item-input item-stacked-label">
+        <span class="input-label">Name</span>
+        <input type="text" ng-model="drug.name" disabled>
+      </label>
+      <label class="item item-input item-stacked-label">
+        <span class="input-label">Administration</span>
+        <input type="text" ng-model="drug.administration">
+      </label>
+      <label class="item item-input item-stacked-label item-select">
+        <span class="input-label">Dosage</span>
+        <div class="row">
+          <div class="col-50">
+            <input type="text" ng-model="drug.dosage">
+          </div>
+          <div class="col-50">
+            <select ng-model="drug.units" ng-options="g.value as g.display for g in units"></select>
+          </div>
+        </div>
+      </label>
+      <label class="item item-input item-stacked-label">
+        <span class="input-label">Frequency</span>
+        <input type="text" ng-model="drug.frequency">
+      </label>
+      <label class="item item-input item-stacked-label item-text-wrap">
+        <span class="input-label">Purpose</span>
+        <p ng-bind-html="drug.purpose"></p>
+        <!-- <input type="text" ng-model="drug.purpose"
+         disabled> -->
+      </label>
 
       <div class="item item-body">
-        <p>
-          TODO TODO TODO: Fetch data from DailyMed for instructions, purpose, what else?
-        </p>
-        <!-- <p>
-          <a href="#" class="subdued">1 Like</a>
-          <a href="#" class="subdued">5 Comments</a>
-        </p> -->
-      </div>
-
-      <div class="item item-body">
-        <img class="full-image" src="{{drug.images[0].imageUrl}}" ng-if="drug.images[0]">
-        <img class="full-image" src="img/pill.png" ng-if="!drug.images[0]">
+        <img class="full-image" src="{{drug.pill_images[0].imageUrl}}" ng-if="drug.pill_images.length > 0">
+        <p class="text-center" ng-if="!drug.pill_images || drug.pill_images.length == 0">No pill image found</p>
       </div>
     </div>
   </ion-content>

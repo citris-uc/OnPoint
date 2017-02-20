@@ -39,6 +39,21 @@ angular.module('app.services')
       }).catch(console.log.bind(console));
     },
 
+    ocr: function(base64_photo) {
+      return Patient.get().then(function(p) {
+        return $http({
+          method: "PUT",
+          url: onpoint.env.serverURL + "images/parse_from_mobile",
+          data: {
+            base64_photo: base64_photo
+          },
+          headers: {
+           "Authorization": "Bearer " + p.token
+          }
+        })
+      }).catch(console.log.bind(console));
+    },
+
     searchByRXCUI: function(rxcui) {
       return Patient.get().then(function(p) {
         return $http({

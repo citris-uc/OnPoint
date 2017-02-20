@@ -33,10 +33,15 @@
             <input type="password" placeholder="Password confirmation" ng-model="user.password_confirmation">
           </label>
 
-          <div class="button-bar button-balanced padding">
+          <label class="item item-input item-select">
+            <div class="input-label">Gender</div>
+            <select ng-model="user.gender" ng-options="g.value as g.display for g in genders"></select>
+          </label>
+
+          <!-- <div class="button-bar button-balanced padding">
             <a grouped-radio="'male'" ng-model="user.gender">Male</a>
             <a grouped-radio="'female'" ng-model="user.gender">Female</a>
-          </div>
+          </div> -->
 
 
         </div>

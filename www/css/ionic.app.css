@@ -9089,6 +9089,9 @@ a.button {
   -webkit-transition-duration: 0s;
   transition-duration: 0s; }
 
+.bar-onpoint {
+  background-color: #51AB51 !important; }
+
 .tabs-top .tab-item {
   max-width: 50%; }
 

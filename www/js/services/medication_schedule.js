@@ -48,7 +48,7 @@ angular.module('app.services')
 
     getByID: function(id) {
       return Patient.get().then(function(p) {
-        return $firebaseObject(Patient.ref(p.uid).child("medication_schedule").child(id)).$loaded();
+        return $firebaseObject(Patient.ref(p.uid).child("medication_schedule").child(id));
       })
     },
 
