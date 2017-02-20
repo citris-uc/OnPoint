@@ -66,6 +66,43 @@ angular.module('app.services')
       }).catch(console.log.bind(console));
     },
 
+    add: function(medication) {
+      uid = null
+      return Patient.get().then(function(p) {
+        uid = p.uid
+        return Patient.ref(uid).child("medications").once("value")
+      }).then(function(meds) {
+        medications = meds.val() || []
+        should_update = true
+        console.log("List of meds: ")
+        console.log(medications)
+        for (var i=0; i < medications.length; i++) {
+          console.log(medications[i])
+          if (meds[i].name == medication.name)
+            should_update = false
+        }
+
+        console.log("Should update: ")
+        console.log(should_update)
+        console.log(uid)
+        console.log(medication)
+
+        if (should_update) {
+          ref = Patient.ref(uid).child("medications")
+          newMessageRef = ref.push();
+          return newMessageRef.set(medication);
+        } else {
+          return Patient.ref(uid).child("medications")
+        }
+      })
+    },
+
+
+
+
+    // Old methods...
+    //-------------------------------------------------------------------------
+
     findMedicationByName: function(name, list) {
       for(var i = 0; i < list.length; i++) {
         if (list[i].trade_name == name) {
@@ -94,9 +131,7 @@ angular.module('app.services')
     saveCabMed: function(newCabMed) {
       this.cabRef().push(newCabMed)
     },
-    add: function(med) {
-      this.ref().push(med)
-    },
+
     get: function() {
       return Patient.get().then(function(p) {
         return $firebaseArray(Patient.ref(p.uid).child("medications"))
