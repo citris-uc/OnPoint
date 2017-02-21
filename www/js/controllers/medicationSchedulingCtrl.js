@@ -1,20 +1,20 @@
 angular.module('app.controllers')
 
-.controller('medImgCtrl', function($scope, Medication) {
-  $scope.medications = Medication.get();
-
-  $scope.getMedImg = function(trade_name) {
-    for(var i = 0; i < $scope.medications.length; i++) {
-      if ($scope.medications[i].trade_name == trade_name) {
-        // return ("img/" + $scope.medications[i].img);
-        return "img/pill_small.png"
-      }
-    }
-    // Default Image
-    return "img/pill_small.png";
-  }
-
-})
+// .controller('medImgCtrl', function($scope, Medication) {
+//   $scope.medications = Medication.get();
+//
+//   $scope.getMedImg = function(trade_name) {
+//     for(var i = 0; i < $scope.medications.length; i++) {
+//       if ($scope.medications[i].trade_name == trade_name) {
+//         // return ("img/" + $scope.medications[i].img);
+//         return "img/pill_small.png"
+//       }
+//     }
+//     // Default Image
+//     return "img/pill_small.png";
+//   }
+//
+// })
 
 .controller('medFillMainCtrl', function($scope, $state, $ionicHistory, MedicationSchedule, Medication, MedicationDosage, Patient) {
   $scope.medicationSchedule = MedicationSchedule.get();

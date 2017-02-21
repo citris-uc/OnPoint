@@ -22,16 +22,18 @@ angular.module('app.controllers')
    }
 
    $scope.completeMedicationIdentification = function() {
+     if ($scope.medications.length == 0)
+       return
+
      $ionicLoading.show({hideOnStateChange: true})
 
      MedicationSchedule.setDefaultSchedule().then(function(res) {
-       $ionicLoading.hide()
-       Onboarding.update({'medication_identification':true}).then(function(response) {
+       return Onboarding.update({'medication_identification':true}).then(function(response) {
          $state.go("medication_scheduling.start")
-       }).catch(function(err) {
-         $scope.$emit(onpoint.env.auth.failure, {})
        })
-     }).catch(function(res) {
+     }).catch(function(err) {
+       $scope.$emit(onpoint.env.auth.failure, {})
+     }).finally(function(res) {
        $ionicLoading.hide()
      })
    }

@@ -89,18 +89,42 @@ angular.module('app.services')
     },
 
     addMedication: function(id, medication) {
-      return this.getByID(id).then(function(slot) {
-        console.log(slot)
-        if (!slot.medications) {
-          slot.medications = []
+      uid = null
+      return Patient.get().then(function(p) {
+        uid = p.uid
+        return Patient.ref(uid).child("medication_schedule").child(id).child("medications").once("value")
+      }).then(function(meds) {
+        medications = meds.val() || []
+        should_update = true
+
+        for (var i=0; i < medications.length; i++) {
+          console.log(medications[i])
+          if (meds[i].id == medication.$id)
+            should_update = false
         }
 
-        if (slot.medications.indexOf(medication) === -1) {
-          slot.medications.push(medication)
+        if (should_update) {
+          ref = Patient.ref(uid).child("medication_schedule").child(id).child("medications");
+          newMessageRef = ref.push();
+          return newMessageRef.set({
+            id: medication.$id,
+            name: medication.name
+          });
         }
-
-        return slot.$save()
       })
+
+      // return this.getByID(id).then(function(slot) {
+      //   console.log(slot)
+      //   if (!slot.medications) {
+      //     slot.medications = []
+      //   }
+      //
+      //   if (slot.medications.indexOf(medication) === -1) {
+      //     slot.medications.push(medication)
+      //   }
+      //
+      //   return slot.$save()
+      // })
 
 
 
@@ -131,19 +155,68 @@ angular.module('app.services')
     },
 
     removeMedication: function(id, medication) {
-      thisMS = this
-
       return Patient.get().then(function(p) {
-        ref = Patient.ref(p.uid).child("medication_schedule").child(id)
-        return $firebaseArray(ref.child("medications")).$loaded().then(function(res) {
+        thisRef = Patient.ref(p.uid).child("medication_schedule").child(id).child("medications")
 
-          for(var i = 0; i < res.length; i++) {
-            if (medication == res[i].$value)
-              res.$remove(i);
+        return $firebaseArray(thisRef).$loaded().then(function(medications) {
+          indexToRemove = null
+          for (var i=0; i < medications.length; i++) {
+            console.log(medications[i])
+            console.log(medication)
+            if (medications[i].id == medication.id)
+              indexToRemove = i
           }
-        }).catch(function(err) {
-          console.log(err)
+
+          console.log(indexToRemove)
+          if (indexToRemove >= 0) {
+            console.log(medications[indexToRemove])
+            medications.$remove(indexToRemove)
+          }
         })
+      }).catch(function(err) {
+        console.log(err)
+      })
+
+
+
+
+      // console.log(medication)
+      // thisMS = this
+      //
+      // return Patient.get().then(function(p) {
+      //   return Patient.ref(p.uid).child("medication_schedule").child(id).child("medications").once("value")
+      // }).then(function(meds) {
+      //   medications = meds.val() || []
+      //
+      //   index = -1
+      //   console.log("MEDS: ")
+      //   console.log(medications)
+      //   console.log(medications.length)
+      //   console.log("ITERATING OVER MEDS")
+      //   for (var i=0; i < medications.length; i++) {
+      //     console.log(meds[i])
+      //     console.log(medication)
+      //     if (meds[i].id == medication.id)
+      //       index = i
+      //   }
+      //
+      //
+      //   if (index > -1) {
+      //     console.log(index)
+      //     return $firebaseArray(Patient.ref(p.uid).child("medication_schedule").child(id).child("medications")).$remove(index)
+      //   }
+      // })
+
+
+        // return $firebaseArray(ref.child("medications")).$loaded().then(function(res) {
+        //
+        //   for(var i = 0; i < res.length; i++) {
+        //     if (medication == res[i].$value)
+        //       res.$remove(i);
+        //   }
+        // }).catch(function(err) {
+        //   console.log(err)
+        // })
 
         // return ref.child("medications").on("value", function(response) {
         //   console.log(response.val())
@@ -157,7 +230,7 @@ angular.module('app.services')
         //
         //   return ref.update({medications: medications})
         // })
-      })
+        // })
     }
   };
 }])

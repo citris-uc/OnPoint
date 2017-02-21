@@ -1,9 +1,9 @@
 angular.module('app.controllers')
 .controller('medicationSchedulingCtrl', function($scope, $state, $ionicHistory, $ionicModal, Patient, Medication, MedicationSchedule, MedicationHistory, Card, Onboarding, $ionicLoading) {
-  $scope.medication = {}
+  $scope.medication = {};
 
   $scope.$on("$ionicView.loaded", function() {
-    $ionicLoading.show({hideOnStateChange: true})
+    $ionicLoading.show({template: "<ion-spinner></ion-spinner><br>Loading schedule...", hideOnStateChange: true})
 
     Medication.get().then(function(meds) {
       $scope.medications = meds
@@ -11,6 +11,7 @@ angular.module('app.controllers')
 
     MedicationSchedule.get().then(function(medscheds) {
       $scope.schedule = medscheds
+    }).finally(function() {
       $ionicLoading.hide()
     })
   })
@@ -20,25 +21,24 @@ angular.module('app.controllers')
   //                           return parseInt(dat1[0]+dat1[1]) - parseInt(dat2[0]+dat2[1])});
   // }
 
-  $scope.dropCallback = function(event, index, item, external, type, allowedType, list, listnull) {
-      // Check if medications list exists.  If not, create it.
-      if (listnull) {
-        list.medications = [];
-      }
-      // Check if med exists in medications array - if exists, prevent drop
-      for (var i = 0; i < list.medications.length; i++) {
-        if (list.medications[i] == item) return false;
-      }
-      if (external) {
-          if (allowedType === 'itemType' && !item.label) return false;
-          if (allowedType === 'containerType' && !angular.isArray(item)) return false;
-      }
-      return item;
-  };
+  // $scope.dropCallback = function(event, index, item, external, type, allowedType, list, listnull) {
+  //     // Check if medications list exists.  If not, create it.
+  //     if (listnull) {
+  //       list.medications = [];
+  //     }
+  //     // Check if med exists in medications array - if exists, prevent drop
+  //     for (var i = 0; i < list.medications.length; i++) {
+  //       if (list.medications[i] == item) return false;
+  //     }
+  //     if (external) {
+  //         if (allowedType === 'itemType' && !item.label) return false;
+  //         if (allowedType === 'containerType' && !angular.isArray(item)) return false;
+  //     }
+  //     return item;
+  // };
 
 
   $scope.addMedicationModal = function(slotId) {
-    $scope.currentSlotID = slotId
     // Create the login modal that we will use later
     return $ionicModal.fromTemplateUrl('templates/medication_scheduling/add.html', {
       scope: $scope,
@@ -47,6 +47,7 @@ angular.module('app.controllers')
       backdropClickToClose: false,
       hardwareBackButtonClose: false
     }).then(function(modal) {
+      $scope.currentSlotID = slotId
       $scope.modal = modal;
       modal.show()
     });
@@ -57,8 +58,8 @@ angular.module('app.controllers')
   }
 
   $scope.addMedicationToSlot = function(id) {
-    MedicationSchedule.addMedication($scope.currentSlotID, $scope.medication.name.trade_name).then(function(res) {
-      $scope.medication = {}
+    MedicationSchedule.addMedication($scope.currentSlotID, $scope.medication.name).then(function(res) {
+      $scope.medication = {};
       $scope.closeModal()
     })
   }
@@ -68,6 +69,8 @@ angular.module('app.controllers')
   }
 
   $scope.completeMedicationScheduling = function() {
+    if ($scope.schedule.length == 0)
+      return
     $ionicLoading.show({hideOnStateChange: true})
 
     // This will force-generate cards for today and tomorrow (if not already exist).

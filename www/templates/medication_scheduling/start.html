@@ -27,7 +27,7 @@
 
           <ion-item class="item-icon-left" ng-repeat="med in dateSchedule.medications track by $index" dnd-type="'medType'" dnd-draggable="med" dnd-moved="dateSchedule.medications.splice($index, 1)" dnd-effect-allowed="move">
             <i class="icon ion-ios-minus assertive" ng-click="removeMedication(dateSchedule.$id, med)"></i>
-            {{med}}
+            {{med.name}}
             <!-- <i class="icon ion-navicon"></i> -->
           </ion-item>
         </div>
@@ -53,8 +53,8 @@
   </ion-content>
 
   <ion-footer-bar align-title="middle" class="bar-balanced">
-    <div class="buttons full-width" ng-click="completeMedicationScheduling()" ng-disabled="schedule.length == 0">
-      <button class="button button-clear">Complete Onboarding</button>
+    <div class="buttons full-width" ng-click="completeMedicationScheduling()">
+      <button class="button button-clear" ng-disabled="schedule.length == 0">Complete Onboarding</button>
     </div>
   </ion-footer-bar>
 
