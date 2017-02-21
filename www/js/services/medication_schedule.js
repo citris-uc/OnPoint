@@ -8,6 +8,23 @@ angular.module('app.services')
    * This is default schedule for testing purposes
    * TODO: (much later) delete this.
    */
+  new_default_schedule = [
+    {
+      time: "08:00",
+      name: "Morning",
+      days: [true, true, true, true, true, true, true]
+    },
+    {
+      time: "13:00",
+      name: "Afternoon",
+      days: [true, true, true, true, true, true, true]
+    },
+    {
+      time: "19:00",
+      name: "Evening",
+      days: [true, true, true, true, true, true, true]
+    }
+  ]
   schedule = [
     {
       time: "08:00",
@@ -36,7 +53,7 @@ angular.module('app.services')
     setDefaultSchedule: function() {
       return Patient.get().then(function(p) {
         ref = Patient.ref(p.uid).child("medication_schedule")
-        return $q.all( schedule.map(function(row) { return ref.push(row)}) )
+        return $q.all( new_default_schedule.map(function(row) { return ref.push(row)}) )
       })
     },
 
