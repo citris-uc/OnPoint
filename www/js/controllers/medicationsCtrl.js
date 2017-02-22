@@ -1,147 +1,149 @@
 angular.module('app.controllers')
 
-.controller('medicationsCtrl', function($scope, $ionicSlideBoxDelegate,Medication, MedicationSchedule, MedicationHistory) {
-  $scope.medicationTab = {pageIndex: 0}
-  $scope.schedule           = MedicationSchedule.get();
-  $scope.medicationHistory  = MedicationHistory.getTodaysHistory();
-  $scope.medications        = Medication.get();
+// .controller('medicationsCtrl', function($scope, $ionicSlideBoxDelegate,Medication, MedicationSchedule, MedicationHistory) {
+//   $scope.medicationTab = {pageIndex: 0}
+//   $scope.schedule           = MedicationSchedule.get();
+//   $scope.medicationHistory  = MedicationHistory.getTodaysHistory();
+//   $scope.medications        = Medication.get();
+//
+//
+//   $scope.$on('$ionicView.enter', function() {
+//     $scope.filledMeds = []; //reset colors on pillbox medds
+//   })
+//
+//   $scope.containCabMeds = function() {
+//     for(var i = 0; i < $scope.medications.length; i++) {
+//       if($scope.medications[i].cab_med)
+//         return true;
+//     }
+//     return false
+//   }
+//
+//   $scope.slideHasChanged = function(pageIndex) {
+//     if(pageIndex==2) {
+//       $scope.filledMeds = []; //reset colors on pillbox medds
+//     }
+//     $scope.medicationTab.pageIndex = pageIndex;
+//   }
+//
+//   $scope.transitionToPageIndex = function(pageIndex) {
+//     $scope.medicationTab.pageIndex = pageIndex;
+//     $ionicSlideBoxDelegate.slide(pageIndex);
+//   }
+//
+//   $scope.didTakeMed = function(medication, schedule) {
+//     var match;
+//     var med = {}
+//     //Find the Med
+//     for(var i = 0; i < $scope.medications.length; i++) {
+//       if ($scope.medications[i].trade_name == medication) {
+//         med.id = $scope.medications[i].$id;
+//       }
+//     }
+//
+//     //then find the history instance.
+//     for(var i = 0; i < $scope.medicationHistory.length; i++) {
+//       if ($scope.medicationHistory[i].medication_id == med.id && $scope.medicationHistory[i].medication_schedule_id == schedule.$id) {
+//         match = $scope.medicationHistory[i]
+//       }
+//     }
+//
+//     if (match)
+//       return (match.taken_at !== undefined);
+//     else
+//       return false;
+//   }
+//
+//   $scope.didSkipMed = function(medication, schedule) {
+//     var match;
+//     var med = {}
+//     //Find the Med
+//     for(var i = 0; i < $scope.medications.length; i++) {
+//       if ($scope.medications[i].trade_name == medication) {
+//         med.id = $scope.medications[i].$id;
+//       }
+//     }
+//
+//     //then find the history instance.
+//     for(var i = 0; i < $scope.medicationHistory.length; i++) {
+//       if ($scope.medicationHistory[i].medication_id == med.id && $scope.medicationHistory[i].medication_schedule_id == schedule.$id) {
+//         match = $scope.medicationHistory[i]
+//       }
+//     }
+//
+//     if (match)
+//       return (match.skipped_at !== undefined);
+//     else
+//       return false;
+//   }
+//
+//   //THIS IS FOR FILLING PILL BOX. IS THERE A BETTER WAY?
+//   $scope.medicationSchedule = MedicationSchedule.get();
+//   $scope.medications = Medication.get();
+//   $scope.selectedMed;
+//   $scope.filledMeds = [];
+//
+//   console.log($scope.filledMeds)
+//   var emptySlots = [' ',' ',' ',' ',' ',' ',' '];
+//
+//   $scope.getSlots = function(schedule, med) {
+//     var DAYS_OF_THE_WEEK = 7
+//     var slots = [];
+//     if (typeof(med) === 'undefined') { //has not selected a med yet
+//       slots = emptySlots
+//     }
+//     else {
+//       if(schedule.medications.indexOf(med.trade_name) != -1) {
+//         for(var day = 0; day < 7; day++) {
+//           if (schedule.days[day]) {
+//             slots.push(med.tablets);
+//           } else {
+//             slots.push(" ");
+//           }
+//         }
+//       }
+//       else {
+//         slots = emptySlots //this med is not in this schedule slot
+//       }
+//     }
+//     return slots
+//   }
+//   $scope.displaySchedule = function(med){
+//     $scope.filledMeds.push(med);
+//     $scope.selectedMed = med //set the selected med
+//   }
+//
+//   $scope.currentlyOn = function(med){
+//     if($scope.selectedMed == med){
+//       return true;
+//     }
+//     return false;
+//   }
+//
+//   $scope.hasSelected = function(med){
+//     if($scope.filledMeds.indexOf(med) != -1){
+//       return true;
+//     }
+//     return false;
+//   }
+//
+//   $scope.buttonStyle = function(med){
+//     var selected = "background-color: gray";
+//     var notSelected = "background-color: white";
+//     var currentlyOn = "background-color: green";
+//     if($scope.currentlyOn(med)){
+//       return currentlyOn;
+//     }
+//     if($scope.hasSelected(med)){
+//       return selected;
+//     }
+//     return notSelected;
+//   }
+//
+// })
 
 
-  $scope.$on('$ionicView.enter', function() {
-    $scope.filledMeds = []; //reset colors on pillbox medds
-  })
-
-  $scope.containCabMeds = function() {
-    for(var i = 0; i < $scope.medications.length; i++) {
-      if($scope.medications[i].cab_med)
-        return true;
-    }
-    return false
-  }
-
-  $scope.slideHasChanged = function(pageIndex) {
-    if(pageIndex==2) {
-      $scope.filledMeds = []; //reset colors on pillbox medds
-    }
-    $scope.medicationTab.pageIndex = pageIndex;
-  }
-
-  $scope.transitionToPageIndex = function(pageIndex) {
-    $scope.medicationTab.pageIndex = pageIndex;
-    $ionicSlideBoxDelegate.slide(pageIndex);
-  }
-
-  $scope.didTakeMed = function(medication, schedule) {
-    var match;
-    var med = {}
-    //Find the Med
-    for(var i = 0; i < $scope.medications.length; i++) {
-      if ($scope.medications[i].trade_name == medication) {
-        med.id = $scope.medications[i].$id;
-      }
-    }
-
-    //then find the history instance.
-    for(var i = 0; i < $scope.medicationHistory.length; i++) {
-      if ($scope.medicationHistory[i].medication_id == med.id && $scope.medicationHistory[i].medication_schedule_id == schedule.$id) {
-        match = $scope.medicationHistory[i]
-      }
-    }
-
-    if (match)
-      return (match.taken_at !== undefined);
-    else
-      return false;
-  }
-
-  $scope.didSkipMed = function(medication, schedule) {
-    var match;
-    var med = {}
-    //Find the Med
-    for(var i = 0; i < $scope.medications.length; i++) {
-      if ($scope.medications[i].trade_name == medication) {
-        med.id = $scope.medications[i].$id;
-      }
-    }
-
-    //then find the history instance.
-    for(var i = 0; i < $scope.medicationHistory.length; i++) {
-      if ($scope.medicationHistory[i].medication_id == med.id && $scope.medicationHistory[i].medication_schedule_id == schedule.$id) {
-        match = $scope.medicationHistory[i]
-      }
-    }
-
-    if (match)
-      return (match.skipped_at !== undefined);
-    else
-      return false;
-  }
-
-  //THIS IS FOR FILLING PILL BOX. IS THERE A BETTER WAY?
-  $scope.medicationSchedule = MedicationSchedule.get();
-  $scope.medications = Medication.get();
-  $scope.selectedMed;
-  $scope.filledMeds = [];
-
-  console.log($scope.filledMeds)
-  var emptySlots = [' ',' ',' ',' ',' ',' ',' '];
-
-  $scope.getSlots = function(schedule, med) {
-    var DAYS_OF_THE_WEEK = 7
-    var slots = [];
-    if (typeof(med) === 'undefined') { //has not selected a med yet
-      slots = emptySlots
-    }
-    else {
-      if(schedule.medications.indexOf(med.trade_name) != -1) {
-        for(var day = 0; day < 7; day++) {
-          if (schedule.days[day]) {
-            slots.push(med.tablets);
-          } else {
-            slots.push(" ");
-          }
-        }
-      }
-      else {
-        slots = emptySlots //this med is not in this schedule slot
-      }
-    }
-    return slots
-  }
-  $scope.displaySchedule = function(med){
-    $scope.filledMeds.push(med);
-    $scope.selectedMed = med //set the selected med
-  }
-
-  $scope.currentlyOn = function(med){
-    if($scope.selectedMed == med){
-      return true;
-    }
-    return false;
-  }
-
-  $scope.hasSelected = function(med){
-    if($scope.filledMeds.indexOf(med) != -1){
-      return true;
-    }
-    return false;
-  }
-
-  $scope.buttonStyle = function(med){
-    var selected = "background-color: gray";
-    var notSelected = "background-color: white";
-    var currentlyOn = "background-color: green";
-    if($scope.currentlyOn(med)){
-      return currentlyOn;
-    }
-    if($scope.hasSelected(med)){
-      return selected;
-    }
-    return notSelected;
-  }
-
-})
-// 
+//
 // .controller("medicationScheduleCtrl", function($scope, $state, $stateParams, $ionicHistory, Medication, MedicationSchedule, MedicationDosage, MedicationHistory) {
 //   $scope.schedule = MedicationSchedule.findByID($stateParams.schedule_id);
 //   $scope.medicationHistory  = MedicationHistory.getTodaysHistory();
@@ -239,14 +241,29 @@ angular.module('app.controllers')
 //   }
 // })
 
-.controller("medicationCtrl", function($scope, $stateParams,$ionicPopup,$ionicHistory, Medication, MedicationSchedule, MedicationDosage, MedicationHistory) {
-  $scope.state = $stateParams;
-  var req = Medication.getByTradeName($stateParams.medication_name)
-  req.then(function(snapshot) {
-    $scope.medication = snapshot.val()
-    $scope.medication["id"] =  snapshot.key()
+.controller("medicationCtrl", function($scope, $stateParams, $ionicPopup,$ionicHistory, Medication, MedicationSchedule, MedicationDosage, MedicationHistory) {
+  $scope.drug  = {}
+  $scope.units = [{value: "mg", display: "mg"}, {value: "tablets", display: "tablets"}]
+
+
+  $scope.$on("$ionicView.loaded", function() {
+    $ionicLoading.show({template: "<ion-spinner></ion-spinner><br>Loading info...", hideOnStateChange: true})
+
+    Medication.searchByRXCUI($state.params.rxcui).then(function(response) {
+      console.log(response)
+      $scope.drug = response.data
+    }).finally(function(res) {
+      $ionicLoading.hide()
+    })
   })
-  $scope.schedule   = MedicationSchedule.findByID($stateParams.schedule_id)
+
+  // $scope.state = $stateParams;
+  // var req = Medication.getById($stateParams.medication_name)
+  // req.then(function(snapshot) {
+  //   $scope.medication = snapshot.val()
+  //   $scope.medication["id"] =  snapshot.key()
+  // })
+  // $scope.schedule   = MedicationSchedule.findByID($stateParams.schedule_id)
 
   $scope.takeMedication = function() {
     var req = MedicationHistory.create_or_update($scope.medication, $scope.schedule, "take");

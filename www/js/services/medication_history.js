@@ -1,26 +1,29 @@
 angular.module('app.services')
 
-.factory('MedicationHistory', ["Patient", "$firebaseObject","$firebaseArray", "Card","CARD", "$http", function(Patient, $firebaseObject,$firebaseArray, Card, CARD, $http) {
+.factory('MedicationHistory', ["Patient", "$firebaseObject","$firebaseArray", "Card", "$http", "moment", function(Patient, $firebaseObject,$firebaseArray, Card, $http, moment) {
   return {
-    getTodaysHistory: function() {
-      var today = ((new Date()).toISOString()).substring(0,10) //Only get the date: YYYY-MM-DD
+    getHistory: function() {
+      date_string = moment(new Date()).format("YYYY-MM-DD")
+      console.log(date_string)
 
       return Patient.get().then(function(p) {
-        return $firebaseArray(Patient.ref(p.uid).child("medication_histories").child(today));
+        return $firebaseArray(Patient.ref(p.uid).child("medication_histories").child(date_string)).$loaded();
       })
     },
     create_or_update: function(medication, schedule, choice) {
-      return $http({
-        method: "PUT",
-        url:    onpoint.env.serverURL + "medications/decide",
-        data: {
-          medication_id: medication.id,
-          schedule_id: schedule.$id,
-          choice: choice
-        },
-        headers: {
-         "Authorization": "Bearer " + Patient.getToken()
-        }
+      return Patient.get().then(function(p) {
+        return $http({
+          method: "PUT",
+          url:    onpoint.env.serverURL + "medications/decide",
+          data: {
+            medication_id: medication.$id,
+            schedule_id: schedule.$id,
+            choice: choice
+          },
+          headers: {
+           "Authorization": "Bearer " + p.token
+          }
+        })
       })
     }
   };

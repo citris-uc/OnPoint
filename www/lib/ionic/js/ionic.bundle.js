@@ -47979,7 +47979,7 @@ var LOADING_TPL =
   '</div>';
 
 var LOADING_HIDE_DEPRECATED = '$ionicLoading instance.hide() has been deprecated. Use $ionicLoading.hide().';
-var LOADING_SHOW_DEPRECATED = '$ionicLoading instance.show() has been deprecated. Use $ionicLoading.show().';
+var LOADING_SHOW_DEPRECATED = '$ionicLoading instance.show() has been deprecated. Use $ionicLoading.show({hideOnStateChange: true}).';
 var LOADING_SET_DEPRECATED = '$ionicLoading instance.setContent() has been deprecated. Use $ionicLoading.show({ template: \'my content\' }).';
 
 /**
@@ -48020,7 +48020,7 @@ var LOADING_SET_DEPRECATED = '$ionicLoading instance.setContent() has been depre
  * });
  * app.controller('AppCtrl', function($scope, $ionicLoading) {
  *   $scope.showLoading = function() {
- *     $ionicLoading.show(); //options default to values in $ionicLoadingConfig
+ *     $ionicLoading.show({hideOnStateChange: true}); //options default to values in $ionicLoadingConfig
  *   };
  * });
  * ```

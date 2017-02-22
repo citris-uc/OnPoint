@@ -20,17 +20,17 @@
 
   <div class="tabs-striped tabs-top">
     <div class="tabs">
-      <a class="tab-item" ng-click="transitionToPageIndex(0)" ng-class="{'active': timeline.pageIndex === 0}">
+      <!-- <a class="tab-item" ng-click="transitionToPageIndex(0)" ng-class="{'active': timeline.pageIndex === 0}">
         History
-      </a>
+      </a> -->
 
       <a class="tab-item" ng-click="transitionToPageIndex(1)" ng-class="{'active': timeline.pageIndex === 1}">
         Today
       </a>
 
-      <a class="tab-item" ng-click="transitionToPageIndex(2)" ng-class="{'active': timeline.pageIndex === 2}">
+      <!-- <a class="tab-item" ng-click="transitionToPageIndex(2)" ng-class="{'active': timeline.pageIndex === 2}">
         Tomorrow
-      </a>
+      </a> -->
 
 
     </div>
@@ -105,13 +105,17 @@
           <div class="row" style="justify-content: center;" on-swipe-right="swipeCard(card)" on-swipe-left="swipeCard(card)">
             <div class="col responsive-col">
               <div class="list card" ng-click="openPage(card, card.object_type)">
-                <div class="item">
+                <div class="item item-text-wrap">
                   <div class="row">
-                    <div class="col-10">
-                      <p style="font-size:20px; font-weight:bold;">{{card.short_timestamp}}</p>
+                    <div class="col-50">
+                      <h3 style="font-size:20px; font-weight:bold;">{{card.schedule.time}}</h3>
+                      <p>Today</p>
                     </div>
 
-                    <div class="col-90">{{card.description}}</div>
+                    <div class="col-50">
+                      <h3 style="font-size:20px; font-weight:bold;">{{card.schedule.medications_length}}</h3>
+                      <p>medications to take</p>
+                    </div>
                   </div>
                 </div>
               </div>

@@ -1,48 +1,47 @@
 <ion-view>
-  <ion-nav-title>{{medication.trade_name}} ({{medication.name}})</ion-nav-title>
-    <ion-content overflow-scroll="true" padding="false" class="has-header" ng-controller="medImgCtrl">
-      <div class="list">
-        <div class="item item-avatar">
-          <img src="img/{{medication.img}}">
-          <h2>
-            {{medication.trade_name}}
-            <span class="item-note">{{medication.dose}} mg</span>
-          </h2>
-
-          <p>
-            {{medication.name}}
-            <span class="item-note">{{medication.tablets}} tablet</span>
-          </p>
-        </div>
-
-        <div class="item item-body">
-          <h3>Instructions</h3>
-          <p>{{medication.instructions}}</p>
-        </div>
-        <div class="item item-body">
-          <h3>Purpose</h3>
-          <p>{{medication.purpose}}</p>
-        </div>
-
-        <div class="item item-body">
-          <div class = "row">
-            <div class = "col">
-              <button class="button button-block button-light" ng-click="skipMedication()">Skip</button>
-            </div>
-            <div class="col">
-              <button class="button button-block button-balanced" ng-click="takeMedication()">Take</button>
-            </div>
+  <ion-content class="has-footer">
+    <div class="list" ng-if="drug">
+      <label class="item item-input item-stacked-label">
+        <span class="input-label">Name</span>
+        <input type="text" ng-model="drug.name" disabled>
+      </label>
+      <label class="item item-input item-stacked-label">
+        <span class="input-label">Administration</span>
+        <input type="text" ng-model="drug.administration">
+      </label>
+      <label class="item item-input item-stacked-label item-select">
+        <span class="input-label">Dose</span>
+        <div class="row">
+          <div class="col-50">
+            <input type="text" ng-model="drug.dosage">
+          </div>
+          <div class="col-50">
+            <select ng-model="drug.units" ng-options="g.value as g.display for g in units"></select>
           </div>
         </div>
-      </div>
-    </ion-content>
+      </label>
+      <label class="item item-input item-stacked-label">
+        <span class="input-label">Frequency</span>
+        <input type="text" ng-model="drug.frequency">
+      </label>
+      <label class="item item-input item-stacked-label item-text-wrap">
+        <span class="input-label">Purpose</span>
+        <p ng-bind-html="drug.purpose"></p>
+        <!-- <input type="text" ng-model="drug.purpose"
+         disabled> -->
+      </label>
 
-    <!-- <ion-footer-bar align-title="middle">
-      <div class="buttons col" ng-click="skipMedication()">
-        <button class="button button-clear">Skip</button>
+      <div class="item item-body">
+        <img class="full-image" src="{{drug.pill_images[0].imageUrl}}" ng-if="drug.pill_images.length > 0">
+        <p class="text-center" ng-if="!drug.pill_images || drug.pill_images.length == 0">No pill image found</p>
       </div>
-      <div class="buttons col" ng-click="takeMedication()">
-        <button class="button button-clear">Take</button>
-      </div>
-    </ion-footer-bar> -->
+    </div>
+  </ion-content>
+
+  <div class="bar bar-footer bar-balanced">
+    <div class="buttons full-width">
+      <button class="button button-clear" ng-click="add()">Add</div>
+    </div>
+  </div>
+
 </ion-view>
