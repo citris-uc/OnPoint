@@ -60,6 +60,7 @@ angular.module('app.services')
         console.log("LOGGING USER IN WITH: ")
         console.log(res)
         patient                 = {}
+        patient.uid             = res.uid
         patient.token           = res.token
         patient.profileImageURL = res.password.profileImageURL
         return thisP.saveAndSync(patient)
