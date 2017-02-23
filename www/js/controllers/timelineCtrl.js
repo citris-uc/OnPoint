@@ -19,20 +19,16 @@ angular.module('app.controllers')
   // if we're on Today view, then we'll load cards for today/tomorrow. On the
   // History view, we'll load all cards.
   $scope.loadCards = function() {
-    $ionicLoading.show();
+    $ionicLoading.show({hideOnStateChange: true});
     console.log("LOading cards...")
     console.log($scope.timeline)
 
     if ($scope.timeline.pageIndex === 1) {
-      req = Card.today()
-      req.then(function(response) {
+      Card.today().then(function(response) {
         console.log(response)
         $scope.today.cards = response.data.cards;
-      })
-      req.catch(function(response) {
+      }).catch(function(response) {
         console.log(response)
-        // NOTE: For some reason, finally() is not triggered.
-        $ionicLoading.hide();
         $scope.$emit(onpoint.env.error, {error: response})
       }).finally(function(response) {
         $ionicLoading.hide();
@@ -72,7 +68,8 @@ angular.module('app.controllers')
   }
 
   $scope.openPage = function(card, type){
-    return $state.go('tabsController.medication_schedule', {schedule_id: card.object_id});
+    console.log(card)
+    return $state.go('tabsController.medication_schedule', {card_id: card.id, schedule_id: card.object_id});
   }
 
   // See http://www.gajotres.net/understanding-ionic-view-lifecycle/

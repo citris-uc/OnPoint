@@ -1,149 +1,133 @@
 angular.module('app.controllers')
+.controller("medicationScheduleCardCtrl", function($scope, $state, $stateParams, $ionicModal, $ionicHistory, Medication, MedicationSchedule, MedicationDosage, MedicationHistory, $ionicLoading, Card) {
+  $scope.drug     = {}
+  $scope.history  = []
+  $scope.card     = {}
 
+  $scope.$on('$ionicView.loaded', function(){
+    $ionicLoading.show({hideOnStateChange: true})
 
-.controller("medicationScheduleCardCtrl", function($scope, $state, $stateParams, $ionicHistory, Medication, MedicationSchedule, MedicationDosage, MedicationHistory, $ionicPopup) {
+    MedicationSchedule.getByID($stateParams.schedule_id).then(function(doc) {
+      console.log($scope.schedule)
+      $scope.schedule = doc
+    }).then(function() {
+      return MedicationHistory.getHistory()
+    }).then(function(doc) {
+      $scope.history = doc
+      return Card.getByID($state.params.card_id)
+    }).then(function(doc) {
+      console.log("CARD: ")
+      console.log(doc)
+      $scope.card = doc
+    }).finally(function() {
+      $ionicLoading.hide()
+    });
+  });
 
-  MedicationSchedule.getByID($stateParams.schedule_id).then(function(doc) {
-    $scope.schedule = doc
-  })
-
-
-  MedicationHistory.getTodaysHistory().then(function(doc) {
-    $scope.medicationHistory = doc
-  })
-
-  Medication.get().then(function(res) {
-    console.log(res)
-    $scope.medications        = res
-  })
-
-
-  if ($stateParams.medication_name) {
-    var req = Medication.getByTradeName($stateParams.medication_name)
-    req.then(function(snapshot) {
-      $scope.medication = snapshot.val()
-      $scope.medication["id"] =  snapshot.key()
+  $scope.medModal = function(med) {
+    // Create the login modal that we will use later
+    return $ionicModal.fromTemplateUrl('templates/cards/medication.html', {
+      scope: $scope,
+      animation: 'slide-in-up',
+      focusFirstInput: true,
+      backdropClickToClose: false,
+      hardwareBackButtonClose: false
+    }).then(function(modal) {
+      $scope.modal = modal;
+      return modal.show()
+    }).then(function() {
+      $ionicLoading.show({template: "<ion-spinner></ion-spinner><br>Loading medication...", hideOnStateChange: true})
+      return Medication.getById(med.id)
+    }).then(function(drug) {
+      console.log("DRUG: ")
+      console.log(drug)
+      $scope.drug = drug
+    }).finally(function() {
+      $ionicLoading.hide()
+    }).catch(function(err) {
+      console.log("ERR: ")
+      console.log(err)
     })
   }
 
-  $scope.takeMedication = function() {
-    var req = MedicationHistory.create_or_update($scope.medication, $scope.schedule, "take")
-    req.then(function(ref) {
-      $ionicHistory.goBack();
+  $scope.closeModal = function() {
+    $scope.modal.hide();
+  }
+
+  $scope.showNoteModal = function(med) {
+    // Create the login modal that we will use later
+    return $ionicModal.fromTemplateUrl('templates/cards/note.html', {
+      scope: $scope,
+      animation: 'slide-in-up',
+      focusFirstInput: true,
+      backdropClickToClose: false,
+      hardwareBackButtonClose: false
+    }).then(function(modal) {
+      $scope.modal = modal;
+      return modal.show()
+    }).finally(function() {
+      $ionicLoading.hide()
     })
+  }
+
+
+  $scope.takeMedication = function() {
+    $ionicLoading.show({hideOnStateChange: true})
+    MedicationHistory.create_or_update($scope.drug, $scope.schedule, "take").then(function() {
+      $ionicLoading.hide();
+      $scope.closeModal();
+    });
   }
 
   $scope.skipMedication = function()  {
-    var myPopup = $ionicPopup.show({
-      subTitle: 'Are you sure you want to skip ' + $scope.medication.trade_name,
-      scope: $scope,
-      buttons: [
-        { text: 'No' },
-        {
-          text: '<b>Yes</b>',
-          onTap: function(e) {
-            var req = MedicationHistory.create_or_update($scope.medication, $scope.schedule, "skip");
-            req.then(function(ref) { $ionicHistory.goBack();});          }
-        }
-      ]
-    });
+    c = confirm("Are you sure you want to skip this medication?")
+    if (!c)
+      return
+
+    $ionicLoading.show({hideOnStateChange: true})
+    MedicationHistory.create_or_update($scope.drug, $scope.schedule, "skip").then(function() {
+      $ionicLoading.hide();
+      $scope.closeModal();
+    })
   };
 
-
-  $scope.didTakeMed = function(trade_name) {
-    var match;
-    med = Medication.findMedicationByName(trade_name, $scope.medications)
-
-    for(var i = 0; i < $scope.medicationHistory.length; i++) {
-      if ($scope.medicationHistory[i].medication_id == med.$id && $scope.medicationHistory[i].medication_schedule_id == $stateParams.schedule_id) {
-        match = $scope.medicationHistory[i]
-      }
+  $scope.noDecisionOnMedication = function(med) {
+    state = true
+    for (var i=0; i < $scope.history.length; i++) {
+      if ($scope.history[i].medication_id == med.id)
+        state = !$scope.history[i].skipped_at && !$scope.history[i].taken_at
     }
-
-    if (match)
-      return (match.taken_at !== undefined);
-    else
-      return false;
-  }
-
-  $scope.didSkipMed = function(trade_name) {
-    var match;
-    var med = {}
-    //Find the Med
-    med = Medication.findMedicationByName(trade_name, $scope.medications)
-
-    //then find the history instance.
-    for(var i = 0; i < $scope.medicationHistory.length; i++) {
-      hist = $scope.medicationHistory[i]
-      if (hist && hist.medication_id == med.$id && hist.medication_schedule_id == $stateParams.schedule_id) {
-        match = hist
-      }
-    }
-
-    if (match)
-      return (match.skipped_at !== undefined);
-    else
-      return false;
-  }
-
-  $scope.takeAll = function(){
-    for(var i = 0; i < $scope.schedule.medications.length; i++){
-      if(this.didTakeMed($scope.schedule.medications[i]) == false){
-        var req = Medication.getByTradeName($scope.schedule.medications[i])
-        req.then(function(snapshot) {
-          $scope.medication = snapshot.val()
-          $scope.medication["id"] =  snapshot.key()
-           var req = MedicationHistory.create_or_update($scope.medication, $scope.schedule, "take");
-        })
-      }
-    }
-    $ionicHistory.goBack();
-  }
-
-  $scope.goBack = function(){
-    $ionicHistory.goBack();
+    return state
   }
 
 
-  $scope.hasTakenMeds = function() {
-    takenMedCount = 0
-    for (var i = 0; i < $scope.medications.length; i++) {
-      if ($scope.didTakeMed($scope.medications[i].trade_name)) {
-        takenMedCount++
-      }
+  $scope.didTakeMed = function(med) {
+    state = false
+    for (var i=0; i < $scope.history.length; i++) {
+      if ($scope.history[i].medication_id == med.id)
+        state = !!$scope.history[i].taken_at
     }
 
-    if (takenMedCount == 0)
-      return false
-    else
-      return true
+    return state
   }
 
-  $scope.hasSkippedMeds = function() {
-    count = 0
-    for (var i = 0; i < $scope.medications.length; i++) {
-      if ($scope.didSkipMed($scope.medications[i].trade_name)) {
-        count++
-      }
+  $scope.didSkipMed = function(med) {
+    state = false
+    for (var i=0; i < $scope.history.length; i++) {
+      if ($scope.history[i].medication_id == med.id)
+        state = !!$scope.history[i].skipped_at
     }
 
-    if (count == 0)
-      return false
-    else
-      return true
+    return state
   }
 
-  $scope.decidedAllMeds = function() {
-    count = 0
-    for (var i = 0; i < $scope.medications.length; i++) {
-      if (!$scope.didSkipMed($scope.medications[i].trade_name) && !$scope.didTakeMed($scope.medications[i].trade_name)) {
-        count++
-      }
-    }
 
-    if (count == 0)
-      return false
-    else
-      return true
+  $scope.updateNote = function() {
+    $ionicLoading.show({hideOnStateChange: true})
+    $scope.card.$save().then(function() {
+      $scope.closeModal()
+    }).finally(function() {
+      $ionicLoading.hide()
+    })
   }
 })

@@ -1,0 +1,17 @@
+<ion-view view-title="Your Surveys">
+  <ion-content>
+    <ion-refresher pulling-text="Pull to refresh..." on-refresh="refresh()"></ion-refresher>
+
+    <ion-list>
+      <ion-item ng-if="surveys.length == 0">
+        <p class="text-center">No surveys found. Try pulling down to refresh.</p>
+      </ion-item>
+
+      <ion-item ng-click="showModal(survey)" ng-repeat="survey in surveys">
+        <h2>{{survey.name}}</h2>
+        <p ng-if="survey.completed_at">You completed this survey on {{survey.completed_at | date:'MMM dd, yyyy'}}</p>
+        <p ng-if="!survey.completed_at">You haven't completed this survey yet</p>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>

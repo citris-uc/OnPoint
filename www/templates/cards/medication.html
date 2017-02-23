@@ -1,4 +1,8 @@
-<ion-view>
+<ion-modal-view class="login-modal">
+  <ion-header-bar class="bar bar-header bar-stable">
+    <h1 class="title">Medication</h1>
+    <button class="button button-clear button-positive" ng-click="closeModal()">Cancel</button>
+  </ion-header-bar>
   <ion-content class="has-footer">
     <div class="list" ng-if="drug">
       <label class="item item-input item-stacked-label">
@@ -24,12 +28,6 @@
         <span class="input-label">Frequency</span>
         <input type="text" ng-model="drug.frequency">
       </label>
-      <label class="item item-input item-stacked-label item-text-wrap">
-        <span class="input-label">Purpose</span>
-        <p ng-bind-html="drug.purpose"></p>
-        <!-- <input type="text" ng-model="drug.purpose"
-         disabled> -->
-      </label>
 
       <div class="item item-body">
         <img class="full-image" src="{{drug.pill_images[0].imageUrl}}" ng-if="drug.pill_images.length > 0">
@@ -38,10 +36,13 @@
     </div>
   </ion-content>
 
-  <div class="bar bar-footer bar-balanced">
-    <div class="buttons full-width">
-      <button class="button button-clear" ng-click="add()">Add</div>
+  <div class="bar bar-footer bar-clear">
+    <div ng-click="skipMedication()" class="buttons button-energized text-center" style="width:50%; margin-bottom: -5px; margin-top: -5px; margin-left: -5px; background-color: #ef473a;">
+      <button class="button button-clear" style="width: auto; margin: auto;">Skip</button>
+    </div>
+    <div ng-click="takeMedication()" class="buttons text-center" style="width:50%; margin-bottom: -5px; margin-top: -5px; margin-right: -5px; background-color: #33cd5f;">
+      <button class="button button-clear" style="width: auto; margin: auto;">Take</button>
     </div>
   </div>
 
-</ion-view>
+</ion-modal-view>

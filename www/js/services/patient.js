@@ -21,22 +21,18 @@ angular.module('app.services')
         return patient
       }).catch(console.log.bind(console));
     },
-    update: function(patient) {
+
+    saveAndSync: function(patient) {
       thisP = this
-      return this.saveProfileToFirebase(patient).then(function() {
-        return thisP.save(patient)
-      })
-    },
-    saveProfileToFirebase: function(patient) {
-      console.log("Patient#saveProfileToFirebase...")
-      console.log(patient)
-      thisP = this
-      return this.get().then(function(p) {
+      return thisP.save(patient).then(function() {
+        return thisP.get()
+      }).then(function(p) {
+        console.log("Patient#saveProfileToFirebase...")
+        console.log(patient)
         return thisP.ref(p.uid).child("profile").update(patient)
-      }).then(function(response) {
-        return thisP.save(patient)
       })
     },
+
 
     getFromFirebase: function() {
       thisP = this
@@ -63,8 +59,9 @@ angular.module('app.services')
         console.log("LOGGING USER IN WITH: ")
         console.log(res)
         patient                 = {}
+        patient.token           = res.token
         patient.profileImageURL = res.password.profileImageURL
-        return thisP.update(patient)
+        return thisP.saveAndSync(patient)
       })
     },
     create: function(user) {
@@ -75,7 +72,7 @@ angular.module('app.services')
         patient.uid = res.uid
         return thisP.save(patient)
       }).then(function() {
-        return thisP.update(patient)
+        return thisP.saveAndSync(patient)
       })
     },
     ref: function(uid) {

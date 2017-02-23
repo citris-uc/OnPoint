@@ -1,6 +1,6 @@
 angular.module('app.services')
 
-.factory("Card", ["CARD", "Patient", "MedicationSchedule", "MeasurementSchedule", "Appointment","$firebaseArray", "$firebaseObject", "$http", function(CARD, Patient, MedicationSchedule, MeasurementSchedule, Appointment,$firebaseArray, $firebaseObject, $http) {
+.factory("Card", ["CARD", "Patient", "MedicationSchedule", "MeasurementSchedule", "Appointment","$firebaseArray", "$firebaseObject", "$http", "moment", function(CARD, Patient, MedicationSchedule, MeasurementSchedule, Appointment,$firebaseArray, $firebaseObject, $http, moment) {
   return {
     get: function() {
       var ref = this.ref();
@@ -40,9 +40,11 @@ angular.module('app.services')
         }
       })
     },
-    getById: function(id) {
-      var ref = this.todaysRef().child(id)
-      return $firebaseObject(ref)
+    getByID: function(id) {
+      return Patient.get().then(function(p) {
+        date_string = moment(new Date()).format("YYYY-MM-DD")
+        return $firebaseObject(Patient.ref(p.uid).child("cards").child(date_string).child(id))
+      }).catch(console.log.bind(console));
     },
     ref: function() {
       var uid = Patient.uid();

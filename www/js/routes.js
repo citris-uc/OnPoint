@@ -32,6 +32,16 @@ angular.module('app.routes', [])
     }
   })
 
+  .state('tabsController.surveys', {
+    url: '/surveys',
+    views: {
+      'timeline-tab': {
+        templateUrl: 'templates/surveys/index.html',
+        controller: 'surveyCtrl'
+      }
+    }
+  })
+
   .state('tabsController.timeline', {
     url: '/timeline',
     views: {
@@ -43,7 +53,7 @@ angular.module('app.routes', [])
   })
 
   .state('tabsController.medication_schedule', {
-    url: '/timeline/medication_schedule/:schedule_id',
+    url: '/timeline/medication_schedule/:schedule_id?:card_id',
     views: {
       'timeline-tab': {
         templateUrl: 'templates/timeline/medication_schedule.html',
@@ -53,7 +63,7 @@ angular.module('app.routes', [])
   })
 
   .state('tabsController.medication_schedule.medication', {
-    url: '/medication/:medication_name',
+    url: '/medication/:medication_id',
     views: {
       'timeline-tab@tabsController': {
         templateUrl: 'templates/timeline/medication.html',
@@ -65,15 +75,15 @@ angular.module('app.routes', [])
 
 
   // TODO: Deprecate these
-  .state('tabsController.medication', {
-    url: '/medications/schedule/:schedule_id/medication/:medication_name',
-    views: {
-      'medications-tab': {
-        templateUrl: 'templates/medications/show.html',
-        controller: 'medicationCtrl'
-      }
-    }
-  })
+  // .state('tabsController.medication', {
+  //   url: '/medications/schedule/:schedule_id/medication/:medication_id',
+  //   views: {
+  //     'medications-tab': {
+  //       templateUrl: 'templates/medications/show.html',
+  //       controller: 'medicationCtrl'
+  //     }
+  //   }
+  // })
 
   .state('tabsController.takeCabMed', {
     url: '/medications/schedule/:schedule_id/medication/:medication_name',
@@ -137,15 +147,15 @@ angular.module('app.routes', [])
     }
   })
 
-  .state('tabsController.medications', {
-    url: '/medications',
-    views: {
-      'medications-tab': {
-        templateUrl: 'templates/medications/medications.html',
-        controller: 'medicationsCtrl'
-      }
-    }
-  })
+  // .state('tabsController.medications', {
+  //   url: '/medications',
+  //   views: {
+  //     'medications-tab': {
+  //       templateUrl: 'templates/medications/medications.html',
+  //       controller: 'medicationsCtrl'
+  //     }
+  //   }
+  // })
 
   .state('tabsController.medicationsSchedule', {
     url: '/medications/:schedule_id',

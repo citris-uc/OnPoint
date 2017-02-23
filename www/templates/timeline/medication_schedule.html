@@ -1,32 +1,35 @@
-<link type="text/css" rel="stylesheet" href="css/onboardingStyle.css"/>
+<ion-view title="{{schedule.name}} ({{ schedule.time}})">
+  <ion-nav-buttons side="right">
+    <button class="button button-icon button-clear ion-ios-compose-outline" ng-click="showNoteModal()"></button>
+  </ion-nav-buttons>
 
-<ion-view title="{{ schedule.slot | uppercase }}">
-  <ion-content overflow-scroll="true" padding="false" class="has-header" ng-controller="medImgCtrl">
+
+  <ion-content padding="false">
 
     <div class="list">
       <div class="item item-divider item-energized">
         Needs Attention
       </div>
 
-      <div class="item item-icon-left" ng-if="decidedAllMeds()" ng-click="goBack()">
+      <!-- <div class="item item-icon-left" ng-if="decidedAllMeds()" ng-click="goBack()">
         <i class="icon ion-ios-arrow-left"></i>
         <p class="text-center">No more medications need your attention. Complete.</>
-      </div>
+      </div> -->
 
-      <ion-item ng-show="!didTakeMed(med) && !didSkipMed(med)" ui-sref="tabsController.medication_schedule.medication({medication_name: med})" class="item-icon-right" ng-repeat="med in schedule.medications">
-        {{med}}
+      <ion-item ng-show="noDecisionOnMedication(med)" ng-click="medModal(med)" class="item-icon-right" ng-repeat="med in schedule.medications">
+        {{med.name}}
       </ion-item>
 
       <div class="item item-divider item-balanced">
         Taken
       </div>
 
-      <div class="item item-icon-left" ng-if="!hasTakenMeds()">
+      <!-- <div class="item item-icon-left" ng-if="!hasTakenMeds()">
         <p class="text-center">You haven't taken any medications.</>
-      </div>
+      </div> -->
 
-      <ion-item ng-show="didTakeMed(med)" ui-sref="tabsController.medication_schedule.medication({medication_name: med})" class="item-icon-right" ng-repeat="med in schedule.medications">
-        {{med}}
+      <ion-item ng-show="didTakeMed(med)" ng-click="medModal(med)" class="item-icon-right" ng-repeat="med in schedule.medications">
+        {{med.name}}
       </ion-item>
 
 
@@ -34,12 +37,12 @@
         Skipped
       </div>
 
-      <div class="item item-icon-left" ng-if="!hasSkippedMeds()">
+      <!-- <div class="item item-icon-left" ng-if="!hasSkippedMeds()">
         <p class="text-center">You haven't skipped any medications.</>
-      </div>
+      </div> -->
 
-      <ion-item ng-show="didSkipMed(med)" ui-sref="tabsController.medication_schedule.medication({medication_name: med})" class="item-icon-right" ng-repeat="med in schedule.medications">
-        {{med}}
+      <ion-item ng-show="didSkipMed(med)" ng-click="medModal(med)" class="item-icon-right" ng-repeat="med in schedule.medications">
+        {{med.name}}
       </ion-item>
 
 
