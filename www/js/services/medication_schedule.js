@@ -23,6 +23,11 @@ angular.module('app.services')
       time: "19:00",
       name: "Evening",
       days: [true, true, true, true, true, true, true]
+    },
+    {
+      time: "21:00",
+      name: "Bedtime",
+      days: [true, true, true, true, true, true, true]
     }
   ]
   schedule = [
