@@ -36,7 +36,7 @@ angular.module('app.services')
            "Authorization": "Bearer " + p.token
           }
         })
-      }).catch(console.log.bind(console));
+      })
     },
 
     ocr: function(base64_photo) {

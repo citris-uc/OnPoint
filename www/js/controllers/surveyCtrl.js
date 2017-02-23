@@ -16,7 +16,7 @@ angular.module('app.controllers')
 
   $scope.showModal = function(survey) {
     if (survey.completed_at) {
-      alert("You've already completed this survey. Please wait a week.")
+      navigator.notification.alert("You've already completed this survey. Please wait a week.", null)
       return
     }
 
@@ -63,7 +63,7 @@ angular.module('app.controllers')
     Survey.createIfEmpty().then(function() {
       $scope.$broadcast('scroll.refreshComplete');
     }).catch(function(err) {
-      alert(JSON.stringify(err))
+      navigator.notification.alert(JSON.stringify(err), null)
     }).finally(function() {
       $ionicLoading.hide()
     })

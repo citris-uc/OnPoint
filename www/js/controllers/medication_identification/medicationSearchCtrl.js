@@ -18,7 +18,7 @@ angular.module('app.controllers')
 
     $scope.loadCamera = function() {
       $scope.ocr_results = {}
-      window.alert("When taking a picture, center the picture on the pill label. One image is sufficient.", null)
+      navigator.notification.alert("When taking a picture, center the picture on the pill label. One image is sufficient.", null)
 
       $cordovaCamera.getPicture({saveToPhotoAlbum: true, quality: 50, correctOrientation: true, targetHeight: 1000, destinationType: 0}).then(function(base64) {
         $scope.medication.photo = "data:image/jpeg;base64," + base64
@@ -32,7 +32,7 @@ angular.module('app.controllers')
 
       Medication.ocr($scope.medication.photo).then(function(res) {
         // console.log("Results from Medication OCR")
-        // alert(JSON.stringify(res))
+        // navigator.notification.alert(JSON.stringify(res), null)
         $scope.ocr_results         = res.data
       }).finally(function() {
         $ionicLoading.hide()
@@ -40,7 +40,6 @@ angular.module('app.controllers')
     }
 
     $scope.navigateToOcrMatch = function() {
-      alert(JSON.stringify($scope.ocr_results))
       $state.go("medication_identification.ocr_match", {ocr: JSON.stringify($scope.ocr_results)}, {reload: true})
     }
 
@@ -49,11 +48,10 @@ angular.module('app.controllers')
       $ionicLoading.show({template: "<ion-spinner></ion-spinner><br>Searching...", hideOnStateChange: true})
 
       Medication.search($scope.params.search).then(function(response) {
-        console.log(response)
         $scope.drugs = response.data
         $scope.params.noDrugMatch = ($scope.drugs == 0)
-      }, function(response) {
-        console.log(JSON.stringify(response))
+      }).catch(function(response) {
+        navigator.notification.alert(JSON.stringify(response), null)
         $scope.$emit(onpoint.env.error, response)
       }).finally(function() {
        $ionicLoading.hide()

@@ -28,7 +28,8 @@ angular.module('app.services')
         return thisP.get()
       }).then(function(p) {
         console.log("Patient#saveProfileToFirebase...")
-        console.log(patient)
+        console.log("p: " + JSON.stringify(p))
+        console.log("patient: " + JSON.stringify(patient))
         return thisP.ref(p.uid).child("profile").update(patient)
       })
     },
