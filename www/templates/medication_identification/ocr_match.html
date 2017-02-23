@@ -1,10 +1,10 @@
 <ion-view>
   <ion-content>
     <ion-list>
-      <div class="item text-center" ng-show="!!params.noDrugMatch">
+      <div class="item text-center item-text-wrap" ng-show="!!params.noDrugMatch">
         No results found. We'll display matching medication here.
       </div>
-      <div class="item text-center" ng-show="!params.noDrugMatch">
+      <div class="item text-center item-text-wrap" ng-show="!params.noDrugMatch">
         We found several matches for your medication. Select the one that matches it best below.
       </div>
       <ion-item class="item-icon-right" ng-repeat="drug in drugs" ng-click="navigateToMatch(drug)">
