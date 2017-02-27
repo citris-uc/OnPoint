@@ -26,23 +26,6 @@ angular.module('app.services')
         return $firebaseArray(Patient.ref(p.uid).child("appointments")).$loaded()
       })
     },
-    /*
-     * Return Appointments in firebase from dates, from, until dates, to
-     * @param from: from date in javascript date format
-     * @param to: to date in javascript date format
-     * @return: returns a firebaseArray of appointments
-     */
-    // getAppointmentsFromTo: function(from, to) {
-    //   var ref = this.getAppointmentsFromToRef(from,to)
-    //   return $firebaseArray(ref);
-    // },
-    // getAppointmentsFromToRef: function(from, to) {
-    //   var fromISO = from.toISOString().substring(0,10);
-    //   var toISO = to.toISOString().substring(0,10);
-    //   var ref = this.ref().orderByKey().startAt(fromISO).endAt(toISO);
-    //   return ref;
-    // },
-
     get: function(date, id){
       return Patient.get().then(function(p) {
         return $firebaseObject(Patient.ref(p.uid).child("appointments").child(date).child(appointment_id));
@@ -59,21 +42,12 @@ angular.module('app.services')
       });
     },
     update: function(oldDate, oldKey, appointment) {
-      console.log("Updating...")
-      console.log(oldDate)
-      console.log(oldKey)
-      console.log(appointment.date)
-      console.log(appointment.time)
-      console.log("--------------")
-
       thisAppt  = this
       appt = {}
       for (var key in appointment)
         appt[key] = appointment[key]
       appt.date = moment(appointment.date).format('YYYY-MM-DD');
       appt.time = moment(appointment.time).format('HH:mm');
-
-      console.log("Dates converted: ")
 
       puid = null
       return Patient.get().then(function(p) {
