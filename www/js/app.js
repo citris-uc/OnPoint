@@ -144,9 +144,10 @@ angular.module('app', ['ionic', 'firebase', 'app.controllers', 'app.routes', 'ap
 
   $rootScope.$on(onpoint.env.error, function(event, response) {
     console.log(response)
-    if (response.name == "Error")
+    if (response.name == "Error") {
       navigator.notification.alert(response.message, null, "Login failed", "OK")
       return
+    }
 
     if (response.error && (response.error.status == 401 || response.error.status == 403) ) {
       if ( !$rootScope.modal || ($rootScope.modal && !$rootScope.modal.isShown()) ) {
