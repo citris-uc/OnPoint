@@ -32,9 +32,9 @@ angular.module('app.controllers')
       $ionicLoading.show({template: "<ion-spinner></ion-spinner><br>Extracting text...", hideOnStateChange: true})
 
       Medication.ocr($scope.medication.photo).then(function(res) {
-        // console.log("Results from Medication OCR")
-        // navigator.notification.alert(JSON.stringify(res), null)
         $scope.ocr_results         = res.data
+      }).catch(function(res) {
+        navigator.notification.alert(res.data.error, null)
       }).finally(function() {
         $ionicLoading.hide()
       })
