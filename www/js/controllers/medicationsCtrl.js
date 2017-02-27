@@ -243,7 +243,7 @@ angular.module('app.controllers')
 
 .controller("medicationCtrl", function($scope, $stateParams, $ionicPopup,$ionicHistory, Medication, MedicationSchedule, MedicationDosage, MedicationHistory) {
   $scope.drug  = {}
-  $scope.units = [{value: "mg", display: "mg"}, {value: "tablets", display: "tablets"}]
+  $scope.units = Medication.units
 
 
   $scope.$on("$ionicView.loaded", function() {

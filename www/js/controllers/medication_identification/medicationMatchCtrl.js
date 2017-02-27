@@ -2,7 +2,7 @@
 angular.module('app.controllers')
 .controller('medicationMatchCtrl', function($scope, $state, $stateParams, $ionicPopover, Medication, $ionicLoading, $ionicHistory) {
   $scope.drug  = {}
-  $scope.units = [{value: "mg", display: "mg"}, {value: "tablets", display: "tablets"}]
+  $scope.units = Medication.units
   $scope.ocr   = angular.fromJson($state.params.ocr)
 
   $scope.$on("$ionicView.loaded", function() {

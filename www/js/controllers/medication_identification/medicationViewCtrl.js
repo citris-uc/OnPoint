@@ -2,7 +2,7 @@ angular.module('app.controllers')
 
 .controller('medicationViewCtrl', function($scope, $state, Medication, $ionicHistory, $ionicLoading) {
   $scope.drug  = {}
-  $scope.units = [{value: "mg", display: "mg"}, {value: "tablets", display: "tablets"}]
+  $scope.units = Medication.units
 
   $scope.$on("$ionicView.loaded", function() {
     $ionicLoading.show({hideOnStateChange: true});

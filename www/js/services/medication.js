@@ -6,6 +6,9 @@ angular.module('app.services')
    * TODO: delete id field
    * TODO: (much later) delete this.
    */
+
+
+
   medications = [
     {id: 1, name: "furomeside", trade_name: "Lasix", instructions: "Take twice daily; First in morning and then 6-8 hours later", purpose: "Treats salt and fluid retention and swelling caused by heart failure.", dose: 40, tablets: 1, required: false, img:"lasix.png"},
     {id: 2, name: "metoprolol", trade_name: "Toprol XL", instructions: "TODO: Add instructions here", purpose: "Used to treat chest pain (angina), heart failure, and high blood pressure.", dose: 500, tablets: 2, required: true, img:"toprol.png"},
@@ -27,6 +30,15 @@ angular.module('app.services')
   input_medications = [];
 
   return {
+    units: [
+      {value: "mg", display: "mg"},
+      {value: "ml", display: "ml"},
+      {value: "micrograms", display: "micrograms"},
+      {value: "tablets", display: "tablets"},
+      {value: "capsules", display: "capsules"},
+      {value: "spray", display: "spray"},
+      {value: "inhalation", display: "inhalation"}
+    ],
     search: function(query) {
       return Patient.get().then(function(p) {
         return $http({
