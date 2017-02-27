@@ -17,12 +17,13 @@ angular.module('app.controllers')
     }
 
     $scope.loadCamera = function() {
-      $scope.ocr_results = {}
-      navigator.notification.alert("When taking a picture, center the picture on the pill label. One image is sufficient.", null)
+      $scope.ocr_results      = {}
+      $scope.medication.photo = null
 
-      $cordovaCamera.getPicture({saveToPhotoAlbum: true, quality: 50, correctOrientation: true, targetHeight: 1000, destinationType: 0}).then(function(base64) {
+      $cordovaCamera.getPicture({saveToPhotoAlbum: false, quality: 50, allowEdit: true, correctOrientation: true, targetWidth: 750, targetHeight: 750, destinationType: 0}).then(function(base64) {
         $scope.medication.photo = "data:image/jpeg;base64," + base64
       }).catch(function(res) {
+        navigator.notification.alert(JSON.stringify(res), null)
         $scope.$emit(clovi.env.error, res)
       })
     }
@@ -31,9 +32,9 @@ angular.module('app.controllers')
       $ionicLoading.show({template: "<ion-spinner></ion-spinner><br>Extracting text...", hideOnStateChange: true})
 
       Medication.ocr($scope.medication.photo).then(function(res) {
-        // console.log("Results from Medication OCR")
-        // navigator.notification.alert(JSON.stringify(res), null)
         $scope.ocr_results         = res.data
+      }).catch(function(res) {
+        navigator.notification.alert(res.data.error, null)
       }).finally(function() {
         $ionicLoading.hide()
       })

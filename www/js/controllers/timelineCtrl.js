@@ -19,7 +19,7 @@ angular.module('app.controllers')
   // if we're on Today view, then we'll load cards for today/tomorrow. On the
   // History view, we'll load all cards.
   $scope.loadCards = function() {
-    $ionicLoading.show({hideOnStateChange: true});
+    $ionicLoading.show({template: "<ion-spinner></ion-spinner><br>Loading timeline...", hideOnStateChange: true});
     console.log("LOading cards...")
     console.log($scope.timeline)
 

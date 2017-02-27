@@ -63,7 +63,7 @@ angular.module('app.services')
            "Authorization": "Bearer " + p.token
           }
         })
-      }).catch(console.log.bind(console));
+      })
     },
 
     searchByRXCUI: function(rxcui) {

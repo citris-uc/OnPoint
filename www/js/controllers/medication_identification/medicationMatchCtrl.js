@@ -16,7 +16,9 @@ angular.module('app.controllers')
         $scope.drug.amount = $scope.ocr.amount
         $scope.drug.delivery = $scope.ocr.delivery
         $scope.drug.frequency = $scope.ocr.frequency
-        $scope.drug.administration = $scope.drug.amount + " " + $scope.drug.delivery
+
+        if ($scope.drug.amount && $scope.drug.delivery)
+          $scope.drug.administration = $scope.drug.amount + " " + $scope.drug.delivery
       }
     }).finally(function(res) {
       $ionicLoading.hide()
