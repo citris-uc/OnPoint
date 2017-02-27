@@ -1,15 +1,19 @@
 <link type="text/css" rel="stylesheet" href="css/appointmentStyle.css"/>
 
 <ion-view title="Appointments" class = "appointment">
-    <ion-nav-buttons side="right">
-        <button class="button button-clear button-icon icon ion-ios-plus-empty button-positive" ui-sref="tabsController.addAppointment"></button>
-    </ion-nav-buttons>
-  <ion-content has-header="true" overflow-scroll="true" scroll="true" padding="true" class="has-header">
-    <li class="item" ng-hide="hasAppointment()">
-      You haven't added any appointments.
+  <ion-nav-buttons side="right">
+    <button class="button button-clear button-icon ion-ios-plus-empty" ng-click="showModal()"></button>
+  </ion-nav-buttons>
+
+  <ion-content>
+    <ion-refresher pulling-text="Pull to refresh..." on-refresh="refresh()"></ion-refresher>
+
+
+    <li class="item text-center" ng-hide="appointments.length == 0">
+      We couldn't find any appointments. Try pulling down to refresh.
     </li>
 
-    <div ng-repeat="date in appointments">
+    <div ng-repeat="date in appointments" ng-show="appointments.length > 0">
       <div>
         <hr class="responsive-col"></hr>
         <h4 class="text-center">{{setLocaleDate(date.$id) | date:'MMMM dd, yyyy'}}</h4>
