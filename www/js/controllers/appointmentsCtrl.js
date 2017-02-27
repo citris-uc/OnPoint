@@ -1,76 +1,159 @@
 angular.module('app.controllers')
 
-.controller('appointmentCtrl', function($scope, $stateParams, Appointment) {
-  $scope.appointment = Appointment.getById($stateParams.date,$stateParams.appointment_id);
+.controller('appointmentsCtrl', function($scope, $location, $state, Appointment, $ionicLoading, $ionicModal) {
+  $scope.appointments = {}
+  $scope.appt         = {}
 
-})
+  $scope.state = {}
 
-.controller('editAppointmentCtrl', function($scope,$stateParams, $state,$ionicHistory,Appointment) {
-  $scope.dateKey = $stateParams.date;
-  $scope.apptKey = $stateParams.appointment_id;
-  $scope.appointment = Appointment.getById($stateParams.date,$stateParams.appointment_id);
-  $scope.save = function(){
-    var editedAppointment = {}
-    editedAppointment.title = $scope.appointment.title;
-    editedAppointment.location = $scope.appointment.location;
-    editedAppointment.time=$scope.appointment.newTime.toISOString();
-    editedAppointment.note = $scope.appointment.note;
-    Appointment.update(editedAppointment, $scope.dateKey, $scope.apptKey); //need to call update bc might have added a new note field, firebaseObject.$save will not save the note if there is no note previously
-
-    $ionicHistory.nextViewOptions({
-      disableAnimate: true,
-      disableBack: true,
-      historyRoot: true
-    })
-    $state.go('tabsController.appointments');
-  }
-})
-
-
-.controller('addAppointmentCtrl', function($scope,$state,$stateParams,$ionicPopup, Appointment) {
-   $scope.newAppointment = {};
-   $scope.newAppointment.time = new Date();
-   $scope.save = function(){
-     var message = "";
-     if(typeof $scope.newAppointment.title === 'undefined'){
-       message += " title cannot be empty <br/>";
-     }
-     if(typeof $scope.newAppointment.location === 'undefined'){
-       message += " location cannot be empty <br/>";
-     }
-     if(message != ""){
-       var myPopup = $ionicPopup.show({
-         title: "Invalid input",
-         subTitle: message,
-         scope: $scope,
-         buttons: [
-           {text: '<b>OK</b>'}
-         ]
-       });
-     }else{
-      if(typeof $scope.newAppointment.note === 'undefined'){
-        $scope.newAppointment.note = null;
-      }
-      Appointment.add($scope.newAppointment);
-      $state.transitionTo('tabsController.appointments', {reload: true});
-     }
-
-   };
-})
-
-.controller('appointmentsCtrl', function($scope, $location, $state, Appointment, CARD) {
   var fromDate = new Date();
   var toDate = new Date();
-  fromDate.setDate(fromDate.getDate()-CARD.TIMESPAN.DAYS_AFTER_APPT);
-  toDate.setDate(toDate.getDate()+CARD.TIMESPAN.DAYS_BEFORE_APPT);
-  $scope.appointments = Appointment.getAppointmentsFromTo(fromDate, toDate);
-  $scope.hasAppointment = function(){
-    if($scope.appointments.length == 0){
-      return false;
-    }else{
-      return true;
-    }
+
+  $scope.refresh = function() {
+    $ionicLoading.show({template: "<ion-spinner></ion-spinner><br>Loading...", hideOnStateChange: true})
+
+    Appointment.getAll().then(function(doc) {
+      $scope.appointments = doc
+      $scope.$broadcast('scroll.refreshComplete');
+    }).finally(function() {
+      $ionicLoading.hide()
+    })
   }
+
+  $scope.$on('$ionicView.loaded', function(){
+    $scope.refresh();
+  });
+
+  $scope.save = function(){
+    $ionicLoading.show({template: "<ion-spinner></ion-spinner><br>Saving...", hideOnStateChange: true})
+
+    if (!$scope.appt.title) {
+      navigator.notification.alert("Title can't be blank", null)
+      return
+    }
+
+    if (!$scope.appt.date) {
+      navigator.notification.alert("Date can't be blank", null)
+      return
+    }
+
+    if (!$scope.appt.time) {
+      navigator.notification.alert("Time can't be blank", null)
+      return
+    }
+
+    if (!$scope.appt.note) {
+      navigator.notification.alert("Note can't be blank", null)
+      return
+    }
+
+    console.log($scope.appt)
+    Appointment.add($scope.appt).then(function() {
+      return $scope.closeModal()
+    }).finally(function() {
+      $scope.appt = {}
+      $ionicLoading.hide()
+    })
+  };
+
+  $scope.update = function(){
+    $ionicLoading.show({template: "<ion-spinner></ion-spinner><br>Saving...", hideOnStateChange: true})
+
+    if (!$scope.appt.title) {
+      navigator.notification.alert("Title can't be blank", null)
+      return
+    }
+
+    if (!$scope.appt.date) {
+      navigator.notification.alert("Date can't be blank", null)
+      return
+    }
+
+    if (!$scope.appt.time) {
+      navigator.notification.alert("Time can't be blank", null)
+      return
+    }
+
+    if (!$scope.appt.note) {
+      navigator.notification.alert("Note can't be blank", null)
+      return
+    }
+
+    Appointment.update($scope.state.appointment_date, $scope.state.appointment_id, $scope.appt).then(function() {
+      return $scope.closeModal()
+    }).finally(function() {
+      $scope.appt = {}
+      $ionicLoading.hide()
+    })
+  };
+
+  $scope.destroy = function(){
+    $ionicLoading.show({template: "<ion-spinner></ion-spinner><br>Deleting...", hideOnStateChange: true})
+
+    Appointment.destroy($scope.state.appointment_date, $scope.state.appointment_id).then(function() {
+      return $scope.closeModal()
+    }).finally(function() {
+      $scope.appt = {}
+      $ionicLoading.hide()
+    })
+  };
+
+  $scope.showModal = function() {
+    // Create the login modal that we will use later
+    return $ionicModal.fromTemplateUrl('templates/appointments/new.html', {
+      scope: $scope,
+      animation: 'slide-in-up',
+      focusFirstInput: true,
+      backdropClickToClose: false,
+      hardwareBackButtonClose: false
+    }).then(function(modal) {
+      $scope.modal = modal;
+      modal.show()
+    });
+  }
+
+  $scope.showEditModal = function(appt_date, appt_id, appointment) {
+    // Create the login modal that we will use later
+    return $ionicModal.fromTemplateUrl('templates/appointments/edit.html', {
+      scope: $scope,
+      animation: 'slide-in-up',
+      focusFirstInput: true,
+      backdropClickToClose: false,
+      hardwareBackButtonClose: false
+    }).then(function(modal) {
+      appt = {}
+      for (var key in appointment)
+        appt[key] = appointment[key]
+
+      if (appt.time)
+        appt.time = moment(appointment.time, "HH:mm").toDate()
+      if (appt.date)
+        appt.date = moment(appointment.date, "YYYY-MM-DD").toDate()
+
+
+      $scope.state.appointment_date = appt_date
+      $scope.state.appointment_id   = appt_id
+      $scope.appt  = appt
+      $scope.modal = modal;
+      modal.show()
+    });
+  }
+
+  $scope.closeModal = function() {
+    $scope.modal.hide();
+    $scope.state = {};
+  }
+
+  // fromDate.setDate(fromDate.getDate()-CARD.TIMESPAN.DAYS_AFTER_APPT);
+  // toDate.setDate(toDate.getDate()+CARD.TIMESPAN.DAYS_BEFORE_APPT);
+  // $scope.appointments = Appointment.getAppointmentsFromTo(fromDate, toDate);
+  // $scope.hasAppointment = function(){
+  //   if($scope.appointments.length == 0){
+  //     return false;
+  //   }else{
+  //     return true;
+  //   }
+  // }
 
   /*
    * We store dates in firebase in ISO format which is zero UTC offset

@@ -29,15 +29,6 @@ angular.module('app.routes')
       }
     }
   })
-  .state('medication_identification.new', {
-    url: '/new',
-    views: {
-      'onboarding': {
-        templateUrl: 'templates/medication_identification/new.html',
-        controller: 'newMedicationCtrl'
-      }
-    }
-  })
   .state('medication_identification.ocr_match', {
     url: '/ocr_match?:ocr',
     views: {

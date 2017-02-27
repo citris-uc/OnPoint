@@ -42,6 +42,47 @@ angular.module('app.routes', [])
     }
   })
 
+
+  .state('tabsController.appointments', {
+    url: '/appointments',
+    views: {
+      'timeline-tab': {
+        templateUrl: 'templates/appointments/index.html',
+        controller: 'appointmentsCtrl'
+      }
+    }
+  })
+
+  .state('tabsController.appointments.show', {
+    url: '/:id',
+    views: {
+      'timeline-tab': {
+        templateUrl: 'templates/appointments/show.html',
+        controller: 'appointmentsCtrl'
+      }
+    }
+  })
+
+  .state('tabsController.appointments.new', {
+    url: '/appointments/new',
+    views: {
+      'timeline-tab': {
+        templateUrl: 'templates/appointments/new.html',
+        controller: 'appointmentsCtrl'
+      }
+    }
+  })
+
+  .state('tabsController.appointments.edit', {
+    url: '/:id/edit',
+    views: {
+      'timeline-tab': {
+        templateUrl: 'templates/appointments/edit.html',
+        controller: 'appointmentsCtrl'
+      }
+    }
+  })
+
   .state('tabsController.timeline', {
     url: '/timeline',
     views: {
@@ -235,46 +276,6 @@ angular.module('app.routes', [])
   //     'measurements-tab': {
   //       templateUrl: 'templates/measurements/measurementTips.html',
   //       controller: 'measurementTipsCtrl'
-  //     }
-  //   }
-  // })
-
-  // .state('tabsController.appointments', {
-  //   url: '/appointments',
-  //   views: {
-  //     'appointments-tab': {
-  //       templateUrl: 'templates/appointments/appointments.html',
-  //       controller: 'appointmentsCtrl'
-  //     }
-  //   }
-  // })
-  //
-  // .state('tabsController.appointment', {
-  //   url: '/appointment/:date/:appointment_id',
-  //   views: {
-  //     'timeline-tab': {
-  //       templateUrl: 'templates/appointments/appointment.html',
-  //       controller: 'appointmentCtrl'
-  //     }
-  //   }
-  // })
-  //
-  // .state('tabsController.addAppointment', {
-  //   url: '/add-appointment',
-  //   views: {
-  //     'appointments-tab': {
-  //       templateUrl: 'templates/appointments/addAppointment.html',
-  //       controller: 'addAppointmentCtrl'
-  //     }
-  //   }
-  // })
-
-  // .state('tabsController.editAppointment', {
-  //   url: '/edit-appointment/:date/:appointment_id',
-  //   views: {
-  //     'appointments-tab': {
-  //       templateUrl: 'templates/appointments/editAppointment.html',
-  //       controller: 'editAppointmentCtrl'
   //     }
   //   }
   // })

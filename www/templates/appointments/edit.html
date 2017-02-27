@@ -1,0 +1,49 @@
+<ion-modal-view class="login-modal">
+  <ion-header-bar class="bar bar-header bar-stable">
+    <h1 class="title">Edit appointment</h1>
+    <button class="button button-clear button-positive" ng-click="closeModal()">Cancel</button>
+  </ion-header-bar>
+
+  <form ng-submit="update()">
+    <ion-content>
+      <ion-list>
+        <label class="item item-input">
+          <span class="input-label">Title</span>
+          <input class="input-label"  type="text" ng-model="appt.title"></input>
+        </label>
+
+        <!-- <label class="item item-input">
+          <span class="input-label">Location</span>
+          <input class="input-label" type="text" ng-model="appt.location" ></input>
+        </label> -->
+
+        <label class="item item-input">
+          <span class="input-label">Date</span>
+          <input type="date" ng-model="appt.date"></input>
+        </label>
+
+        <label class="item item-input">
+          <span class="input-label">Time</span>
+          <input type="time" ng-model="appt.time" ></input>
+        </label>
+
+        <label class="item item-input">
+          <span class="input-label">Note</span>
+          <input class="input-label" type="text" ng-model="appt.note"></input>
+        </label>
+
+        <a class="item item-icon-left assertive" ng-click="destroy()">
+          <i class="icon ion-ios-trash-outline"></i>
+          Delete this appointment
+        </a>
+      </ion-list>
+    </ion-content>
+
+    <div class="bar bar-footer bar-balanced">
+      <div class="buttons full-width">
+        <button class="button button-clear">Update</div>
+      </div>
+    </div>
+  </form>
+
+</ion-modal-view>
