@@ -1,5 +1,5 @@
 angular.module('app.services')
-.factory('Appointment',["Patient", "$firebaseObject", "$firebaseArray", "moment", function(Patient, $firebaseObject,$firebaseArray, moment) {
+.factory('Appointment',["Patient", "$firebaseObject", "$firebaseArray", "moment", "Card", function(Patient, $firebaseObject,$firebaseArray, moment, Card) {
   // var appointments = [{
   //   id: 1,
   //   timestamp: "2016-03-05T10:00:00",
@@ -38,8 +38,10 @@ angular.module('app.services')
       appt.date = moment(appointment.date).format('YYYY-MM-DD');
       appt.time = moment(appointment.time).format('HH:mm');
       return Patient.get().then(function(p) {
-        return Patient.ref(p.uid).child("appointments").child(appt.date).push(appt);
-      });
+        return Patient.ref(p.uid).child("appointments").child(appt.date).push(appt).key();
+      }).then(function(newKey) {
+        return Card.createAppointment(newKey, appt)
+      })
     },
     update: function(oldDate, oldKey, appointment) {
       thisAppt  = this
@@ -50,18 +52,23 @@ angular.module('app.services')
       appt.time = moment(appointment.time).format('HH:mm');
 
       puid = null
-      return Patient.get().then(function(p) {
-        puid = p.uid
-        return $firebaseObject(Patient.ref(puid).child("appointments").child(oldDate).child(oldKey)).$remove()
-      }).then(function(oldAppt) {
+      return Card.destroyAppointment(oldKey, oldDate).then(function() {
         return Patient.get().then(function(p) {
-          return Patient.ref(p.uid).child("appointments").child(appt.date).push(appt);
+          return $firebaseObject(Patient.ref(p.uid).child("appointments").child(oldDate).child(oldKey)).$remove()
+        })
+      }).then(function() {
+        return Patient.get().then(function(p) {
+          return Patient.ref(p.uid).child("appointments").child(appt.date).push(appt).key();
         });
+      }).then(function(apptKey) {
+        Card.createAppointment(apptKey, appt)
       })
     },
     destroy: function(appt_date, appt_id) {
-      return Patient.get().then(function(p) {
-        return $firebaseObject(Patient.ref(p.uid).child("appointments").child(appt_date).child(appt_id)).$remove()
+      return Card.destroyAppointment(appt_id, appt_date).then(function() {
+        return Patient.get().then(function(p) {
+          return $firebaseObject(Patient.ref(p.uid).child("appointments").child(appt_date).child(appt_id)).$remove()
+        })
       })
     }
   };

@@ -1,6 +1,6 @@
 angular.module('app.services')
 
-.factory("Card", ["CARD", "Patient", "MedicationSchedule", "MeasurementSchedule", "Appointment","$firebaseArray", "$firebaseObject", "$http", "moment", function(CARD, Patient, MedicationSchedule, MeasurementSchedule, Appointment,$firebaseArray, $firebaseObject, $http, moment) {
+.factory("Card", ["CARD", "Patient", "MedicationSchedule", "MeasurementSchedule", "$firebaseArray", "$firebaseObject", "$http", "moment", function(CARD, Patient, MedicationSchedule, MeasurementSchedule, $firebaseArray, $firebaseObject, $http, moment) {
   return {
     get: function() {
       var ref = this.ref();
@@ -11,33 +11,15 @@ angular.module('app.services')
       var ref = this.ref().child(dateISO);
       return $firebaseArray(ref);
     },
-    past: function() {
-      return $http({
-        method: "GET",
-        url:    onpoint.env.serverURL + "cards?when=past",
-        headers: {
-         "Authorization": "Bearer " + Patient.getToken()
-        }
-      })
-    },
     today: function() {
       return Patient.get().then(function(p) {
         return $http({
           method: "GET",
-          url:    onpoint.env.serverURL + "cards?when=today",
+          url:    onpoint.env.serverURL + "cards?upcoming=1",
           headers: {
            "Authorization": "Bearer " + p.token
           }
         })
-      })
-    },
-    tomorrow: function() {
-      return $http({
-        method: "GET",
-        url:    onpoint.env.serverURL + "cards?when=tomorrow",
-        headers: {
-         "Authorization": "Bearer " + Patient.getToken()
-        }
       })
     },
     getByID: function(id) {
@@ -59,6 +41,40 @@ angular.module('app.services')
     create: function(date, card) {
       var ref = this.ref().child(date);
       ref.push(card); //use push to generate a UNIQUE card ID for each firebase card.
+    },
+    createAppointment: function(firebase_id, appointment) {
+      return Patient.get().then(function(p) {
+        return $http({
+          method: "PUT",
+          url:    onpoint.env.serverURL + "cards/appointment",
+          data: {
+            firebase_id: firebase_id,
+            appointment: appointment
+          },
+          headers: {
+           "Authorization": "Bearer " + p.token
+          }
+        })
+      }).catch(console.log.bind(console));
+    },
+    destroyAppointment: function(firebase_id, appt_date) {
+      console.log("DESTROYING APPOINTMENT: ")
+      console.log(firebase_id)
+      console.log(appt_date)
+      console.log("-------")
+      return Patient.get().then(function(p) {
+        return $http({
+          method: "DELETE",
+          url:    onpoint.env.serverURL + "cards/destroy_appointment",
+          params: {
+            firebase_id: firebase_id,
+            appointment_date: appt_date
+          },
+          headers: {
+           "Authorization": "Bearer " + p.token
+          }
+        })
+      })
     },
     complete: function(card) {
       var ref = this.todaysRef().child(card.$id);
