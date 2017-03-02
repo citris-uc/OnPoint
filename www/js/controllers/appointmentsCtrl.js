@@ -29,21 +29,25 @@ angular.module('app.controllers')
 
     if (!$scope.appt.title) {
       navigator.notification.alert("Title can't be blank", null)
+      $ionicLoading.hide()
       return
     }
 
     if (!$scope.appt.date) {
       navigator.notification.alert("Date can't be blank", null)
+      $ionicLoading.hide()
       return
     }
 
     if (!$scope.appt.time) {
       navigator.notification.alert("Time can't be blank", null)
+      $ionicLoading.hide()
       return
     }
 
     if (!$scope.appt.note) {
       navigator.notification.alert("Note can't be blank", null)
+      $ionicLoading.hide()
       return
     }
 
@@ -61,26 +65,34 @@ angular.module('app.controllers')
 
     if (!$scope.appt.title) {
       navigator.notification.alert("Title can't be blank", null)
+      $ionicLoading.hide()
       return
     }
 
     if (!$scope.appt.date) {
       navigator.notification.alert("Date can't be blank", null)
+      $ionicLoading.hide()
       return
     }
 
     if (!$scope.appt.time) {
       navigator.notification.alert("Time can't be blank", null)
+      $ionicLoading.hide()
       return
     }
 
     if (!$scope.appt.note) {
       navigator.notification.alert("Note can't be blank", null)
+      $ionicLoading.hide()
       return
     }
 
-    Appointment.update($scope.state.appointment_date, $scope.state.appointment_id, $scope.appt).then(function() {
+    Appointment.update($scope.state.appointment_date, $scope.state.appointment_id, $scope.appt).then(function(appt) {
       return $scope.closeModal()
+    }).catch(function(res) {
+      console.log("ERROR")
+      console.log(res)
+      $scope.$emit(onpoint.error, res)
     }).finally(function() {
       $scope.appt = {}
       $ionicLoading.hide()
