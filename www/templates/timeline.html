@@ -1,6 +1,6 @@
 <link type="text/css" rel="stylesheet" href="css/timelineStyle.css"/>
 
-<ion-view title="Timeline" class = "timeline">
+<ion-view title="Upcoming" class = "timeline">
   <!-- <ion-nav-buttons side="primary">
     <button class="button button-icon icon ion-ios-gear-outline button-positive button-clear" ui-sref="tabsController.settings"></button>
   </ion-nav-buttons> -->
@@ -30,113 +30,56 @@
       </div>
     </div>
 
-
-    <ion-slide-box active-slide="1" on-slide-changed="changeTimeline($index)" does-continue="false" show-pager="false">
-
-      <ion-slide>
-
-        <div ng-repeat="card in today.cards">
-          <!-- ng-repeat="c in date | toArray | orderBy: 'shown_at' | filter: {archived_at: '!'}"  -->
-          <div class="row" style="justify-content: center;" on-swipe-right="swipeCard(card)" on-swipe-left="swipeCard(card)">
-            <div class="col responsive-col">
-              <div class="list card" ng-click="openPage(card, card.object_type)">
-                <div class="item item-text-wrap">
-                  <div class="row">
-                    <div class="col-50">
-                      <h3 style="font-size:20px; font-weight:bold;">{{card.schedule.time}}</h3>
-                      <p>Today</p>
-                    </div>
-
-                    <div class="col-50">
-                      <h3 style="font-size:20px; font-weight:bold;">{{card.schedule.medications_length}}</h3>
-                      <p>medications to take</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
+    <div class="list">
+      <div class="card" ng-repeat="card in today.cards" on-swipe-right="swipeCard(card)" on-swipe-left="swipeCard(card)">
+        <a class="item item-avatar item-icon-right" ng-click="openPage(card, card.object_type)" ng-if="card.object_type == 'medication_schedule'">
+          <img src="img/cards/drugs_yellow.png">
+          <h2 style="font-weight: bold; font-size: 20px;">
+            {{card.schedule.time | formatTime}}
+            <span style="font-size: 14px; color: #888; font-weight: normal;">today</span>
+          </h2>
+          <p>
+            <ng-pluralize count="card.schedule.medications_length" when="{'0': 'No medications to take', 'one': '1 medication to take', 'other': '{} medications to take'}">
+            </ng-pluralize>
+          </p>
+          <i class="icon ion-ios-arrow-right"></i>
+        </a>
 
 
-              <!-- <div class="list card">
+        <a class="item item-avatar item-icon-right" ng-if="card.object_type == 'appointment'">
+          <img src="img/cards/appointment_green.png"></img>
+          <h2 style="font-weight: bold; font-size: 20px;">
+            {{card.appointment.time | formatTime}}
+            <span style="font-size: 14px; color: #888; font-weight: normal;">{{card.appointment.date | date:'EEE MMM dd, yyyy'}}</span>
+          </h2>
+          <p>
+            {{card.appointment.title}} · {{card.appointment.note}}
+          </p>
+          <i class="icon ion-ios-arrow-right"></i>
+        </a>
+      </div>
+    </div>
 
-                <div class="item item-avatar">
-                  <img src="img/pill.png">
-                  <h2>{{card.title}}</h2>
-                  <p>{{card.formatted_time}}</p>
-                  <p>{{card.time_ago_in_words}}</p>
-                  <span class="badge {{card.status_class}}">{{card.status_text}}</span>
-                </div>
-
-                <div class="item item-body">
-                  {{card.description}}
-                </div>
-
-                <div class="row">
-                  <div class="col responsive-col-md-25" ng-show="card.completed_at == null">
-                    <a class="item item-icon-left" ng-click="openPage(card, card.object_type)">
-                      <i class="icon ion-ios-eye"></i>
-                      View
-                    </a>
-                  </div>
-
-                  <div class="col responsive-col-md-25" ng-show="card.completed_at != null">
-                    <a class="item item-icon-left" ng-click="archive(card)">
-                      <i class="icon ion-archive"></i>
-                      Archive
-                    </a>
-                  </div>
-
-                  <div class="col responsive-col-md-25">
-                    <a class="item item-icon-left" ui-sref="tabsController.comments({card_id:card.id, comment_id: card.comment_id})">
-                      <i class="icon ion-ios-chatbubble-outline"></i>
-                      Comment {{c.num_comments > 0 ? '('+card.num_comments+')' : ''}}
-                    </a>
-                  </div>
-                </div>
-
-
-              </div> -->
-
+      <!-- <div class="list card">
+        <div class="item item-text-wrap">
+          <div class="row">
+            <div class="col-50">
+              <h3 style="font-size:20px; font-weight:bold;">{{card.schedule.time}}</h3>
+              <p>Today</p>
             </div>
-          </div>
 
-        </div>
-      </ion-slide>
-
-
-
-      <ion-slide>
-        <div class="list card" ng-show="tomorrow.cards.length === 0">
-          <div class="item item-body">
-            Looks like you don't have any cards due tomorrow.
-          </div>
-        </div>
-
-
-        <div ng-repeat="card in tomorrow.cards">
-          <!-- <div class="row" style="justify-content: center;" ng-repeat="c in date | toArray | orderBy: 'shown_at' | filter: {archived_at: '!', object_type:'!appointments'}" on-swipe-right="swipeCard(c)" on-swipe-left="swipeCard(c)"> -->
-          <div class="row" style="justify-content: center;">
-            <div class="col responsive-col">
-
-              <div class="list card">
-
-                <div class="item item-icon-left">
-                  <i class="icon ion-ios-medkit-outline"></i>
-                  <h2>{{card.title}}</h2>
-                  <p>{{card.formatted_time}}</p>
-                </div>
-
-                <div class="item item-body">
-                  <!-- Your weigh in is at 09:00 AM -->
-                  {{card.description}}
-                </div>
-                </div>
-              </div>
+            <div class="col-50">
+              <h3 style="font-size:20px; font-weight:bold;">{{card.schedule.medications_length}}</h3>
+              <p>medications to take</p>
             </div>
           </div>
         </div>
-      </ion-slide>
-    </ion-slide-box>
 
+      </div> -->
+
+
+
+    </div>
 
 
   </ion-content>

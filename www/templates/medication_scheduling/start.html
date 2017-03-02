@@ -15,7 +15,7 @@
 
       <div ng-repeat="dateSchedule in schedule | orderBy: 'time'">
         <ion-item class="item item-icon-right" style="background-color: #f5f5f5;">
-          <b>{{dateSchedule.name}} ({{dateSchedule.time}})</b>
+          <b>{{dateSchedule.name}} ({{dateSchedule.time | formatTime}})</b>
           <i class="icon ion-ios-gear-outline" ui-sref="medication_scheduling.edit({id: dateSchedule.$id})"></i>
         </ion-item>
 
