@@ -18,15 +18,23 @@ angular.module('app.services')
       return this.getAll().then(function(docs) {
         if (docs && docs.length > 0)
           return docs
-        return thisS.save("CoSTARS Screening Protocol", {})
+        return thisS.save("costars", {})
+      }).then(function() {
+        return thisS.save("anxiety", {})
       })
     },
 
-    save: function(name, survey) {
+    save: function(id, survey) {
       key = moment(new Date()).format("YYYY-ww")
 
+      if (id == "anxiety")
+        name = "Anxiety Questionnaire"
+      else if (id == "costars") {
+        name = "CoSTARS Screening Protocol"
+      }
+
       return Patient.get().then(function(p) {
-        return $firebaseObject(Patient.ref(p.uid).child("surveys").child(key).child("costars")).$loaded()
+        return $firebaseObject(Patient.ref(p.uid).child("surveys").child(key).child(id)).$loaded()
       }).then(function(doc) {
         console.log("SURVEY IS: ")
         console.log(survey)

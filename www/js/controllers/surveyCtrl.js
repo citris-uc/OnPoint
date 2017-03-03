@@ -23,6 +23,8 @@ angular.module('app.controllers')
     // Load the appropriate survey.
     if (survey.$id == "costars") {
       template = "templates/surveys/costars.html"
+    } else if (survey.$id == "anxiety") {
+      template = "templates/surveys/anxiety.html"
     }
 
     $ionicLoading.show({template: "<ion-spinner></ion-spinner><br>Loading survey...", hideOnStateChange: true})
@@ -34,7 +36,8 @@ angular.module('app.controllers')
       backdropClickToClose: false,
       hardwareBackButtonClose: false
     }).then(function(modal) {
-      $scope.modal = modal;
+      $scope.survey = survey
+      $scope.modal  = modal;
       return modal.show()
     }).finally(function() {
       $ionicLoading.hide()
@@ -46,12 +49,16 @@ angular.module('app.controllers')
     $scope.modal.hide()
     window.test = irkResults
     console.log(irkResults.getResults())
+    console.log("Saving survey with Firebase ID: " + $scope.survey.$id)
+    console.log($scope.survey)
+    console.log("-----------")
 
     $ionicLoading.show({template: "<ion-spinner></ion-spinner><br>Saving survey...", hideOnStateChange: true})
-    Survey.save("CoSTARS Screening Protocol", irkResults.getResults()).catch(function(err) {
+    Survey.save($scope.survey.$id, irkResults.getResults()).catch(function(err) {
       console.log("Error")
       console.log(err)
     }).finally(function() {
+      $scope.survey = {}
       $ionicLoading.hide()
     })
   }
