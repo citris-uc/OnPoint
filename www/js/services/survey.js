@@ -64,6 +64,10 @@ angular.module('app.services')
         if (!doc.completed_at && survey.start && !survey.canceled)
           doc.completed_at = (new Date()).toISOString()
 
+        // Let's update the canceled attribute if the survey wasn't canceled.
+        if (!survey.canceled)
+          doc.canceled = false
+
         return doc.$save()
       })
     }
