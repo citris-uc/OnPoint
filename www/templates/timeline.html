@@ -46,7 +46,7 @@
         </a>
 
 
-        <a class="item item-avatar item-icon-right" ng-if="card.object_type == 'appointment'">
+        <div class="item item-avatar" ng-if="card.object_type == 'appointment'">
           <img src="img/cards/appointment_green.png"></img>
           <h2 style="font-weight: bold; font-size: 20px;">
             {{card.appointment.time | formatTime}}
@@ -55,8 +55,8 @@
           <p>
             {{card.appointment.title}} · {{card.appointment.note}}
           </p>
-          <i class="icon ion-ios-arrow-right"></i>
-        </a>
+          <!-- <i class="icon ion-ios-arrow-right"></i> -->
+        </div>
       </div>
     </div>
 
