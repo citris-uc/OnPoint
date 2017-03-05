@@ -1,0 +1,64 @@
+<ion-modal-view class="irk-modal">
+  <irk-ordered-tasks>
+    <irk-task>
+      <irk-instruction-step id="q0" title="Welcome" text="Welcome. This questionnaire has 8 questions." />
+    </irk-task>
+
+     <irk-task>
+       <irk-value-picker-question-step id="q2" title="How many times per day are you vomiting or retching?">
+         <irk-picker-choice text="Not vomiting" value="1"></irk-picker-choice>
+         <irk-picker-choice text="Once" value="2"></irk-picker-choiceH>
+         <irk-picker-choice text="Between 2 and 5 times" value="3"></irk-picker-choice>
+         <irk-picker-choice text="6 or more times" value="4"></irk-picker-choice>
+       </irk-value-picker-question-step>
+    </irk-task>
+
+    <irk-task>
+      <irk-value-picker-question-step id="q3" title="Have you been able to eat within the last 24 hours?">
+        true-text="Yes" false-text="No" />
+    </irk-task>
+    
+    <irk-task>
+      <irk-value-picker-question-step id="q4" title="Have you been able to tolerate drinking fluids?">
+        true-text="Yes" false-text="No" />
+    </irk-task>
+
+    <irk-task>
+       <irk-value-picker-question-step id="q5" title="Are you feeling dehydrated, which can include feeling dizzy, a dry mouth, increased thirst, fainting, rapid heart rate, or decreased amount of urine?">
+         <irk-picker-choice text="No" value="1"></irk-picker-choice>
+         <irk-picker-choice text="Yes, some" value="2"></irk-picker-choice>
+         <irk-picker-choice text="Yes, significantly" value="3"></irk-picker-choice>
+       </irk-value-picker-question-step>
+    </irk-task>
+    
+     <irk-task>
+       <irk-value-picker-question-step id="q6" title="Do you have any blood in your vomit or does it look like coffee grounds?">
+         <irk-picker-choice text="Not vomiting" value="1"></irk-picker-choice>
+         <irk-picker-choice text="No" value="2"></irk-picker-choiceH>
+         <irk-picker-choice text="Yes" value="3"></irk-picker-choice>
+       </irk-value-picker-question-step>
+    </irk-task>
+
+    <irk-task>
+       <irk-value-picker-question-step id="q7" title="Do you have any abdominal pain or headache?">
+         <irk-picker-choice text="No/Mild" value="1"></irk-picker-choice>
+         <irk-picker-choice text="Moderate" value="2"></irk-picker-choice>
+         <irk-picker-choice text="Severe" value="3"></irk-picker-choice>
+       </irk-value-picker-question-step>
+    </irk-task>
+
+    <irk-task>
+       <irk-value-picker-question-step id="q8" title="Does your nausea/vomiting interfere with your daily activities at home and/or work?">
+         <irk-picker-choice text="No" value="1"></irk-picker-choice>
+         <irk-picker-choice text="Yes, some" value="2"></irk-picker-choice>
+         <irk-picker-choice text="Yes, significantly" value="3"></irk-picker-choice>
+       </irk-value-picker-question-step>
+    </irk-task>
+
+
+    <irk-task>
+      <irk-instruction-step id="s2" title="Thank you for your responses. Your care coordinator will be contacting you shortly. In the meantime, please explore the anxiety resources in the educational library">
+    </irk-task>
+  </irk-ordered-tasks>
+
+</ion-modal-view>
