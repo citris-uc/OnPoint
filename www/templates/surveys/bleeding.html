@@ -1,0 +1,57 @@
+<ion-modal-view class="irk-modal">
+  <irk-ordered-tasks>
+    <irk-task>
+      <irk-instruction-step id="q0" title="Welcome" text="Welcome. This questionnaire has 7 questions." />
+    </irk-task>
+
+    <irk-task>
+      <irk-scale-question-step id="q1" title="How worried are you about your bleeding?" min="0" max="10" step="1" value="5" min-text="Not worried" max-text="Extremely worried" />
+    </irk-task>
+
+     <irk-task>
+       <irk-value-picker-question-step id="q2" title="Do you have any bruises?">
+         <irk-picker-choice text="No" value="1"></irk-picker-choice>
+         <irk-picker-choice text="Few" value="2"></irk-picker-choiceH>
+         <irk-picker-choice text="Generalized" value="3"></irk-picker-choice>
+       </irk-value-picker-question-step>
+    </irk-task>
+
+    <irk-task>
+      <irk-value-picker-question-step id="q3" title="Have you had any problems with your blood clotting?">
+        true-text="Yes" false-text="No" />
+    </irk-task>
+    
+    <irk-task>
+      <irk-value-picker-question-step id="q4" title="Do you have a fever above 100.4 degrees Fahrenheit (or above 38 degrees Celcius)?">
+        true-text="Yes" false-text="No" />
+    </irk-task>
+    
+      <irk-task>
+      <irk-value-picker-question-step id="q5" title="Are you experiencing any of the following: blood in your stool, black stool, blood in your urine, blood in your vomit, vomit like coffee grounds, blood in your phlegm or sputum when you cough?">
+        true-text="Yes" false-text="No" />
+    </irk-task>
+
+    <irk-task>
+       <irk-value-picker-question-step id="q6" title="If you are a woman, has there been an increase bleeding with your menstrual periods?">
+         <irk-picker-choice text="Not applicable" value="1"></irk-picker-choice>
+         <irk-picker-choice text="No" value="2"></irk-picker-choice>
+         <irk-picker-choice text="Yes, some" value="3"></irk-picker-choice>
+         <irk-picker-choice text="Yes, significantly" value="4"></irk-picker-choice>
+       </irk-value-picker-question-step>
+    </irk-task>
+
+    <irk-task>
+       <irk-value-picker-question-step id="q7" title="Are you taking any of the following medicines that increase the risk of bleeding:acetylsaliscylic acid (Aspirin), warfarin (Coumadin), heparin, dalteparin (Fragmin), tinzaparin (Innohep), enoxaparin (Lovenox), apixaban (Eliquis)?">
+         <irk-picker-choice text="No" value="1"></irk-picker-choice>
+         <irk-picker-choice text="Yes, acetylsalicylic acid (Aspirin) only" value="2"></irk-picker-choice>
+         <irk-picker-choice text="Yes, more than one" value="3"></irk-picker-choice>
+       </irk-value-picker-question-step>
+    </irk-task>
+
+
+    <irk-task>
+      <irk-instruction-step id="s2" title="Thank you for your responses. Your care coordinator will be contacting you shortly. In the meantime, please explore the bleeding resources in the educational library">
+    </irk-task>
+  </irk-ordered-tasks>
+
+</ion-modal-view>
