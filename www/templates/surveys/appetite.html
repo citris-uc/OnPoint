@@ -1,0 +1,49 @@
+<ion-modal-view class="irk-modal">
+  <irk-ordered-tasks>
+    <irk-task>
+      <irk-instruction-step id="q0" title="Welcome" text="Welcome. This questionnaire has 5 questions." />
+    </irk-task>
+
+    <irk-task>
+      <irk-scale-question-step id="q1" title="How worried are you about your poor appetite?" min="0" max="10" step="1" value="5" min-text="Not worried" max-text="Extremely worried" />
+    </irk-task>
+    
+     <irk-task>
+       <irk-value-picker-question-step id="q2" title="How much have you had to eat and drink in the past 24 hours (at each meal), compared to your normal food intake?">
+         <irk-picker-choice text="Some" value="1"></irk-picker-choice>
+         <irk-picker-choice text="Minimal" value="2"></irk-picker-choice>
+         <irk-picker-choice text="None" value="3"></irk-picker-choice>
+       </irk-value-picker-question-step>
+    </irk-task>
+    
+         <irk-task>
+       <irk-value-picker-question-step id="q3" title="Is there anything causing your lack of appetite, such as recent surgery or treatment, new medication, or other symptoms?">
+         <irk-picker-choice text="No" value="1"></irk-picker-choice>
+         <irk-picker-choice text="Yes, some" value="2"></irk-picker-choice>
+         <irk-picker-choice text="Yes, significantly" value="3"></irk-picker-choice>
+       </irk-value-picker-question-step>
+    </irk-task>
+
+    <irk-task>
+       <irk-value-picker-question-step id="q4" title="Does your poor appetite interfere with your daily activities at home and/or work?">
+         <irk-picker-choice text="No" value="1"></irk-picker-choice>
+         <irk-picker-choice text="Yes, some" value="2"></irk-picker-choice>
+         <irk-picker-choice text="Yes, significantly" value="3"></irk-picker-choice>
+       </irk-value-picker-question-step>
+    </irk-task>
+    
+     <irk-task>
+       <irk-value-picker-question-step id="q5" title="How much weight have you lost in the last 4 weeks without trying?">
+         <irk-picker-choice text="0%-2.9%" value="1"></irk-picker-choice>
+         <irk-picker-choice text="3%-9.9%" value="2"></irk-picker-choiceH>
+         <irk-picker-choice text="10% or greater" value="3"></irk-picker-choice>
+       </irk-value-picker-question-step>
+    </irk-task>
+
+
+    <irk-task>
+      <irk-instruction-step id="s2" title="Thank you for your responses. Your care coordinator will be contacting you shortly. In the meantime, please explore the appetite resources in the educational library">
+    </irk-task>
+  </irk-ordered-tasks>
+
+</ion-modal-view>
