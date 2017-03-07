@@ -1,0 +1,84 @@
+<ion-modal-view class="irk-modal">
+  <irk-ordered-tasks>
+    <irk-task>
+      <irk-instruction-step id="q0" title="Welcome" text="Welcome. Answering these 11 questions will help your care team better understand your skin reaction. Are you ready to begin?" />
+    </irk-task>
+
+    <irk-task>
+      <irk-scale-question-step id="q1" title="Select a number that best describes your skin reaction?" min="0" max="10" step="1" value="5" min-text="No skin reaction" max-text="Worst possible reaction" />
+    </irk-task>
+    
+        <irk-task>
+      <irk-scale-question-step id="q2" title="How worried are you about your skin reaction?" min="0" max="10" step="1" value="5" min-text="Not worried" max-text="Extremely worried" />
+    </irk-task>
+
+     <irk-task>
+       <irk-value-picker-question-step id="q3" title="Is your skin red?">
+         <irk-picker-choice text="None" value="1"></irk-picker-choice>
+         <irk-picker-choice text="Faint/dull" value="2"></irk-picker-choiceH>
+         <irk-picker-choice text="Tender/bright, necrotic" value="3"></irk-picker-choice>
+       </irk-value-picker-question-step>
+    </irk-task>
+    
+     <irk-task>
+       <irk-value-picker-question-step id="q4" title="Is your skin peeling?">
+         <irk-picker-choice text="No, or just dry" value="1"></irk-picker-choice>
+         <irk-picker-choice text="Yes, patchy, moist" value="2"></irk-picker-choiceH>
+         <irk-picker-choice text="Yes, generalized, moist" value="3"></irk-picker-choice>
+       </irk-value-picker-question-step>
+    </irk-task>
+    
+     <irk-task>
+       <irk-value-picker-question-step id="q5" title="Do you have any swelling around the skin reaction area?">
+         <irk-picker-choice text="No/Mild" value="1"></irk-picker-choice>
+         <irk-picker-choice text="Yes, some" value="2"></irk-picker-choiceH>
+         <irk-picker-choice text="Yes, pitting edema" value="3"></irk-picker-choice>
+       </irk-value-picker-question-step>
+    </irk-task>
+
+     <irk-task>
+       <irk-value-picker-question-step id="q6" title="Do you have pain at the skin reaction area?">
+         <irk-picker-choice text="No/Mild" value="1"></irk-picker-choice>
+         <irk-picker-choice text="Moderate" value="2"></irk-picker-choiceH>
+         <irk-picker-choice text="Severe" value="3"></irk-picker-choice>
+       </irk-value-picker-question-step>
+    </irk-task>
+
+    <irk-task>
+      <irk-value-picker-question-step id="q7" title="Do you have any open, draining wounds?">
+        true-text="Yes" false-text="No" />
+    </irk-task>
+   
+        <irk-task>
+       <irk-value-picker-question-step id="q8" title="Do you have any bleeding?">
+         <irk-picker-choice text="No" value="1"></irk-picker-choice>
+         <irk-picker-choice text="Yes, some" value="2"></irk-picker-choiceH>
+         <irk-picker-choice text="Yes, gross" value="3"></irk-picker-choice>
+       </irk-value-picker-question-step>
+    </irk-task>
+   
+    <irk-task>
+      <irk-value-picker-question-step id="q9" title="Do you have a fever above 100.4 degrees Fahrenheit (above 38 degrees Celsius)?">
+        true-text="Yes, with skin reaction" false-text="No" />
+    </irk-task>
+
+    <irk-task>
+      <irk-value-picker-question-step id="q10" title="Have you started a new medication?">
+        true-text="Yes" false-text="No" />
+    </irk-task>
+
+    <irk-task>
+       <irk-value-picker-question-step id="q11" title="Does your skin reaction interfere with your daily activities at home and/or work?">
+         <irk-picker-choice text="No" value="1"></irk-picker-choice>
+         <irk-picker-choice text="Yes, some" value="2"></irk-picker-choice>
+         <irk-picker-choice text="Yes, significantly" value="3"></irk-picker-choice>
+       </irk-value-picker-question-step>
+    </irk-task>
+
+
+    <irk-task>
+      <irk-instruction-step id="s2" title="Thank you for your responses. Your care coordinator will be contacting you shortly. In the meantime, please explore the skin reaction resources in the educational library">
+    </irk-task>
+  </irk-ordered-tasks>
+
+</ion-modal-view>
