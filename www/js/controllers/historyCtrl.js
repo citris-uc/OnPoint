@@ -28,7 +28,7 @@ angular.module('app.controllers')
       $scope.$emit(onpoint.env.error, res)
     }).finally(function() {
       $scope.$broadcast('scroll.refreshComplete');
-      $scope.$apply(function(){
+      $scope.$applyAsync(function(){
         $scope.$broadcast('scroll.infiniteScrollComplete');
       })
       $ionicLoading.hide();
