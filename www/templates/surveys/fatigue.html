@@ -1,0 +1,65 @@
+<ion-modal-view class="irk-modal">
+  <irk-ordered-tasks>
+    <irk-task>
+      <irk-instruction-step id="q0" title="Welcome" text="Welcome. Answering these 9 questions will help your care team better understand your fatigue/tiredness. Are you ready to begin?" />
+    </irk-task>
+
+    <irk-task>
+      <irk-scale-question-step id="q1" title="How worried are you about your nausea/vomiting?" min="0" max="10" step="1" value="5" min-text="Not worried" max-text="Extremely worried" />
+    </irk-task>
+    
+     <irk-task>
+      <irk-value-picker-question-step id="q2" title="Do you have any of the following: shortness of breath at rest, sudden onset of severe fatigue, excessive need to sit or rest, rapid heart rate, rapid blood loss, or pain in your chest?">
+        true-text="Yes" false-text="No" />
+    </irk-task>
+
+     <irk-task>
+       <irk-value-picker-question-step id="q3" title="How would you describe the pattern of fatigue?">
+         <irk-picker-choice text="Intermittent" value="1"></irk-picker-choice>
+         <irk-picker-choice text="Constant, for less than 2 weeks" value="2"></irk-picker-choiceH>
+         <irk-picker-choice text="Constant, daily for two weeks" value="3"></irk-picker-choice>
+       </irk-value-picker-question-step>
+    </irk-task>
+
+    <irk-task>
+       <irk-value-picker-question-step id="q4" title="Does your fatigue interfere with your daily activities at home and/or work?">
+         <irk-picker-choice text="No" value="1"></irk-picker-choice>
+         <irk-picker-choice text="Yes, some" value="2"></irk-picker-choice>
+         <irk-picker-choice text="Yes, significantly" value="3"></irk-picker-choice>
+       </irk-value-picker-question-step>
+    </irk-task>
+
+  <irk-task>
+       <irk-value-picker-question-step id="q5" title="Are there times when you feel exhausted?">
+         <irk-picker-choice text="No" value="1"></irk-picker-choice>
+         <irk-picker-choice text="Yes, intermittently" value="2"></irk-picker-choiceH>
+         <irk-picker-choice text="Yes, constantly for two weeks" value="3"></irk-picker-choice>
+       </irk-value-picker-question-step>
+    </irk-task>
+    
+       <irk-task>
+      <irk-value-picker-question-step id="q6" title="Do you have any treatment side effects such as low red blood cells, infection or fever?">
+        true-text="Yes" false-text="No" />
+    </irk-task>
+
+   <irk-task>
+      <irk-value-picker-question-step id="q7" title="Do you drink alcohol?">
+        true-text="Yes" false-text="No" />
+    </irk-task>
+
+    <irk-task>
+      <irk-value-picker-question-step id="q8" title="Do you have other conditions that cause fatigue (cardiac, breathing, liver changes, kidney)?">
+        true-text="Yes" false-text="No" />
+    </irk-task>
+    
+    <irk-task>
+      <irk-value-picker-question-step id="q9" title="Are you taking any medicines that increase fatigue (medicine for pain, depression, nausea/vomiting, allergies)?">
+        true-text="Yes" false-text="No" />
+    </irk-task>
+
+    <irk-task>
+      <irk-instruction-step id="s2" title="Thank you for your responses. Your care coordinator will be contacting you shortly. In the meantime, please explore the fatigue/tiredness resources in the educational library">
+    </irk-task>
+  </irk-ordered-tasks>
+
+</ion-modal-view>
