@@ -1,0 +1,35 @@
+<ion-modal-view class="irk-modal">
+  <irk-ordered-tasks>
+    <irk-task>
+      <irk-instruction-step id="q0" title="Welcome" text="Welcome. Answering these 4 questions will help your care team better understand your fever. Are you ready to begin?" />
+    </irk-task>
+
+    <irk-task>
+      <irk-scale-question-step id="q1" title="How worried are you about your fever?" min="0" max="10" step="1" value="5" min-text="Not worried" max-text="Extremely worried" />
+    </irk-task>
+
+     <irk-task>
+       <irk-value-picker-question-step id="q2" title="Do you have an oral temperature greater than 100.4 degrees Fahrenheit (38 degrees Celsius)?">
+        true-text="Yes" false-text="No" />
+    </irk-task>
+    
+        <irk-task>
+      <irk-value-picker-question-step id="q3" title=""Have you taken any acetaminophen (Tylenol) or ibuprofen (Advil)?">
+        true-text="Yes" false-text="No" />
+    </irk-task>
+
+    <irk-task>
+       <irk-value-picker-question-step id="q4" title="What is your last known neutrophil count?">
+         <irk-picker-choice text="Greater than 1,000 cells/mm3" value="1"></irk-picker-choice>
+         <irk-picker-choice text="501-1000 cells/mm3" value="2"></irk-picker-choice>
+         <irk-picker-choice text="500 or fewer cells/mm3 " value="3"></irk-picker-choice>
+       </irk-value-picker-question-step>
+    </irk-task>
+
+
+    <irk-task>
+      <irk-instruction-step id="s2" title="Thank you for your responses. Your care coordinator will be contacting you shortly. In the meantime, please explore the febrile neutropenia resources in the educational library">
+    </irk-task>
+  </irk-ordered-tasks>
+
+</ion-modal-view>
