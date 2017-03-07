@@ -1,49 +1,59 @@
-<ion-slide>
-  <div class="list card" ng-show="history.cards.length === 0">
-    <div class="item item-body">
-      Looks like you don't have any history yet.
-    </div>
-  </div>
+<link type="text/css" rel="stylesheet" href="css/timelineStyle.css"/>
 
+<ion-view title="History" class="timeline">
+  <ion-content>
+    <ion-refresher pulling-text="Pull to refresh" on-refresh="refresh()" pulling-icon="ion-ios-refresh-empty"></ion-refresher>
 
-  <!-- <div ng-repeat="date in history.cards | orderBy:'-'"> -->
-  <div ng-repeat="card in today.cards">
-    <div class="card-section history">
-      <hr class="responsive-col"></hr>
-      <h4 class="text-center">{{card.formatted_time}}</h4>
-    </div>
-
-    <div class="row" style="justify-content: center;">
-      <div class="col responsive-col">
-        <div class="list card">
-          <div class="item">
-            <div class="row">
-              <div class="col-10">
-                <h2>{{card.short_timestamp}}</h2>
-              </div>
-
-              <div class="col-90">{{card}}</div>
-            </div>
-          </div>
-          <!-- <div class="item item-avatar">
-            <img src="img/pill.png">
-            <h2>{{card.title}}</h2>
-            <p>{{card.formatted_time}}</p>
-            <p>{{card.time_ago_in_words}}</p>
-          </div>
-
-          <div class="item item-body">
-            {{card.description}}
-          </div>
-          <div class="col responsive-col-md-25">
-            <a class="item item-icon-left" ui-sref="tabsController.comments({card_id:c.$id, comment_id: c.comment_id})">
-              <i class="icon ion-ios-chatbubble-outline"></i>
-              Comment {{c.num_comments > 0 ? '('+c.num_comments+')' : ''}}
-            </a>
-          </div> -->
-        </div>
-
+    <div class="list text-center" ng-show="today.cards.length === 0">
+      <div class="item item-body">
+        Looks like you don't have any history yet. Try pulling down to refresh.
       </div>
     </div>
-  </div>
-</ion-slide>
+
+    <div class="list">
+      <div ng-repeat="date in dates">
+        <div class="card-section history padding">
+          <hr class="responsive-col"></hr>
+          <h4 class="text-center">{{date.date | date:'EEE MMM dd, yyyy'}}</h4>
+        </div>
+
+        <div class="card" ng-if="date.cards.length == 0">
+          <div class="item">
+            <h2 style="text-align:center;">
+              No cards to display
+            </h2>
+          </div>
+        </div>
+
+        <div class="card" ng-repeat="card in date.cards">
+          <div class="item item-avatar item-text-wrap item-icon-right" ng-if="card.object_type == 'medication_schedule'">
+            <img src="img/cards/drugs_yellow.png">
+            <h2 style="font-weight: bold; font-size: 20px;">
+              {{card.schedule.time | formatTime}}
+              <span style="font-size: 14px; color: #888; font-weight: normal;">today</span>
+            </h2>
+            <p>
+              <span ng-if="card.missed">You missed this card</span>
+              <span ng-if="card.completed">You completed this card</span>
+            </p>
+            <!-- <i class="icon ion-ios-arrow-right"></i> -->
+          </div>
+
+
+          <div class="item item-avatar" ng-if="card.object_type == 'appointment'">
+            <img src="img/cards/appointment_green.png"></img>
+            <h2 style="font-weight: bold; font-size: 20px;">
+              {{card.appointment.time | formatTime}}
+              <span style="font-size: 14px; color: #888; font-weight: normal;">{{card.appointment.date | date:'EEE MMM dd, yyyy'}}</span>
+            </h2>
+            <p>
+              {{card.appointment.title}} · {{card.appointment.note}}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <ion-infinite-scroll on-infinite="loadMore()" distance="10%" immediate-check="false"></ion-infinite-scroll>
+  </ion-content>
+</ion-view>

@@ -22,6 +22,17 @@ angular.module('app.services')
         })
       })
     },
+    history: function(end_date_string) {
+      return Patient.get().then(function(p) {
+        return $http({
+          method: "GET",
+          url:    onpoint.env.serverURL + "cards/history?end_date=" + end_date_string,
+          headers: {
+           "Authorization": "Bearer " + p.token
+          }
+        })
+      })
+    },
     getByID: function(id) {
       return Patient.get().then(function(p) {
         date_string = moment(new Date()).format("YYYY-MM-DD")

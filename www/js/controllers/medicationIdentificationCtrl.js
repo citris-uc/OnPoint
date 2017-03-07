@@ -31,8 +31,8 @@ angular.module('app.controllers')
        return Onboarding.update({'medication_identification':true}).then(function(response) {
          $state.go("medication_scheduling.start")
        })
-     }).catch(function(err) {
-       $scope.$emit(onpoint.env.auth.failure, {})
+    }).catch(function(res) {
+       $scope.$emit(onpoint.error, res)
      }).finally(function(res) {
        $ionicLoading.hide()
      })
