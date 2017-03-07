@@ -29,10 +29,11 @@ angular.module('app.controllers')
   $scope.update = function() {
     $ionicLoading.show({hideOnStateChange: true})
 
-    Patient.update($scope.patient).catch(function(res) {
-      $scope.$emit(onpoint.env.error, res)
-    }).finally(function() {
+    Patient.saveAndSync($scope.patient).then(function() {
       $ionicLoading.hide()
+    }).catch(function(res) {
+      $ionicLoading.hide()
+      $scope.$emit(onpoint.env.error, res)
     })
   }
 })

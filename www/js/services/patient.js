@@ -17,9 +17,7 @@ angular.module('app.services')
           doc[key] = patient[key]
         }
         return doc
-      }).then(function() {
-        return patient
-      }).catch(console.log.bind(console));
+      })
     },
 
     saveAndSync: function(patient) {
