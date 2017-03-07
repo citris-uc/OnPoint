@@ -1,13 +1,13 @@
 angular.module('app.controllers')
 
-.controller('timelineCtrl', function($scope, $state, Card, CARD, Comment, Medication, MedicationSchedule, Measurement, MeasurementSchedule, MedicationHistory, Appointment, Notes, $ionicSlideBoxDelegate, $ionicLoading, Patient) {
+.controller('timelineCtrl', function($scope, $state, Card, $ionicLoading, Patient) {
   $scope.today    = {timestamp: "", cards: []}
 
   // This loads cards depending on the page we're currently on. For instance,
   // if we're on Today view, then we'll load cards for today/tomorrow. On the
   // History view, we'll load all cards.
   $scope.loadCards = function() {
-    $ionicLoading.show({template: "<ion-spinner></ion-spinner><br>Loading timeline...", hideOnStateChange: true});
+    $ionicLoading.show({template: "<ion-spinner></ion-spinner><br>Loading cards...", hideOnStateChange: true});
 
     Card.today().then(function(response) {
       console.log(response)

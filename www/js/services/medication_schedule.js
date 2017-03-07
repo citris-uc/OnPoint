@@ -52,13 +52,16 @@ angular.module('app.services')
   ]
 
   return {
-    /*
-     * Temporary method for clinician testing
-     */
     setDefaultSchedule: function() {
+      ref = null
       return Patient.get().then(function(p) {
         ref = Patient.ref(p.uid).child("medication_schedule")
-        return $q.all( new_default_schedule.map(function(row) { return ref.push(row)}) )
+        return $firebaseArray(ref).$loaded().then(function(schedule) {
+          if (schedule.length == 0) {
+            return $q.all( new_default_schedule.map(function(row) { return ref.push(row)}) )
+          } else
+            return schedule;
+        })
       })
     },
 
