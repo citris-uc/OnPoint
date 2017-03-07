@@ -32,6 +32,16 @@ angular.module('app.routes', [])
     }
   })
 
+  .state('tabsController.history', {
+    url: '/history',
+    views: {
+      'timeline-tab': {
+        templateUrl: 'templates/history.html',
+        controller: 'historyCtrl'
+      }
+    }
+  })
+
   .state('tabsController.surveys', {
     url: '/surveys',
     views: {

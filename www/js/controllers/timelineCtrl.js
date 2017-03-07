@@ -18,9 +18,6 @@ angular.module('app.controllers')
       $scope.$broadcast('scroll.refreshComplete');
       $ionicLoading.hide();
     })
-
-
-
   }
 
   $scope.archive = function(card) {
