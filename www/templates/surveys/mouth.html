@@ -1,0 +1,80 @@
+<ion-modal-view class="irk-modal">
+  <irk-ordered-tasks>
+    <irk-task>
+      <irk-instruction-step id="q0" title="Welcome" text="Welcome. Answering these 8 questions will help your care team better understand your mouth sores/stomatitis. Are you ready to begin?" />
+    </irk-task>
+
+    <irk-task>
+      <irk-scale-question-step id="q1" title="What number best describes your mouth sores?" min="0" max="10" step="1" value="5" min-text="No mouth sores" max-text="Worst possible mouth sores" />
+    </irk-task>
+    
+        <irk-task>
+      <irk-scale-question-step id="q2" title="How worried are you about your mouth sores?" min="0" max="10" step="1" value="5" min-text="Not worried" max-text="Extremely worried" />
+    </irk-task>
+
+     <irk-task>
+       <irk-value-picker-question-step id="q3" title="How many sores/ulcers/blisters do you have?">
+         <irk-picker-choice text="0-4" value="1"></irk-picker-choice>
+         <irk-picker-choice text="More than 4" value="2"></irk-picker-choiceH>
+         <irk-picker-choice text="Coalescing/merging/joining" value="3"></irk-picker-choice>
+       </irk-value-picker-question-step>
+    </irk-task>
+    
+         <irk-task>
+       <irk-value-picker-question-step id="q4" title="Do the sores in your mouth bleed?">
+         <irk-picker-choice text="No" value="1"></irk-picker-choice>
+         <irk-picker-choice text="Yes, with eating or oral hygiene" value="2"></irk-picker-choiceH>
+         <irk-picker-choice text="Yes, spontaneously" value="3"></irk-picker-choice>
+       </irk-value-picker-question-step>
+    </irk-task>
+
+     <irk-task>
+       <irk-value-picker-question-step id="q5" title="Are the sores painful?">
+         <irk-picker-choice text="No/Mild" value="1"></irk-picker-choice>
+         <irk-picker-choice text="Yes, moderate" value="2"></irk-picker-choiceH>
+         <irk-picker-choice text="Yes, severe" value="3"></irk-picker-choice>
+       </irk-value-picker-question-step>
+    </irk-task>
+
+     <irk-task>
+       <irk-value-picker-question-step id="q6" title="Do you see any redness or white patchy areas (isolated or clustered) in your mouth?">
+         <irk-picker-choice text="No" value="1"></irk-picker-choice>
+         <irk-picker-choice text="Yes, some" value="2"></irk-picker-choiceH>
+         <irk-picker-choice text="Yes, often" value="3"></irk-picker-choice>
+       </irk-value-picker-question-step>
+    </irk-task>
+
+    <irk-task>
+      <irk-value-picker-question-step id="q7" title="Are you able to eat and drink?">
+        true-text="Yes" false-text="No" />
+    </irk-task>
+    
+    <irk-task>
+      <irk-value-picker-question-step id="q8" title="Have you lost weight in the last 1-2 weeks without trying?">
+        true-text="Yes" false-text="No" />
+    </irk-task>
+
+    <irk-task>
+       <irk-value-picker-question-step id="q9" title="Are you having trouble breathing?">
+         <irk-picker-choice text="No" value="1"></irk-picker-choice>
+         <irk-picker-choice text="Yes, some" value="2"></irk-picker-choice>
+         <irk-picker-choice text="Yes, significantly" value="3"></irk-picker-choice>
+       </irk-value-picker-question-step>
+    </irk-task>
+
+
+    <irk-task>
+       <irk-value-picker-question-step id="q10" title="Do your mouth sores interfere with your daily activities at home and/or work?">
+         <irk-picker-choice text="No" value="1"></irk-picker-choice>
+         <irk-picker-choice text="Yes, some" value="2"></irk-picker-choice>
+         <irk-picker-choice text="Yes, significantly" value="3"></irk-picker-choice>
+       </irk-value-picker-question-step>
+    </irk-task>
+
+
+    <irk-task>
+      <irk-instruction-step id="s2" title="Thank you for your responses. Your care coordinator will be contacting you shortly. In the meantime, please explore the mouth sores/stomatitis resources in the educational library">
+    </irk-task>
+  </irk-ordered-tasks>
+
+</ion-modal-view>
