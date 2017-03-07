@@ -1,0 +1,61 @@
+<ion-modal-view class="irk-modal">
+  <irk-ordered-tasks>
+    <irk-task>
+      <irk-instruction-step id="q0" title="Welcome" text="Welcome. Answering these 7 questions will help your care team better understand your peripheral neuropathy. Are you ready to begin?" />
+    </irk-task>
+
+    <irk-task>
+      <irk-scale-question-step id="q1" title="Which number best describes your neuropathy/numbness/tingling?" min="0" max="10" step="1" value="5" min-text="No neuropathy" max-text="Worst possible neuropathy" />
+    </irk-task>
+    
+        <irk-task>
+      <irk-scale-question-step id="q2" title="How worried are you about your nausea/vomiting?" min="0" max="10" step="1" value="5" min-text="Not worried" max-text="Extremely worried" />
+    </irk-task>
+
+     <irk-task>
+       <irk-value-picker-question-step id="q3" title="Do you have pain in the same area as the neuropathy?">
+         <irk-picker-choice text="No/Mild" value="1"></irk-picker-choice>
+         <irk-picker-choice text="Yes, Moderate" value="2"></irk-picker-choiceH>
+         <irk-picker-choice text="Yes, Severe" value="3"></irk-picker-choice>
+       </irk-value-picker-question-step>
+    </irk-task>
+    
+         <irk-task>
+       <irk-value-picker-question-step id="q4" title="Do you have new weakness in your arms or legs?">
+         <irk-picker-choice text="No" value="1"></irk-picker-choice>
+         <irk-picker-choice text="Yes, some" value="2"></irk-picker-choiceH>
+         <irk-picker-choice text="Yes, often" value="3"></irk-picker-choice>
+       </irk-value-picker-question-step>
+    </irk-task>
+
+         <irk-task>
+       <irk-value-picker-question-step id="q5" title="Have you noticed problems with your balance or how you walk or climb stairs?">
+         <irk-picker-choice text="No/Mild" value="1"></irk-picker-choice>
+         <irk-picker-choice text="Yes, some" value="2"></irk-picker-choiceH>
+         <irk-picker-choice text="Yes, often" value="3"></irk-picker-choice>
+       </irk-value-picker-question-step>
+    </irk-task>
+
+         <irk-task>
+       <irk-value-picker-question-step id="q6" title="Are you constipated or have difficulty emptying your bladder of urine?">
+         <irk-picker-choice text="No/Mild" value="1"></irk-picker-choice>
+         <irk-picker-choice text="Yes, some" value="2"></irk-picker-choiceH>
+         <irk-picker-choice text="Yes, often" value="3"></irk-picker-choice>
+       </irk-value-picker-question-step>
+    </irk-task>
+
+    <irk-task>
+       <irk-value-picker-question-step id="q7" title="Does your neuropathy/numbness/tingling interfere with your daily activities at home and/or work (e.g. buttoning clothing, writing, holding coffee cup)?">
+         <irk-picker-choice text="No" value="1"></irk-picker-choice>
+         <irk-picker-choice text="Yes, some" value="2"></irk-picker-choice>
+         <irk-picker-choice text="Yes, significantly" value="3"></irk-picker-choice>
+       </irk-value-picker-question-step>
+    </irk-task>
+
+
+    <irk-task>
+      <irk-instruction-step id="s2" title="Thank you for your responses. Your care coordinator will be contacting you shortly. In the meantime, please explore the peripheral neuropathy resources in the educational library">
+    </irk-task>
+  </irk-ordered-tasks>
+
+</ion-modal-view>
