@@ -1,0 +1,66 @@
+<ion-modal-view class="irk-modal">
+  <irk-ordered-tasks>
+    <irk-task>
+      <irk-instruction-step id="q0" title="Welcome" text="Welcome. This questionnaire has 9 questions." />
+    </irk-task>
+
+    <irk-task>
+      <irk-scale-question-step id="q1" title="How worried are you about your constipation?" min="0" max="10" step="1" value="5" min-text="Not worried" max-text="Extremely worried" />
+    </irk-task>
+
+     <irk-task>
+       <irk-value-picker-question-step id="q2" title="How many days has it been since you had a bowel movement (compared to your normal pattern)?">
+         <irk-picker-choice text="2 days or less" value="1"></irk-picker-choice>
+         <irk-picker-choice text="3 days or more" value="2"></irk-picker-choiceH>
+         <irk-picker-choice text="3 days or more on medications" value="3"></irk-picker-choice>
+       </irk-value-picker-question-step>
+    </irk-task>
+
+    <irk-task>
+      <irk-value-picker-question-step id="q3" title="Do you have blood in your stool?">
+        true-text="Yes" false-text="No" />
+    </irk-task>
+    
+    <irk-task>
+      <irk-value-picker-question-step id="q4" title="Does your abdomen feel bloated?">
+         <irk-picker-choice text="No" value="1"></irk-picker-choice>
+         <irk-picker-choice text="Yes, some" value="2"></irk-picker-choiceH>
+         <irk-picker-choice text="Yes, a lot" value="3"></irk-picker-choice>
+       </irk-value-picker-question-step>
+    </irk-task>
+    
+        <irk-task>
+      <irk-value-picker-question-step id="q5" title="Do you have a lot of gas?">
+        true-text="Yes" false-text="No" />
+    </irk-task>
+
+        <irk-task>
+      <irk-value-picker-question-step id="q6" title="Do you feel like your rectum is not emptying after a bowel movement or do you have hemorrhoids?">
+        true-text="Yes" false-text="No" />
+    </irk-task>
+    
+        <irk-task>
+      <irk-value-picker-question-step id="q7" title="Are you taking any medications that cause constipation?">
+        true-text="Yes" false-text="No" />
+    </irk-task>
+
+        <irk-task>
+      <irk-value-picker-question-step id="q8" title="Have you recently had abdominal surgery?">
+        true-text="Yes" false-text="No" />
+    </irk-task>
+
+    <irk-task>
+       <irk-value-picker-question-step id="q9" title="Does your constipation interfere with your daily activities at home and/or work?">
+         <irk-picker-choice text="No" value="1"></irk-picker-choice>
+         <irk-picker-choice text="Yes, some" value="2"></irk-picker-choice>
+         <irk-picker-choice text="Yes, significantly" value="3"></irk-picker-choice>
+       </irk-value-picker-question-step>
+    </irk-task>
+
+
+    <irk-task>
+      <irk-instruction-step id="s2" title="Thank you for your responses. Your care coordinator will be contacting you shortly. In the meantime, please explore the constipation resources in the educational library">
+    </irk-task>
+  </irk-ordered-tasks>
+
+</ion-modal-view>
