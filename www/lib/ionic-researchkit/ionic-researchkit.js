@@ -811,11 +811,17 @@ angular.module('ionicResearchKit',[])
                     '<div class="irk-spacer"></div>'+
                     '<h3>{{$parent.formData.'+attr.id+' || \'&nbsp;\'}}</h3>'+
                     '<div class="range">'+
+                    '<input type="range" name="'+attr.id+'" min="'+attr.min+'" max="'+attr.max+'" step="'+attr.step+'" value="'+attr.value+'" ng-model="$parent.formData.'+attr.id+'" ng-required="'+(attr.optional=='false'?'true':'false')+'" ng-change="$parent.dirty()">'+
+                    '</div>' +
+                    '<div class="range" style="justify-content: space-between">' +
+                    '<div style="flex=1">' +
                     attr.min+
                     (attr.minText?'<br>'+attr.minText:'')+
-                    '<input type="range" name="'+attr.id+'" min="'+attr.min+'" max="'+attr.max+'" step="'+attr.step+'" value="'+attr.value+'" ng-model="$parent.formData.'+attr.id+'" ng-required="'+(attr.optional=='false'?'true':'false')+'" ng-change="$parent.dirty()">'+
+                    '</div>'+
+                    '<div style="flex=1">' +
                     attr.max+
                     (attr.maxText?'<br>'+attr.maxText:'')+
+                    '</div>'+
                     '</div>'+
                     '</form>'
         },
