@@ -8,17 +8,32 @@ https://www.firebase.com/docs/web/guide/login/password.html
 angular.module('app.services')
 .factory('Patient', function($window, $firebaseAuth, $firebaseObject, Pouch, $q) {
   return {
+    ref: function(uid) {
+      return new Firebase(onpoint.env.mainURL + "patients/").child(uid);
+    },
+
+
     get: function() {
       return $q.when(Pouch.patientsDB.get("session"))
     },
     save: function(patient) {
       return Pouch.patientsDB.upsert("session", function(doc){
-        for (var key in patient) {
+        for (var key in patient)
           doc[key] = patient[key]
-        }
         return doc
       })
     },
+    create: function(user) {
+      thisP = this
+      patientRef = new Firebase(onpoint.env.mainURL + "patients/")
+      return $firebaseAuth(patientRef).$createUser(user).then(function(res) {
+        patient            = user
+        patient.uid        = res.uid
+        patient.onboarding = {intro: false, medication_identification: false, medication_scheduling: false}
+        return thisP.saveAndSync(patient)
+      })
+    },
+
 
     saveAndSync: function(patient) {
       thisP = this
