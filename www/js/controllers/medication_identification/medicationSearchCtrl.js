@@ -50,7 +50,7 @@ angular.module('app.controllers')
 
       Medication.search($scope.params.search).then(function(response) {
         $scope.drugs = response.data
-        $scope.params.noDrugMatch = ($scope.drugs == 0)
+        $scope.params.noDrugMatch = ($scope.drugs.length == 0)
       }).catch(function(response) {
         navigator.notification.alert(JSON.stringify(response), null)
         $scope.$emit(onpoint.env.error, response)
