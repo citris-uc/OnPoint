@@ -1,14 +1,9 @@
-<link type="text/css" rel="stylesheet" href="css/onboardingStyle.css"/>
-
-<ion-view title="OnBoarding" class = "onboarding">
-  <ion-header-bar class="bar bar-subheader">
-    <h1 class="title">Fill pillbox</h1>
-  </ion-header-bar>
-  <ion-content overflow-scroll="true" padding="true" class="has-header" ng-controller="medImgCtrl">
+<ion-view title="Your pillbox" class = "onboarding">
+  <ion-content overflow-scroll="true" class="has-header has-footer">
     <table class = "center">
       <thead>
           <tr>
-            <th>Slots</th>
+            <th style="width: 25%;">Slots</th>
             <th>S</th>
             <th>M</th>
             <th>T</th>
@@ -19,22 +14,36 @@
           </tr>
         </thead>
         <tbody>
-          <tr ng-repeat="schedule in medicationSchedule | orderBy: 'time'">
-
-            <td>{{schedule.slot}}</td>
-            <td ng-repeat="count in getSlots(schedule, selectedMed) track by $index" >
-              {{count}}
+          <tr ng-repeat="dateSchedule in schedule | orderBy: 'time'">
+            <td>{{dateSchedule.name}}<br>{{dateSchedule.time | formatTime}}</td>
+            <td ng-repeat="slot in dateSchedule.slots track by $index" >
+              <span ng-if="slot.dosage">{{slot.dosage}}</span>
             </td>
           </tr>
       </tbody>
     </table>
-    <h3 class = "title" style="text-align: center;">
-      Select Medication to Begin:
-    </h3>
-      <li class="item medstyle" ng-repeat="med in medications | filter: {cab_med: '!'}", ng-click="displaySchedule(med)",
+
+    <ion-list>
+      <ion-item class="item-divider">Your medications</ion-item>
+      <a class="item item-avatar item-icon-right" ng-repeat="med in medications" ng-click="displaySchedule(med)">
+        <img src="img/pill_small.png">
+        <h2>{{med.name}} ({{med.$id}})</h2>
+        <p>{{med.dosage}} {{med.units}}</p>
+        <i class="icon ion-ios-checkmark-empty" ng-if="!currentlyOn(med) && hasSelected(med)"></i>
+        <i class="icon ion-ios-eye-outline" ng-if="currentlyOn(med)"></i>
+      </a>
+
+      <!-- <li class="item medstyle item-text-wrap" ng-repeat="med in medications | filter: {cab_med: '!'}", ng-click="displaySchedule(med)",
       style="{{buttonStyle(med)}}; background-image: url({{getMedImg(med.trade_name)}})">
-        {{med.trade_name}}
-      </li>
-    <button ng-click='doneMedSetup()' class="button button-positive  button-block" >Done</button>
+        {{med.name}}
+      </li> -->
+    </ion-list>
   </ion-content>
+
+
+  <ion-footer-bar align-title="middle" class="bar-balanced">
+    <div class="buttons full-width" ng-click="doneMedSetup()">
+      <button class="button button-clear" ng-disabled="schedule.length == 0">Complete onboarding</button>
+    </div>
+  </ion-footer-bar>
 </ion-view>
