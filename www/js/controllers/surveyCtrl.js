@@ -14,18 +14,11 @@ angular.module('app.controllers')
     })
   });
 
-  $scope.showModal = function(survey) {
-    if (survey.completed_at) {
-      navigator.notification.alert("You've already completed this survey. Please wait a week.", null)
-      return
-    }
 
+
+  $scope.showModal = function(survey) {
     // Load the appropriate survey.
-    if (survey.$id == "costars") {
-      template = "templates/surveys/costars.html"
-    } else if (survey.$id == "anxiety") {
-      template = "templates/surveys/anxiety.html"
-    }
+    template = "templates/surveys/" + survey.$id + ".html"
 
     $ionicLoading.show({template: "<ion-spinner></ion-spinner><br>Loading survey...", hideOnStateChange: true})
 
@@ -54,20 +47,36 @@ angular.module('app.controllers')
     console.log("-----------")
 
     $ionicLoading.show({template: "<ion-spinner></ion-spinner><br>Saving survey...", hideOnStateChange: true})
-    Survey.save($scope.survey.$id, irkResults.getResults()).catch(function(err) {
-      console.log("Error")
-      console.log(err)
-    }).finally(function() {
-      $scope.survey = {}
-      $ionicLoading.hide()
-    })
+
+
+    if ($scope.survey.$id == "Symptoms_Questionnaire") {
+      Survey.saveSymptomsQuestionnaire(irkResults.getResults()).catch(function(err) {
+        console.log("Error")
+        console.log(err)
+      }).finally(function() {
+        $scope.survey = {}
+        $ionicLoading.hide()
+      })
+    } else  {
+      Survey.save($scope.survey.$id, irkResults.getResults()).catch(function(err) {
+        console.log("Error")
+        console.log(err)
+      }).finally(function() {
+        $scope.survey = {}
+        $ionicLoading.hide()
+      })
+    }
+
+
+
   }
 
   $scope.refresh = function() {
     $ionicLoading.show({template: "<ion-spinner></ion-spinner><br>Loading...", hideOnStateChange: true})
 
 
-    Survey.createIfEmpty().then(function() {
+    Survey.getAll().then(function(doc) {
+      $scope.surveys = doc
       $scope.$broadcast('scroll.refreshComplete');
     }).catch(function(err) {
       navigator.notification.alert(JSON.stringify(err), null)
