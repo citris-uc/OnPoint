@@ -56,10 +56,10 @@ angular.module('app', ['ionic', 'firebase', 'app.controllers', 'app.routes', 'ap
 
 
 .run(function($ionicPlatform, $rootScope, Patient, $state, $ionicHistory, $ionicModal, Onboarding, $ionicSideMenuDelegate) {
-  Patient.get().then(function(patient) {
-    $rootScope.patient = patient
-    console.log(patient)
-  })
+  // Patient.getFromFirebase().then(function(patient) {
+  //   $rootScope.patient = patient
+  //   console.log(patient)
+  // })
 
 
   $ionicPlatform.ready(function() {
@@ -82,45 +82,26 @@ angular.module('app', ['ionic', 'firebase', 'app.controllers', 'app.routes', 'ap
 
 
   $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams, options) {
-    Patient.get().then(function(p) {
-      if (!p || !p.uid)
+    console.log("State change sucesss.")
+    Patient.getFromFirebase().then(function(p) {
+      console.log("Returning from Firebase: " + JSON.stringify(p))
+
+      if (!p || !p.uid) {
         $rootScope.$emit(onpoint.env.auth.failure, {})
-    }).catch(function(err) {
-      console.log(err)
-      $rootScope.$emit(onpoint.env.auth.failure, {})
+      } else {
+        $rootScope.patient = p
+      }
+      return p
+    }).then(function(p) {
+
+      if (toState.name.indexOf("onboarding") == -1 && toState.name.indexOf("medication_identification") == -1 && toState.name.indexOf("medication_scheduling") == -1) {
+        if (!p.onboarding || !p.onboarding.intro ||!p.onboarding.medication_identification || !p.onboarding.medication_scheduling)
+          $state.go("onboarding.welcome", {})
+      }
+    }).catch(function(res) {
+      $rootScope.$emit(onpoint.error, res)
     })
   });
-
-  // The authentication hook that is triggered on every state transition.
-  // We check if the user is logged-in, and if not, then we cancel the current
-  // state transition and go to the login screen.
-  // $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams, options) {
-  //   if (toState.name.indexOf("onboarding") == -1) {
-  //
-  //     Onboarding.getFromCloud().then(function(doc) {
-  //       onboarding = doc.val()
-  //       console.log("getFromCloud...")
-  //       console.log(onboarding)
-  //       if (!onboarding) {
-  //         event.preventDefault()
-  //         $ionicHistory.nextViewOptions({
-  //           disableAnimate: true,
-  //           disableBack: true,
-  //           historyRoot: true
-  //         })
-  //         $state.go('onboarding.welcome');
-  //       }
-  //     })
-  //   }
-  // });
-
-  // Patient.auth().$onAuth(function(authData) {
-  //   if (authData)
-  //     $rootScope.$emit(onpoint.env.auth.success, authData)
-  //   else
-  //     $rootScope.$emit(onpoint.env.error, {error: {status: 401}})
-  // })
-
 
   //----------------------------------------------------------------------------\
 
@@ -142,7 +123,7 @@ angular.module('app', ['ionic', 'firebase', 'app.controllers', 'app.routes', 'ap
   }
 
   $rootScope.logout = function() {
-    Patient.destroy().then(function() {
+    Patient.logout().then(function() {
       $ionicHistory.clearCache().then(function(response) {
         $rootScope.$emit(onpoint.env.auth.failure, {})
       })
@@ -150,7 +131,15 @@ angular.module('app', ['ionic', 'firebase', 'app.controllers', 'app.routes', 'ap
   };
 
   $rootScope.$on(onpoint.error, function(event, response) {
+    // PouchDB errors.
     console.log(response)
+    if (response.status == 404 && response.message == "missing" && response.reason == "deleted") {
+      console.log("HI")
+      $rootScope.$emit(onpoint.env.auth.failure, response)
+      return
+    }
+
+
     if (response.name == "Error") {
       navigator.notification.alert(response.message, null, "Login failed", "OK")
       return
@@ -253,14 +242,14 @@ angular.module('app', ['ionic', 'firebase', 'app.controllers', 'app.routes', 'ap
   })
 
   $rootScope.$on(onpoint.env.auth.failure, function(event, data) {
-    Patient.destroy().then(function(par) {
+    Patient.logout().catch(console.log.bind(console)).finally(function() {
       if ( !$rootScope.modal || ($rootScope.modal && !$rootScope.modal.isShown()) ) {
         loadLoginModal().then(function() {
           $rootScope.state.error = data.message
           $rootScope.modal.show();
         })
       }
-    }).catch(console.log.bind(console));
+    })
   })
 
   // Avoid keeping the sidemenu stale.
@@ -268,7 +257,7 @@ angular.module('app', ['ionic', 'firebase', 'app.controllers', 'app.routes', 'ap
     return $ionicSideMenuDelegate.isOpen(true);
   }, function(isOpen) {
     if (isOpen == true) {
-      Patient.get().then(function(doc) {
+      Patient.getFromFirebase().then(function(doc) {
         $rootScope.patient = doc;
       })
     }
