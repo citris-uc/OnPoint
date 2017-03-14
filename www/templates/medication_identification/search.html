@@ -65,7 +65,7 @@
 
           <ion-list>
             <div class="item text-center item-text-wrap" ng-show="!!params.noDrugMatch">
-              No results found. We'll display matching medication here.
+              No results found. Try to refine your search query.
             </div>
             <ion-item class="item-icon-right" ng-repeat="drug in drugs" ui-sref="medication_identification.match({rxcui: drug.rxcui})">
               <h2>{{drug.name}}</h2>

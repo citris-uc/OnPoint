@@ -1,5 +1,5 @@
 <ion-side-menus enable-menu-with-back-views="false">
-  <ion-side-menu-content>
+  <ion-side-menu-content drag-content="false">
     <ion-nav-bar class="bar-balanced bar-onpoint">
       <ion-nav-back-button>
       </ion-nav-back-button>
@@ -28,24 +28,44 @@
 
      <h3 style="color:white; text-align:center;">{{patient.first_name}}</h3>
      <p style="color:white; text-align:center;">{{patient.email}}</p>
-     <div class="spacer" style="width: 100%; height: 34px; border-top: 1px solid white;"></div>
+     <div class="spacer" style="width: 100%; border-top: 1px solid white;"></div>
      <ion-list>
+       <div ng-if="onboarding.intro && onboarding.medication_identification && onboarding.medication_scheduling">
+         <ion-item menu-close ui-sref="tabsController.timeline" class="icon item-icon-left side-menu-item" active-page-highlight="">
+           <i class="icon ion-ios-home-outline"></i>
+           Timeline
+         </ion-item>
+
+         <ion-item menu-close ui-sref="tabsController.history" class="icon item-icon-left side-menu-item" active-page-highlight="">
+           <i class="icon ion-ios-clock-outline"></i>
+           History
+         </ion-item>
+
+         <ion-item menu-close ui-sref="tabsController.appointments" class="icon item-icon-left side-menu-item" active-page-highlight="">
+           <i class="icon ion-ios-calendar-outline"></i>
+           Appointments
+         </ion-item>
+
+         <ion-item menu-close ui-sref="tabsController.surveys" class="icon item-icon-left side-menu-item" active-page-highlight="">
+           <i class="icon ion-document-text"></i>
+           Surveys
+         </ion-item>
+       </div>
+
+
        <div class="item item-divider item-balanced">Onboarding</div>
        <ion-item menu-close ui-sref="onboarding.welcome" class="icon item-icon-right side-menu-item" active-page-highlight="">
          Introduction
          <i class="icon" ng-class="{'ion-ios-checkmark-empty': onboarding.intro}"></i>
        </ion-item>
-       <ion-item menu-close ui-sref="medication_identification.start" ng-if="onboarding.intro" class="icon item-icon-right side-menu-item" active-page-highlight="">
-         Medication Identification
+       <ion-item menu-close ui-sref="medication_identification.start" class="icon item-icon-right side-menu-item" active-page-highlight="">
+         Your medications
          <i class="icon" ng-class="{'ion-ios-checkmark-empty': onboarding.medication_identification}"></i>
        </ion-item>
-       <ion-item menu-close ui-sref="medication_scheduling.start" ng-if="onboarding.intro && onboarding.medication_identification" class="icon item-icon-right side-menu-item" active-page-highlight="">
-         Medication Scheduling
+       <ion-item menu-close ui-sref="medication_scheduling.start" class="icon item-icon-right side-menu-item" active-page-highlight="">
+         Your schedule
          <i class="icon" ng-class="{'ion-ios-checkmark-empty': onboarding.medication_scheduling}"></i>
        </ion-item>
-       <!-- <ion-item menu-close ui-sref="tabsController.timeline" ng-if="onboarding.intro && onboarding.medication_identification && onboarding.medication_scheduling">
-         Exit onboarding
-       </ion-item> -->
      </ion-list>
    </ion-content>
 

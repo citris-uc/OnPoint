@@ -1,6 +1,6 @@
 <ion-view title="Your pillbox" class = "onboarding">
   <ion-content overflow-scroll="true" class="has-header has-footer">
-    <table class = "center">
+    <table>
       <thead>
           <tr>
             <th style="width: 25%;">Slots</th>
@@ -27,7 +27,7 @@
       <ion-item class="item-divider">Your medications</ion-item>
       <a class="item item-avatar item-icon-right" ng-repeat="med in medications" ng-click="displaySchedule(med)">
         <img src="img/pill_small.png">
-        <h2>{{med.name}} ({{med.$id}})</h2>
+        <h2>{{med.name}}</h2>
         <p>{{med.dosage}} {{med.units}}</p>
         <i class="icon ion-ios-checkmark-empty" ng-if="!currentlyOn(med) && hasSelected(med)"></i>
         <i class="icon ion-ios-eye-outline" ng-if="currentlyOn(med)"></i>
