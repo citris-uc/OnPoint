@@ -52,7 +52,7 @@ angular.module('app.routes')
     views: {
       'onboarding': {
         templateUrl: 'templates/medication_scheduling/fill_pillbox_welcome.html',
-        controller: 'medFillMainCtrl'
+        controller: 'pillboxCtrl'
       }
     }
   })
@@ -61,7 +61,7 @@ angular.module('app.routes')
     views: {
       'onboarding': {
         templateUrl: 'templates/medication_scheduling/fill_pillbox.html',
-        controller: 'medFillMainCtrl'
+        controller: 'pillboxCtrl'
       }
     }
   })
