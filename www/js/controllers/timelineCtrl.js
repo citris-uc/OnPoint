@@ -2,6 +2,7 @@ angular.module('app.controllers')
 
 .controller('timelineCtrl', function($scope, $state, Card, $ionicLoading, Patient) {
   $scope.today    = {timestamp: "", cards: []}
+  $scope.firstLoad = true
 
   // This loads cards depending on the page we're currently on. For instance,
   // if we're on Today view, then we'll load cards for today/tomorrow. On the

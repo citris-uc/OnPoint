@@ -51,8 +51,7 @@ angular.module('app.routes')
     url: '/fill_pillbox_welcome',
     views: {
       'onboarding': {
-        templateUrl: 'templates/medication_scheduling/fill_pillbox_welcome.html',
-        controller: 'pillboxCtrl'
+        templateUrl: 'templates/medication_scheduling/fill_pillbox_welcome.html'
       }
     }
   })

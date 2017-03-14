@@ -10,7 +10,7 @@ angular.module('app.services')
   return {
     getFromCloud: function() {
       return Patient.get().then(function(p) {
-        return Patient.ref(p.uid).child("onboarding").once("value")
+        return Patient.ref(p.uid).child("profile/onboarding").once("value")
       }).then(function(doc) {
         return doc.val()
       }).catch(console.log.bind(console));
@@ -18,7 +18,7 @@ angular.module('app.services')
 
     update: function(onboarding) {
       return Patient.get().then(function(p) {
-        return Patient.ref(p.uid).child("onboarding").update(onboarding)
+        return Patient.ref(p.uid).child("profile/onboarding").update(onboarding)
       })
     }
   };

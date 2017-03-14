@@ -3,7 +3,7 @@ angular.module('app.services')
 
 // This factory is responsible for defining a Medication Schedule
 // that the patient usually adheres to.
-.factory('MedicationSchedule', ["Medication", "Patient","$firebaseObject", "$firebaseArray", "$q", function(Medication, Patient, $firebaseObject, $firebaseArray, $q) {
+.factory('MedicationSchedule', ["Medication", "Patient","$firebaseObject", "$firebaseArray", "$q", "_", function(Medication, Patient, $firebaseObject, $firebaseArray, $q, _) {
   /*
    * This is default schedule for testing purposes
    * TODO: (much later) delete this.
@@ -102,64 +102,17 @@ angular.module('app.services')
         uid = p.uid
         return Patient.ref(uid).child("medication_schedule").child(id).child("medications").once("value")
       }).then(function(meds) {
-        medications = meds.val() || []
-        should_update = true
+        medications = []
+        if (meds.val())
+          medications = Object.values(meds.val())
+        should_update = (_.findIndex(medications, function(m) { return m.id == medication.$id}) == -1)
 
-        for (var i=0; i < medications.length; i++) {
-          console.log(medications[i])
-          if (meds[i].id == medication.$id)
-            should_update = false
-        }
-
-        if (should_update) {
+        if (should_update == true) {
           ref = Patient.ref(uid).child("medication_schedule").child(id).child("medications");
           newMessageRef = ref.push();
-          return newMessageRef.set({
-            id: medication.$id,
-            name: medication.name
-          });
+          return newMessageRef.set({id: medication.$id, name: medication.name});
         }
       })
-
-      // return this.getByID(id).then(function(slot) {
-      //   console.log(slot)
-      //   if (!slot.medications) {
-      //     slot.medications = []
-      //   }
-      //
-      //   if (slot.medications.indexOf(medication) === -1) {
-      //     slot.medications.push(medication)
-      //   }
-      //
-      //   return slot.$save()
-      // })
-
-
-
-      // .on("value", function(snap) {
-      //   meds = snap.val()
-      //   for (var i=0; i< meds.length; i++) {
-      //     console.log(meds[i])
-      //   }
-      //   if (meds.indexOf(medication) == -1) {
-      //     meds.push(medication)
-      //     return $firebaseArray(this.ref().child(id).child("medications")).$add(medication)
-      //   } else {
-      //     return $firebaseArray(this.ref().child(id).child("medications"))
-      //   }
-      //
-      // })
-
-
-
-      // arrs = $firebaseArray(meds);
-      // console.log(arrs)
-      // console.log(arrs.$indexFor(medication))
-      // .then(function(response) {
-      //   console.log(response)
-      //   name = response.name.trade_name
-      //   console.log(name)
-      // })
     },
 
     removeMedication: function(id, medication) {
@@ -167,13 +120,7 @@ angular.module('app.services')
         thisRef = Patient.ref(p.uid).child("medication_schedule").child(id).child("medications")
 
         return $firebaseArray(thisRef).$loaded().then(function(medications) {
-          indexToRemove = null
-          for (var i=0; i < medications.length; i++) {
-            console.log(medications[i])
-            console.log(medication)
-            if (medications[i].id == medication.id)
-              indexToRemove = i
-          }
+          indexToRemove = _.findIndex(medications, function(m) { return m.id == medication.id})
 
           console.log(indexToRemove)
           if (indexToRemove >= 0) {
@@ -184,61 +131,6 @@ angular.module('app.services')
       }).catch(function(err) {
         console.log(err)
       })
-
-
-
-
-      // console.log(medication)
-      // thisMS = this
-      //
-      // return Patient.get().then(function(p) {
-      //   return Patient.ref(p.uid).child("medication_schedule").child(id).child("medications").once("value")
-      // }).then(function(meds) {
-      //   medications = meds.val() || []
-      //
-      //   index = -1
-      //   console.log("MEDS: ")
-      //   console.log(medications)
-      //   console.log(medications.length)
-      //   console.log("ITERATING OVER MEDS")
-      //   for (var i=0; i < medications.length; i++) {
-      //     console.log(meds[i])
-      //     console.log(medication)
-      //     if (meds[i].id == medication.id)
-      //       index = i
-      //   }
-      //
-      //
-      //   if (index > -1) {
-      //     console.log(index)
-      //     return $firebaseArray(Patient.ref(p.uid).child("medication_schedule").child(id).child("medications")).$remove(index)
-      //   }
-      // })
-
-
-        // return $firebaseArray(ref.child("medications")).$loaded().then(function(res) {
-        //
-        //   for(var i = 0; i < res.length; i++) {
-        //     if (medication == res[i].$value)
-        //       res.$remove(i);
-        //   }
-        // }).catch(function(err) {
-        //   console.log(err)
-        // })
-
-        // return ref.child("medications").on("value", function(response) {
-        //   console.log(response.val())
-        //   medications = response.val()
-        //   for (var i=0; i < medications.length; i++) {
-        //     if (medications[i] == medication) {
-        //       medications.splice(i, 1)
-        //       break
-        //     }
-        //   }
-        //
-        //   return ref.update({medications: medications})
-        // })
-        // })
     }
   };
 }])

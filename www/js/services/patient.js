@@ -31,32 +31,20 @@ angular.module('app.services')
         return thisP.ref(p.uid).child("profile").update(patient)
       })
     },
-
-
     getFromFirebase: function() {
       thisP = this
       return this.get().then(function(p) {
         return thisP.ref(p.uid).child("profile").once("value")
       }).then(function(doc) {
         return doc.val()
-      }).catch(console.log.bind(console));
+      })
     },
-    destroy: function() {
-      thisP = this
-      return this.get().then(function(p) {
-        return Pouch.patientsDB.remove(p).then(function(doc) {
-          return p
-        })
-      }).then(function(p) {
-        return $firebaseAuth(thisP.ref(p.uid)).$unauth()
-      }).catch(console.log.bind(console));
-    },
+
+
     login: function(user) {
       thisP = this
       patientRef = new Firebase(onpoint.env.mainURL + "patients/")
       return $firebaseAuth(patientRef).$authWithPassword(user).then(function(res) {
-        console.log("LOGGING USER IN WITH: ")
-        console.log(res)
         patient                 = {}
         patient.uid             = res.uid
         patient.token           = res.token
@@ -64,20 +52,17 @@ angular.module('app.services')
         return thisP.saveAndSync(patient)
       })
     },
-    create: function(user) {
+    logout: function() {
       thisP = this
-      patientRef = new Firebase(onpoint.env.mainURL + "patients/")
-      return $firebaseAuth(patientRef).$createUser(user).then(function(res) {
-        patient     = user
-        patient.uid = res.uid
-        return thisP.save(patient)
-      }).then(function() {
-        return thisP.saveAndSync(patient)
+      return this.get().then(function(p) {
+        return Pouch.patientsDB.remove(p).then(function(doc) {
+          return p
+        })
+      }).then(function(p) {
+        return $firebaseAuth(thisP.ref(p.uid)).$unauth()
       })
-    },
-    ref: function(uid) {
-      console.log(uid)
-      return new Firebase(onpoint.env.mainURL + "patients/").child(uid);
-    },
+    }
+
+
   };
 })
