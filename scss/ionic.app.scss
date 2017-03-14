@@ -338,7 +338,7 @@ $SIDEMENU_TRANSPARENCY: rgba(255,255,255,0.4);
   }
 
   #list {
-    width: 200px;
+    width: 300px;
     margin: 30px auto;
     font-size: 16px;
   }
@@ -368,9 +368,13 @@ $SIDEMENU_TRANSPARENCY: rgba(255,255,255,0.4);
 
 table {
    border-collapse: collapse;
-  //  border: 3px ;
    border-style: solid;
    background-color: white;
+   width: 100%;
+   display: block;
+   text-align: center;
+   overflow-x: auto;
+
 }
 
 th {
@@ -386,13 +390,6 @@ td {
    border-style: solid;
    padding: 10px;
 }
-
-.center {
-  // margin: auto;
-  width: 100%;
-  text-align: center;
-}
-
 
 .medstyle {
    border-radius: .25em;

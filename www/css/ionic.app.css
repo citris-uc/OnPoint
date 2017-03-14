@@ -9288,7 +9288,7 @@ a.button {
   margin: 30px 0px; }
 
 .onboarding #list {
-  width: 200px;
+  width: 300px;
   margin: 30px auto;
   font-size: 16px; }
 
@@ -9306,7 +9306,11 @@ a.button {
 table {
   border-collapse: collapse;
   border-style: solid;
-  background-color: white; }
+  background-color: white;
+  width: 100%;
+  display: block;
+  text-align: center;
+  overflow-x: auto; }
 
 th {
   border-collapse: collapse;
@@ -9319,10 +9323,6 @@ td {
   border: 1px solid #f5f5f5;
   border-style: solid;
   padding: 10px; }
-
-.center {
-  width: 100%;
-  text-align: center; }
 
 .medstyle {
   border-radius: .25em;
