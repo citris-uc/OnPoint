@@ -9,7 +9,6 @@ angular.module('app.controllers')
   $ionicLoading.show({hideOnStateChange: true})
 
   Patient.getFromFirebase().then(function(patient) {
-    console.log(patient)
     $scope.patient = patient
   }).catch(function(res) {
     $scope.$emit(onpoint.env.error, res)

@@ -16,28 +16,6 @@ angular.module('app.controllers')
     })
   })
 
-  // $scope.sortSchedule = function() {
-  //   $scope.schedule.sort(function(a, b){var dat1 = a.time.split(":"); var dat2 = b.time.split(":");
-  //                           return parseInt(dat1[0]+dat1[1]) - parseInt(dat2[0]+dat2[1])});
-  // }
-
-  // $scope.dropCallback = function(event, index, item, external, type, allowedType, list, listnull) {
-  //     // Check if medications list exists.  If not, create it.
-  //     if (listnull) {
-  //       list.medications = [];
-  //     }
-  //     // Check if med exists in medications array - if exists, prevent drop
-  //     for (var i = 0; i < list.medications.length; i++) {
-  //       if (list.medications[i] == item) return false;
-  //     }
-  //     if (external) {
-  //         if (allowedType === 'itemType' && !item.label) return false;
-  //         if (allowedType === 'containerType' && !angular.isArray(item)) return false;
-  //     }
-  //     return item;
-  // };
-
-
   $scope.addMedicationModal = function(slotId) {
     // Create the login modal that we will use later
     return $ionicModal.fromTemplateUrl('templates/medication_scheduling/add.html', {
@@ -112,11 +90,14 @@ angular.module('app.controllers')
       _.each($scope.schedule, function(schedule) {
         schedule.slots = []
 
+
+
         for(var day = 0; day < 7; day++) {
           // Add the capsules to the pillbox view only if they're supposed
           // to be viewed on that day.
-          if (schedule.days[day]) {
-            meds    = Object.values(schedule.medications)
+
+          if (schedule.days[day] && !_.isUndefined(schedule.medications) ) {
+            meds    = _.toArray(schedule.medications)
             med_ids = meds.map(function(el) { return el.id})
             schedule.slots.push({medications: med_ids})
           } else {
@@ -128,6 +109,8 @@ angular.module('app.controllers')
 
     }).then(function() {
       return $ionicLoading.hide()
+    }).catch(function(err) {
+      navigator.notification.alert("ERROR: " + JSON.stringify(err), null)
     })
   })
 
