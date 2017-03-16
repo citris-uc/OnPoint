@@ -20,6 +20,10 @@ angular.module('app.controllers')
     // Load the appropriate survey.
     template = "templates/surveys/" + survey.$id + ".html"
 
+    console.log("Showing survey: ")
+    console.log(survey)
+    console.log("-----")
+
     $ionicLoading.show({template: "<ion-spinner></ion-spinner><br>Loading survey...", hideOnStateChange: true})
 
     return $ionicModal.fromTemplateUrl(template, {
@@ -49,8 +53,8 @@ angular.module('app.controllers')
     $ionicLoading.show({template: "<ion-spinner></ion-spinner><br>Saving survey...", hideOnStateChange: true})
 
 
-    if ($scope.survey.$id == "Symptoms_Questionnaire") {
-      Survey.saveSymptomsQuestionnaire(irkResults.getResults()).catch(function(err) {
+    if ($scope.survey.$id == "Symptoms") {
+      Survey.saveSymptomsQuestionnaire($scope.survey.$id, irkResults.getResults()).catch(function(err) {
         console.log("Error")
         console.log(err)
       }).finally(function() {
