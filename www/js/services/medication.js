@@ -146,7 +146,7 @@ angular.module('app.services')
 
     get: function() {
       return Patient.get().then(function(p) {
-        return $firebaseArray(Patient.ref(p.uid).child("medications"))
+        return $firebaseArray(Patient.ref(p.uid).child("medications")).$loaded()
       })
     },
     getCabMeds: function(){
