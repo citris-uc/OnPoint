@@ -11,7 +11,7 @@ angular.module('app.controllers')
   Patient.getFromFirebase().then(function(patient) {
     $scope.patient = patient
   }).catch(function(res) {
-    $scope.$emit(onpoint.env.error, res)
+    $scope.$emit(onpoint.error, res)
   }).finally(function() {
     $ionicLoading.hide()
   })
@@ -21,7 +21,7 @@ angular.module('app.controllers')
   //     $scope.Patient.profile_photo = "data:image/jpeg;base64," + base64
   //     $scope.$apply()
   //   }).catch(function(res) {
-  //     $scope.$emit(onpoint.env.error, res)
+  //     $scope.$emit(onpoint.error, res)
   //   })
   // }
 
@@ -32,7 +32,7 @@ angular.module('app.controllers')
       $ionicLoading.hide()
     }).catch(function(res) {
       $ionicLoading.hide()
-      $scope.$emit(onpoint.env.error, res)
+      $scope.$emit(onpoint.error, res)
     })
   }
 })

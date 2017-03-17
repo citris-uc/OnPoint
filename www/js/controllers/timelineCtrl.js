@@ -14,7 +14,7 @@ angular.module('app.controllers')
       console.log(response)
       $scope.today.cards = response.data.cards;
     }).catch(function(response) {
-      $scope.$emit(onpoint.env.error, {error: response})
+      $scope.$emit(onpoint.error, {error: response})
     }).finally(function(response) {
       $scope.$broadcast('scroll.refreshComplete');
       $ionicLoading.hide();

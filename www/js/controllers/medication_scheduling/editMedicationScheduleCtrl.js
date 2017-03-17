@@ -19,7 +19,7 @@ angular.module('app.controllers')
     $scope.slot.$remove().then(function(response) {
       $ionicHistory.goBack(-1)
     }).catch(function(response) {
-      $scope.$emit(onpoint.env.error, response)
+      $scope.$emit(onpoint.error, response)
     })
   }
 
@@ -52,7 +52,7 @@ angular.module('app.controllers')
     var req = $scope.slot.$save().then(function(snapshot) {
       $ionicHistory.goBack(-1)
     }).catch(function(res) {
-      $scope.$emit(onpoint.env.error, res)
+      $scope.$emit(onpoint.error, res)
     })
 
 

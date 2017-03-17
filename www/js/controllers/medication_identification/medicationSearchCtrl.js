@@ -53,7 +53,7 @@ angular.module('app.controllers')
         $scope.params.noDrugMatch = ($scope.drugs.length == 0)
       }).catch(function(response) {
         navigator.notification.alert(JSON.stringify(response), null)
-        $scope.$emit(onpoint.env.error, response)
+        $scope.$emit(onpoint.error, response)
       }).finally(function() {
        $ionicLoading.hide()
       });

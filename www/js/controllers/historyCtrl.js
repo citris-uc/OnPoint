@@ -25,7 +25,7 @@ angular.module('app.controllers')
 
       $scope.end_date_string = response.data.end_date_string
     }).catch(function(res) {
-      $scope.$emit(onpoint.env.error, res)
+      $scope.$emit(onpoint.error, res)
     }).finally(function() {
       $scope.$broadcast('scroll.refreshComplete');
       $scope.$applyAsync(function(){

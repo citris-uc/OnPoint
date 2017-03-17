@@ -29,7 +29,7 @@ angular.module('app.controllers')
     $scope.drug.$remove().then(function(response) {
       $ionicHistory.goBack(-1)
     }).catch(function(response) {
-      $scope.$emit(onpoint.env.error, response)
+      $scope.$emit(onpoint.error, response)
     })
    }
 })

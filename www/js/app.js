@@ -132,9 +132,13 @@ angular.module('app', ['ionic', 'firebase', 'app.controllers', 'app.routes', 'ap
 
   $rootScope.$on(onpoint.error, function(event, response) {
     // PouchDB errors.
-    console.log(response)
-    if (response.status == 404 && response.message == "missing" && response.reason == "deleted") {
-      console.log("HI")
+    console.log(JSON.stringify(response))
+    if (response.status == 404 && response.reason == "deleted") {
+      $rootScope.$emit(onpoint.env.auth.failure, response)
+      return
+    }
+
+    if (response.status == 404 && response.reason == "missing") {
       $rootScope.$emit(onpoint.env.auth.failure, response)
       return
     }
@@ -186,51 +190,6 @@ angular.module('app', ['ionic', 'firebase', 'app.controllers', 'app.routes', 'ap
     }
   })
 
-
-
-
-  $rootScope.$on(onpoint.env.error, function(event, response) {
-    console.log(response)
-    if (response.name == "Error") {
-      navigator.notification.alert(response.message, null, "Login failed", "OK")
-      return
-    }
-
-    if (response.error && (response.error.status == 401 || response.error.status == 403) ) {
-      if ( !$rootScope.modal || ($rootScope.modal && !$rootScope.modal.isShown()) ) {
-        loadLoginModal().then(function() {
-          $rootScope.state.error = "Your session has expired"
-          $rootScope.modal.show();
-        })
-      }
-    } else {
-
-      if (response.error) {
-        if (response.error.status == 401) {
-          if ( !$rootScope.modal || ($rootScope.modal && !$rootScope.modal.isShown()) ) {
-            loadLoginModal().then(function() {
-              $rootScope.state.error = "Your session has expired"
-              $rootScope.modal.show();
-            })
-          }
-        } else if (response.error.message) {
-          navigator.notification.alert(response.error.message, null, "Contact dmitriskj@gmail.com", "OK")
-        } else if (response.error.status == 500) {
-          navigator.notification.alert("Something went wrong on our end.", null, "Server not responding", "OK")
-        } else if (response.error.status == 0) {
-          navigator.notification.alert("We couldn't connect to the server. Are you connected to the internet?", null, "Server not responding", "OK")
-        } else if (response.error.status === 422) {
-          navigator.notification.alert(response.data.error, null, "Server not responding", "OK")
-        } else if (response.error && response.error.status === -1) {
-          navigator.notification.alert("We couldn't reach the server. Try again later.", null, "Server not responding", "OK")
-        } else if (response.error.status !== -1) {
-          navigator.notification.alert("Something went wrong on our end.", null, "Server not responding", "OK")
-        }
-      } else {
-        navigator.notification.alert("Something went wrong: " + JSON.stringify(response), null, "Contact dmitriskj@gmail.com", "OK")
-      }
-    }
-  })
 
   $rootScope.$on(onpoint.env.auth.success, function(event, response) {
     $ionicHistory.clearCache().then(function() {

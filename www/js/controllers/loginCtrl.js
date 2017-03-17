@@ -45,7 +45,7 @@ angular.module('app.controllers')
     Patient.login($scope.user).then(function(response) {
       $scope.$emit(onpoint.env.auth.success, response)
     }).catch(function(response) {
-      $scope.$emit(onpoint.env.error, response)
+      $scope.$emit(onpoint.error, response)
     }).finally(function() {
       $ionicLoading.hide()
     })
@@ -60,7 +60,7 @@ angular.module('app.controllers')
         $scope.login()
       })
     }).catch(function(response) {
-      $scope.$emit(onpoint.env.error, response)
+      $scope.$emit(onpoint.error, response)
     }).finally(function() {
       $ionicLoading.hide()
     })
