@@ -53,9 +53,9 @@ gulp.task('git-check', function(done) {
 // Allows to change environment variables.
 var preprocess = require('gulp-preprocess');
 
-gulp.task('genymotion', function() {
+gulp.task('android', function() {
   gulp.src('./environment.js')
-    .pipe(preprocess({context: { ENV: 'GENYMOTION', DEBUG: true}}))
+    .pipe(preprocess({context: { ENV: 'ANDROID', DEBUG: true}}))
     .pipe(gulp.dest('./www/js/'));
 });
 
