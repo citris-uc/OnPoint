@@ -29,7 +29,10 @@ angular.module('app.controllers')
 
   $scope.openPage = function(card, type){
     console.log(card)
-    return $state.go('tabsController.medication_schedule', {card_id: card.id, schedule_id: card.object_id});
+    if (card.status == "past")
+      navigator.notification.alert("This card has expired!",null)
+    else
+      return $state.go('tabsController.medication_schedule', {card_id: card.id, schedule_id: card.object_id});
   }
 
   // See http://www.gajotres.net/understanding-ionic-view-lifecycle/

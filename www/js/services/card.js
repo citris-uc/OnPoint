@@ -135,7 +135,7 @@ angular.module('app.services')
            "Authorization": "Bearer " + p.token
           }
         })
-      }).catch(console.log.bind(console));
+      })
     },
 
     // createFromSchedSlot: function(object_type, obj_id, object, date) {
