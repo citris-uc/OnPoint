@@ -280,6 +280,7 @@ angular.module('ionicResearchKit',[])
                     continuous: false,
                     startSlide: $scope.activeSlide,
                     slidesChanged: function() {
+                      console.log("Slide changed...")
                         $scope.currentSlide = slider.currentIndex();
 
                         // Force a slideChanged event on init
@@ -308,6 +309,7 @@ angular.module('ionicResearchKit',[])
                 });
 
                 $scope.$on('slideBox.setSlide', function(e, index) {
+                  console.log("sliding: "  + index);
                     slider.slide(index);
                 });
 
@@ -331,6 +333,7 @@ angular.module('ionicResearchKit',[])
                 };
 
                 $timeout(function() {
+                  console.log("Loaded")
                     slider.load();
                 });
 
@@ -351,6 +354,9 @@ angular.module('ionicResearchKit',[])
 
                 $scope.doNext = function() {
                     $scope.doSave();
+
+                    console.log("slider.currentIndex(): " + slider.currentIndex())
+                    console.log("slider.slidesCount()-1: " + slider.slidesCount()-1)
 
                     if (slider.currentIndex() < slider.slidesCount()-1)
                         slider.next();
@@ -401,6 +407,7 @@ angular.module('ionicResearchKit',[])
                 });
 
                 $scope.$on("step:Next", function() {
+                  console.log("NEXT...")
                     $scope.doNext();
                 });
 
@@ -522,6 +529,7 @@ angular.module('ionicResearchKit',[])
 
                 //This is called when input changes (faster than form.$dirty)
                 $scope.dirty = function() {
+                  console.log("DIRTY")
                     //Enable only when current form is dirtied and valid
                     $timeout(function() {
                         var index = slider.currentIndex();
@@ -551,6 +559,7 @@ angular.module('ionicResearchKit',[])
 
                 //This is called to capture the results
                 $scope.doSave = function() {
+                  console.log("doSave: " + slider.currentIndex())
                     irkResults.addResult(slider.currentIndex(), $scope.formData);
                 };
 
@@ -777,6 +786,8 @@ angular.module('ionicResearchKit',[])
     return {
         restrict: 'E',
         template: function(elem, attr) {
+          console.log("Attr: ")
+          console.log(attr)
             return 	'<div class="irk-offcentered-container"><div class="irk-offcentered-content">'+
                     '<div class="irk-text-centered">'+
                     '<h2>'+attr.title+'</h2>'+
