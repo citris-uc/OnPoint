@@ -42,7 +42,7 @@
             <ng-pluralize count="card.medications_length" when="{'0': 'No medications to take', 'one': '1 medication to take', 'other': '{} medications to take'}">
             </ng-pluralize>
           </p>
-          <i class="icon ion-ios-arrow-right"></i>
+          <i class="icon ion-ios-arrow-right" ng-if="card.status == 'upcoming'"></i>
         </a>
 
 

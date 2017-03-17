@@ -1,6 +1,6 @@
 angular.module('app.services')
 
-.factory("Survey", ["$firebaseArray", "$firebaseObject", "moment", "Patient", function($firebaseArray, $firebaseObject, moment, Patient) {
+.factory("Survey", ["$firebaseArray", "$firebaseObject", "moment", "Patient", "$q", function($firebaseArray, $firebaseObject, moment, Patient, $q) {
   return {
     key: moment(new Date()).format("YYYY-MM-DD"),
 
