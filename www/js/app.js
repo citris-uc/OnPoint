@@ -94,7 +94,7 @@ angular.module('app', ['ionic', 'firebase', 'app.controllers', 'app.routes', 'ap
       return p
     }).then(function(p) {
 
-      if (toState.name.indexOf("onboarding") == -1 && toState.name.indexOf("medication_identification") == -1 && toState.name.indexOf("medication_scheduling") == -1) {
+      if (toState.name.indexOf("profile") == -1 && toState.name.indexOf("onboarding") == -1 && toState.name.indexOf("medication_identification") == -1 && toState.name.indexOf("medication_scheduling") == -1) {
         if (!p.onboarding || !p.onboarding.intro ||!p.onboarding.medication_identification || !p.onboarding.medication_scheduling)
           $state.go("onboarding.welcome", {})
       }
