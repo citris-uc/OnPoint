@@ -104,7 +104,7 @@ angular.module('app.services')
       }).then(function(meds) {
         medications = []
         if (meds.val())
-          medications = Object.values(meds.val())
+          medications = _.values(meds.val())
         should_update = (_.findIndex(medications, function(m) { return m.id == medication.$id}) == -1)
 
         if (should_update == true) {

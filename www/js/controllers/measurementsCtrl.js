@@ -1,7 +1,7 @@
 angular.module('app.controllers')
 
 //TODO: Clean this up...very ugly use ng repeat in the new_measurement_schedule.html
-.controller('measurementScheduleCtrl', function($scope, $ionicPopup, $state,Patient, MeasurementSchedule, CARD, Card) {
+.controller('measurementScheduleCtrl', function($scope, $ionicPopup, $state,Patient, MeasurementSchedule, Card, _) {
   $scope.measurement_schedule = MeasurementSchedule.get();
   $scope.newShedule = {
     name: "weekday schedule",
@@ -51,10 +51,6 @@ angular.module('app.controllers')
          var today = new Date();
          var tomorrow = new Date();
          tomorrow.setDate(tomorrow.getDate() + 1);
-
-        //  These will be called from Rails.
-        //  Card.createFromSchedSlot(CARD.CATEGORY.MEASUREMENTS_SCHEDULE, snapshot.key(), schedule, today.toISOString());
-        //  Card.createFromSchedSlot(CARD.CATEGORY.MEASUREMENTS_SCHEDULE, snapshot.key(), schedule, tomorrow.toISOString());
        })
 
        $state.go('carePlan.measurementSchedules');
@@ -123,7 +119,7 @@ angular.module('app.controllers')
 
   $scope.disableSave = function(schedule_id) {
     if($scope.newMeasurement.hasOwnProperty(schedule_id)) {
-      if(Object.keys($scope.newMeasurement[schedule_id]).length > 0) {
+      if(_.keys($scope.newMeasurement[schedule_id]).length > 0) {
         return false;
       }
     }
@@ -145,7 +141,7 @@ angular.module('app.controllers')
   };
 
   $scope.disableDone = function() {
-    if(Object.keys($scope.newMeasurement).length > 0)
+    if(_.keys($scope.newMeasurement).length > 0)
       return false;
     else
       return true;
@@ -223,9 +219,8 @@ angular.module('app.controllers')
   $scope.measurementsTips = TIPS;
 })
 
-.controller('measurementViewCtrl', function($scope, $stateParams, MeasurementSchedule, $ionicHistory, CARD, Card) {
+.controller('measurementViewCtrl', function($scope, $stateParams, MeasurementSchedule, $ionicHistory, Card) {
    $scope.schedule = MeasurementSchedule.findByID($stateParams.measurement_schedule_id);
-   $scope.CARD = CARD;
 
    $scope.schedule.$loaded().then(function () {
        $scope.mytime = new Date();
@@ -277,8 +272,8 @@ angular.module('app.controllers')
        var tomorrow = new Date();
        tomorrow.setDate(tomorrow.getDate() + 1);
 
-       Card.updateSchedCard(CARD.CATEGORY.MEASUREMENTS_SCHEDULE, snapshot.key(), $scope.schedule, today.toISOString());
-       Card.updateSchedCard(CARD.CATEGORY.MEASUREMENTS_SCHEDULE, snapshot.key(), $scope.schedule, tomorrow.toISOString());
+      //  Card.updateSchedCard(CARD.CATEGORY.MEASUREMENTS_SCHEDULE, snapshot.key(), $scope.schedule, today.toISOString());
+      //  Card.updateSchedCard(CARD.CATEGORY.MEASUREMENTS_SCHEDULE, snapshot.key(), $scope.schedule, tomorrow.toISOString());
      })
 
      $ionicHistory.goBack();
