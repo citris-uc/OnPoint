@@ -33,6 +33,7 @@ angular.module('app.controllers')
       backdropClickToClose: false,
       hardwareBackButtonClose: false
     }).then(function(modal) {
+      irkResults.initResults()
       $scope.survey = survey
       $scope.modal  = modal;
       return modal.show()
