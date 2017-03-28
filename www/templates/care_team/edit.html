@@ -1,0 +1,57 @@
+<ion-modal-view class="login-modal">
+  <ion-header-bar class="bar bar-header bar-stable">
+    <h1 class="title">Edit</h1>
+    <button class="button button-clear button-positive" ng-click="closeModal()">Cancel</button>
+  </ion-header-bar>
+
+  <form ng-submit="updateMember()">
+    <ion-content class="has-footer">
+      <ion-list>
+
+        <label class="item item-input">
+          <span class="input-label">Name</span>
+          <input class="input-label" type="text" ng-model="member.name" autofocus></input>
+        </label>
+
+        <label class="item item-input">
+          <span class="input-label">Title</span>
+          <input class="input-label" type="text" ng-model="member.title"></input>
+        </label>
+
+        <label class="item item-input">
+          <span class="input-label">Email</span>
+          <input class="input-label" type="email" ng-model="member.email"></input>
+        </label>
+
+        <label class="item item-input">
+          <span class="input-label">Phone</span>
+          <input class="input-label" type="text" ng-model="member.phone_number"></input>
+        </label>
+
+        <label class="item item-input">
+          <span class="input-label">Address</span>
+          <input class="input-label" type="text" ng-model="member.address"></input>
+        </label>
+
+        <label class="item item-input">
+          <span class="input-label">Note</span>
+          <input class="input-label" type="text" ng-model="member.note"></input>
+        </label>
+
+        <a class="item item-icon-left assertive" ng-click="destroy()">
+          <i class="icon ion-ios-trash-outline"></i>
+          Delete this team member
+        </a>
+
+      </ion-list>
+    </ion-content>
+
+    <ion-footer-bar keyboard-attach class="bar bar-footer bar-balanced">
+      <div class="buttons full-width">
+        <button class="button button-clear">Add</div>
+      </div>
+    </ion-footer-bar>
+
+  </form>
+
+</ion-modal-view>
