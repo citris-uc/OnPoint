@@ -16,6 +16,23 @@ angular.module('app.controllers')
   })
 
   $scope.update = function() {
+    if (!$scope.drug.name) {
+      alert("Please enter the name of the medication")
+      return
+    }
+    if (!$scope.drug.administration) {
+      alert("Please describe how you're supposed to take this medication")
+      return
+    }
+    if (!$scope.drug.dosage || !$scope.drug.units) {
+      alert("Please enter the dosage and units of this medication")
+      return
+    }
+    if (!$scope.drug.frequency) {
+      alert("Please describe how often you take this medication")
+      return
+    }
+
     $ionicLoading.show({hideOnStateChange: true})
 
     $scope.drug.$save().then(function() {

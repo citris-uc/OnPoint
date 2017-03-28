@@ -26,15 +26,6 @@ angular.module('app.controllers')
   })
 
   $scope.add = function() {
-    // $ionicHistory.goBack(-2)
-
-    // firebaseRecord = $scope.medication
-    // firebaseRecord["trade_name"]   = $scope.medication.trade_name
-    // firebaseRecord['instructions'] = $scope.medication.instructions
-    // firebaseRecord['dose']    = $scope.medication.dose
-    // firebaseRecord['purpose'] = $scope.medication.purpose
-    // firebaseRecord['notes']   = $scope.medication.notes
-
     if (!$scope.drug.name) {
       alert("Please enter the name of the medication")
       return
