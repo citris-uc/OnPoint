@@ -134,48 +134,6 @@ angular.module('app.routes', [])
   })
 
 
-
-  // .state('tabsController.takeCabMed', {
-  //   url: '/medications/schedule/:schedule_id/medication/:medication_name',
-  //   views: {
-  //     'medications-tab': {
-  //       templateUrl: 'templates/medications/take_cab_med.html',
-  //       controller: 'cabMedTakeCtrl'
-  //     }
-  //   }
-  // })
-
-  // .state('tabsController.newCabinetMed', {
-  //   url: '/medications/newCabinet',
-  //   views: {
-  //     'medications-tab': {
-  //       templateUrl: 'templates/medications/new_cabmed.html',
-  //       controller: 'cabmedInputCtrl'
-  //     }
-  //   }
-  // })
-
-  // .state('tabsController.measurementAction', {
-  //   url: '/timeline/measurement-action/:schedule_id',
-  //   views: {
-  //     'timeline-tab': {
-  //       templateUrl: 'templates/measurements/measurements-add.html',
-  //       controller: 'addMeasurementsCtrl'
-  //     }
-  //   }
-  // })
-  //
-  // .state('tabsController.measurementActionTips', {
-  //   url: '/measurement-tips',
-  //   views: {
-  //     'timeline-tab': {
-  //       templateUrl: 'templates/measurements/measurementTips.html',
-  //       controller: 'measurementTipsCtrl'
-  //     }
-  //   }
-  // })
-
-
   .state('tabsController.notes', {
     url: '/settings/notes',
     views: {
@@ -186,16 +144,6 @@ angular.module('app.routes', [])
     }
   })
 
-  // .state('tabsController.medications', {
-  //   url: '/medications',
-  //   views: {
-  //     'medications-tab': {
-  //       templateUrl: 'templates/medications/medications.html',
-  //       controller: 'medicationsCtrl'
-  //     }
-  //   }
-  // })
-
   .state('tabsController.medicationsSchedule', {
     url: '/medications/:schedule_id',
     views: {
@@ -205,26 +153,6 @@ angular.module('app.routes', [])
       }
     }
   })
-
-  // .state('tabsController.editMedSchedule', {
-  //   url: '/medication_schedules/generated',
-  //   views: {
-  //     'medications-tab': {
-  //       templateUrl: 'templates/medications/edit_medication_schedule.html',
-  //       controller: 'medicationsSettingCtrl'
-  //     }
-  //   }
-  // })
-
-  // .state('tabsController.newScheduleSlot', {
-  //   url: '/medication_schedules/new_slot',
-  //   views: {
-  //     'medications-tab': {
-  //       templateUrl: 'templates/medications/new_time_slot.html',
-  //       controller: 'medicationsSettingCtrl'
-  //     }
-  //   }
-  // })
 
   .state('tabsController.comments', {
     url: '/cards/:card_id/comments/:comment_id',
