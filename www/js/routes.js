@@ -136,15 +136,15 @@ angular.module('app.routes', [])
   //   }
   // })
 
-  .state('tabsController.takeCabMed', {
-    url: '/medications/schedule/:schedule_id/medication/:medication_name',
-    views: {
-      'medications-tab': {
-        templateUrl: 'templates/medications/take_cab_med.html',
-        controller: 'cabMedTakeCtrl'
-      }
-    }
-  })
+  // .state('tabsController.takeCabMed', {
+  //   url: '/medications/schedule/:schedule_id/medication/:medication_name',
+  //   views: {
+  //     'medications-tab': {
+  //       templateUrl: 'templates/medications/take_cab_med.html',
+  //       controller: 'cabMedTakeCtrl'
+  //     }
+  //   }
+  // })
 
   // .state('tabsController.newCabinetMed', {
   //   url: '/medications/newCabinet',
