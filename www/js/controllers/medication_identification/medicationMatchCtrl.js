@@ -9,13 +9,13 @@ angular.module('app.controllers')
     $ionicLoading.show({template: "<ion-spinner></ion-spinner><br>Loading info...", hideOnStateChange: true})
 
     Medication.searchByRXCUI($state.params.rxcui).then(function(response) {
-      console.log(response)
       $scope.drug = response.data
       $scope.drug.units = "tablets"
       if ($scope.ocr) {
-        $scope.drug.amount = $scope.ocr.amount
-        $scope.drug.delivery = $scope.ocr.delivery
+        $scope.drug.amount    = $scope.ocr.amount
+        $scope.drug.delivery  = $scope.ocr.delivery
         $scope.drug.frequency = $scope.ocr.frequency
+        // $scope.drug.purpose   = $scope.ocr.raw_text
 
         if ($scope.drug.amount && $scope.drug.delivery)
           $scope.drug.administration = $scope.drug.amount + " " + $scope.drug.delivery
