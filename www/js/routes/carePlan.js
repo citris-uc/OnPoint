@@ -43,15 +43,15 @@ angular.module('app.routes')
   //   }
   // })
 
-  .state('carePlan.viewMeasurementSchedule', {
-    url: '/measurementSchedule/:measurement_schedule_id',
-    views: {
-      'care-plan': {
-        templateUrl: 'templates/carePlan/view_measurement_schedule.html',
-        controller: 'measurementViewCtrl'
-      }
-    }
-  })
+  // .state('carePlan.viewMeasurementSchedule', {
+  //   url: '/measurementSchedule/:measurement_schedule_id',
+  //   views: {
+  //     'care-plan': {
+  //       templateUrl: 'templates/carePlan/view_measurement_schedule.html',
+  //       controller: 'measurementViewCtrl'
+  //     }
+  //   }
+  // })
 
   // .state('carePlan.generatedMedSchedule', {
   //   url: '/medication_schedules/generated',

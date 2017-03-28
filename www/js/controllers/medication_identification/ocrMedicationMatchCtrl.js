@@ -20,9 +20,6 @@ angular.module('app.controllers')
     Medication.search($scope.ocr.drug_name).then(function(response) {
       console.log(response)
       $scope.drugs = response.data
-    }).catch(function(res) {
-      console.log("ERROR")
-      console.log(res)
     }).finally(function(res) {
       $ionicLoading.hide()
     })

@@ -3,7 +3,7 @@ angular.module('app.services')
 
 // This factory is responsible for defining a Medication Schedule
 // that the patient usually adheres to.
-.factory('MedicationSchedule', ["Medication", "Patient","$firebaseObject", "$firebaseArray", "$q", "_", function(Medication, Patient, $firebaseObject, $firebaseArray, $q, _) {
+.factory('MedicationSchedule', ["Medication", "Patient","$firebaseObject", "$firebaseArray", "$q", "_", "$http", function(Medication, Patient, $firebaseObject, $firebaseArray, $q, _, $http) {
   /*
    * This is default schedule for testing purposes
    * TODO: (much later) delete this.

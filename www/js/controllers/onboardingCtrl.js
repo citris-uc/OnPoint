@@ -12,6 +12,11 @@ angular.module('app.controllers')
     $ionicSlideBoxDelegate.previous();
   };
 
+  $scope.transitionToPageIndex = function(pageIndex) {
+    $scope.slideIndex = pageIndex;
+    $ionicSlideBoxDelegate.slide(pageIndex);
+  }
+
   $scope.slideChanged = function(index) {
     $scope.slideIndex = index;
   };

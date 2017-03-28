@@ -327,14 +327,6 @@ angular.module('app.controllers')
 
 })
 
-.controller('medicationEditCtrl', function($scope, $stateParams, $ionicHistory, Medication) {
-   $scope.med = Medication.getById($stateParams.medication_id);
-   $scope.update = function(){
-       $scope.med.$save();
-       $ionicHistory.goBack();
-   }
-})
-
 .controller('medicationsSettingCtrl', function($scope, $state, $ionicPopup,$ionicHistory, DAYOFWEEK, Patient, Medication, MedicationSchedule, MedicationHistory, CARD, Card) {
 
   // TODO --> use MedicationSchedule and FB

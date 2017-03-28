@@ -21,7 +21,7 @@
       Start
     </button>
   </ion-nav-buttons>
-  <ion-slide-box on-slide-changed="slideChanged(index)">
+  <ion-slide-box on-slide-changed="slideChanged(index)" pager-click="transitionToPageIndex(index)">
     <ion-slide class="padding">
       <h3>Welcome to OnPoint!</h3>
       <div id="logo">
@@ -85,6 +85,10 @@
       <p>
         Tap Start on top right to begin.
       </p>
+
+      <button class="button button-balanced" ng-click="completeOnboarding()">
+        Start
+      </button>
     </ion-slide>
   </ion-slide-box>
 </ion-view>

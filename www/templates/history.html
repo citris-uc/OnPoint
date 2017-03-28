@@ -17,13 +17,13 @@
           <h4 class="text-center">{{date.date | date:'EEE MMM dd, yyyy'}}</h4>
         </div>
 
-        <div class="card" ng-if="date.cards.length == 0">
+        <!-- <div class="card" ng-if="date.cards.length == 0">
           <div class="item">
             <h2 style="text-align:center;">
               No cards to display
             </h2>
           </div>
-        </div>
+        </div> -->
 
         <div class="card" ng-repeat="card in date.cards">
           <div class="item item-avatar item-text-wrap item-icon-right" ng-if="card.object_type == 'medication_schedule'">
