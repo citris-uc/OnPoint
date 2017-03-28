@@ -45,7 +45,7 @@
           <i class="icon ion-ios-arrow-right" ng-if="card.status == 'upcoming'"></i>
         </a>
 
-        <div class="item item-avatar" ng-if="card.object_type == 'appointment'">
+        <a class="item item-avatar" ng-if="card.object_type == 'appointment'" ui-sref="tabsController.appointments">
           <img src="img/cards/appointment_green.png"></img>
           <h2 style="font-weight: bold; font-size: 20px;">
             {{card.appointment.time | formatTime}}
@@ -55,7 +55,16 @@
             {{card.appointment.title}} · {{card.appointment.note}}
           </p>
           <!-- <i class="icon ion-ios-arrow-right"></i> -->
-        </div>
+        </a>
+
+        <a class="item item-avatar" ng-if="card.object_type == 'questionnaire_reminder'" ui-sref="tabsController.surveys">
+          <img src="img/cards/survey.png"></img>
+          <h2 style="font-weight: bold; font-size: 20px;">
+            Questionnaire reminder
+          </h2>
+
+          <!-- <i class="icon ion-ios-arrow-right"></i> -->
+        </a>
 
 
 
