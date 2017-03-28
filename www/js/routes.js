@@ -123,18 +123,17 @@ angular.module('app.routes', [])
     }
   })
 
+  .state('tabsController.care_team', {
+    url: '/care_team',
+    views: {
+      'timeline-tab': {
+        templateUrl: 'templates/care_team/index.html',
+        controller: 'careTeamCtrl'
+      }
+    }
+  })
 
 
-  // TODO: Deprecate these
-  // .state('tabsController.medication', {
-  //   url: '/medications/schedule/:schedule_id/medication/:medication_id',
-  //   views: {
-  //     'medications-tab': {
-  //       templateUrl: 'templates/medications/show.html',
-  //       controller: 'medicationCtrl'
-  //     }
-  //   }
-  // })
 
   // .state('tabsController.takeCabMed', {
   //   url: '/medications/schedule/:schedule_id/medication/:medication_name',
@@ -207,25 +206,25 @@ angular.module('app.routes', [])
     }
   })
 
-  .state('tabsController.editMedSchedule', {
-    url: '/medication_schedules/generated',
-    views: {
-      'medications-tab': {
-        templateUrl: 'templates/medications/edit_medication_schedule.html',
-        controller: 'medicationsSettingCtrl'
-      }
-    }
-  })
+  // .state('tabsController.editMedSchedule', {
+  //   url: '/medication_schedules/generated',
+  //   views: {
+  //     'medications-tab': {
+  //       templateUrl: 'templates/medications/edit_medication_schedule.html',
+  //       controller: 'medicationsSettingCtrl'
+  //     }
+  //   }
+  // })
 
-  .state('tabsController.newScheduleSlot', {
-    url: '/medication_schedules/new_slot',
-    views: {
-      'medications-tab': {
-        templateUrl: 'templates/medications/new_time_slot.html',
-        controller: 'medicationsSettingCtrl'
-      }
-    }
-  })
+  // .state('tabsController.newScheduleSlot', {
+  //   url: '/medication_schedules/new_slot',
+  //   views: {
+  //     'medications-tab': {
+  //       templateUrl: 'templates/medications/new_time_slot.html',
+  //       controller: 'medicationsSettingCtrl'
+  //     }
+  //   }
+  // })
 
   .state('tabsController.comments', {
     url: '/cards/:card_id/comments/:comment_id',
