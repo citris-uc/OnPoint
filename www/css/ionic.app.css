@@ -9101,6 +9101,16 @@ a.button {
 .list .item-input-inset label.item-input-wrapper input {
   width: 100%; }
 
+.skipped-med {
+  text-decoration: line-through; }
+  .skipped-med i {
+    color: #e42112; }
+
+.taken-med {
+  text-decoration: line-through; }
+  .taken-med i {
+    color: #33cd5f; }
+
 .bottom-form {
   position: absolute;
   bottom: 0px;

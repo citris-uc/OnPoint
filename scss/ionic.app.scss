@@ -47,6 +47,21 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
   }
 }
 
+.skipped-med {
+  text-decoration: line-through;
+  i {
+    color: #e42112;
+  }
+}
+.taken-med {
+  text-decoration: line-through;
+  i {
+    color: #33cd5f;
+  }
+}
+
+
+
 .bottom-form{
     position:absolute;
     bottom:0px;
