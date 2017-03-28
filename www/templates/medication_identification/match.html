@@ -20,22 +20,16 @@
         <select ng-model="drug.units" ng-options="g.value as g.display for g in units"></select>
       </label>
 
-      <!-- <label class="item item-input item-stacked-label item-select">
-        <span class="input-label">Dose</span>
-        <input type="text" ng-model="drug.dosage">
-        <select ng-model="drug.units" ng-options="g.value as g.display for g in units"></select>
-      </label> -->
-
 
       <label class="item item-input item-stacked-label">
         <span class="input-label">Frequency</span>
         <input type="text" ng-model="drug.frequency">
       </label>
+
       <label class="item item-input item-stacked-label item-text-wrap">
         <span class="input-label">Purpose</span>
-        <p ng-bind-html="drug.purpose"></p>
-        <!-- <input type="text" ng-model="drug.purpose"
-         disabled> -->
+        <!-- <p ng-bind-html="drug.purpose"></p> -->
+        <input type="text" ng-model="drug.purpose">
       </label>
 
       <div class="item item-body">
