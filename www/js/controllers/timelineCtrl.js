@@ -27,6 +27,11 @@ angular.module('app.controllers')
     }
   }
 
+  $scope.isTomorrow = function(date) {
+    console.log(moment(date).diff(moment(new Date())) > 0)
+    return moment(date).diff(moment(new Date())) > 0
+  }
+
   $scope.openPage = function(card, type){
     console.log(card)
     if (card.status == "past")
