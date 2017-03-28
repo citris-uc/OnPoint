@@ -38,7 +38,12 @@ angular.module('app.controllers')
   // See http://www.gajotres.net/understanding-ionic-view-lifecycle/
   // to understand why we're doing everything in a beforeEnter event.
   // Essentially, we avoid stale data.
-  $scope.$on('$ionicView.loaded', function(){
-    $scope.loadCards();
+  // $scope.$on('$ionicView.loaded', function(){
+  //   $scope.loadCards();
+  // });
+
+  $scope.$on('$ionicView.afterEnter', function(){
+    if ($scope.today.cards.length == 0)
+      $scope.loadCards();
   });
 })
