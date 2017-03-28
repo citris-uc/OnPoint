@@ -8,16 +8,16 @@
     <ion-content has-bouncing="false" scroll="false">
       <div class="list">
         <label class="item item-input">
-          <textarea ng-model="card.note" autofocus></textarea>
+          <textarea rows="100" ng-model="card.note" autofocus></textarea>
         </label>
       </div>
     </ion-content>
 
-    <div class="bar bar-footer bar-balanced">
+    <ion-footer-bar keyboard-attach class="bar bar-footer bar-balanced">
       <div class="buttons full-width">
         <button class="button button-clear">Update</div>
       </div>
-    </div>
+    </ion-footer-bar>
 
   </form>
 </ion-modal-view>
