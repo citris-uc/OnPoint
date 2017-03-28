@@ -32,6 +32,12 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 }
 
 .list {
+  .item-stacked-label {
+    font-weight: bold;
+  }
+}
+
+.list {
   .item-input-inset {
     label.item-input-wrapper {
       input {

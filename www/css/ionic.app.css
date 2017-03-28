@@ -9095,6 +9095,9 @@ a.button {
 .tabs-top .tab-item {
   max-width: 50%; }
 
+.list .item-stacked-label {
+  font-weight: bold; }
+
 .list .item-input-inset label.item-input-wrapper input {
   width: 100%; }
 
