@@ -1,0 +1,22 @@
+<ion-view view-title="My Care Team">
+  <ion-nav-buttons side="right">
+    <button class="button button-icon button-clear ion-ios-plus-empty" ng-click="showNewModal()"></button>
+  </ion-nav-buttons>
+
+  <ion-content>
+    <ion-refresher pulling-text="Pull to refresh..." on-refresh="refresh()"></ion-refresher>
+
+    <ion-list>
+      <ion-item ng-if="care_team.length == 0" class="item-text-wrap">
+        <p class="text-center">You have no care team member setup. Why not add one?</p>
+      </ion-item>
+
+      <ion-item ng-repeat="member in care_team" ng-click="showEditModal(member)">
+        <h2>{{member.name}} ({{member.title}})</h2>
+        <p>{{member.email}}· {{member.phone_number}}</p>
+        <p>{{member.address}}</p>
+        <p>{{member.note}}</p>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>
