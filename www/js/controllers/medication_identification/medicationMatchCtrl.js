@@ -9,13 +9,13 @@ angular.module('app.controllers')
     $ionicLoading.show({template: "<ion-spinner></ion-spinner><br>Loading info...", hideOnStateChange: true})
 
     Medication.searchByRXCUI($state.params.rxcui).then(function(response) {
-      console.log(response)
       $scope.drug = response.data
       $scope.drug.units = "tablets"
       if ($scope.ocr) {
-        $scope.drug.amount = $scope.ocr.amount
-        $scope.drug.delivery = $scope.ocr.delivery
+        $scope.drug.amount    = $scope.ocr.amount
+        $scope.drug.delivery  = $scope.ocr.delivery
         $scope.drug.frequency = $scope.ocr.frequency
+        // $scope.drug.purpose   = $scope.ocr.raw_text
 
         if ($scope.drug.amount && $scope.drug.delivery)
           $scope.drug.administration = $scope.drug.amount + " " + $scope.drug.delivery
@@ -26,15 +26,6 @@ angular.module('app.controllers')
   })
 
   $scope.add = function() {
-    // $ionicHistory.goBack(-2)
-
-    // firebaseRecord = $scope.medication
-    // firebaseRecord["trade_name"]   = $scope.medication.trade_name
-    // firebaseRecord['instructions'] = $scope.medication.instructions
-    // firebaseRecord['dose']    = $scope.medication.dose
-    // firebaseRecord['purpose'] = $scope.medication.purpose
-    // firebaseRecord['notes']   = $scope.medication.notes
-
     if (!$scope.drug.name) {
       alert("Please enter the name of the medication")
       return

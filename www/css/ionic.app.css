@@ -9095,8 +9095,21 @@ a.button {
 .tabs-top .tab-item {
   max-width: 50%; }
 
+.list .item-stacked-label {
+  font-weight: bold; }
+
 .list .item-input-inset label.item-input-wrapper input {
   width: 100%; }
+
+.skipped-med {
+  text-decoration: line-through; }
+  .skipped-med i {
+    color: #e42112; }
+
+.taken-med {
+  text-decoration: line-through; }
+  .taken-med i {
+    color: #33cd5f; }
 
 .bottom-form {
   position: absolute;

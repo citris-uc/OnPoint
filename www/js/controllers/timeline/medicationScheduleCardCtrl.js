@@ -1,5 +1,5 @@
 angular.module('app.controllers')
-.controller("medicationScheduleCardCtrl", function($scope, $state, $stateParams, $ionicModal, $ionicHistory, Medication, MedicationSchedule, MedicationDosage, MedicationHistory, $ionicLoading, Card) {
+.controller("medicationScheduleCardCtrl", function($scope, $state, $stateParams, $ionicModal, $ionicHistory, Medication, MedicationSchedule, MedicationDosage, MedicationHistory, $ionicLoading, Card, _) {
   $scope.drug     = {}
   $scope.history  = []
   $scope.card     = {}
@@ -8,17 +8,18 @@ angular.module('app.controllers')
     $ionicLoading.show({hideOnStateChange: true})
 
     MedicationSchedule.getByID($stateParams.schedule_id).then(function(doc) {
-      console.log($scope.schedule)
       $scope.schedule = doc
+      console.log("$scope.schedule = ")
+      console.log($scope.schedule)
+      console.log("--------")
     }).then(function() {
-      return MedicationHistory.getHistory()
+      return MedicationHistory.getHistoryForSchedule($scope.schedule)
     }).then(function(doc) {
       $scope.history = doc
-      return Card.getByID($state.params.card_id)
-    }).then(function(doc) {
-      console.log("CARD: ")
+      console.log("HISTORY:")
       console.log(doc)
-      $scope.card = doc
+      console.log("--------")
+      return Card.getByID($state.params.card_id)
     }).finally(function() {
       $ionicLoading.hide()
     });
@@ -72,11 +73,12 @@ angular.module('app.controllers')
 
 
   $scope.takeMedication = function() {
-    $ionicLoading.show({hideOnStateChange: true})
+    $ionicLoading.show({template: "<ion-spinner></ion-spinner><br>Saving your choice...", hideOnStateChange: true})
     MedicationHistory.create_or_update($scope.drug, $scope.schedule, "take").then(function() {
-      $ionicLoading.hide();
       $scope.closeModal();
-    });
+    }).finally(function() {
+      $ionicLoading.hide();
+    })
   }
 
   $scope.skipMedication = function()  {
@@ -84,41 +86,37 @@ angular.module('app.controllers')
     if (!c)
       return
 
-    $ionicLoading.show({hideOnStateChange: true})
+    $ionicLoading.show({template: "<ion-spinner></ion-spinner><br>Saving your choice...", hideOnStateChange: true})
     MedicationHistory.create_or_update($scope.drug, $scope.schedule, "skip").then(function() {
-      $ionicLoading.hide();
       $scope.closeModal();
+    }).finally(function() {
+      $ionicLoading.hide();
     })
   };
 
   $scope.noDecisionOnMedication = function(med) {
-    state = true
-    for (var i=0; i < $scope.history.length; i++) {
-      if ($scope.history[i].medication_id == med.id)
-        state = !$scope.history[i].skipped_at && !$scope.history[i].taken_at
-    }
-    return state
+    medication = _.find($scope.history, function(h) { return h.medication_id == med.id })
+    if (medication)
+      return !medication.skipped_at && !medication.taken_at
+    else
+      return false
   }
 
 
   $scope.didTakeMed = function(med) {
-    state = false
-    for (var i=0; i < $scope.history.length; i++) {
-      if ($scope.history[i].medication_id == med.id)
-        state = !!$scope.history[i].taken_at
-    }
-
-    return state
+    medication = _.find($scope.history, function(hist) { return hist.medication_id == med.id })
+    if (medication)
+      return !!medication.taken_at
+    else
+      return false
   }
 
   $scope.didSkipMed = function(med) {
-    state = false
-    for (var i=0; i < $scope.history.length; i++) {
-      if ($scope.history[i].medication_id == med.id)
-        state = !!$scope.history[i].skipped_at
-    }
-
-    return state
+    medication = _.find($scope.history, function(h) { return h.medication_id == med.id })
+    if (medication)
+      return !!medication.skipped_at
+    else
+      return false
   }
 
 

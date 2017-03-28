@@ -115,6 +115,7 @@ angular.module('app.controllers')
   })
 
   $scope.displaySchedule = function(med){
+    console.log("Just ran!")
     $scope.resetPillbox()
 
     $scope.selectedMedications.push(med);
@@ -142,7 +143,7 @@ angular.module('app.controllers')
   }
 
   $scope.hasSelected = function(med){
-    return _.find($scope.selectedMedications, function(med) {return med == $scope.selectedMed})
+    return _.contains($scope.selectedMedications, med)
   }
 
 

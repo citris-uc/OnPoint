@@ -45,7 +45,6 @@
           <i class="icon ion-ios-arrow-right" ng-if="card.status == 'upcoming'"></i>
         </a>
 
-
         <div class="item item-avatar" ng-if="card.object_type == 'appointment'">
           <img src="img/cards/appointment_green.png"></img>
           <h2 style="font-weight: bold; font-size: 20px;">
@@ -57,7 +56,18 @@
           </p>
           <!-- <i class="icon ion-ios-arrow-right"></i> -->
         </div>
+
+
+
+        <!-- <div class="card-section history padding" ng-if="card.appointment && isTomorrow(card.appointment.date)">
+          <hr class="responsive-col"></hr>
+          <h4 class="text-center">End of today</h4>
+        </div> -->
+
+
       </div>
+
+
     </div>
 
       <!-- <div class="list card">

@@ -3,7 +3,7 @@ angular.module('app.services')
 
 // This factory is responsible for defining a Medication Schedule
 // that the patient usually adheres to.
-.factory('MedicationSchedule', ["Medication", "Patient","$firebaseObject", "$firebaseArray", "$q", "_", function(Medication, Patient, $firebaseObject, $firebaseArray, $q, _) {
+.factory('MedicationSchedule', ["Medication", "Patient","$firebaseObject", "$firebaseArray", "$q", "_", "$http", function(Medication, Patient, $firebaseObject, $firebaseArray, $q, _, $http) {
   /*
    * This is default schedule for testing purposes
    * TODO: (much later) delete this.
@@ -52,6 +52,39 @@ angular.module('app.services')
   ]
 
   return {
+    // updateMedicationsInSchedulesOrSetDefaultSchedule: function(medications) {
+    //   return Patient.get().then(function(p) {
+    //     return $http({
+    //       method: "PUT",
+    //       url:    onpoint.env.serverURL + "medication_schedule",
+    //       data: {
+    //         medications: medications
+    //       },
+    //       headers: {
+    //        "Authorization": "Bearer " + p.token
+    //       }
+    //     })
+    //   })
+    //
+    //   // this.setDefaultSchedule()
+    // },
+
+
+    removeMedicationFromSchedule: function(medication) {
+      return Patient.get().then(function(p) {
+        return $http({
+          method: "PUT",
+          url:    onpoint.env.serverURL + "medication_schedule/remove_medication",
+          data: {
+            medication: medication
+          },
+          headers: {
+           "Authorization": "Bearer " + p.token
+          }
+        })
+      })
+    },
+
     setDefaultSchedule: function() {
       ref = null
       return Patient.get().then(function(p) {

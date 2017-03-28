@@ -27,6 +27,11 @@ angular.module('app.controllers')
     }
   }
 
+  $scope.isTomorrow = function(date) {
+    console.log(moment(date).diff(moment(new Date())) > 0)
+    return moment(date).diff(moment(new Date())) > 0
+  }
+
   $scope.openPage = function(card, type){
     console.log(card)
     if (card.status == "past")
@@ -38,7 +43,12 @@ angular.module('app.controllers')
   // See http://www.gajotres.net/understanding-ionic-view-lifecycle/
   // to understand why we're doing everything in a beforeEnter event.
   // Essentially, we avoid stale data.
-  $scope.$on('$ionicView.loaded', function(){
-    $scope.loadCards();
+  // $scope.$on('$ionicView.loaded', function(){
+  //   $scope.loadCards();
+  // });
+
+  $scope.$on('$ionicView.afterEnter', function(){
+    if ($scope.today.cards.length == 0)
+      $scope.loadCards();
   });
 })

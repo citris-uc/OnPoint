@@ -32,7 +32,7 @@ angular.module('app.controllers')
       $ionicLoading.show({template: "<ion-spinner></ion-spinner><br>Extracting text...", hideOnStateChange: true})
 
       Medication.ocr($scope.medication.photo).then(function(res) {
-        $scope.ocr_results         = res.data
+        $scope.ocr_results = res.data
       }).catch(function(res) {
         navigator.notification.alert(res.data.error, null)
       }).finally(function() {

@@ -32,6 +32,12 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 }
 
 .list {
+  .item-stacked-label {
+    font-weight: bold;
+  }
+}
+
+.list {
   .item-input-inset {
     label.item-input-wrapper {
       input {
@@ -40,6 +46,21 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
     }
   }
 }
+
+.skipped-med {
+  text-decoration: line-through;
+  i {
+    color: #e42112;
+  }
+}
+.taken-med {
+  text-decoration: line-through;
+  i {
+    color: #33cd5f;
+  }
+}
+
+
 
 .bottom-form{
     position:absolute;

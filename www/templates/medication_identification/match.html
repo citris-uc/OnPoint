@@ -6,40 +6,30 @@
         <input type="text" ng-model="drug.name" disabled>
       </label>
       <label class="item item-input item-stacked-label">
-        <span class="input-label">Administration</span>
-        <input type="text" ng-model="drug.administration">
+        <span class="input-label" autofocus>Way of Administration</span>
+        <input type="text" ng-model="drug.administration" placeholder="E.g. By Mouth">
       </label>
 
-      <div class="row">
-        <div class="col">
-          <label class="item-input item-stacked-label">
-            <span class="input-label">Dose</span>
-            <input type="text" ng-model="drug.dosage">
-          </label>
-        </div>
-        <div class="col">
-          <label class="item-stacked-label item-select">
-            <span class="input-label">Dose type</span>
-            <select ng-model="drug.units" ng-options="g.value as g.display for g in units"></select>
-          </label>
-        </div>
-      </div>
-      <!-- <label class="item item-input item-stacked-label item-select">
+      <label class="item item-input item-stacked-label">
         <span class="input-label">Dose</span>
-        <input type="text" ng-model="drug.dosage">
+        <input type="number" ng-model="drug.dosage">
+      </label>
+
+      <label class="item item-stacked-label item-select">
+        <span class="input-label">Dose type</span>
         <select ng-model="drug.units" ng-options="g.value as g.display for g in units"></select>
-      </label> -->
+      </label>
 
 
       <label class="item item-input item-stacked-label">
         <span class="input-label">Frequency</span>
         <input type="text" ng-model="drug.frequency">
       </label>
+
       <label class="item item-input item-stacked-label item-text-wrap">
         <span class="input-label">Purpose</span>
-        <p ng-bind-html="drug.purpose"></p>
-        <!-- <input type="text" ng-model="drug.purpose"
-         disabled> -->
+        <!-- <p ng-bind-html="drug.purpose"></p> -->
+        <input type="text" ng-model="drug.purpose">
       </label>
 
       <div class="item item-body">

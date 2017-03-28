@@ -1,13 +1,14 @@
 angular.module('app.services')
 
-.factory('MedicationHistory', ["Patient", "$firebaseObject","$firebaseArray", "Card", "$http", "moment", function(Patient, $firebaseObject,$firebaseArray, Card, $http, moment) {
+.factory('MedicationHistory', ["Patient", "$firebaseObject","$firebaseArray", "Card", "$http", "moment", "_", function(Patient, $firebaseObject,$firebaseArray, Card, $http, moment, _) {
   return {
-    getHistory: function() {
+    getHistoryForSchedule: function(schedule) {
       date_string = moment(new Date()).format("YYYY-MM-DD")
-      console.log(date_string)
 
       return Patient.get().then(function(p) {
         return $firebaseArray(Patient.ref(p.uid).child("medication_histories").child(date_string)).$loaded();
+      }).then(function(histories) {
+        return _.filter(histories, function(h) { return h.medication_schedule_id == schedule.$id}) || []
       })
     },
     create_or_update: function(medication, schedule, choice) {

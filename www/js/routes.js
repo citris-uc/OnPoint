@@ -136,36 +136,25 @@ angular.module('app.routes', [])
   //   }
   // })
 
-  .state('tabsController.takeCabMed', {
-    url: '/medications/schedule/:schedule_id/medication/:medication_name',
-    views: {
-      'medications-tab': {
-        templateUrl: 'templates/medications/take_cab_med.html',
-        controller: 'cabMedTakeCtrl'
-      }
-    }
-  })
+  // .state('tabsController.takeCabMed', {
+  //   url: '/medications/schedule/:schedule_id/medication/:medication_name',
+  //   views: {
+  //     'medications-tab': {
+  //       templateUrl: 'templates/medications/take_cab_med.html',
+  //       controller: 'cabMedTakeCtrl'
+  //     }
+  //   }
+  // })
 
-  .state('tabsController.newCabinetMed', {
-    url: '/medications/newCabinet',
-    views: {
-      'medications-tab': {
-        templateUrl: 'templates/medications/new_cabmed.html',
-        controller: 'cabmedInputCtrl'
-      }
-    }
-  })
-
-  .state('tabsController.editMed', {
-    url: '/medication/:medication_id',
-    views: {
-      'medications-tab': {
-        templateUrl: 'templates/medications/edit_medication.html',
-        controller: 'medicationEditCtrl'
-      }
-    }
-  })
-
+  // .state('tabsController.newCabinetMed', {
+  //   url: '/medications/newCabinet',
+  //   views: {
+  //     'medications-tab': {
+  //       templateUrl: 'templates/medications/new_cabmed.html',
+  //       controller: 'cabmedInputCtrl'
+  //     }
+  //   }
+  // })
 
   // .state('tabsController.measurementAction', {
   //   url: '/timeline/measurement-action/:schedule_id',
