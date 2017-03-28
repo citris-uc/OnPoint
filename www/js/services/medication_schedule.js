@@ -52,6 +52,39 @@ angular.module('app.services')
   ]
 
   return {
+    // updateMedicationsInSchedulesOrSetDefaultSchedule: function(medications) {
+    //   return Patient.get().then(function(p) {
+    //     return $http({
+    //       method: "PUT",
+    //       url:    onpoint.env.serverURL + "medication_schedule",
+    //       data: {
+    //         medications: medications
+    //       },
+    //       headers: {
+    //        "Authorization": "Bearer " + p.token
+    //       }
+    //     })
+    //   })
+    //
+    //   // this.setDefaultSchedule()
+    // },
+
+
+    removeMedicationFromSchedule: function(medication) {
+      return Patient.get().then(function(p) {
+        return $http({
+          method: "PUT",
+          url:    onpoint.env.serverURL + "medication_schedule/remove_medication",
+          data: {
+            medication: medication
+          },
+          headers: {
+           "Authorization": "Bearer " + p.token
+          }
+        })
+      })
+    },
+
     setDefaultSchedule: function() {
       ref = null
       return Patient.get().then(function(p) {

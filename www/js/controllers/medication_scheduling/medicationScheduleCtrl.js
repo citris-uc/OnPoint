@@ -115,6 +115,7 @@ angular.module('app.controllers')
   })
 
   $scope.displaySchedule = function(med){
+    console.log("Just ran!")
     $scope.resetPillbox()
 
     $scope.selectedMedications.push(med);

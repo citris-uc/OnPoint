@@ -146,15 +146,15 @@ angular.module('app.routes', [])
     }
   })
 
-  .state('tabsController.newCabinetMed', {
-    url: '/medications/newCabinet',
-    views: {
-      'medications-tab': {
-        templateUrl: 'templates/medications/new_cabmed.html',
-        controller: 'cabmedInputCtrl'
-      }
-    }
-  })
+  // .state('tabsController.newCabinetMed', {
+  //   url: '/medications/newCabinet',
+  //   views: {
+  //     'medications-tab': {
+  //       templateUrl: 'templates/medications/new_cabmed.html',
+  //       controller: 'cabmedInputCtrl'
+  //     }
+  //   }
+  // })
 
   // .state('tabsController.measurementAction', {
   //   url: '/timeline/measurement-action/:schedule_id',

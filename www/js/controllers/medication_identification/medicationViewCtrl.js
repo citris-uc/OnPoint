@@ -1,6 +1,6 @@
 angular.module('app.controllers')
 
-.controller('medicationViewCtrl', function($scope, $state, Medication, $ionicHistory, $ionicLoading) {
+.controller('medicationViewCtrl', function($scope, $state, Medication, $ionicHistory, $ionicLoading, MedicationSchedule) {
   $scope.drug  = {}
   $scope.units = Medication.units
 
@@ -43,10 +43,16 @@ angular.module('app.controllers')
   }
 
   $scope.remove = function() {
-    $scope.drug.$remove().then(function(response) {
-      $ionicHistory.goBack(-1)
+    $ionicLoading.show({template: "<ion-spinner></ion-spinner><br>Removing...", hideOnStateChange: true})
+
+    MedicationSchedule.removeMedicationFromSchedule($scope.drug).then(function(response) {
+      return $scope.drug.$remove()
+    }).then(function() {
+      return $ionicHistory.goBack(-1)
     }).catch(function(response) {
       $scope.$emit(onpoint.error, response)
+    }).finally(function(res) {
+      $ionicLoading.hide()
     })
    }
 })
