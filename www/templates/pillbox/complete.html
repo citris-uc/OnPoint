@@ -1,0 +1,33 @@
+<ion-view title="Your complete pillbox" class="onboarding">
+  <ion-content overflow-scroll="true" class="has-header has-footer">
+    <table>
+      <thead>
+          <tr>
+            <th style="width: 25%;">Slots</th>
+            <th>S</th>
+            <th>M</th>
+            <th>T</th>
+            <th>W</th>
+            <th>T</th>
+            <th>F</th>
+            <th>S</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="dateSchedule in schedule | orderBy: 'time'">
+            <td>{{dateSchedule.name}}<br>{{dateSchedule.time | formatTime}}</td>
+            <td ng-repeat="slot in dateSchedule.slots track by $index" >
+              <span>{{slot.medications.join(", ")}}</span>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+  </ion-content>
+
+
+  <ion-footer-bar align-title="middle" class="bar-balanced">
+    <div class="buttons full-width" ui-sref="onboarding.complete">
+      <button class="button button-clear">Finish</button>
+    </div>
+  </ion-footer-bar>
+</ion-view>

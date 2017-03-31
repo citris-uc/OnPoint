@@ -64,4 +64,13 @@ angular.module('app.routes')
       }
     }
   })
+  .state('medication_scheduling.fill_pillbox_complete', {
+    url: '/pillbox/complete',
+    views: {
+      'onboarding': {
+        templateUrl: 'templates/pillbox/complete.html',
+        controller: 'completePillboxCtrl'
+      }
+    }
+  })
 });
