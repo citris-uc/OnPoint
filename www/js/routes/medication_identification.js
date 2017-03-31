@@ -39,7 +39,7 @@ angular.module('app.routes')
     }
   })
   .state('medication_identification.match', {
-    url: '/match/:rxcui?:ocr',
+    url: '/match/:rxcui?:ocr&:search',
     views: {
       'onboarding': {
         templateUrl: 'templates/medication_identification/match.html',

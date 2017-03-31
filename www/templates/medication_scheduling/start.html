@@ -27,7 +27,7 @@
 
           <ion-item class="item-icon-left" ng-repeat="med in dateSchedule.medications track by $index" dnd-type="'medType'" dnd-draggable="med" dnd-moved="dateSchedule.medications.splice($index, 1)" dnd-effect-allowed="move">
             <i class="icon ion-ios-minus assertive" ng-click="removeMedication(dateSchedule.$id, med)"></i>
-            {{med.name}}
+            {{med.nickname || med.name}}
             <!-- <i class="icon ion-navicon"></i> -->
           </ion-item>
         </div>

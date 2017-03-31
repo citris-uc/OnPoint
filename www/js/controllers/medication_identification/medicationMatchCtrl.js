@@ -4,6 +4,8 @@ angular.module('app.controllers')
   $scope.drug  = {}
   $scope.units = Medication.units
   $scope.ocr   = angular.fromJson($state.params.ocr)
+  $scope.search = $state.params.search
+  console.log($state.params)
 
   $scope.$on("$ionicView.loaded", function() {
     $ionicLoading.show({template: "<ion-spinner></ion-spinner><br>Loading info...", hideOnStateChange: true})
@@ -11,6 +13,10 @@ angular.module('app.controllers')
     Medication.searchByRXCUI($state.params.rxcui).then(function(response) {
       $scope.drug = response.data
       $scope.drug.units = "tablets"
+
+      if (!$scope.drug.nickname)
+        $scope.drug.nickname = $state.params.search
+
       if ($scope.ocr) {
         $scope.drug.amount    = $scope.ocr.amount
         $scope.drug.delivery  = $scope.ocr.delivery

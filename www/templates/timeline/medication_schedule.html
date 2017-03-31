@@ -8,7 +8,7 @@
 
     <div class="list">
       <ion-item  ng-click="medModal(med)" class="item-icon-right" ng-repeat="med in schedule.medications" ng-class="{'skipped-med': didSkipMed(med), 'taken-med': didTakeMed(med)}">
-        {{med.name}}
+        {{med.nickname || med.name}}
         <i class="icon ion-ios-circle-outline" ng-show="noDecisionOnMedication(med)"></i>
         <i class="icon ion-ios-checkmark-outline" ng-show="didTakeMed(med)"></i>
         <i class="icon ion-ios-close-outline" ng-show="didSkipMed(med)"></i>

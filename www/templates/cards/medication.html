@@ -11,6 +11,11 @@
       </label>
 
       <label class="item item-input item-stacked-label">
+        <span class="input-label">Nickname</span>
+        <input type="text" ng-model="drug.nickname" disabled>
+      </label>
+
+      <label class="item item-input item-stacked-label">
         <span class="input-label" autofocus>Way of Administration</span>
         <input type="text" ng-model="drug.administration" placeholder="E.g. By Mouth" disabled>
       </label>
@@ -37,10 +42,10 @@
         <input type="text" ng-model="drug.purpose" disabled>
       </label>
 
-      <div class="item item-body">
+      <!-- <div class="item item-body">
         <img class="full-image" src="{{drug.pill_images[0].imageUrl}}" ng-if="drug.pill_images.length > 0">
         <p class="text-center" ng-if="!drug.pill_images || drug.pill_images.length == 0">No pill image found</p>
-      </div>
+      </div> -->
     </div>
   </ion-content>
 

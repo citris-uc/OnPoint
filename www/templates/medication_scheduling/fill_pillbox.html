@@ -27,7 +27,7 @@
       <ion-item class="item-divider">Your medications</ion-item>
       <a class="item item-avatar item-icon-right" ng-class="{'item-calm': currentlyOn(med)}" ng-repeat="med in medications track by $index" ng-click="displaySchedule(med)">
         <img src="img/pill_small.png">
-        <h2>{{med.name}}</h2>
+        <h2>{{med.nickname || med.name}}</h2>
         <p>{{med.dosage}} {{med.units}}</p>
         <i class="icon ion-ios-circle-outline"    ng-if="!hasSelected(med)"></i>
         <i class="icon ion-ios-checkmark-outline" ng-if="hasSelected(med)"></i>

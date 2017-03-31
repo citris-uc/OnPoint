@@ -35,8 +35,8 @@ angular.module('app.controllers')
     $scope.modal.hide();
   }
 
-  $scope.addMedicationToSlot = function(id) {
-    MedicationSchedule.addMedication($scope.currentSlotID, $scope.medication.name).then(function(res) {
+  $scope.addMedicationToSlot = function(med) {
+    MedicationSchedule.addMedication($scope.currentSlotID, med).then(function(res) {
       $scope.medication = {};
       $scope.closeModal()
     })

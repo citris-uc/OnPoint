@@ -52,23 +52,6 @@ angular.module('app.services')
   ]
 
   return {
-    // updateMedicationsInSchedulesOrSetDefaultSchedule: function(medications) {
-    //   return Patient.get().then(function(p) {
-    //     return $http({
-    //       method: "PUT",
-    //       url:    onpoint.env.serverURL + "medication_schedule",
-    //       data: {
-    //         medications: medications
-    //       },
-    //       headers: {
-    //        "Authorization": "Bearer " + p.token
-    //       }
-    //     })
-    //   })
-    //
-    //   // this.setDefaultSchedule()
-    // },
-
 
     removeMedicationFromSchedule: function(medication) {
       return Patient.get().then(function(p) {
@@ -143,7 +126,7 @@ angular.module('app.services')
         if (should_update == true) {
           ref = Patient.ref(uid).child("medication_schedule").child(id).child("medications");
           newMessageRef = ref.push();
-          return newMessageRef.set({id: medication.$id, name: medication.name});
+          return newMessageRef.set({id: medication.$id, nickname: medication.nickname, name: medication.name});
         }
       })
     },
@@ -155,14 +138,10 @@ angular.module('app.services')
         return $firebaseArray(thisRef).$loaded().then(function(medications) {
           indexToRemove = _.findIndex(medications, function(m) { return m.id == medication.id})
 
-          console.log(indexToRemove)
           if (indexToRemove >= 0) {
-            console.log(medications[indexToRemove])
             medications.$remove(indexToRemove)
           }
         })
-      }).catch(function(err) {
-        console.log(err)
       })
     }
   };

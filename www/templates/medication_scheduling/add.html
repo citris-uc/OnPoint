@@ -4,20 +4,12 @@
     <button class="button button-clear button-positive" ng-click="closeModal()">Cancel</button>
   </ion-header-bar>
   <ion-content has-bouncing="false" class="login-view" scroll="false">
-    <div class="list">
-      <label class="item item-input item-select item-text-wrap">
-        <div class="input-label">Medication Name</div>
-          <select ng-model="medication.name"
-                  ng-options="med.name for med in medications">
-          </select>
-      </label>
-    </div>
-  </ion-content>
+    <ion-list>
+      <ion-item ng-repeat="med in medications" ng-click="addMedicationToSlot(med)">
+        {{med.nickname || med.name}}
+      </ion-item>
 
-  <ion-footer-bar keyboard-attach class="bar bar-footer bar-balanced">
-    <div class="buttons full-width">
-      <button class="button button-clear" ng-click="addMedicationToSlot()">Add</div>
-    </div>
-  </ion-footer-bar>
+    </ion-list>
+  </ion-content>
 
 </ion-modal-view>
