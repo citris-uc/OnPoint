@@ -45,13 +45,6 @@ angular.module('app.controllers')
       return
     }
 
-    if (!$scope.appt.note) {
-      navigator.notification.alert("Note can't be blank", null)
-      $ionicLoading.hide()
-      return
-    }
-
-    console.log($scope.appt)
     Appointment.add($scope.appt).then(function() {
       return $scope.closeModal()
     }).finally(function() {
