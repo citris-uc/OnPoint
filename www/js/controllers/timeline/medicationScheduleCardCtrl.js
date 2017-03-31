@@ -16,10 +16,9 @@ angular.module('app.controllers')
       return MedicationHistory.getHistoryForSchedule($scope.schedule)
     }).then(function(doc) {
       $scope.history = doc
-      console.log("HISTORY:")
-      console.log(doc)
-      console.log("--------")
       return Card.getByID($state.params.card_id)
+    }).then(function(card) {
+      $scope.card = card
     }).finally(function() {
       $ionicLoading.hide()
     });
