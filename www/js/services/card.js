@@ -37,7 +37,7 @@ angular.module('app.services')
       return Patient.get().then(function(p) {
         date_string = moment(new Date()).format("YYYY-MM-DD")
         return $firebaseObject(Patient.ref(p.uid).child("cards").child(date_string).child(id))
-      }).catch(console.log.bind(console));
+      })
     },
     ref: function() {
       var uid = Patient.uid();

@@ -51,7 +51,11 @@ angular.module('app.controllers')
   }
 
   $scope.closeModal = function() {
-    $scope.modal.hide();
+    $scope.modal.hide().then(function() {
+      return MedicationHistory.getHistoryForSchedule($scope.schedule)
+    }).then(function(doc) {
+      $scope.history = doc
+    })
   }
 
   $scope.showNoteModal = function(med) {
