@@ -37,12 +37,12 @@
          </ion-item>
 
          <ion-item menu-close ui-sref="tabsController.history" class="icon item-icon-left side-menu-item" active-page-highlight="">
-           <i class="icon ion-ios-clock-outline"></i>
+           <i class="icon ion-ios-list-outline"></i>
            History
          </ion-item>
 
          <ion-item menu-close ui-sref="tabsController.appointments" class="icon item-icon-left side-menu-item" active-page-highlight="">
-           <i class="icon ion-ios-calendar-outline"></i>
+           <i class="icon ion-ios-clock-outline"></i>
            Appointments
          </ion-item>
 
@@ -53,16 +53,19 @@
        </div>
 
 
-       <div class="item item-divider item-balanced">Onboarding</div>
-       <ion-item menu-close ui-sref="onboarding.welcome" class="icon item-icon-right side-menu-item" active-page-highlight="">
-         Introduction
+       <!-- <div class="item item-divider item-balanced">Onboarding</div> -->
+       <ion-item menu-close ui-sref="onboarding.welcome" class="icon item-icon-right item-icon-left side-menu-item" active-page-highlight="">
+         <i class="icon ion-ios-information-empty"></i>
+         Onboarding
          <i class="icon" ng-class="{'ion-ios-checkmark-empty': onboarding.intro}"></i>
        </ion-item>
-       <ion-item menu-close ui-sref="medication_identification.start" class="icon item-icon-right side-menu-item" active-page-highlight="">
+       <ion-item menu-close ui-sref="medication_identification.start" class="icon item-icon-left item-icon-right side-menu-item" active-page-highlight="">
+         <i class="icon ion-contrast"></i>
          Your medications
          <i class="icon" ng-class="{'ion-ios-checkmark-empty': onboarding.medication_identification}"></i>
        </ion-item>
-       <ion-item menu-close ui-sref="medication_scheduling.start" class="icon item-icon-right side-menu-item" active-page-highlight="">
+       <ion-item menu-close ui-sref="medication_scheduling.start" class="icon item-icon-left item-icon-right side-menu-item" active-page-highlight="">
+         <i class="icon ion-ios-calendar-outline"></i>
          Your schedule
          <i class="icon" ng-class="{'ion-ios-checkmark-empty': onboarding.medication_scheduling}"></i>
        </ion-item>
