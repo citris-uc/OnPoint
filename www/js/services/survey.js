@@ -34,13 +34,8 @@ angular.module('app.services')
           if (question.id == 'Vomiting')
             question.id = "Nausea"
 
-          if (question.answer && +question.answer >= 7) {
+          if (question.answer && +question.answer >= 7)
             return thisS.save(question.id, {id: question.id})
-          } else {
-            // TODO: Delete follow-up questionnaire for this day if it exists.
-            // if question.id == 'Vomiting', then delete Nausea.html
-            return thisS.destroyFollowUp(question.id)
-          }
         })
       )
     },
