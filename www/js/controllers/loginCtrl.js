@@ -55,10 +55,11 @@ angular.module('app.controllers')
     $ionicLoading.show({hideOnStateChange: true})
 
     Patient.create($scope.user).then(function(response) {
-      $ionicHistory.clearCache().then(function() {
-        $state.go("onboarding.welcome", {}, {reload: true})
-        $scope.login()
-      })
+      return $ionicHistory.clearCache()
+    }).then(function() {
+      return $scope.login()
+    }).then(function() {
+      $state.go("onboarding.welcome", {}, {reload: true})
     }).catch(function(response) {
       $scope.$emit(onpoint.error, response)
     }).finally(function() {
