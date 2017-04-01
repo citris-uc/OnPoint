@@ -9226,6 +9226,8 @@ a.button {
 
 .center-form {
   width: 290px;
+  margin: auto;
+  top: 30px;
   left: 50%;
   position: absolute;
   transform: translate(-50%, 0%); }
@@ -9314,6 +9316,42 @@ a.button {
   margin: 10px 0px; }
 
 .onboarding .button.ng-hide {
+  display: none; }
+
+.onboarding-welcome p {
+  font-size: 20px; }
+
+.onboarding-welcome li {
+  font-size: 20px; }
+
+.onboarding-welcome .slider {
+  height: 100%; }
+
+.onboarding-welcome .slider-slide {
+  padding-top: 80px;
+  color: #000;
+  background-color: #fff;
+  text-align: center;
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+  font-weight: 300; }
+
+.onboarding-welcome #logo {
+  margin: 30px 0px; }
+
+.onboarding-welcome #list {
+  width: 300px;
+  margin: 30px auto;
+  font-size: 16px; }
+
+.onboarding-welcome #list ol {
+  margin-top: 30px; }
+
+.onboarding-welcome #list ol li {
+  text-align: left;
+  list-style: decimal;
+  margin: 10px 0px; }
+
+.onboarding-welcome .button.ng-hide {
   display: none; }
 
 table {
