@@ -40,15 +40,15 @@ angular.module('app.controllers')
       return $state.go('tabsController.medication_schedule', {card_id: card.id, schedule_id: card.object_id});
   }
 
-  // See http://www.gajotres.net/understanding-ionic-view-lifecycle/
-  // to understand why we're doing everything in a beforeEnter event.
-  // Essentially, we avoid stale data.
-  // $scope.$on('$ionicView.loaded', function(){
-  //   $scope.loadCards();
-  // });
-
   $scope.$on('$ionicView.afterEnter', function(){
     if ($scope.today.cards.length == 0)
       $scope.loadCards();
   });
+
+  $scope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams, options) {
+    if (fromState.name == toState.name)
+      $scope.loadCards();
+  });
+
+
 })
