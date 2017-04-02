@@ -40,10 +40,10 @@
             <div class="item text-center item-text-wrap" ng-if="ocr_results.raw_text">
               <p>{{ocr_results.raw_text}}</p>
             </div>
-            <div class="item text-center item-text-wrap" ng-if="ocr_results.raw_text">
+            <!-- <div class="item text-center item-text-wrap" ng-if="ocr_results.raw_text">
               <p>If this text looks acceptable to you, we will extract the drug name, dosage and frequency from it.</p>
             </div>
-            <button class="button button-block button-energized" ng-click="navigateToOcrMatch()" ng-if="ocr_results.raw_text">Accept</button>
+            <button class="button button-block button-energized" ng-click="navigateToOcrMatch()" ng-if="ocr_results.raw_text">Accept</button> -->
           </div>
         </ion-slide>
 
@@ -67,7 +67,7 @@
             <div class="item text-center item-text-wrap" ng-show="!!params.noDrugMatch">
               No results found. Try to refine your search query.
             </div>
-            <ion-item class="item-icon-right item-text-wrap" ng-repeat="drug in drugs" ui-sref="medication_identification.match({rxcui: drug.rxcui, search: params.search})">
+            <ion-item class="item-icon-right item-text-wrap" ng-repeat="drug in drugs" ng-click="navigateToMatch(drug)">
               <h2>{{drug.name}}</h2>
               <i class="icon ion-ios-arrow-right"></i>
             </ion-item>
