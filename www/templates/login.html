@@ -8,9 +8,9 @@
     <div class="center-form">
       <form ng-submit="signup()" ng-if="state.view === 'signup'">
         <div class="list list-inset">
-          <label class="item item-input text-center hide-on-keyboard-open">
+          <!-- <label class="item item-input text-center hide-on-keyboard-open">
             <img class="icon ion-image" ng-src="img/onPoint_logo.png"></img>
-          </label>
+          </label> -->
 
           <label class="item item-input">
             <input type="email" placeholder="Email" ng-model="user.email" autocapitalize="none">
@@ -33,10 +33,10 @@
             <input type="password" placeholder="Password confirmation" ng-model="user.password_confirmation">
           </label>
 
-          <label class="item item-input item-select">
+          <!-- <label class="item item-input item-select">
             <div class="input-label">Gender</div>
             <select ng-model="user.gender" ng-options="g.value as g.display for g in genders"></select>
-          </label>
+          </label> -->
 
           <!-- <div class="button-bar button-balanced padding">
             <a grouped-radio="'male'" ng-model="user.gender">Male</a>
@@ -47,7 +47,7 @@
         </div>
 
         <div class="padding">
-          <button class="button button-balanced button-block" type="submit" ng-disabled="!user.email || !user.password || !user.password_confirmation || !user.gender || !user.first_name || !user.last_name || !user.age">
+          <button class="button button-balanced button-block" type="submit" ng-disabled="!user.email || !user.password || !user.password_confirmation || !user.first_name || !user.last_name || !user.age">
             <span ng-hide="state.loading">Signup</span>
             <ion-spinner icon="ios-small" class="spinner-stable" ng-show="state.loading"></ion-spinner>
           </button>
@@ -57,9 +57,9 @@
 
       <form ng-submit="login()" ng-if="state.view === 'login'">
         <div class="list list-inset">
-          <label class="item item-input text-center">
+          <!-- <label class="item item-input text-center">
             <img class="icon ion-image" ng-src="img/onPoint_logo.png"></img>
-          </label>
+          </label> -->
           <label class="item item-input">
             <input type="email" placeholder="Email" ng-model="user.email" autocapitalize="none">
           </label>
