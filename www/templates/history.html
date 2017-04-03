@@ -26,15 +26,23 @@
         </div> -->
 
         <div class="card" ng-repeat="card in date.cards">
-          <div class="item item-avatar item-text-wrap item-icon-right" ng-if="card.object_type == 'medication_schedule'">
+          <div class="item item-avatar item-text-wrap item-icon-right" ui-sref="tabsController.medication_reminder_history_card({card_id: card.id, schedule_id: card.object_id, date: date.date})" ng-if="card.object_type == 'medication_schedule'">
             <img src="img/cards/drugs_yellow.png">
             <h2 style="font-weight: bold; font-size: 20px;">
               {{card.schedule.time | formatTime}}
             </h2>
             <p>
-              <span ng-if="card.missed">You missed this card</span>
-              <span ng-if="card.completed">You completed this card</span>
+              <span ng-if="!card.skipped && !card.completed && !card.taken">We don't have information about this card. Maybe you skipped it?</span>
+              <!-- <ng-pluralize count="card.completed.length" when="{'0': 'You didnt complete any medications', 'one': 'You completed 1 medication', 'other': 'You completed {} medications'}">
+              </ng-pluralize>
+              <br> -->
+              <ng-pluralize count="card.skipped.length" when="{'0': 'You didnt skip any medications', 'one': 'You skipped 1 medication', 'other': 'You skipped {} medications'}">
+              </ng-pluralize>
+              <br>
+              <ng-pluralize count="card.taken.length" when="{'0': 'You didnt take any medications', 'one': 'You took 1 medication', 'other': 'You took {} medications'}">
+              </ng-pluralize>
             </p>
+            <i class="icon ion-ios-arrow-right"></i>
             <!-- <i class="icon ion-ios-arrow-right"></i> -->
           </div>
 
