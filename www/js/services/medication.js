@@ -99,6 +99,12 @@ angular.module('app.services')
         console.log(uid)
         console.log(medication)
 
+        // .set() doesn't allow undefined values so we need to clear them out.
+        for (var key in medication) {
+          if (!medication[key])
+            medication[key] = ""
+        }
+
         if (should_update) {
           ref = Patient.ref(uid).child("medications")
           newMessageRef = ref.push();
