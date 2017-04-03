@@ -13,9 +13,11 @@ angular.module('app.controllers')
       console.log($scope.schedule)
       console.log("--------")
     }).then(function() {
-      return MedicationHistory.getHistoryForSchedule($scope.schedule)
+      return MedicationHistory.getHistoryForSchedule($scope.schedule, $stateParams.date)
     }).then(function(doc) {
       $scope.history = doc
+      console.log("HISTORY: ")
+      console.log(doc)
       return Card.getByID($state.params.card_id)
     }).then(function(card) {
       $scope.card = card
@@ -52,7 +54,7 @@ angular.module('app.controllers')
 
   $scope.closeModal = function() {
     $scope.modal.hide().then(function() {
-      return MedicationHistory.getHistoryForSchedule($scope.schedule)
+      return MedicationHistory.getHistoryForSchedule($scope.schedule, $stateParams.date)
     }).then(function(doc) {
       $scope.history = doc
     })

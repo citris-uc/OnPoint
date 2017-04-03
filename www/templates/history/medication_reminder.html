@@ -1,0 +1,16 @@
+<ion-view>
+  <ion-nav-buttons side="right">
+    <button class="button button-icon button-clear ion-ios-compose-outline" ng-click="showNoteModal()"></button>
+  </ion-nav-buttons>
+
+  <ion-content padding="false">
+    <div class="list">
+      <ion-item  class="item-icon-right" ng-repeat="med in schedule.medications" ng-class="{'skipped-med': didSkipMed(med), 'taken-med': didTakeMed(med)}">
+        {{med.nickname || med.name}}
+        <i class="icon ion-ios-circle-outline" ng-show="noDecisionOnMedication(med)"></i>
+        <i class="icon ion-ios-checkmark-outline" ng-show="didTakeMed(med)"></i>
+        <i class="icon ion-ios-close-outline" ng-show="didSkipMed(med)"></i>
+      </ion-item>
+    </div>
+  </ion-content>
+</ion-view>

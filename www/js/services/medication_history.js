@@ -2,8 +2,9 @@ angular.module('app.services')
 
 .factory('MedicationHistory', ["Patient", "$firebaseObject","$firebaseArray", "Card", "$http", "moment", "_", function(Patient, $firebaseObject,$firebaseArray, Card, $http, moment, _) {
   return {
-    getHistoryForSchedule: function(schedule) {
-      date_string = moment(new Date()).format("YYYY-MM-DD")
+    getHistoryForSchedule: function(schedule, date_string) {
+      if (!date_string)
+        date_string = moment(new Date()).format("YYYY-MM-DD")
 
       return Patient.get().then(function(p) {
         return $firebaseArray(Patient.ref(p.uid).child("medication_histories").child(date_string)).$loaded();
