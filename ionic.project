@@ -1,6 +1,5 @@
 {
   "name": "onPoint",
-  "app_id": "34e188a3",
   "gulpStartupTasks": [
     "sass",
     "watch"
@@ -8,5 +7,6 @@
   "watchPatterns": [
     "www/**/*",
     "!www/lib/**/*"
-  ]
+  ],
+  "app_id": "3c388edd"
 }

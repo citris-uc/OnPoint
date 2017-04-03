@@ -27,8 +27,8 @@
     "ios",
     {
       "platform": "android",
-      "version": "6.1.2",
-      "locator": "android@6.1.2"
+      "version": "6.1.0",
+      "locator": "android@6.1.0"
     }
   ]
 }
