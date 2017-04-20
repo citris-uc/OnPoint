@@ -126,17 +126,18 @@ angular.module('app.services')
         if (should_update == true) {
           ref = Patient.ref(uid).child("medication_schedule").child(id).child("medications");
           newMessageRef = ref.push();
-          return newMessageRef.set({id: medication.$id, nickname: medication.nickname, name: medication.name});
+          return newMessageRef.set({id: (medication.$id || medication.id), nickname: medication.nickname, name: medication.name});
         }
       })
     },
 
     removeMedication: function(id, medication) {
+      console.log(medication)
       return Patient.get().then(function(p) {
         thisRef = Patient.ref(p.uid).child("medication_schedule").child(id).child("medications")
 
         return $firebaseArray(thisRef).$loaded().then(function(medications) {
-          indexToRemove = _.findIndex(medications, function(m) { return m.id == medication.id})
+          indexToRemove = _.findIndex(medications, function(m) { return (m.id == medication.id || m.id == medication.$id) })
 
           if (indexToRemove >= 0) {
             medications.$remove(indexToRemove)

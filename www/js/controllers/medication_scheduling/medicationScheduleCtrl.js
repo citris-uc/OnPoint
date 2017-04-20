@@ -2,15 +2,49 @@ angular.module('app.controllers')
 .controller('medicationSchedulingCtrl', function($scope, $state, $ionicHistory, $ionicModal, Patient, Medication, MedicationSchedule, MedicationHistory, Card, Onboarding, $ionicLoading) {
   $scope.medication = {};
 
+  $scope.dropped = function(index, medication, external, type, dateSchedule) {
+    if (_.find(dateSchedule.medications, function(m) { return (m.id == medication.$id || m.id == medication.id) }))
+      return false
+    else
+      return medication
+  }
+
+
+  $scope.inserted = function(index, medication, external, type, dateSchedule) {
+    console.log("INSERTED---")
+    console.log(medication)
+    console.log()
+    console.log("---")
+
+    MedicationSchedule.addMedication(dateSchedule.$id, medication)
+  }
+
+  $scope.removeMedicationFromSchedule = function(index, medication, external, type, dateSchedule) {
+    console.log("REMOVED: " + JSON.stringify(dateSchedule.medications))
+    med = _.toArray(dateSchedule.medications)[index]
+    MedicationSchedule.removeMedication(dateSchedule.$id, med).then(function(res) {
+      // dateSchedule.medications.splice(index, 1)
+    })
+  }
+
+  $scope.droppedToMedications = function(index, medication, external, type) {
+    return true
+  }
+
+
   $scope.$on("$ionicView.loaded", function() {
     $ionicLoading.show({template: "<ion-spinner></ion-spinner><br>Loading schedule...", hideOnStateChange: true})
 
     Medication.get().then(function(meds) {
       $scope.medications = meds
+      console.log($scope.medications)
     })
 
     MedicationSchedule.get().then(function(medscheds) {
       $scope.schedule = medscheds
+      _.each($scope.schedule, function(s) {
+        s.medications = _.values(s.medications)
+      })
     }).finally(function() {
       $ionicLoading.hide()
     })
