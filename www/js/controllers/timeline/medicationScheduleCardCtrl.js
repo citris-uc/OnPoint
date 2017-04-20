@@ -76,6 +76,32 @@ angular.module('app.controllers')
     })
   }
 
+  $scope.takeAllMedication = function() {
+    $ionicLoading.show({template: "<ion-spinner></ion-spinner><br>Saving your choice...", hideOnStateChange: true})
+    MedicationHistory.decideAll($scope.schedule, "take").then(function() {
+      return MedicationSchedule.getByID($stateParams.schedule_id)
+    }).then(function(doc) {
+      $scope.schedule = doc
+    }).finally(function() {
+      $ionicLoading.hide();
+    })
+  }
+
+  $scope.skipAllMedication = function()  {
+    c = confirm("Are you sure you want to skip all medication?")
+    if (!c)
+      return
+
+    $ionicLoading.show({template: "<ion-spinner></ion-spinner><br>Saving your choice...", hideOnStateChange: true})
+    MedicationHistory.decideAll($scope.schedule, "skip").then(function() {
+      return MedicationSchedule.getByID($stateParams.schedule_id)
+    }).then(function(doc) {
+      $scope.schedule = doc
+    }).finally(function() {
+      $ionicLoading.hide();
+    })
+  };
+
 
   $scope.takeMedication = function() {
     $ionicLoading.show({template: "<ion-spinner></ion-spinner><br>Saving your choice...", hideOnStateChange: true})

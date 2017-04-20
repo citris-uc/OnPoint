@@ -12,6 +12,23 @@ angular.module('app.services')
         return _.filter(histories, function(h) { return h.medication_schedule_id == schedule.$id}) || []
       })
     },
+
+    decideAll: function(schedule, choice) {
+      return Patient.get().then(function(p) {
+        return $http({
+          method: "PUT",
+          url:    onpoint.env.serverURL + "medications/decide_all",
+          data: {
+            schedule_id: schedule.$id,
+            choice: choice
+          },
+          headers: {
+           "Authorization": "Bearer " + p.token
+          }
+        })
+      })
+    },
+
     create_or_update: function(medication, schedule, choice) {
       return Patient.get().then(function(p) {
         return $http({
