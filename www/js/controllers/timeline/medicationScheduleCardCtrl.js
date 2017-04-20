@@ -101,9 +101,9 @@ angular.module('app.controllers')
 
   $scope.noDecisionOnMedication = function(med) {
     medication = _.find($scope.history, function(h) { return h.medication_id == med.id })
-    if (medication)
-      return !medication.skipped_at && !medication.taken_at
-    else
+    if (!medication || (!medication.skipped_at && !medication.taken_at) ) {
+      return true
+    } else
       return false
   }
 
