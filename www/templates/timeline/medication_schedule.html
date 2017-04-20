@@ -3,55 +3,24 @@
     <button class="button button-icon button-clear ion-ios-compose-outline" ng-click="showNoteModal()"></button>
   </ion-nav-buttons>
 
-
   <ion-content padding="false">
-
     <div class="list">
       <ion-item  ng-click="medModal(med)" class="item-icon-right" ng-repeat="med in schedule.medications" ng-class="{'skipped-med': didSkipMed(med), 'taken-med': didTakeMed(med)}">
-        {{med.nickname || med.name}}
-        <i class="icon ion-ios-circle-outline" ng-show="noDecisionOnMedication(med)"></i>
+        <span style="font-weight: bold; font-size: 22px;">{{med.nickname || med.name}}</span>
+
+        <i class="icon ion-ios-arrow-right" ng-show="noDecisionOnMedication(med)"></i>
         <i class="icon ion-ios-checkmark-outline" ng-show="didTakeMed(med)"></i>
         <i class="icon ion-ios-close-outline" ng-show="didSkipMed(med)"></i>
       </ion-item>
-
-      <!-- <ion-item ng-show="didTakeMed(med)" ng-click="medModal(med)" class="item-icon-right" ng-repeat="med in schedule.medications">
-        {{med.name}}
-      </ion-item>
-
-      <ion-item ng-show="didSkipMed(med)" ng-click="medModal(med)" class="item-icon-right" ng-repeat="med in schedule.medications">
-        {{med.name}}
-      </ion-item> -->
     </div>
-
-    <!-- <div class="list">
-      <div class="item item-divider item-energized">
-        Needs Attention
-      </div>
-
-      <ion-item ng-show="noDecisionOnMedication(med)" ng-click="medModal(med)" class="item-icon-right" ng-repeat="med in schedule.medications">
-        {{med.name}}
-      </ion-item>
-
-      <div class="item item-divider item-balanced">
-        Taken
-      </div>
-      <ion-item ng-show="didTakeMed(med)" ng-click="medModal(med)" class="item-icon-right" ng-repeat="med in schedule.medications">
-        {{med.name}}
-      </ion-item>
-
-
-      <div class="item item-divider item-assertive">
-        Skipped
-      </div>
-
-      <ion-item ng-show="didSkipMed(med)" ng-click="medModal(med)" class="item-icon-right" ng-repeat="med in schedule.medications">
-        {{med.name}}
-      </ion-item>
-
-
-    </div> -->
-
-
-
   </ion-content>
+
+  <ion-footer-bar keyboard-attach class="bar bar-footer bar-clear">
+    <div ng-click="skipAllMedication()" class="buttons button-energized text-center" style="width:50%; margin-bottom: -5px; margin-top: -5px; background-color: #ef473a;">
+      <button class="button button-clear" style="width: auto; margin: auto;">Skip all</button>
+    </div>
+    <div ng-click="takeAllMedication()" class="buttons text-center" style="width:50%; margin-bottom: -5px; margin-top: -5px; background-color: #33cd5f;">
+      <button class="button button-clear" style="width: auto; margin: auto;">Take all</button>
+    </div>
+  </ion-footer-bar>
 </ion-view>

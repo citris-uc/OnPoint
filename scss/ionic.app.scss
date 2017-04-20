@@ -21,6 +21,16 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 // Include all of Ionic
 @import "www/lib/ionic/scss/ionic";
 
+input[type="text"]:disabled {
+  font-weight: bold;
+  color: black;
+}
+
+input[type="number"]:disabled {
+  font-weight: bold;
+  color: black;
+}
+
 .tabs-top {
   .tab-item {
     max-width: 50%;

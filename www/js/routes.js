@@ -97,7 +97,7 @@ angular.module('app.routes', [])
   })
 
   .state('tabsController.medication_reminder_history_card', {
-    url: '/timeline/medication_schedule/:schedule_id?:card_id&:date',
+    url: '/history/medication_schedule/:schedule_id?:card_id',
     views: {
       'timeline-tab': {
         templateUrl: 'templates/history/medication_reminder.html',

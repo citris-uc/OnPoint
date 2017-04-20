@@ -9089,6 +9089,14 @@ a.button {
   -webkit-transition-duration: 0s;
   transition-duration: 0s; }
 
+input[type="text"]:disabled {
+  font-weight: bold;
+  color: black; }
+
+input[type="number"]:disabled {
+  font-weight: bold;
+  color: black; }
+
 .tabs-top .tab-item {
   max-width: 50%; }
 

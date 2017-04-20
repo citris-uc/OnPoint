@@ -76,6 +76,32 @@ angular.module('app.controllers')
     })
   }
 
+  $scope.takeAllMedication = function() {
+    $ionicLoading.show({template: "<ion-spinner></ion-spinner><br>Saving your choice...", hideOnStateChange: true})
+    MedicationHistory.decideAll($scope.schedule, "take").then(function() {
+      return MedicationSchedule.getByID($stateParams.schedule_id)
+    }).then(function(doc) {
+      $scope.schedule = doc
+    }).finally(function() {
+      $ionicLoading.hide();
+    })
+  }
+
+  $scope.skipAllMedication = function()  {
+    c = confirm("Are you sure you want to skip all medication?")
+    if (!c)
+      return
+
+    $ionicLoading.show({template: "<ion-spinner></ion-spinner><br>Saving your choice...", hideOnStateChange: true})
+    MedicationHistory.decideAll($scope.schedule, "skip").then(function() {
+      return MedicationSchedule.getByID($stateParams.schedule_id)
+    }).then(function(doc) {
+      $scope.schedule = doc
+    }).finally(function() {
+      $ionicLoading.hide();
+    })
+  };
+
 
   $scope.takeMedication = function() {
     $ionicLoading.show({template: "<ion-spinner></ion-spinner><br>Saving your choice...", hideOnStateChange: true})
@@ -101,9 +127,9 @@ angular.module('app.controllers')
 
   $scope.noDecisionOnMedication = function(med) {
     medication = _.find($scope.history, function(h) { return h.medication_id == med.id })
-    if (medication)
-      return !medication.skipped_at && !medication.taken_at
-    else
+    if (!medication || (!medication.skipped_at && !medication.taken_at) ) {
+      return true
+    } else
       return false
   }
 

@@ -16,6 +16,7 @@
         <tbody>
           <tr ng-repeat="dateSchedule in schedule | orderBy: 'time'">
             <td>{{dateSchedule.name}}<br>{{dateSchedule.time | formatTime}}</td>
+
             <td ng-repeat="slot in dateSchedule.slots track by $index" >
               <span>{{slot.medications.join(", ")}}</span>
             </td>
