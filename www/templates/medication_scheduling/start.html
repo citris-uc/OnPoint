@@ -7,48 +7,53 @@
 
   <ion-content overflow-scroll="true" padding="false" class="has-header has-footer">
 
-    <ul class="list">
-      <ion-item class="item item-text-wrap" ng-if="schedule.length == 0">
-        <p class="text-center">You don't have a schedule yet. Use the + icon in the navigation bar
-        to add a slot.</p>
+    <div ng-repeat="dateSchedule in schedule | orderBy: 'time'">
+      <ion-item class="item item-icon-right" style="background-color: #f5f5f5;">
+        <b>{{dateSchedule.name}} ({{dateSchedule.time | formatTime}})</b>
+        <i class="icon ion-ios-gear-outline" ui-sref="medication_scheduling.edit({id: dateSchedule.$id})"></i>
       </ion-item>
 
-      <div ng-repeat="dateSchedule in schedule | orderBy: 'time'">
-        <ion-item class="item item-icon-right" style="background-color: #f5f5f5;">
-          <b>{{dateSchedule.name}} ({{dateSchedule.time | formatTime}})</b>
-          <i class="icon ion-ios-gear-outline" ui-sref="medication_scheduling.edit({id: dateSchedule.$id})"></i>
-        </ion-item>
+      <div class="advancedDemo row">
+        <div class="dropzone box box-yellow">
 
-        <div dnd-list="dateSchedule.medications" dnd-allowed-types="['medType']" dnd-drop="dropCallback(event, index, item, external, type, 'itemType', dateSchedule, dateSchedule.medications == null)" class="itemlist">
-          <ion-item class="item-icon-left" ng-click="addMedicationModal(dateSchedule.$id)">
-            <i class="icon ion-ios-plus balanced"></i>
-            Add a medication
-          </ion-item>
+          <ul class="itemlist" dnd-list="dateSchedule.medications" dnd-allowed-types="['med']" dnd-inserted="inserted(index, item, external, type, dateSchedule)" dnd-drop="dropped(index, item, external, type, dateSchedule)">
 
-          <ion-item class="item-icon-left" ng-repeat="med in dateSchedule.medications track by $index" dnd-type="'medType'" dnd-draggable="med" dnd-moved="dateSchedule.medications.splice($index, 1)" dnd-effect-allowed="move">
-            <i class="icon ion-ios-minus assertive" ng-click="removeMedication(dateSchedule.$id, med)"></i>
-            {{med.nickname || med.name}}
-            <!-- <i class="icon ion-navicon"></i> -->
-          </ion-item>
+            <li ng-repeat="med in dateSchedule.medications track by $index"
+              dnd-draggable="med"
+              dnd-type="'med'"
+              dnd-effect-allowed="move"
+              dnd-moved="removeMedicationFromSchedule($index, item, external, type, dateSchedule)">
+              <div class="container-element box box-blue">
+                {{med.nickname || med.name}}
+              </div>
+
+            </li>
+          </ul>
         </div>
       </div>
-    </ul>
 
+    </div>
 
-    <!-- <ul dnd-list="schedule" dnd-allowed-types="['timeSlotType']">
-      <li class = "card item" ng-repeat="dateSchedule in schedule | orderBy: 'time'">
-        <a class="item">{{dateSchedule.slot | uppercase}}
-          <i class="item-small item-icon-right" style="float:right">
-          {{timeDisplayFormat(dateSchedule.time)}}
-            <i class="icon ion-edit button button-clear button-positive" ng-click="editSlot(dateSchedule)"></i>
-          </i>
-        </a>
+    <ion-item class="item item-icon-right" style="background-color: #f5f5f5;">
+      <b>Your medications</b>
 
-        <ul dnd-list="dateSchedule.medications" dnd-horizontal-list="true" dnd-allowed-types="['medType']" dnd-drop="dropCallback(event, index, item, external, type, 'itemType', dateSchedule, dateSchedule.medications == null)" class="itemlist">
-          <li ng-repeat="med in dateSchedule.medications" dnd_type="'medType'" dnd-draggable="med" dnd-moved="dateSchedule.medications.splice($index, 1)" dnd-effect-allowed="move" style="background-image: url({{getMedImg(med)}})">{{med}}</li>
+    </ion-item>
+
+    <div class="advancedDemo row">
+      <div class="dropzone box box-yellow">
+        <ul dnd-list="medications" dnd-allowed-types="['med']" dnd-drop="droppedToMedications(index, item, external, type)" class="itemlist">
+          <li ng-repeat="med in medications"
+            dnd-draggable="med"
+            dnd-type="'med'"
+            dnd-effect-allowed="move">
+
+            <div class="container-element box box-blue">
+              {{med.nickname || med.name}}
+            </div>
+          </li>
         </ul>
-      </li>
-    </ul> -->
+      </div>
+    </div>
 
   </ion-content>
 
