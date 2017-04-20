@@ -16,7 +16,7 @@
         <h2>{{data.title}}</h2>
         <p>
           <i class="icon ion-ios-clock-outline"></i>
-          {{data.time}} on {{data.date}}
+          {{data.time | formatTime }} on {{data.date | formatDateWithWeekday}}
         </p>
         <p>
           <i class="icon ion-clipboard"></i>
