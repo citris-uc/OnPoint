@@ -14,4 +14,13 @@
       </ion-item>
     </div>
   </ion-content>
+
+  <ion-footer-bar keyboard-attach class="bar bar-footer bar-clear">
+    <div ng-click="skipAllMedication()" class="buttons button-energized text-center" style="width:50%; margin-bottom: -5px; margin-top: -5px; background-color: #ef473a;">
+      <button class="button button-clear" style="width: auto; margin: auto;">Skip all</button>
+    </div>
+    <div ng-click="takeAllMedication()" class="buttons text-center" style="width:50%; margin-bottom: -5px; margin-top: -5px; background-color: #33cd5f;">
+      <button class="button button-clear" style="width: auto; margin: auto;">Take all</button>
+    </div>
+  </ion-footer-bar>
 </ion-view>
