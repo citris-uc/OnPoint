@@ -33,6 +33,13 @@ angular.module('app', ['ionic', 'firebase', 'app.controllers', 'app.routes', 'ap
   }
 })
 
+.filter('formatDateWithWeekday', function ($filter, moment) {
+  return function (time) {
+    date = moment(time, "YYYY-MM-DD").format("dddd, MMMM DD, YYYY")
+    return $filter('date')(date, '');
+  }
+})
+
 /*
  * Use this filter to use orderBy on an object returned from FIREBASE
  * use this instead of orderObjectBy because we can keep the firebase object ID or KEY!
