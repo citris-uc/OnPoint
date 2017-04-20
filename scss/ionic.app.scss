@@ -21,10 +21,6 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 // Include all of Ionic
 @import "www/lib/ionic/scss/ionic";
 
-.bar-onpoint {
-  background-color: #51AB51 !important;
-}
-
 .tabs-top {
   .tab-item {
     max-width: 50%;
@@ -297,11 +293,11 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 
 $SIDEMENU_TOP: #449d44;
 $SIDEMENU_BOTTOM: #5cb85c;
-$SIDEMENU_TRANSPARENCY: rgba(255,255,255,0.4);
+$SIDEMENU_TRANSPARENCY: #ddd;
 
 .side-menu-item{
   background:none;
-  color:white;
+  // color:white;
   font-weight:300;
   border:0px;
   .item-content{
@@ -318,10 +314,11 @@ $SIDEMENU_TRANSPARENCY: rgba(255,255,255,0.4);
 }
 
 .side-menu-gradient{
-  background: -webkit-linear-gradient(left top, $SIDEMENU_TOP, $SIDEMENU_BOTTOM);
-  background: -o-linear-gradient(bottom right, $SIDEMENU_TOP, $SIDEMENU_BOTTOM);
-  background: -moz-linear-gradient(bottom right, $SIDEMENU_TOP, $SIDEMENU_BOTTOM);
-  background: linear-gradient(to bottom right, $SIDEMENU_TOP, $SIDEMENU_BOTTOM);
+  color: #444;
+  // background: -webkit-linear-gradient(left top, $SIDEMENU_TOP, $SIDEMENU_BOTTOM);
+  // background: -o-linear-gradient(bottom right, $SIDEMENU_TOP, $SIDEMENU_BOTTOM);
+  // background: -moz-linear-gradient(bottom right, $SIDEMENU_TOP, $SIDEMENU_BOTTOM);
+  // background: linear-gradient(to bottom right, $SIDEMENU_TOP, $SIDEMENU_BOTTOM);
 }
 
 .profile-image{

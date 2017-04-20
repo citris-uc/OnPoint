@@ -1,6 +1,6 @@
 <ion-side-menus enable-menu-with-back-views="false">
   <ion-side-menu-content drag-content="false">
-    <ion-nav-bar class="bar-balanced bar-onpoint">
+    <ion-nav-bar class="bar-stable">
       <ion-nav-back-button>
       </ion-nav-back-button>
 
@@ -11,19 +11,8 @@
     </ion-nav-bar>
 
     <ion-nav-view name="timeline-tab"></ion-nav-view>
-
-    <!-- TABS -->
-    <!-- <ion-tabs class="tabs-stable tabs-icon-top tabs-color-active-positive">
-      <ion-tab title="Timeline" icon="ion-ios-home-outline" href="#/tabs/timeline">
-        <ion-nav-view name="timeline-tab"></ion-nav-view>
-      </ion-tab>
-      <ion-tab title="Medications" icon="ion-ios-medkit-outline" href="#/tabs/medications">
-        <ion-nav-view name="medications-tab"></ion-nav-view>
-      </ion-tab>
-    </ion-tabs> -->
   </ion-side-menu-content>
 
-   <!-- Side Menu (left) -->
   <ion-side-menu side="left">
     <!-- <ion-header-bar class="bar-stable">
       <h1 class="title">Menu</h1>
@@ -34,8 +23,8 @@
         <img ng-if="!patient.profileImageURL" src="img/profile.png" style="display: block; width: 40%; height: auto; margin-left: auto; margin-right: auto;">
         <img ng-if="!!patient.profileImageURL" src="{{patient.profileImageURL}}" style="display: block; width: 40%; height: auto; margin-left: auto; margin-right: auto;">
       </div>
-      <h3 style="color:white; text-align:center;">{{patient.first_name}}</h3>
-      <p style="color:white; text-align:center;">{{patient.email}}</p>
+      <h3 style="text-align:center;">{{patient.first_name}}</h3>
+      <p style="text-align:center;">{{patient.email}}</p>
       <div class="spacer" style="width: 100%; border-top: 1px solid white;"></div>
       <ion-list>
         <ion-item menu-close ui-sref="tabsController.timeline" class="icon item-icon-left side-menu-item" active-page-highlight="">
@@ -48,33 +37,29 @@
           History
         </ion-item>
 
-        <ion-item menu-close ui-sref="tabsController.appointments" class="icon item-icon-left side-menu-item" active-page-highlight="">
-          <i class="icon ion-ios-clock-outline"></i>
-          Appointments
-        </ion-item>
-
-        <ion-item menu-close ui-sref="tabsController.surveys" class="icon item-icon-left side-menu-item" active-page-highlight="">
-          <i class="icon ion-document-text"></i>
-          Surveys
-        </ion-item>
-
         <ion-item menu-close ui-sref="tabsController.care_team" class="icon item-icon-left side-menu-item" active-page-highlight="">
           <i class="icon ion-ios-people-outline"></i>
           My Care Team
         </ion-item>
 
-        <!-- <div class="item item-divider item-balanced">Onboarding</div> -->
-        <ion-item class="icon item-icon-left side-menu-item" menu-close ui-sref="onboarding.welcome" active-page-highlight="">
-          <i class="icon ion-ios-information-empty"></i>
-          Onboarding
-        </ion-item>
         <ion-item class="icon item-icon-left side-menu-item" menu-close ui-sref="medication_identification.welcome" active-page-highlight="">
-          <i class="icon ion-contrast"></i>
-          My Medications
+          <i class="icon ion-ios-medkit-outline"></i>
+          Medications
         </ion-item>
-        <ion-item class="icon item-icon-left side-menu-item" menu-close ui-sref="medication_scheduling.welcome" active-page-highlight="">
-          <i class="icon ion-ios-calendar-outline"></i>
-          My Schedule
+
+        <ion-item menu-close ui-sref="tabsController.surveys" class="icon item-icon-left side-menu-item" active-page-highlight="">
+          <i class="icon ion-document-text"></i>
+          Symptoms
+        </ion-item>
+
+        <ion-item menu-close ui-sref="tabsController.appointments" class="icon item-icon-left side-menu-item" active-page-highlight="">
+          <i class="icon ion-ios-clock-outline"></i>
+          Appointments
+        </ion-item>
+
+        <ion-item class="icon item-icon-left side-menu-item" menu-close ui-sref="onboarding.welcome" active-page-highlight="">
+          <i class="icon ion-ios-help-empty"></i>
+          Help
         </ion-item>
       </ion-list>
     </ion-content>
