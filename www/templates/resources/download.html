@@ -1,0 +1,15 @@
+<ion-view>
+  <ion-content style="text-align: center;" scroll="false" padding="true">
+
+    <h3 style="margin-top: 40px;">{{params.name}}</h3>
+    <button class="button button-balanced icon-left ion-ios-cloud-download-outline" ng-if="params.url" ng-click="openLink('{{params.url}}')">
+      Download this file
+    </button>
+    <div ng-if="params.url">
+      <br>
+      or copy this link:
+      <br>
+      {{params.url}}
+    </div>
+  </ion-content>
+</ion-view>
