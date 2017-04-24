@@ -62,7 +62,7 @@ angular.module('app', ['ionic', 'firebase', 'app.controllers', 'app.routes', 'ap
 })
 
 
-.run(function($ionicPlatform, $rootScope, Patient, $state, $ionicHistory, $ionicModal, Onboarding, $ionicSideMenuDelegate) {
+.run(function($ionicPlatform, $rootScope, Patient, $state, $ionicHistory, $ionicModal, Onboarding, $ionicSideMenuDelegate, $cordovaInAppBrowser) {
   // Patient.getFromFirebase().then(function(patient) {
   //   $rootScope.patient = patient
   //   console.log(patient)
@@ -231,5 +231,19 @@ angular.module('app', ['ionic', 'firebase', 'app.controllers', 'app.routes', 'ap
       })
     }
   })
+
+
+
+  $rootScope.openLink = function(url) {
+    var options = {
+      location: 'yes',
+      clearcache: 'yes',
+      toolbar: 'yes',
+      hardwareback: "yes",
+      toolbarposition: "top"
+    };
+
+    $cordovaInAppBrowser.open(url, '_system', options)
+  }
 
 })
