@@ -45,6 +45,33 @@ angular.module('app.routes', [])
     }
   })
 
+  .state('tabsController.resources', {
+    url: '/resources',
+    views: {
+      'timeline-tab': {
+        templateUrl: 'templates/resources/index.html',
+        controller: 'resourcesCtrl'
+      }
+    }
+  })
+  .state('tabsController.resource', {
+    url: '/resources/:name?:path',
+    views: {
+      'timeline-tab': {
+        templateUrl: 'templates/resources/show.html',
+        controller: 'resourceCtrl'
+      }
+    }
+  })
+  .state('tabsController.resource_download', {
+    url: '/resources/download/:name?:path',
+    views: {
+      'timeline-tab': {
+        templateUrl: 'templates/resources/download.html',
+        controller: 'resourceDownloadCtrl'
+      }
+    }
+  })
 
   .state('tabsController.appointments', {
     url: '/appointments',
