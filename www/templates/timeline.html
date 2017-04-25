@@ -32,8 +32,8 @@
 
     <div class="list">
       <div class="card" ng-repeat="card in today.cards" on-swipe-right="swipeCard(card)" on-swipe-left="swipeCard(card)">
-        <a class="item item-avatar item-icon-right" ng-click="openPage(card, card.object_type)" ng-if="card.object_type == 'medication_schedule'">
-          <img src="img/cards/drugs_yellow.png">
+        <a class="item item-avatar item-icon-left item-icon-right" ng-click="openPage(card, card.object_type)" ng-if="card.object_type == 'medication_schedule'">
+          <i class="icon ion-medkit"></i>
           <h2 style="font-weight: bold; font-size: 20px;">
             {{card.schedule.time | formatTime}}
             <span style="font-size: 14px; color: #888; font-weight: normal;">today</span>
@@ -45,8 +45,8 @@
           <i class="icon ion-ios-arrow-right" ng-if="card.status == 'upcoming'"></i>
         </a>
 
-        <a class="item item-avatar" ng-if="card.object_type == 'appointment'" ui-sref="tabsController.appointments">
-          <img src="img/cards/appointment_green.png"></img>
+        <a class="item item-avatar item-icon-left" ng-if="card.object_type == 'appointment'" ui-sref="tabsController.appointments">
+          <i class="icon ion-ios-clock-outline"></i>
           <h2 style="font-weight: bold; font-size: 20px;">
             {{card.appointment.time | formatTime}}
             <span style="font-size: 14px; color: #888; font-weight: normal;">{{card.appointment.date | date:'EEE MMM dd, yyyy'}}</span>
