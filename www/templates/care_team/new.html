@@ -37,7 +37,25 @@
           <span class="input-label">Note</span>
           <input class="input-label" type="text" ng-model="member.note"></input>
         </label>
+
+        <ion-item class="item-divider">
+          Choose an icon to identify this care team member:
+        </ion-item>
       </ion-list>
+
+      <div class="content">
+        <div class="row">
+          <div class="col item text-center" ng-repeat="opt in options" ng-click="member.icon = opt" ng-class="{'item-stable': member.icon !== opt, 'item-balanced': member.icon === opt}">
+            <i class="icon {{opt}}" style="font-size: 24px;"></i>
+          </div>
+        </div>
+      </div>
+
+      <!-- <ion-list>
+        <ion-radio class="item item-icon-left" ng-model="member.icon" ng-value="'{{opt}}'" ng-repeat="opt in options">
+          <i class="icon {{opt}}"></i>
+        </ion-radio>
+      </ion-list> -->
     </ion-content>
 
     <ion-footer-bar keyboard-attach class="bar bar-footer bar-balanced">

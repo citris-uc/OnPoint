@@ -4,6 +4,15 @@ angular.module('app.controllers')
   $scope.care_team = []
   $scope.member = {}
 
+  $scope.options = [
+    "ion-person",
+    "ion-heart",
+    "ion-medkit",
+    "ion-ios-nutrition",
+    "ion-android-car",
+    "ion-asterisk"
+  ]
+
   $scope.$on('$ionicView.loaded', function(){
     CareTeam.getAll().then(function(care_team) {
       console.log(care_team)
@@ -61,6 +70,10 @@ angular.module('app.controllers')
       return
     }
 
+    if (!$scope.member.icon) {
+      alert("Please select an icon for this member")
+      return
+    }
     $ionicLoading.show({hideOnStateChange: true})
 
     CareTeam.add($scope.member).then(function() {
@@ -82,6 +95,10 @@ angular.module('app.controllers')
       return
     }
 
+    if (!$scope.member.icon) {
+      alert("Please select an icon for this member")
+      return
+    }
     $ionicLoading.show({hideOnStateChange: true})
 
     CareTeam.update($scope.member).then(function() {
