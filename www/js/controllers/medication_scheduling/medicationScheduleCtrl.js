@@ -3,12 +3,17 @@ angular.module('app.controllers')
   $scope.medication = {};
 
   $scope.dropped = function(index, medication, external, type, dateSchedule) {
-    if (_.find(dateSchedule.medications, function(m) { return (m.id == medication.$id || m.id == medication.id) }))
+    medication_id = medication.$id || medication.id
+    if (dateSchedule[medication_id])
       return false
     else
       return medication
-  }
 
+    // if (_.find(dateSchedule.medications, function(m) { return (m.id == medication.$id || m.id == medication.id) }))
+    //   return false
+    // else
+    //   return medication
+  }
 
   $scope.inserted = function(index, medication, external, type, dateSchedule) {
     console.log("INSERTED---")
@@ -19,16 +24,16 @@ angular.module('app.controllers')
     MedicationSchedule.addMedication(dateSchedule.$id, medication)
   }
 
-  $scope.removeMedicationFromSchedule = function(index, medication, external, type, dateSchedule) {
-    console.log("REMOVED: " + JSON.stringify(dateSchedule.medications))
-    med = _.toArray(dateSchedule.medications)[index]
-    MedicationSchedule.removeMedication(dateSchedule.$id, med).then(function(res) {
-      // dateSchedule.medications.splice(index, 1)
-    })
+  $scope.removeMedicationFromSchedule = function(medication_id, dateSchedule) {
+    MedicationSchedule.removeMedication(dateSchedule.$id, medication_id)
   }
 
   $scope.droppedToMedications = function(index, medication, external, type) {
     return true
+  }
+
+  $scope.medicationsArrayForSchedule = function(schedule) {
+    return _.values(schedule.medications)
   }
 
 
@@ -37,14 +42,29 @@ angular.module('app.controllers')
 
     Medication.get().then(function(meds) {
       $scope.medications = meds
-      console.log($scope.medications)
     })
 
     MedicationSchedule.get().then(function(medscheds) {
+      console.log("medscheds: ")
+      console.log(medscheds)
       $scope.schedule = medscheds
-      _.each($scope.schedule, function(s) {
-        s.medications = _.values(s.medications)
-      })
+      // _.each($scope.schedule, function(s) {
+      //   s.medications = _.values(s.medications)
+      // })
+    }).then(function() {
+
+
+      // _.each(document.getElementsByClassName("container-element"), function(el) {
+      //   console.log(el)
+      // })
+      // ionic.EventController.off("dragstart", null, document.getElementsByClassName("draggable-element"))
+      // ionic.EventController.off("drag", null, document.getElementsByClassName("draggable-element"))
+      // ionic.EventController.off("dragend", null, document.getElementsByClassName("draggable-element"))
+
+
+
+
+
     }).finally(function() {
       $ionicLoading.hide()
     })
@@ -74,10 +94,6 @@ angular.module('app.controllers')
       $scope.medication = {};
       $scope.closeModal()
     })
-  }
-
-  $scope.removeMedication = function(slotID, medication) {
-    MedicationSchedule.removeMedication(slotID, medication)
   }
 
   $scope.completeMedicationScheduling = function() {

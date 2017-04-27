@@ -5,12 +5,11 @@
 
   <ion-content padding="false">
     <div class="list">
-      <ion-item  ng-click="medModal(med)" class="item-icon-right" ng-repeat="med in schedule.medications" ng-class="{'skipped-med': didSkipMed(med), 'taken-med': didTakeMed(med)}">
+      <ion-item  ng-click="medModal(med)" class="item-icon-right item-text-wrap" ng-repeat="med in schedule.medications" ng-class="{'skipped-med': didSkipMed(med), 'taken-med': didTakeMed(med)}">
         <span style="font-weight: bold; font-size: 22px;">{{med.nickname || med.name}}</span>
-
-        <i class="icon ion-ios-arrow-right" ng-show="noDecisionOnMedication(med)"></i>
-        <i class="icon ion-ios-checkmark-outline" ng-show="didTakeMed(med)"></i>
-        <i class="icon ion-ios-close-outline" ng-show="didSkipMed(med)"></i>
+        <i class="icon ion-ios-arrow-right" ng-show="!history[med.id].taken_at && !history[med.id].skipped_at"></i>
+        <i class="icon ion-ios-checkmark-outline" ng-show="history[med.id].taken_at"></i>
+        <i class="icon ion-ios-close-outline" ng-show="history[med.id].skipped_at"></i>
       </ion-item>
     </div>
   </ion-content>

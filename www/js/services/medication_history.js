@@ -2,24 +2,25 @@ angular.module('app.services')
 
 .factory('MedicationHistory', ["Patient", "$firebaseObject","$firebaseArray", "Card", "$http", "moment", "_", function(Patient, $firebaseObject,$firebaseArray, Card, $http, moment, _) {
   return {
-    getHistoryForSchedule: function(schedule, date_string) {
+    getHistoryForSchedule: function(date_string, schedule) {
       if (!date_string)
         date_string = moment(new Date()).format("YYYY-MM-DD")
 
       return Patient.get().then(function(p) {
-        return $firebaseArray(Patient.ref(p.uid).child("medication_histories").child(date_string)).$loaded();
+        return $firebaseObject(Patient.ref(p.uid).child("medication_histories").child(date_string).child(schedule.$id)).$loaded();
       }).then(function(histories) {
-        return _.filter(histories, function(h) { return h.medication_schedule_id == schedule.$id}) || []
+        return histories || {}
       })
     },
 
-    decideAll: function(schedule, choice) {
+    decideAll: function(schedule, date, choice) {
       return Patient.get().then(function(p) {
         return $http({
           method: "PUT",
           url:    onpoint.env.serverURL + "medications/decide_all",
           data: {
             schedule_id: schedule.$id,
+            date: date,
             choice: choice
           },
           headers: {
@@ -29,13 +30,14 @@ angular.module('app.services')
       })
     },
 
-    create_or_update: function(medication, schedule, choice) {
+    decide: function(medication, schedule, date, choice) {
       return Patient.get().then(function(p) {
         return $http({
           method: "PUT",
           url:    onpoint.env.serverURL + "medications/decide",
           data: {
-            medication_id: medication.$id,
+            medication: medication,
+            date: date,
             schedule_id: schedule.$id,
             choice: choice
           },

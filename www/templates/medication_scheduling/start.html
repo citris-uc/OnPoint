@@ -16,13 +16,13 @@
       <div class="advancedDemo row">
         <div class="dropzone box box-yellow">
 
-          <ul class="itemlist" dnd-list="dateSchedule.medications" dnd-allowed-types="['med']" dnd-inserted="inserted(index, item, external, type, dateSchedule)" dnd-drop="dropped(index, item, external, type, dateSchedule)">
+          <ul class="itemlist" dnd-list="medicationsArrayForSchedule(dateSchedule)" dnd-allowed-types="['med']" dnd-inserted="inserted(index, item, external, type, dateSchedule)" dnd-drop="dropped(index, item, external, type, dateSchedule)">
 
-            <li ng-repeat="med in dateSchedule.medications track by $index"
+            <li ng-repeat="(medication_id, med) in dateSchedule.medications track by $index"
               dnd-draggable="med"
               dnd-type="'med'"
               dnd-effect-allowed="move"
-              dnd-moved="removeMedicationFromSchedule($index, item, external, type, dateSchedule)">
+              dnd-moved="removeMedicationFromSchedule(medication_id, dateSchedule)">
               <div class="container-element box box-blue">
                 {{med.nickname || med.name}}
               </div>

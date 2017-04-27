@@ -116,33 +116,29 @@ angular.module('app.services')
       uid = null
       return Patient.get().then(function(p) {
         uid = p.uid
-        return Patient.ref(uid).child("medication_schedule").child(id).child("medications").once("value")
-      }).then(function(meds) {
-        medications = []
-        if (meds.val())
-          medications = _.values(meds.val())
-        should_update = (_.findIndex(medications, function(m) { return m.id == medication.$id}) == -1)
 
-        if (should_update == true) {
-          ref = Patient.ref(uid).child("medication_schedule").child(id).child("medications");
-          newMessageRef = ref.push();
-          return newMessageRef.set({id: (medication.$id || medication.id), nickname: medication.nickname, name: medication.name});
-        }
+        medication_id = medication.$id || medication.id
+        if (!medication_id)
+          alert("medication_id is not defined!")
+
+        medication_to_save    = angular.copy(medication)
+        medication_to_save.id = medication_id
+        delete medication_to_save.$id
+        delete medication_to_save.$priority
+
+        console.log("medication_to_save = " + JSON.stringify(medication_to_save))
+
+        return Patient.ref(uid).child("medication_schedule").child(id).child("medications").child(medication_id).update(medication_to_save)
       })
     },
 
-    removeMedication: function(id, medication) {
-      console.log(medication)
+    removeMedication: function(id, medication_id) {
+      console.log("----")
+      console.log(id)
+      console.log(medication_id)
+      console.log("----")
       return Patient.get().then(function(p) {
-        thisRef = Patient.ref(p.uid).child("medication_schedule").child(id).child("medications")
-
-        return $firebaseArray(thisRef).$loaded().then(function(medications) {
-          indexToRemove = _.findIndex(medications, function(m) { return (m.id == medication.id || m.id == medication.$id) })
-
-          if (indexToRemove >= 0) {
-            medications.$remove(indexToRemove)
-          }
-        })
+        return $firebaseObject(Patient.ref(p.uid).child("medication_schedule").child(id).child("medications").child(medication_id)).$remove()
       })
     }
   };

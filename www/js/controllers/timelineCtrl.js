@@ -1,7 +1,7 @@
 angular.module('app.controllers')
 
 .controller('timelineCtrl', function($scope, $state, Card, $ionicLoading, Patient) {
-  $scope.today    = {timestamp: "", cards: []}
+  $scope.dates    = []
   $scope.firstLoad = true
 
   // This loads cards depending on the page we're currently on. For instance,
@@ -11,8 +11,7 @@ angular.module('app.controllers')
     $ionicLoading.show({template: "<ion-spinner></ion-spinner><br>Loading cards...", hideOnStateChange: true});
 
     Card.today().then(function(response) {
-      console.log(response)
-      $scope.today.cards = response.data.cards;
+      $scope.dates = response.data.dates;
     }).catch(function(response) {
       $scope.$emit(onpoint.error, response)
     }).finally(function(response) {
@@ -32,16 +31,15 @@ angular.module('app.controllers')
     return moment(date).diff(moment(new Date())) > 0
   }
 
-  $scope.openPage = function(card, type){
-    console.log(card)
+  $scope.openPage = function(card, type, date){
     if (card.status == "past")
       navigator.notification.alert("This card has expired!",null)
     else
-      return $state.go('tabsController.medication_schedule', {card_id: card.id, schedule_id: card.object_id});
+      return $state.go('tabsController.medication_schedule', {card_id: card.id, date: date, schedule_id: card.object_id});
   }
 
   $scope.$on('$ionicView.afterEnter', function(){
-    if ($scope.today.cards.length == 0)
+    if ($scope.dates.length == 0)
       $scope.loadCards();
   });
 

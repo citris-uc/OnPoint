@@ -134,7 +134,7 @@ angular.module('app.routes', [])
   })
 
   .state('tabsController.medication_schedule', {
-    url: '/timeline/medication_schedule/:schedule_id?:card_id',
+    url: '/timeline/medication_schedule/:schedule_id?:card_id&:date',
     views: {
       'timeline-tab': {
         templateUrl: 'templates/timeline/medication_schedule.html',

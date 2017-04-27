@@ -1,5 +1,5 @@
 angular.module('app.controllers')
-.controller("medicationScheduleCardCtrl", function($scope, $state, $stateParams, $ionicModal, $ionicHistory, Medication, MedicationSchedule, MedicationDosage, MedicationHistory, $ionicLoading, Card, _) {
+.controller("medicationScheduleCardCtrl", function($scope, $state, $stateParams, $ionicModal, $ionicHistory, Medication, MedicationSchedule, MedicationDosage, MedicationHistory, $ionicLoading, Card, _, $log) {
   $scope.drug     = {}
   $scope.history  = []
   $scope.card     = {}
@@ -9,15 +9,12 @@ angular.module('app.controllers')
 
     MedicationSchedule.getByID($stateParams.schedule_id).then(function(doc) {
       $scope.schedule = doc
-      console.log("$scope.schedule = ")
-      console.log($scope.schedule)
-      console.log("--------")
     }).then(function() {
-      return MedicationHistory.getHistoryForSchedule($scope.schedule, $stateParams.date)
+      return MedicationHistory.getHistoryForSchedule($stateParams.date, $scope.schedule)
     }).then(function(doc) {
       $scope.history = doc
-      console.log("HISTORY: ")
-      console.log(doc)
+      $log.debug("HISTORY: ")
+      $log.debug(doc)
       return Card.getByID($state.params.card_id)
     }).then(function(card) {
       $scope.card = card
@@ -54,7 +51,7 @@ angular.module('app.controllers')
 
   $scope.closeModal = function() {
     $scope.modal.hide().then(function() {
-      return MedicationHistory.getHistoryForSchedule($scope.schedule, $stateParams.date)
+      return MedicationHistory.getHistoryForSchedule($stateParams.date, $scope.schedule)
     }).then(function(doc) {
       $scope.history = doc
     })
@@ -78,7 +75,7 @@ angular.module('app.controllers')
 
   $scope.takeAllMedication = function() {
     $ionicLoading.show({template: "<ion-spinner></ion-spinner><br>Saving your choice...", hideOnStateChange: true})
-    MedicationHistory.decideAll($scope.schedule, "take").then(function() {
+    MedicationHistory.decideAll($scope.schedule, $stateParams.date, "take").then(function() {
       return MedicationSchedule.getByID($stateParams.schedule_id)
     }).then(function(doc) {
       $scope.schedule = doc
@@ -93,7 +90,7 @@ angular.module('app.controllers')
       return
 
     $ionicLoading.show({template: "<ion-spinner></ion-spinner><br>Saving your choice...", hideOnStateChange: true})
-    MedicationHistory.decideAll($scope.schedule, "skip").then(function() {
+    MedicationHistory.decideAll($scope.schedule, $stateParams.date, "skip").then(function() {
       return MedicationSchedule.getByID($stateParams.schedule_id)
     }).then(function(doc) {
       $scope.schedule = doc
@@ -105,7 +102,7 @@ angular.module('app.controllers')
 
   $scope.takeMedication = function() {
     $ionicLoading.show({template: "<ion-spinner></ion-spinner><br>Saving your choice...", hideOnStateChange: true})
-    MedicationHistory.create_or_update($scope.drug, $scope.schedule, "take").then(function() {
+    MedicationHistory.decide($scope.drug, $scope.schedule, $stateParams.date, "take").then(function() {
       $scope.closeModal();
     }).finally(function() {
       $ionicLoading.hide();
@@ -118,7 +115,7 @@ angular.module('app.controllers')
       return
 
     $ionicLoading.show({template: "<ion-spinner></ion-spinner><br>Saving your choice...", hideOnStateChange: true})
-    MedicationHistory.create_or_update($scope.drug, $scope.schedule, "skip").then(function() {
+    MedicationHistory.decide($scope.drug, $scope.schedule, $stateParams.date, "skip").then(function() {
       $scope.closeModal();
     }).finally(function() {
       $ionicLoading.hide();
@@ -126,7 +123,7 @@ angular.module('app.controllers')
   };
 
   $scope.noDecisionOnMedication = function(med) {
-    medication = _.find($scope.history, function(h) { return h.medication_id == med.id })
+    medication = $scope.history[med.id]
     if (!medication || (!medication.skipped_at && !medication.taken_at) ) {
       return true
     } else
@@ -134,21 +131,21 @@ angular.module('app.controllers')
   }
 
 
-  $scope.didTakeMed = function(med) {
-    medication = _.find($scope.history, function(hist) { return hist.medication_id == med.id })
-    if (medication)
-      return !!medication.taken_at
-    else
-      return false
-  }
+  // $scope.didTakeMed = function(med) {
+  //   medication = _.find($scope.history, function(hist) { return hist.medication_id == med.id })
+  //   if (medication)
+  //     return !!medication.taken_at
+  //   else
+  //     return false
+  // }
 
-  $scope.didSkipMed = function(med) {
-    medication = _.find($scope.history, function(h) { return h.medication_id == med.id })
-    if (medication)
-      return !!medication.skipped_at
-    else
-      return false
-  }
+  // $scope.didSkipMed = function(med) {
+  //   medication = _.find($scope.history, function(h) { return h.medication_id == med.id })
+  //   if (medication)
+  //     return !!medication.skipped_at
+  //   else
+  //     return false
+  // }
 
 
   $scope.updateNote = function() {

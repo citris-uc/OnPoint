@@ -21,6 +21,26 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 // Include all of Ionic
 @import "www/lib/ionic/scss/ionic";
 
+.card-label {
+  padding-left: 5px;
+  padding-right: 5px;
+  border-radius: 10px;
+  color: white;
+  font-size: 12px;
+  text-align: center;
+}
+
+.energized {
+  background-color: #ffc900;
+}
+.balanced {
+  background-color: #33cd5f;
+}
+.assertive {
+  background-color: #ef473a;
+}
+
+
 input[type="text"]:disabled {
   font-weight: bold;
   color: black;
@@ -528,7 +548,8 @@ td {
  * operation.
  */
 .advancedDemo .dropzone .dndDraggingSource {
-    opacity: 0.5;
+    // opacity: 0.5;
+    // display: none;
 }
 
 /**
