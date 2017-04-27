@@ -32,10 +32,7 @@ angular.module('app.controllers')
   }
 
   $scope.openPage = function(card, type, date){
-    if (card.status == "past")
-      navigator.notification.alert("This card has expired!",null)
-    else
-      return $state.go('tabsController.medication_schedule', {card_id: card.id, date: date, schedule_id: card.object_id});
+    return $state.go('tabsController.medication_schedule', {card_id: card.id, date: date, schedule_id: card.object_id});
   }
 
   $scope.$on('$ionicView.afterEnter', function(){
