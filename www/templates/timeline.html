@@ -12,7 +12,13 @@
     </div>
 
     <div class="list">
-      <div ng-repeat="date in dates">
+      <div ng-repeat="date in dates track by $index">
+        <div class="card-section history padding">
+          <hr class="responsive-col"></hr>
+          <h4 class="text-center" ng-if="$index == 0">Today ({{date.date | date:'EEE MMM dd, yyyy'}})</h4>
+          <h4 class="text-center" ng-if="$index == 1">Tomorrow ({{date.date | date:'EEE MMM dd, yyyy'}})</h4>
+        </div>
+
         <div class="card" ng-repeat="card in date.cards">
           <a class="item item-avatar item-icon-left item-icon-right item-text-wrap" ng-click="openPage(card, card.object_type, date.date)" ng-if="card.object_type == 'medication_schedule'">
             <i class="icon ion-medkit"></i>
