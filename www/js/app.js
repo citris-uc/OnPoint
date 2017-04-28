@@ -118,15 +118,17 @@ angular.module('app', ['ionic', 'firebase', 'app.controllers', 'app.routes', 'ap
 
   loadLoginModal = function() {
     // Create the login modal that we will use later
-    return $ionicModal.fromTemplateUrl('templates/login.html', {
-      scope: $rootScope,
-      animation: 'slide-in-up',
-      focusFirstInput: true,
-      backdropClickToClose: false,
-      hardwareBackButtonClose: false
-    }).then(function(modal) {
-      $rootScope.modal = modal;
-    });
+    if (!$rootScope.modal) {
+      return $ionicModal.fromTemplateUrl('templates/login.html', {
+        scope: $rootScope,
+        animation: 'slide-in-up',
+        focusFirstInput: true,
+        backdropClickToClose: false,
+        hardwareBackButtonClose: false
+      }).then(function(modal) {
+        $rootScope.modal = modal;
+      });
+    }
   }
 
   $rootScope.logout = function() {
