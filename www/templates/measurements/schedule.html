@@ -1,0 +1,31 @@
+<ion-modal-view class="login-modal">
+  <ion-header-bar class="bar bar-header bar-stable">
+    <h1 class="title">Schedule measurement reminders</h1>
+    <button class="button button-clear button-positive" ng-click="closeModal()">Cancel</button>
+  </ion-header-bar>
+
+  <form ng-submit="saveSchedule()">
+    <ion-content class="has-footer">
+      <ion-list>
+        <!-- <label class="item item-input">
+          <span class="input-label">What time do you want to be reminded?</span>
+          <input type="time" ng-model="slot.time"></input>
+        </label> -->
+
+        <ion-item>
+          A card will appear on the timeline on the days you choose below.
+        </ion-item>
+
+        <ion-checkbox ng-model="slot.days[$index]" ng-repeat="day in days track by $index">{{day}}</ion-checkbox>
+
+      </ion-list>
+    </ion-content>
+
+    <ion-footer-bar keyboard-attach class="bar bar-footer bar-balanced">
+      <div class="buttons full-width">
+        <button class="button button-clear" type="submit">Update</div>
+      </div>
+    </ion-footer-bar>
+  </form>
+
+</ion-modal-view>

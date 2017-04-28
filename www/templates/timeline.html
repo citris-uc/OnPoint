@@ -22,8 +22,8 @@
         <div class="card" ng-repeat="card in date.cards">
           <a class="item item-avatar item-icon-left item-icon-right item-text-wrap" ng-click="openPage(card, card.object_type, date.date)" ng-if="card.object_type == 'medication_schedule'">
             <i class="icon ion-medkit"></i>
-            <h2 style="font-weight: bold; font-size: 20px;">
-              Medication Reminder
+            <h2 style="font-weight: bold; font-size: 18px;">
+              Medication
               <span class="card-label balanced"  ng-if="card.status == 'completed'">Completed</span>
               <span class="card-label energized" ng-if="card.status == 'inprogress'">In Progress</span>
               <span class="card-label assertive" ng-if="card.status == 'overdue'">Overdue</span>
@@ -39,10 +39,19 @@
             <i class="icon ion-ios-arrow-right" ng-if="card.upcoming"></i>
           </a>
 
+          <a class="item item-avatar item-icon-left item-icon-right" ng-if="card.object_type == 'measurement_schedule'" ui-sref="tabsController.measurements">
+            <i class="icon ion-arrow-graph-down-right"></i>
+            <h2 style="font-weight: bold; font-size: 18px;">
+              Measurement
+            </h2>
+            <p>Time for a check-in!</p>
+            <i class="icon ion-ios-arrow-right"></i>
+          </a>
+
           <a class="item item-avatar item-icon-left" ng-if="card.object_type == 'appointment'" ui-sref="tabsController.appointments">
             <i class="icon ion-ios-clock-outline"></i>
-            <h2 style="font-weight: bold; font-size: 20px;">
-              Appointment Reminder
+            <h2 style="font-weight: bold; font-size: 18px;">
+              Appointment
             </h2>
             <span style="font-size: 16px; color: #666; font-weight: bold;">{{card.appointment.time | formatTime}}</span>
             ·
