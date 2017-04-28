@@ -1,0 +1,16 @@
+<ion-modal-view class="login-modal">
+  <ion-header-bar class="bar bar-header bar-stable">
+    <h1 class="title">Choose a shape</h1>
+    <button class="button button-clear button-positive" ng-click="closeModal()">Cancel</button>
+  </ion-header-bar>
+  <ion-content has-bouncing="false" class="login-view" scroll="true">
+    <ion-list>
+      <ion-item ng-repeat="shape in shapes" ng-click="chooseShape(shape)">
+        <img ng-src="img/shapes/{{shape}}.svg" style="height:50px; width:50px;"></img>
+        <!-- <object id="testing" data="img/shapes/{{shape}}.svg" style="height:50px; width:50px; fill:red;"></object> -->
+      </ion-item>
+
+    </ion-list>
+  </ion-content>
+
+</ion-modal-view>
