@@ -19,7 +19,7 @@
       <li class="item item-icon-right"  ng-repeat="med in medications" ui-sref="medication_identification.medication({id: med.$id})">
         <h2>{{med.nickname || med.name}}</h2>
         <p>{{med.dosage}} {{med.units}}</p>
-        <p>{{med.frequency}} {{med.administration}}</p>
+        <p>{{med.frequency}} ({{med.administration}})</p>
         <i class="icon ion-ios-arrow-right"></i>
         <li
       </li>

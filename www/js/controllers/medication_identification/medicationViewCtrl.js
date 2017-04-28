@@ -1,8 +1,14 @@
 angular.module('app.controllers')
 
-.controller('medicationViewCtrl', function($scope, $state, Medication, $ionicHistory, $ionicLoading, MedicationSchedule) {
+.controller('medicationViewCtrl', function($scope, $state, Medication, $ionicHistory, $ionicLoading, MedicationSchedule, $ionicModal) {
   $scope.drug  = {}
-  $scope.units = Medication.units
+  $scope.units           = Medication.units
+  $scope.administrations = Medication.administrations
+  $scope.frequencies     = Medication.frequencies
+
+  $scope.colors = ["#FF5733", "#FFC0CB", "#FFA500", "#FFDAB9", "#FFFE0", "#D2B48C", "#800080", "#D8BFD8", "#2E8B57", "#90EE90", "#00008B", "#ADD8E6", "#FFFFFF", "#FFFFF0", "#000000", "#D3D3D3", "#A0522D"]
+  $scope.shapes = ["3sided","5sided","6sided","7sided","8sided", "diamond", "oblong","oval","rectangle", "round","square","teardrop"]
+
 
   $scope.$on("$ionicView.loaded", function() {
     $ionicLoading.show({hideOnStateChange: true});

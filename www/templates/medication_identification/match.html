@@ -1,4 +1,4 @@
-<ion-view>
+<ion-view title="Add a medication">
   <ion-content class="has-footer">
     <div class="list" ng-if="drug">
       <label class="item item-input item-stacked-label">
@@ -7,18 +7,13 @@
       </label>
 
       <label class="item item-input item-stacked-label">
-        <span class="input-label">Nickname</span>
+        <span class="input-label" autofocus>Nickname</span>
         <input type="text" ng-model="drug.nickname">
       </label>
 
       <label class="item item-input item-stacked-label">
-        <span class="input-label" autofocus>Way of Administration</span>
-        <input type="text" ng-model="drug.administration" placeholder="E.g. By Mouth">
-      </label>
-
-      <label class="item item-input item-stacked-label">
         <span class="input-label">Dose</span>
-        <input type="number" ng-model="drug.dosage">
+        <input type="number" min="0" ng-model="drug.dosage">
       </label>
 
       <label class="item item-stacked-label item-select">
@@ -26,15 +21,18 @@
         <select ng-model="drug.units" ng-options="g.value as g.display for g in units"></select>
       </label>
 
+      <label class="item item-stacked-label item-select">
+        <span class="input-label">Way of Administration</span>
+        <select ng-model="drug.administration" ng-options="g for g in administrations"></select>
+      </label>
 
-      <label class="item item-input item-stacked-label">
+      <label class="item item-stacked-label item-select">
         <span class="input-label">Frequency</span>
-        <input type="text" ng-model="drug.frequency">
+        <select ng-model="drug.frequency" ng-options="g for g in frequencies"></select>
       </label>
 
       <label class="item item-input item-stacked-label item-text-wrap">
         <span class="input-label">Purpose</span>
-        <!-- <p ng-bind-html="drug.purpose"></p> -->
         <input type="text" ng-model="drug.purpose">
       </label>
 

@@ -39,6 +39,34 @@ angular.module('app.services')
       {value: "spray", display: "spray"},
       {value: "inhalation", display: "inhalation"}
     ],
+
+    administrations: [
+      "Oral",
+      "Topical",
+      "Sublingual",
+      "Intravenous",
+      "Intramuscular",
+      "Inhalation",
+      "Rectal",
+      "Vaginal",
+      "Intraperitoneal"
+    ],
+
+    frequencies: [
+      "Once per day",
+      "Twice per day",
+      "Three times per day",
+      "Four times per day",
+      "Every other day",
+      "As needed",
+      "Every 2 hours",
+      "Every 3 hours",
+      "Every 4 hours",
+      "Every 6 hours",
+      "Every 8 hours",
+      "Every 12 hours"
+    ],
+
     search: function(query) {
       return Patient.get().then(function(p) {
         return $http({

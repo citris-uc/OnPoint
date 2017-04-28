@@ -1,8 +1,10 @@
 
 angular.module('app.controllers')
-.controller('medicationMatchCtrl', function($scope, $state, $stateParams, $ionicPopover, Medication, $ionicLoading, $ionicHistory) {
+.controller('medicationMatchCtrl', function($scope, $state, Medication, $ionicLoading, $ionicHistory, $ionicModal) {
   $scope.drug  = {}
-  $scope.units = Medication.units
+  $scope.units           = Medication.units
+  $scope.administrations = Medication.administrations
+  $scope.frequencies     = Medication.frequencies
   $scope.ocr   = angular.fromJson($state.params.ocr)
   $scope.search = $state.params.search
   console.log($state.params)
