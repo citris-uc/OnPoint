@@ -1,7 +1,7 @@
 
 angular.module('app.controllers')
 .controller('medicationMatchCtrl', function($scope, $state, Medication, $ionicLoading, $ionicHistory, $ionicModal) {
-  $scope.drug  = {}
+  $scope.drug  = {units: "tablets"}
   $scope.units           = Medication.units
   $scope.administrations = Medication.administrations
   $scope.frequencies     = Medication.frequencies
