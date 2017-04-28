@@ -1,16 +1,17 @@
 <ion-view title="Appointments" class = "appointment">
   <ion-nav-buttons side="right">
+    <!-- <button class="button button-clear button-icon ion-ios-calendar-outline" ng-click="showScheduleModal()"></button> -->
     <button class="button button-clear button-icon ion-ios-plus-empty" ng-click="showModal()"></button>
   </ion-nav-buttons>
 
-  <ion-content>
+  <ion-content class="has-footer">
     <ion-refresher pulling-text="Pull to refresh..." on-refresh="refresh()"></ion-refresher>
     <li class="item text-center item-text-wrap" ng-show="appointments.length == 0">
       We couldn't find any appointments. Try pulling down to refresh.
     </li>
 
     <ion-list ng-repeat="appt in appointments | orderBy:appt.$id" ng-show="appointments.length > 0">
-      <div class="item item-divider">{{appt.$id}}</div>
+      <!-- <div class="item item-divider">{{appt.$id | formatDateWithWeekday}}</div> -->
 
       <ion-item ng-repeat="(appt_id, data) in appt" ng-click="showEditModal(appt.$id, appt_id, data)">
         <h2>{{data.title}}</h2>
@@ -26,4 +27,12 @@
     </div>
 
   </ion-content>
+
+
+  <!-- <div class="bar bar-footer bar-balanced">
+    <div class="buttons full-width">
+      <button class="button button-clear" ng-click="showModal()" ng-disabled="medications.length == 0">Add an appointment</div>
+    </div>
+  </div> -->
+
 </ion-view>
