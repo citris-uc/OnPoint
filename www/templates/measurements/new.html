@@ -1,0 +1,46 @@
+<ion-modal-view class="login-modal">
+  <ion-header-bar class="bar bar-header bar-stable">
+    <h1 class="title">Add new measurement</h1>
+    <button class="button button-clear button-positive" ng-click="closeModal()">Cancel</button>
+  </ion-header-bar>
+
+  <form ng-submit="save()">
+    <ion-content class="has-footer">
+      <ion-list>
+        <label class="item item-input">
+          <span class="input-label">Blood glucose (mmol/L)</span>
+          <input type="number" min="0" ng-model="measurement.glucose">
+        </label>
+        <label class="item item-input">
+          <span class="input-label">Weight (lbs)</span>
+          <input type="number" min="0" ng-model="measurement.weight">
+        </label>
+        <label class="item item-input">
+          <span class="input-label">Heart rate (bpm)</span>
+          <input type="number" min="0" ng-model="measurement.heart_rate">
+        </label>
+        <label class="item item-input">
+          <span class="input-label">Blood pressure (mmHg)</span>
+          <div class="row">
+            <div class="col-50">
+              <input type="number" min="0" ng-model="measurement.systolic">
+            </div>
+            <div class="col-25">/</div>
+            <div class="col-50">
+              <input type="number" min="0" ng-model="measurement.diastolic">
+            </div>
+          </div>
+          <span class="input-label" style="text-align:right;"></span>
+        </label>
+
+      </ion-list>
+    </ion-content>
+
+    <ion-footer-bar keyboard-attach class="bar bar-footer bar-balanced">
+      <div class="buttons full-width">
+        <button class="button button-clear" type="submit">Add</div>
+      </div>
+    </ion-footer-bar>
+  </form>
+
+</ion-modal-view>

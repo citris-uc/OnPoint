@@ -1,0 +1,30 @@
+<ion-view title="Measurements">
+  <ion-nav-buttons side="right">
+    <button class="button button-clear button-icon ion-ios-calendar-outline" ng-click="showScheduleModal()"></button>
+  </ion-nav-buttons>
+
+  <ion-content class="has-footer">
+    <ion-refresher pulling-text="Pull to refresh..." on-refresh="refresh()"></ion-refresher>
+    <li class="item text-center item-text-wrap" ng-show="measurements.length == 0">
+      We couldn't find any measurements
+    </li>
+
+    <ion-list>
+      <ion-item ng-repeat="m in measurements | orderBy:meas.measured_at" ng-click="showEditModal(m.$id)">
+        <h3 style="font-weight: bold; font-size: 16px;">{{m.measured_at | formatTime}} {{m.measured_at | formatDateWithWeekday}}</h3>
+        <p ng-if="m.glucose">Glucose: {{m.glucose}} mmol/L</p>
+        <p ng-if="m.weight">Weight: {{m.weight}} lbs</p>
+        <p ng-if="m.heart_rate">Heart Rate: {{m.heart_rate}} bpm</p>
+        <p ng-if="m.systolic || m.diastolic">Blood Pressure: {{m.systolic}}/{{m.diastolic}} mmHg</p>
+      </ion-item>
+    </div>
+  </ion-content>
+
+
+  <div class="bar bar-footer bar-balanced">
+    <div class="buttons full-width">
+      <button class="button button-clear" ng-click="showModal()">Add a measurement</div>
+    </div>
+  </div>
+
+</ion-view>
