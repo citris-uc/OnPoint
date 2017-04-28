@@ -9117,6 +9117,9 @@ input[type="number"]:disabled {
 .tabs-top .tab-item {
   max-width: 50%; }
 
+.item-input {
+  font-weight: bold; }
+
 .list .item-stacked-label {
   font-weight: bold; }
 
