@@ -36,10 +36,22 @@
         <input type="text" ng-model="drug.purpose">
       </label>
 
-      <div class="item item-body">
-        <img class="full-image" src="{{drug.pill_images[0].imageUrl}}" ng-if="drug.pill_images.length > 0">
-        <p class="text-center" ng-if="!drug.pill_images || drug.pill_images.length == 0">No pill image found</p>
-      </div>
+      <label class="item item-input item-stacked-label" ng-click="shapeModal()">
+        <span class="input-label">Shape</span>
+        <p style="width: 100%; text-align: center;">
+          <span ng-if="!drug.shape">Click to choose</span>
+          <img ng-src="img/shapes/{{drug.shape}}.svg" style="height:50px; width:50px; text-align: center;" ng-if="drug.shape"></img>
+        </p>
+      </label>
+
+      <label class="item item-input item-stacked-label" ng-click="colorModal()">
+        <span class="input-label">Color</span>
+        <p style="width: 100%; text-align: center;">
+          <span ng-if="!drug.color">Click to choose</span>
+          <button class="button button-dark" ng-style="{'background-color': drug.color}" ng-if="drug.color"></button>
+        </p>
+      </label>
+
     </div>
   </ion-content>
 

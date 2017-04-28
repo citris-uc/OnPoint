@@ -39,6 +39,17 @@ angular.module('app.controllers')
       return
     }
 
+    if (!$scope.drug.shape) {
+      alert("Please describe the shape of the medication")
+      return
+    }
+
+    if (!$scope.drug.color) {
+      alert("Please describe the color of the medication")
+      return
+    }
+
+
     $ionicLoading.show({hideOnStateChange: true})
 
     $scope.drug.$save().then(function() {
@@ -61,4 +72,51 @@ angular.module('app.controllers')
       $ionicLoading.hide()
     })
    }
+
+
+
+   $scope.chooseShape = function(shape) {
+     $scope.drug.shape = shape
+     $scope.closeModal()
+   }
+
+   $scope.chooseColor = function(color) {
+     $scope.drug.color = color
+     $scope.closeModal()
+   }
+
+
+   $scope.closeModal = function() {
+     $scope.modal.hide()
+   }
+
+   $scope.shapeModal = function(med) {
+     // Create the login modal that we will use later
+     return $ionicModal.fromTemplateUrl('templates/medications/shape.html', {
+       scope: $scope,
+       animation: 'slide-in-up',
+       focusFirstInput: true,
+       backdropClickToClose: false,
+       hardwareBackButtonClose: false
+     }).then(function(modal) {
+       $scope.modal = modal;
+       return modal.show()
+     })
+   }
+
+   $scope.colorModal = function(med) {
+     // Create the login modal that we will use later
+     return $ionicModal.fromTemplateUrl('templates/medications/color.html', {
+       scope: $scope,
+       animation: 'slide-in-up',
+       focusFirstInput: true,
+       backdropClickToClose: false,
+       hardwareBackButtonClose: false
+     }).then(function(modal) {
+       $scope.modal = modal;
+       return modal.show()
+     })
+   }
+
+
 })

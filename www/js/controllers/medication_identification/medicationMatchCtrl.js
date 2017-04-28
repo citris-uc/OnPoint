@@ -7,7 +7,11 @@ angular.module('app.controllers')
   $scope.frequencies     = Medication.frequencies
   $scope.ocr   = angular.fromJson($state.params.ocr)
   $scope.search = $state.params.search
-  console.log($state.params)
+
+  $scope.colors = ["#FF5733", "#FFC0CB", "#FFA500", "#FFDAB9", "#FFFE0", "#D2B48C", "#800080", "#D8BFD8", "#2E8B57", "#90EE90", "#00008B", "#ADD8E6", "#FFFFFF", "#FFFFF0", "#000000", "#D3D3D3", "#A0522D"]
+  $scope.shapes = ["3sided","5sided","6sided","7sided","8sided", "diamond", "oblong","oval","rectangle", "round","square","teardrop"]
+
+
 
   $scope.$on("$ionicView.loaded", function() {
     $ionicLoading.show({template: "<ion-spinner></ion-spinner><br>Loading info...", hideOnStateChange: true})
@@ -51,6 +55,16 @@ angular.module('app.controllers')
       return
     }
 
+    if (!$scope.drug.shape) {
+      alert("Please describe the shape of the medication")
+      return
+    }
+
+    if (!$scope.drug.color) {
+      alert("Please describe the color of the medication")
+      return
+    }
+
     $ionicLoading.show({template: "<ion-spinner></ion-spinner><br>Adding medication...", hideOnStateChange: true})
 
     Medication.add($scope.drug).then(function(response) {
@@ -66,4 +80,54 @@ angular.module('app.controllers')
       $ionicLoading.hide()
     })
   }
+
+
+
+
+
+
+
+   $scope.chooseShape = function(shape) {
+     $scope.drug.shape = shape
+     $scope.closeModal()
+   }
+
+   $scope.chooseColor = function(color) {
+     $scope.drug.color = color
+     $scope.closeModal()
+   }
+
+
+   $scope.closeModal = function() {
+     $scope.modal.hide()
+   }
+
+   $scope.shapeModal = function(med) {
+     // Create the login modal that we will use later
+     return $ionicModal.fromTemplateUrl('templates/medications/shape.html', {
+       scope: $scope,
+       animation: 'slide-in-up',
+       focusFirstInput: true,
+       backdropClickToClose: false,
+       hardwareBackButtonClose: false
+     }).then(function(modal) {
+       $scope.modal = modal;
+       return modal.show()
+     })
+   }
+
+   $scope.colorModal = function(med) {
+     // Create the login modal that we will use later
+     return $ionicModal.fromTemplateUrl('templates/medications/color.html', {
+       scope: $scope,
+       animation: 'slide-in-up',
+       focusFirstInput: true,
+       backdropClickToClose: false,
+       hardwareBackButtonClose: false
+     }).then(function(modal) {
+       $scope.modal = modal;
+       return modal.show()
+     })
+   }
+
 })
