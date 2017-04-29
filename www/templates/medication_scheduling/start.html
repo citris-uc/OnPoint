@@ -25,6 +25,8 @@
               dnd-moved="removeMedicationFromSchedule(medication_id, dateSchedule)">
               <div class="container-element box box-blue">
                 {{med.nickname || med.name}}
+                <br>
+                <img ng-src="img/shapes/{{med.shape}}.svg" style="height:50px; width:50px; text-align: center;" ng-if="med.shape"></img>
               </div>
 
             </li>
@@ -42,13 +44,16 @@
     <div class="advancedDemo row">
       <div class="dropzone box box-yellow">
         <ul dnd-list="medications" dnd-allowed-types="['med']" dnd-drop="droppedToMedications(index, item, external, type)" class="itemlist">
-          <li ng-repeat="med in medications"
+          <li ng-repeat="med in medications track by $index"
             dnd-draggable="med"
             dnd-type="'med'"
-            dnd-effect-allowed="move">
+            dnd-effect-allowed="move"
+            dnd-moved="medications.splice($index, 1)">
 
             <div class="container-element box box-blue">
               {{med.nickname || med.name}}
+              <br>
+              <img ng-src="img/shapes/{{med.shape}}.svg" style="height:50px; width:50px; text-align: center;" ng-if="med.shape"></img>
             </div>
           </li>
         </ul>
