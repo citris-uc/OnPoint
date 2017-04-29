@@ -15,14 +15,19 @@ angular.module('app.services')
       })
     },
 
-    // createIfEmpty: function() {
-    //   thisS = this
-    //   return this.getAll().then(function(docs) {
-    //     if (docs && docs.length > 0)
-    //       return docs
-    //     return thisS.save("Symptoms_Questionnaire", {})
-    //   })
-    // },
+    getSchedule: function() {
+      return Patient.get().then(function(p) {
+        return Patient.ref(p.uid).child("questionnaire_schedule").once("value")
+      }).then(function(doc) {
+        return doc.val()
+      })
+    },
+
+    updateSchedule: function(schedule) {
+      return Patient.get().then(function(p) {
+        return Patient.ref(p.uid).child("questionnaire_schedule").update(schedule)
+      })
+    },
 
     updateFollowUpQuestionnaires: function(survey) {
       thisS = this
