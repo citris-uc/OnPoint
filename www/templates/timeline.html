@@ -34,6 +34,13 @@
             <!-- <p>
               <ng-pluralize count="card.medications_length" when="{'0': 'No medications to take', 'one': '1 medication to take', 'other': '{} medications to take'}"></ng-pluralize>
             </p> -->
+            <p ng-if="card.schedule && card.schedule.medications">
+              You need to take
+              <span ng-repeat="(med_id, med_data) in card.schedule.medications">
+                {{med_data.nickname || med_data.name}}{{$last ? '' : ', '}}
+              </span>
+
+            </p>
             <p ng-if="card.taken_medications">You took {{card.taken_medications}}</p>
             <p ng-if="card.skipped_medications">You skipped {{card.skipped_medications}}</p>
             <i class="icon ion-ios-arrow-right" ng-if="card.upcoming"></i>
