@@ -9,7 +9,7 @@ angular.module('app.controllers')
   $scope.slot = { days: [false, false, false, false, false, false, false] };
 
   var fromDate = new Date();
-  var toDate = new Date();
+  var toDate   = new Date();
 
   $scope.refresh = function() {
     $ionicLoading.show({template: "<ion-spinner></ion-spinner><br>Loading...", hideOnStateChange: true})

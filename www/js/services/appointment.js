@@ -44,18 +44,6 @@ angular.module('app.services')
       //   return Card.createAppointment(newKey, appt)
       // })
     },
-    getSchedule: function() {
-      return Patient.get().then(function(p) {
-        return Patient.ref(p.uid).child("appointment_schedule").once("value")
-      }).then(function(doc) {
-        return doc.val()
-      })
-    },
-    updateSchedule: function(schedule) {
-      return Patient.get().then(function(p) {
-        return Patient.ref(p.uid).child("appointment_schedule").update(schedule)
-      })
-    },
     update: function(oldDate, oldKey, appointment) {
       thisAppt  = this
       appt = {}

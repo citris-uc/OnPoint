@@ -3,11 +3,7 @@ angular.module('app.controllers')
 .controller('appointmentsCtrl', function($scope, $location, $state, Appointment, $ionicLoading, $ionicModal) {
   $scope.appointments = {}
   $scope.appt         = {}
-  $scope.schedule = {}
   $scope.state = {}
-
-  $scope.days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
-  $scope.slot = { days: [true, true, true, true, true, true, true] };
 
   var fromDate = new Date();
   var toDate = new Date();
@@ -18,13 +14,6 @@ angular.module('app.controllers')
     Appointment.getAll().then(function(doc) {
       $scope.appointments = doc
       $scope.$broadcast('scroll.refreshComplete');
-    }).then(function() {
-      return Appointment.getSchedule()
-    }).then(function(slot) {
-      console.log(slot)
-      if (slot.time)
-        slot.time = moment(slot.time, "HH:mm").toDate()
-      $scope.slot = slot
     }).finally(function() {
       $ionicLoading.hide()
     })
@@ -33,24 +22,6 @@ angular.module('app.controllers')
   $scope.$on('$ionicView.loaded', function(){
     $scope.refresh();
   });
-
-  $scope.saveSchedule = function() {
-    $ionicLoading.show({template: "<ion-spinner></ion-spinner><br>Saving...", hideOnStateChange: true})
-
-    if (!$scope.slot.time) {
-      navigator.notification.alert("Time can't be blank", null)
-      $ionicLoading.hide()
-      return
-    }
-
-    $scope.slot.time = moment($scope.slot.time).format('HH:mm');
-
-    return Appointment.updateSchedule($scope.slot).then(function() {
-      return $scope.closeModal()
-    }).finally(function() {
-      $ionicLoading.hide()
-    })
-  }
 
   $scope.save = function(){
     $ionicLoading.show({template: "<ion-spinner></ion-spinner><br>Saving...", hideOnStateChange: true})
@@ -161,20 +132,6 @@ angular.module('app.controllers')
       $scope.state.appointment_date = appt_date
       $scope.state.appointment_id   = appt_id
       $scope.appt  = appt
-      $scope.modal = modal;
-      modal.show()
-    });
-  }
-
-  $scope.showScheduleModal = function() {
-    // Create the login modal that we will use later
-    return $ionicModal.fromTemplateUrl('templates/appointments/schedule.html', {
-      scope: $scope,
-      animation: 'slide-in-up',
-      focusFirstInput: true,
-      backdropClickToClose: false,
-      hardwareBackButtonClose: false
-    }).then(function(modal) {
       $scope.modal = modal;
       modal.show()
     });
