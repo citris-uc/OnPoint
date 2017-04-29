@@ -20,12 +20,6 @@ angular.module('app.controllers')
     })
   }
 
-  $scope.archive = function(card) {
-    if (card.completed_at != null) {
-      Card.archive(card);
-    }
-  }
-
   $scope.isTomorrow = function(date) {
     console.log(moment(date).diff(moment(new Date())) > 0)
     return moment(date).diff(moment(new Date())) > 0

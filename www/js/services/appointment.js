@@ -39,9 +39,10 @@ angular.module('app.services')
       appt.time = moment(appointment.time).format('HH:mm');
       return Patient.get().then(function(p) {
         return Patient.ref(p.uid).child("appointments").child(appt.date).push(appt).key();
-      }).then(function(newKey) {
-        return Card.createAppointment(newKey, appt)
       })
+      // .then(function(newKey) {
+      //   return Card.createAppointment(newKey, appt)
+      // })
     },
     getSchedule: function() {
       return Patient.get().then(function(p) {
@@ -64,7 +65,7 @@ angular.module('app.services')
       appt.time = moment(appointment.time).format('HH:mm');
 
       puid = null
-      return Card.destroyAppointment(oldKey, oldDate).then(function() {
+      return Card.destroyAppointmentCard(oldKey, oldDate).then(function() {
         return Patient.get().then(function(p) {
           return $firebaseObject(Patient.ref(p.uid).child("appointments").child(oldDate).child(oldKey)).$remove()
         })
@@ -72,12 +73,10 @@ angular.module('app.services')
         return Patient.get().then(function(p) {
           return Patient.ref(p.uid).child("appointments").child(appt.date).push(appt).key();
         });
-      }).then(function(apptKey) {
-        Card.createAppointment(apptKey, appt)
       })
     },
     destroy: function(appt_date, appt_id) {
-      return Card.destroyAppointment(appt_id, appt_date).then(function() {
+      return Card.destroyAppointmentCard(appt_id, appt_date).then(function() {
         return Patient.get().then(function(p) {
           return $firebaseObject(Patient.ref(p.uid).child("appointments").child(appt_date).child(appt_id)).$remove()
         })
