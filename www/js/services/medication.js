@@ -59,13 +59,26 @@ angular.module('app.services')
       "Four times per day",
       "Every other day",
       "As needed",
-      "Every 2 hours",
       "Every 3 hours",
       "Every 4 hours",
       "Every 6 hours",
       "Every 8 hours",
       "Every 12 hours"
     ],
+
+    frequencies_to_i: {
+      "Once per day": 1,
+      "Twice per day": 2,
+      "Three times per day": 3,
+      "Four times per day": 4,
+      "Every other day": 1,
+      "As needed": 0,
+      "Every 3 hours": 4,
+      "Every 4 hours": 4,
+      "Every 6 hours": 3,
+      "Every 8 hours": 2,
+      "Every 12 hours": 2
+    },
 
     search: function(query) {
       return Patient.get().then(function(p) {

@@ -41,7 +41,16 @@ angular.module('app.controllers')
     $ionicLoading.show({template: "<ion-spinner></ion-spinner><br>Loading schedule...", hideOnStateChange: true})
 
     Medication.get().then(function(meds) {
-      $scope.medications = meds
+
+      $scope.medications = []
+      _.each(meds, function(med) {
+        count = Medication.frequencies_to_i[med.frequency]
+        if (count)
+          _(count).times(function(index) { $scope.medications.push(med)})
+        else
+          $scope.medications.push(med)
+      })
+
     })
 
     MedicationSchedule.get().then(function(medscheds) {
