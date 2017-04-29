@@ -17,24 +17,16 @@
           <h4 class="text-center">{{date.date | date:'EEE MMM dd, yyyy'}}</h4>
         </div>
 
-        <!-- <div class="card" ng-if="date.cards.length == 0">
-          <div class="item">
-            <h2 style="text-align:center;">
-              No cards to display
-            </h2>
-          </div>
-        </div> -->
-
         <div class="card" ng-repeat="card in date.cards">
           <a class="item item-avatar item-icon-left item-icon-right item-text-wrap" ui-sref="tabsController.medication_reminder_history_card({card_id: card.id, schedule_id: card.object_id, date: date.date})" ng-if="card.object_type == 'medication_schedule'">
             <i class="icon ion-medkit"></i>
-            <h2 style="font-weight: bold; font-size: 18px;">
+            <h2 class="card-title">
               Medication
               <span class="card-label balanced"  ng-if="card.status == 'completed'">Completed</span>
             </h2>
-            <span style="font-size: 16px; color: #666; font-weight: bold;">{{card.schedule.time | formatTime}}</span>
+            <span class="card-description">{{card.schedule.time | formatTime}}</span>
             ·
-            <span style="font-size: 16px; color: #666; font-weight: bold;">{{date.date | formatDateWithWeekday}}</span>
+            <span class="card-description">{{date.date | formatDateWithWeekday}}</span>
             <!-- <p>
               <ng-pluralize count="card.medications_length" when="{'0': 'No medications to take', 'one': '1 medication to take', 'other': '{} medications to take'}"></ng-pluralize>
             </p> -->
@@ -43,21 +35,16 @@
             <i class="icon ion-ios-arrow-right"></i>
           </a>
 
-
           <a class="item item-avatar item-icon-left item-icon-right" ng-if="card.object_type == 'measurement_schedule'" ui-sref="tabsController.measurements">
             <i class="icon ion-arrow-graph-down-right"></i>
-            <h2 style="font-weight: bold; font-size: 18px;">
-              Measurement
-            </h2>
+            <h2 class="card-title">Measurement</h2>
             <i class="icon ion-ios-arrow-right"></i>
           </a>
 
           <a class="item item-avatar item-icon-left item-icon-right" ng-if="card.object_type == 'appointment_reminder'" ui-sref="tabsController.appointments">
             <i class="icon ion-ios-clock-outline"></i>
-            <h2 style="font-weight: bold; font-size: 18px;">
-              Appointment
-            </h2>
-            <span style="font-size: 16px; color: #666; font-weight: bold;">{{card.appointment.time | formatTime}} {{card.appointment.date | formatDateWithWeekday}}</span>
+            <h2 class="card-title">Appointment</h2>
+            <span class="card-description">{{card.appointment.time | formatTime}} {{card.appointment.date | formatDateWithWeekday}}</span>
             <p>
               {{card.appointment.title}} · {{card.appointment.note}}
             </p>

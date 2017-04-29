@@ -10,7 +10,7 @@
     </li>
 
     <ion-list>
-      <ion-item ng-repeat="m in measurements | orderBy:meas.measured_at" ng-click="showEditModal(m.$id)">
+      <ion-item ng-repeat="m in measurements | orderBy:m.measured_at" ng-click="showEditModal(m.$id)">
         <h3 style="font-weight: bold; font-size: 16px;">{{m.measured_at | formatTime}} {{m.measured_at | formatDateWithWeekday}}</h3>
         <p ng-if="m.glucose">Glucose: {{m.glucose}} mmol/L</p>
         <p ng-if="m.weight">Weight: {{m.weight}} lbs</p>
