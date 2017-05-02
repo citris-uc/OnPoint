@@ -44,6 +44,8 @@ angular.module('app.controllers')
       return
     }
 
+    $scope.appt.time = moment($scope.appt.time).format('HH:mm');
+
     Appointment.add($scope.appt).then(function() {
       return $scope.closeModal()
     }).finally(function() {
@@ -72,6 +74,8 @@ angular.module('app.controllers')
       $ionicLoading.hide()
       return
     }
+
+    $scope.appt.time = moment($scope.appt.time).format('HH:mm');
 
     Appointment.update($scope.state.appointment_date, $scope.state.appointment_id, $scope.appt).then(function(appt) {
       return $scope.closeModal()

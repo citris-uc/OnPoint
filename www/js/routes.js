@@ -45,6 +45,16 @@ angular.module('app.routes', [])
     }
   })
 
+  .state('tabsController.measurement_reminders', {
+    url: '/measurements/reminders',
+    views: {
+      'timeline-tab': {
+        templateUrl: 'templates/measurements/schedules.html',
+        controller: 'measurementsSchedulerCtrl'
+      }
+    }
+  })
+
   .state('tabsController.surveys', {
     url: '/surveys',
     views: {

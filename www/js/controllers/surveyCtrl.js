@@ -26,12 +26,12 @@ angular.module('app.controllers')
   $scope.saveSchedule = function() {
     $ionicLoading.show({template: "<ion-spinner></ion-spinner><br>Saving...", hideOnStateChange: true})
 
-    // if (!$scope.slot.time) {
-    //   navigator.notification.alert("Time can't be blank", null)
-    //   $ionicLoading.hide()
-    //   return
-    // }
-    // $scope.slot.time = moment($scope.slot.time).format('HH:mm');
+    if (!$scope.slot.time) {
+      navigator.notification.alert("Time can't be blank", null)
+      $ionicLoading.hide()
+      return
+    }
+    $scope.slot.time = moment($scope.slot.time).format('HH:mm');
 
     return Survey.updateSchedule($scope.slot).then(function() {
       return $scope.closeModal()

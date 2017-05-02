@@ -5,17 +5,12 @@ angular.module('app.controllers')
   $scope.measurement  = {}
   $scope.state        = {}
 
-  $scope.days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
-  $scope.slot = { days: [false, false, false, false, false, false, false] };
-
-  var fromDate = new Date();
-  var toDate   = new Date();
-
   $scope.refresh = function() {
     $ionicLoading.show({template: "<ion-spinner></ion-spinner><br>Loading...", hideOnStateChange: true})
 
     Measurement.getAll().then(function(doc) {
       console.log(doc)
+      console.log("Measurement#getAll()")
       $scope.measurements = doc
       $scope.$broadcast('scroll.refreshComplete');
     }).then(function() {
@@ -33,23 +28,6 @@ angular.module('app.controllers')
   $scope.$on('$ionicView.loaded', function(){
     $scope.refresh();
   });
-
-  $scope.saveSchedule = function() {
-    $ionicLoading.show({template: "<ion-spinner></ion-spinner><br>Saving...", hideOnStateChange: true})
-
-    // if (!$scope.slot.time) {
-    //   navigator.notification.alert("Time can't be blank", null)
-    //   $ionicLoading.hide()
-    //   return
-    // }
-    // $scope.slot.time = moment($scope.slot.time).format('HH:mm');
-
-    return Measurement.updateSchedule($scope.slot).then(function() {
-      return $scope.closeModal()
-    }).finally(function() {
-      $ionicLoading.hide()
-    })
-  }
 
   $scope.save = function(){
     $ionicLoading.show({template: "<ion-spinner></ion-spinner><br>Saving...", hideOnStateChange: true})
@@ -122,7 +100,57 @@ angular.module('app.controllers')
     });
   }
 
-  $scope.showScheduleModal = function() {
+  $scope.closeModal = function() {
+    $scope.modal.hide();
+    $scope.state = {};
+  }
+})
+
+
+
+.controller('measurementsSchedulerCtrl', function($scope, $state, Measurement, $ionicLoading, $ionicModal) {
+  $scope.reminders = []
+  $scope.days      = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+  $scope.slot      = { days: [false, false, false, false, false, false, false] };
+
+  $scope.refresh = function() {
+    $ionicLoading.show({template: "<ion-spinner></ion-spinner><br>Loading...", hideOnStateChange: true})
+
+    Measurement.getSchedule().then(function(schedules) {
+      $scope.reminders = schedules
+    }).finally(function() {
+      $ionicLoading.hide()
+    })
+  }
+
+  $scope.$on('$ionicView.loaded', function(){
+    $scope.refresh();
+  });
+
+  $scope.saveSchedule = function() {
+    $ionicLoading.show({template: "<ion-spinner></ion-spinner><br>Saving...", hideOnStateChange: true})
+
+    if (!$scope.slot.time) {
+      navigator.notification.alert("Time can't be blank", null)
+      $ionicLoading.hide()
+      return
+    }
+
+    if (!$scope.slot.blood_pressure && !$scope.slot.weight && !$scope.slot.heart_rate && !$scope.slot.glucose) {
+      navigator.notification.alert("You need to choose at least one metric", null)
+      $ionicLoading.hide()
+      return
+    }
+
+    return Measurement.updateSchedule($scope.slot).then(function() {
+      return $scope.closeModal()
+    }).finally(function() {
+      $ionicLoading.hide()
+    })
+  }
+
+
+  $scope.showModal = function(reminder) {
     // Create the login modal that we will use later
     return $ionicModal.fromTemplateUrl('templates/measurements/schedule.html', {
       scope: $scope,
@@ -131,16 +159,26 @@ angular.module('app.controllers')
       backdropClickToClose: false,
       hardwareBackButtonClose: false
     }).then(function(modal) {
+      console.log(reminder)
       $scope.modal = modal;
+
+      if (reminder && reminder.time)
+        reminder.time = moment(reminder.time, "HH:mm").toDate()
+
+      $scope.slot  = reminder || {};
+
       modal.show()
     });
   }
 
+
   $scope.closeModal = function() {
     $scope.modal.hide();
-    $scope.state = {};
+    $scope.slot  = {}
+    $scope.modal = null
   }
 })
+
 
 
 
