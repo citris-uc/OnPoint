@@ -26,6 +26,22 @@ angular.module('app', ['ionic', 'firebase', 'app.controllers', 'app.routes', 'ap
   };
 })
 
+.filter('formatDaySchedule', function ($filter) {
+  return function (days) {
+    day_abbreviations = ["M", "Tue", "W", "Thu", "F", "Sat", "Sun"]
+    new_days = _.map(days, function(day, index) {
+      if (day)
+        return day_abbreviations[index]
+      else
+        return ""
+    })
+
+    new_days = _.compact(new_days)
+
+    return $filter('date')(new_days.join(","), '');
+  }
+})
+
 .filter('formatTime', function ($filter, moment) {
   return function (time) {
     date = moment(time, "HH:mm").format("hh:mm A")
