@@ -46,7 +46,7 @@
             <i class="icon ion-ios-arrow-right" ng-if="card.upcoming"></i>
           </a>
 
-          <a class="item item-avatar item-icon-left item-icon-right" ng-if="card.object_type == 'measurement_schedule'" ui-sref="tabsController.measurements">
+          <a class="item item-avatar item-icon-left item-icon-right" ng-if="card.object_type == 'measurement_reminder'" ui-sref="tabsController.measurements">
             <i class="icon ion-arrow-graph-down-right"></i>
             <h2 class="card-title">Measurement</h2>
             <p>Time for a check-in!</p>
@@ -64,7 +64,7 @@
           </a>
 
           <a class="item item-avatar item-icon-left item-icon-right" ng-if="card.object_type == 'questionnaire_reminder'" ui-sref="tabsController.surveys">
-            <i class="icon ion-arrow-graph-down-right"></i>
+            <i class="icon ion-clipboard"></i>
             <h2 class="card-title">Questionnaire</h2>
             <p>Time for a check-in!</p>
             <i class="icon ion-ios-arrow-right"></i>
