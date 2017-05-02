@@ -111,7 +111,7 @@ angular.module('app.controllers')
     $ionicLoading.show({hideOnStateChange: true})
 
     // This will force-generate cards for today and tomorrow (if not already exist).
-    Card.forceGenerate().then(function(res) {
+    Card.deleteUpcomingCards().then(function(res) {
       Onboarding.update({'medication_scheduling':true}).then(function(response) {
         // TODO: If we introduce filling the pillbox, then let's uncomment this.
         $state.go("medication_scheduling.fill_pillbox_welcome", {}, {reload: true});

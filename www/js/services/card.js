@@ -33,17 +33,13 @@ angular.module('app.services')
       })
     },
 
-    destroyAppointmentCard: function(firebase_id, appt_date) {
-      console.log("DESTROYING APPOINTMENT: ")
-      console.log(firebase_id)
-      console.log(appt_date)
-      console.log("-------")
+    destroyAppointmentCard: function(appt_id, appt_date) {
       return Patient.get().then(function(p) {
         return $http({
           method: "DELETE",
           url:    onpoint.env.serverURL + "cards/destroy_appointment",
           params: {
-            appointment_id: firebase_id,
+            appointment_id: appt_id,
             appointment_date: appt_date
           },
           headers: {
@@ -53,11 +49,11 @@ angular.module('app.services')
       })
     },
 
-    forceGenerate: function() {
+    deleteUpcomingCards: function() {
       return Patient.get().then(function(p) {
         return $http({
           method: "DELETE",
-          url:    onpoint.env.serverURL + "cards/force",
+          url:    onpoint.env.serverURL + "cards/upcoming",
           headers: {
            "Authorization": "Bearer " + p.token
           }
