@@ -7,14 +7,25 @@
   <form ng-submit="saveSchedule()">
     <ion-content class="has-footer">
       <ion-list>
-        <!-- <label class="item item-input">
-          <span class="input-label">What time do you want to be reminded?</span>
-          <input type="time" ng-model="slot.time"></input>
-        </label> -->
-
         <ion-item>
           A card will appear on the timeline on the days you choose below.
         </ion-item>
+        <ion-item>
+          What metrics do you want to track?
+        </ion-item>
+
+          <ion-list>
+            <ion-checkbox ng-model="slot.weight">Weight</ion-checkbox>
+            <ion-checkbox ng-model="slot.glucose">Glucose</ion-checkbox>
+            <ion-checkbox ng-model="slot.blood_pressure">Blood Pressure</ion-checkbox>
+            <ion-checkbox ng-model="slot.heart_rate">Heart Rate</ion-checkbox>
+          </ion-list>
+
+
+        <label class="item item-input">
+          <span class="input-label">What time do you want to be reminded?</span>
+          <input type="time" ng-model="slot.time"></input>
+        </label>
 
         <ion-checkbox ng-model="slot.days[$index]" ng-repeat="day in days track by $index">{{day}}</ion-checkbox>
 
@@ -23,7 +34,7 @@
 
     <ion-footer-bar keyboard-attach class="bar bar-footer bar-balanced">
       <div class="buttons full-width">
-        <button class="button button-clear" type="submit">Update</div>
+        <button class="button button-clear" type="submit">Save</div>
       </div>
     </ion-footer-bar>
   </form>

@@ -12,14 +12,24 @@ angular.module('app.services')
 
     getSchedule: function() {
       return Patient.get().then(function(p) {
-        return Patient.ref(p.uid).child("measurement_schedule").once("value")
-      }).then(function(doc) {
-        return doc.val()
+        return $firebaseArray(Patient.ref(p.uid).child("measurement_schedule")).$loaded()
       })
     },
+
     updateSchedule: function(schedule) {
+      copied_schedule = angular.copy(schedule)
+      copied_schedule.time = moment(copied_schedule.time).format('HH:mm');
+
+      delete copied_schedule.$id
+      delete copied_schedule.$priority
+
+
       return Patient.get().then(function(p) {
-        return Patient.ref(p.uid).child("measurement_schedule").update(schedule)
+        if (schedule.$id)
+          return Patient.ref(p.uid).child("measurement_schedule").child(schedule.$id).update(copied_schedule)
+        else
+          return Patient.ref(p.uid).child("measurement_schedule").push(copied_schedule)
+        end
       })
     },
 
