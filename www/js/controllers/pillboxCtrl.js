@@ -108,7 +108,7 @@ angular.module('app.controllers')
 
           if (schedule.days[day] && !_.isUndefined(schedule.medications) ) {
             meds    = _.toArray(schedule.medications)
-            med_ids = meds.map(function(el) { return el.nickname || el.name})
+            med_ids = meds.map(function(el) { return (el.nickname || el.name) + " x " + el.dosage })
             schedule.slots.push({medications: med_ids})
           } else {
             schedule.slots.push({medications: []});
