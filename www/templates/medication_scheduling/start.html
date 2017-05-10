@@ -7,7 +7,7 @@
 
   <ion-content overflow-scroll="true" padding="false" class="has-header has-footer">
 
-    <div ng-repeat="dateSchedule in schedule | orderBy: 'time'">
+    <div ng-repeat="(id, dateSchedule) in schedule | orderBy: 'time'">
       <ion-item class="item item-icon-right" style="background-color: #f5f5f5;">
         <b>{{dateSchedule.name}} ({{dateSchedule.time | formatTime}})</b>
         <i class="icon ion-ios-gear-outline" ui-sref="medication_scheduling.edit({id: dateSchedule.$id})"></i>
@@ -15,8 +15,9 @@
 
       <ion-list>
 
-        <ion-item class="item-avatar" ng-repeat="(med_id, med) in dateSchedule.medications track by $index" ng-click="removeMedFromSlot(dateSchedule, med)">
+        <ion-item class="item-avatar" ng-repeat="med in dateSchedule.medications track by $index" ng-click="removeMedFromSlot(dateSchedule, med)">
           <img ng-src="img/shapes/{{med.shape}}.svg" style="height:50px; width:50px; text-align: center; border-radius: 0px;" ng-if="med.shape"></img>
+          <div style="display: inline-block; width: 20px; height: 20px; border: 1px solid black; background-color: {{med.color}}" ng-if="med.color"></div>
           {{med.nickname || med.name}}
         </ion-item>
       </ion-list>
@@ -29,6 +30,7 @@
     <ion-list>
       <ion-item ng-repeat="med in medications track by $index" ng-click="addSlotModal(med)">
         <img ng-src="img/shapes/{{med.shape}}.svg" style="height:50px; width:50px; text-align: center; border-radius: 0px;" ng-if="med.shape"></img>
+        <div style="display: inline-block; width: 20px; height: 20px; border: 1px solid black; background-color: {{med.color}}" ng-if="med.color"></div>
         {{med.nickname || med.name}}
       </ion-item>
     </ion-list>

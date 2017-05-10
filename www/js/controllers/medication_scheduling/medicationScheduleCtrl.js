@@ -8,13 +8,19 @@ angular.module('app.controllers')
   }
 
   $scope.addMedToSlot = function(dateSchedule, medication) {
-    console.log(dateSchedule)
-    window.test = dateSchedule.medications
-    index = _.findIndex(dateSchedule.medications, function(m) { return m.id == medication.$id })
+    dateSchedule.medications = _.values(dateSchedule.medications)
+    console.log("addMedToSlot")
+    console.log(dateSchedule.medications)
+    console.log("---")
+    index = _.findIndex(dateSchedule.medications, function(m) { console.log("m.id=" + m.id + " medication.$id=" + medication.$id); return m.id == medication.$id })
     if (index == -1) {
       MedicationSchedule.addMedication(dateSchedule.$id, medication)
+
+
+
       index = _.findIndex($scope.medications, function(m) { return (m.$id == medication.$id) })
-      console.log("INDEX IS: " + index)
+      console.log("dateSchedule.medications = " + JSON.stringify(dateSchedule.medications))
+      dateSchedule.medications.push(medication)
       $scope.medications.splice(index, 1)
     }
     $scope.modal.hide()
@@ -92,7 +98,6 @@ angular.module('app.controllers')
 
       _.each($scope.schedule, function(s) {
         meds_for_schedule = _.values(s.medications)
-        console.log(meds_for_schedule)
 
 
         _.each(meds_for_schedule, function(med) {
