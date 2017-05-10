@@ -21,7 +21,7 @@
           <a class="item item-avatar item-icon-left item-icon-right item-text-wrap" ui-sref="tabsController.medication_reminder_history_card({card_id: card.id, schedule_id: card.object_id, date: date.date})" ng-if="card.object_type == 'medication_schedule'">
             <i class="icon ion-medkit"></i>
             <h2 class="card-title">
-              Medication
+              Medications
               <span class="card-label balanced"  ng-if="card.status == 'completed'">Completed</span>
             </h2>
             <span class="card-description">{{card.schedule.time | formatTime}}</span>
@@ -53,7 +53,7 @@
 
           <a class="item item-avatar item-icon-left item-icon-right" ng-if="card.object_type == 'questionnaire_reminder'" ui-sref="tabsController.surveys">
             <i class="icon ion-clipboard"></i>
-            <h2 class="card-title">Questionnaire</h2>
+            <h2 class="card-title">Symptoms</h2>
             <i class="icon ion-ios-arrow-right"></i>
           </a>
 

@@ -1,0 +1,83 @@
+<!-- <link type="text/css" rel="stylesheet" href="css/settingsMedSchedStyle.css"/> -->
+
+<ion-view title="Schedule" class="medsched">
+  <ion-nav-buttons side="right">
+    <button class="button icon-right ion-ios-plus-empty button-clear" ui-sref="medication_scheduling.new"></button>
+  </ion-nav-buttons>
+
+  <ion-content overflow-scroll="true" padding="false" class="has-header has-footer">
+
+    <div ng-repeat="dateSchedule in schedule | orderBy: 'time'">
+      <ion-item class="item item-icon-right" style="background-color: #f5f5f5;">
+        <b>{{dateSchedule.name}} ({{dateSchedule.time | formatTime}})</b>
+        <i class="icon ion-ios-gear-outline" ui-sref="medication_scheduling.edit({id: dateSchedule.$id})"></i>
+      </ion-item>
+
+      <div class="advancedDemo row">
+        <div class="dropzone box box-yellow">
+
+          <ul class="itemlist" dnd-list="dateSchedule.medications" dnd-allowed-types="['med']" dnd-inserted="inserted(index, item, external, type, dateSchedule)" dnd-drop="dropped(index, item, external, type, dateSchedule)">
+
+            <li ng-repeat="(medication_id, med) in dateSchedule.medications track by $index"
+              id="{{medication_id}}"
+              dnd-draggable="med"
+              dnd-type="'med'"
+              dnd-effect-allowed="move"
+              dnd-moved="removeMedicationFromSchedule(medication_id, dateSchedule)">
+
+              <div dnd-nodrag>
+                <div dnd-handle class="handle">:::</div>
+                <div class="container-element box box-blue">
+                  {{med.nickname || med.name}}
+                  <br>
+                  <img ng-src="img/shapes/{{med.shape}}.svg" style="height:50px; width:50px; text-align: center;" ng-if="med.shape"></img>
+                </div>
+              </div>
+
+            </li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+
+    <ion-item class="item item-icon-right" style="background-color: #f5f5f5;">
+      <b>Your medications</b>
+
+    </ion-item>
+
+    <div class="advancedDemo row">
+      <div class="dropzone box box-yellow">
+        <ul dnd-list="medications" dnd-allowed-types="['med']" dnd-drop="droppedToMedications(index, item, external, type)" class="itemlist">
+          <li ng-repeat="med in medications track by $index"
+            id="{{med.$id}}"
+            dnd-draggable="med"
+            dnd-type="'med'"
+            dnd-effect-allowed="move"
+            dnd-moved="medications.splice($index, 1)">
+
+            <div dnd-nodrag>
+              <div dnd-handle class="handle">:::</div>
+
+              <div class="container-element box box-blue">
+                {{med.nickname || med.name}}
+                <br>
+                <img ng-src="img/shapes/{{med.shape}}.svg" style="height:50px; width:50px; text-align: center;" ng-if="med.shape"></img>
+              </div>
+
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+  </ion-content>
+
+  <ion-footer-bar align-title="middle" class="bar-balanced">
+    <div class="buttons full-width" ng-click="completeMedicationScheduling()">
+      <button class="button button-clear" ng-disabled="schedule.length == 0">Fill pillbox</button>
+    </div>
+  </ion-footer-bar>
+
+
+</ion-view>

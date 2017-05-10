@@ -1,0 +1,55 @@
+<ion-view>
+  <ion-nav-buttons side="right">
+    <button class="button button-icon button-clear ion-ios-plus-empty" ng-click="showEditModal()"></button>
+  </ion-nav-buttons>
+
+  <ion-content class="has-footer">
+    <ion-refresher pulling-text="Pull to refresh..." on-refresh="refresh()"></ion-refresher>
+
+    <ion-list>
+      <label class="item item-input">
+        <span class="input-label">Name</span>
+        <input class="input-label" type="text" ng-model="member.name" disabled></input>
+      </label>
+
+      <label class="item item-input">
+        <span class="input-label">Title</span>
+        <input class="input-label" type="text" ng-model="member.title" disabled></input>
+      </label>
+
+      <label class="item item-input">
+        <span class="input-label">Email</span>
+        <input class="input-label" type="email" ng-model="member.email" disabled></input>
+      </label>
+
+      <label class="item item-input">
+        <span class="input-label">Phone</span>
+        <input class="input-label" type="text" ng-model="member.phone_number" disabled></input>
+      </label>
+
+      <label class="item item-input">
+        <span class="input-label">Address</span>
+        <input class="input-label" type="text" ng-model="member.address" disabled></input>
+      </label>
+
+      <label class="item item-input">
+        <span class="input-label">Note</span>
+        <input class="input-label" type="text" ng-model="member.note" disabled></input>
+      </label>
+    </ion-list>
+
+    <div class="content">
+      <div class="row">
+        <div class="col item text-center" ng-repeat="opt in options" ng-click="member.icon = opt" ng-class="{'item-stable': member.icon !== opt, 'item-balanced': member.icon === opt}">
+          <i class="icon {{opt}}" style="font-size: 24px;"></i>
+        </div>
+      </div>
+    </div>
+  </ion-content>
+
+  <ion-footer-bar keyboard-attach class="bar bar-footer bar-balanced">
+    <div class="buttons full-width">
+      <button class="button button-clear">Add</div>
+    </div>
+  </ion-footer-bar>
+</ion-view>

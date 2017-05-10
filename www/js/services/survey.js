@@ -41,6 +41,18 @@ angular.module('app.services')
 
           if (question.answer && +question.answer >= 7)
             return thisS.save(question.id, {id: question.id})
+
+          if (question.id == "Bleeding" && question.answer == "true")
+            return thisS.save(question.id, {id: question.id})
+
+          if (question.id == "Skin" && question.answer == "true")
+            return thisS.save(question.id, {id: question.id})
+
+          if (question.id == "Sleep" && question.answer == "true")
+            return thisS.save(question.id, {id: question.id})
+
+          if (question.id == "Fever" && question.answer == "true")
+            return thisS.save(question.id, {id: question.id})
         })
       )
     },
@@ -66,6 +78,20 @@ angular.module('app.services')
 
       // Set specific filters ONLY IF they haven't been set yet.
       doc.name = id.replace("_", " ")
+      if (id == "Fatigue")
+        doc.name = "Fatigue & Tiredness"
+      if (id == "Appetite")
+        doc.name = "Loss of Appetite"
+      if (id == "Mouth")
+        doc.name = "Mouth Sores"
+      if (id == "Nausea")
+        doc.name = "Nausea & Vomiting"
+      if (id == "Neuropathy")
+        doc.name = "Peripheral Neuropathy"
+      if (id == "Skin")
+        doc.name = "Skin Reaction"
+
+
       if (!doc.started_at && survey.start)
         doc.started_at = survey.start.toISOString()
       if (!doc.ended_at && survey.end)

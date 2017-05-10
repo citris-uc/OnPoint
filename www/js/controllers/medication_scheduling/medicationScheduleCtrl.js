@@ -2,9 +2,29 @@ angular.module('app.controllers')
 .controller('medicationSchedulingCtrl', function($scope, $state, $ionicHistory, $ionicModal, Patient, Medication, MedicationSchedule, MedicationHistory, Card, Onboarding, $ionicLoading) {
   $scope.medication = {};
 
+  $scope.removeMedFromSlot = function(dateSchedule, medication) {
+    MedicationSchedule.removeMedication(dateSchedule.$id, medication.id)
+    $scope.medications.push(medication)
+  }
+
+  $scope.addMedToSlot = function(dateSchedule, medication) {
+    console.log(dateSchedule)
+    window.test = dateSchedule.medications
+    index = _.findIndex(dateSchedule.medications, function(m) { return m.id == medication.$id })
+    if (index == -1) {
+      MedicationSchedule.addMedication(dateSchedule.$id, medication)
+      index = _.findIndex($scope.medications, function(m) { return (m.$id == medication.$id) })
+      console.log("INDEX IS: " + index)
+      $scope.medications.splice(index, 1)
+    }
+    $scope.modal.hide()
+  }
+
   $scope.dropped = function(index, medication, external, type, dateSchedule) {
+    window.alert("dropped: " + JSON.stringify(medication))
     medication_id = medication.$id || medication.id
-    if (dateSchedule[medication_id])
+    console.log(dateSchedule.medications)
+    if (_.find(dateSchedule.medications, function(m) { return m.id == medication_id }) )
       return false
     else
       return medication
@@ -15,20 +35,33 @@ angular.module('app.controllers')
     //   return medication
   }
 
-  $scope.inserted = function(index, medication, external, type, dateSchedule) {
-    console.log("INSERTED---")
-    console.log(medication)
-    console.log()
-    console.log("---")
+  // $scope.onDrop = function(srcList, srcIndex, targetList, targetIndex) {
+  //   if (srcList == targetList)
+  //     return false
+  //   // Copy the item from source to target.
+  //   targetList.splice(targetIndex, 0, srcList[srcIndex]);
+  //   // Remove the item from the source, possibly correcting the index first.
+  //   // We must do this immediately, otherwise ng-repeat complains about duplicates.
+  //   if (srcList == targetList && targetIndex <= srcIndex) srcIndex++;
+  //   srcList.splice(srcIndex, 1);
+  //   // By returning true from dnd-drop we signalize we already inserted the item.
+  //   return true;
+  // };
 
+  $scope.inserted = function(index, medication, external, type, dateSchedule) {
+    window.alert("inserted: " + JSON.stringify(medication))
     MedicationSchedule.addMedication(dateSchedule.$id, medication)
   }
 
   $scope.removeMedicationFromSchedule = function(medication_id, dateSchedule) {
+    ind = _.findIndex(dateSchedule.medications, function(m) { return m.id == medication_id})
+    dateSchedule.medications.splice(ind, 1)
     MedicationSchedule.removeMedication(dateSchedule.$id, medication_id)
   }
 
   $scope.droppedToMedications = function(index, medication, external, type) {
+    window.alert("droppedToMedications: " + JSON.stringify(medication))
+    $scope.medications.push(medication)
     return true
   }
 
@@ -51,33 +84,46 @@ angular.module('app.controllers')
           $scope.medications.push(med)
       })
 
-    })
 
-    MedicationSchedule.get().then(function(medscheds) {
-      console.log("medscheds: ")
-      console.log(medscheds)
-      $scope.schedule = medscheds
-      // _.each($scope.schedule, function(s) {
-      //   s.medications = _.values(s.medications)
-      // })
     }).then(function() {
+      return MedicationSchedule.get()
+    }).then(function(medscheds) {
+      $scope.schedule = medscheds
+
+      _.each($scope.schedule, function(s) {
+        meds_for_schedule = _.values(s.medications)
+        console.log(meds_for_schedule)
 
 
-      // _.each(document.getElementsByClassName("container-element"), function(el) {
-      //   console.log(el)
-      // })
-      // ionic.EventController.off("dragstart", null, document.getElementsByClassName("draggable-element"))
-      // ionic.EventController.off("drag", null, document.getElementsByClassName("draggable-element"))
-      // ionic.EventController.off("dragend", null, document.getElementsByClassName("draggable-element"))
+        _.each(meds_for_schedule, function(med) {
+          index = _.findIndex($scope.medications, function(m) { return m.$id == med.id || m.$id == med.$id})
+          if (index >= 0)
+            $scope.medications.splice(index, 1)
+        })
 
-
-
+        s.medications = meds_for_schedule
+      })
 
 
     }).finally(function() {
       $ionicLoading.hide()
     })
   })
+
+  $scope.addSlotModal = function(medication) {
+    // Create the login modal that we will use later
+    return $ionicModal.fromTemplateUrl('templates/medication_scheduling/add_to_slot.html', {
+      scope: $scope,
+      animation: 'slide-in-up',
+      focusFirstInput: true,
+      backdropClickToClose: false,
+      hardwareBackButtonClose: false
+    }).then(function(modal) {
+      $scope.medication = medication;
+      $scope.modal      = modal;
+      modal.show()
+    });
+  }
 
   $scope.addMedicationModal = function(slotId) {
     // Create the login modal that we will use later

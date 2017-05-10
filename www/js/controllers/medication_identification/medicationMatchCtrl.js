@@ -8,10 +8,8 @@ angular.module('app.controllers')
   $scope.ocr   = angular.fromJson($state.params.ocr)
   $scope.search = $state.params.search
 
-  $scope.colors = ["#FF5733", "#FFC0CB", "#FFA500", "#FFDAB9", "#FFFE0", "#D2B48C", "#800080", "#D8BFD8", "#2E8B57", "#90EE90", "#00008B", "#ADD8E6", "#FFFFFF", "#FFFFF0", "#000000", "#D3D3D3", "#A0522D"]
-  $scope.shapes = ["3sided","5sided","6sided","7sided","8sided", "diamond", "oblong","oval","rectangle", "round","square","teardrop"]
-
-
+  $scope.colors = ["#FFFFFF", "#FFFFF0", "#FF5733", "#FFC0CB", "#FFA500", "#FFDAB9", "#FFFE0", "#D2B48C", "#800080", "#D8BFD8", "#2E8B57", "#90EE90", "#00008B", "#ADD8E6", "#000000", "#D3D3D3", "#A0522D"]
+  $scope.shapes = ["round", "oblong","oval", "3sided", "5sided", "6sided", "7sided", "8sided", "diamond", "rectangle", "square", "teardrop"]
 
   $scope.$on("$ionicView.loaded", function() {
     $ionicLoading.show({template: "<ion-spinner></ion-spinner><br>Loading info...", hideOnStateChange: true})
@@ -82,9 +80,30 @@ angular.module('app.controllers')
   }
 
 
+  $scope.allowSave = function() {
+    if (!$scope.drug.name) {
+      return false
+    }
+    if (!$scope.drug.administration) {
+      return false
+    }
+    if (!$scope.drug.dosage || !$scope.drug.units) {
+      return false
+    }
+    if (!$scope.drug.frequency) {
+      return false
+    }
 
+    if (!$scope.drug.shape) {
+      return false
+    }
 
+    if (!$scope.drug.color) {
+      return false
+    }
 
+    return true;
+  }
 
 
    $scope.chooseShape = function(shape) {

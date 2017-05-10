@@ -1,13 +1,13 @@
 <ion-modal-view class="login-modal">
   <ion-header-bar class="bar bar-header bar-stable">
     <h1 class="title">Schedule questionnaire reminders</h1>
-    <button class="button button-clear button-positive" ng-click="closeModal()">Cancel</button>
+    <button class="button button-clear button-positive" ng-click="closeScheduleModal()">Cancel</button>
   </ion-header-bar>
 
   <form ng-submit="saveSchedule()">
     <ion-content class="has-footer">
       <ion-list>
-        <ion-item>
+        <ion-item class="item-text-wrap">
           A card will appear on the timeline on the days you choose below.
         </ion-item>
 

@@ -34,7 +34,7 @@ angular.module('app.controllers')
     $scope.slot.time = moment($scope.slot.time).format('HH:mm');
 
     return Survey.updateSchedule($scope.slot).then(function() {
-      return $scope.closeModal()
+      return $scope.closeScheduleModal()
     }).finally(function() {
       $ionicLoading.hide()
     })
@@ -78,6 +78,11 @@ angular.module('app.controllers')
     }).finally(function() {
       $ionicLoading.hide()
     })
+  }
+
+
+  $scope.closeScheduleModal = function() {
+    $scope.modal.hide()
   }
 
   $scope.closeModal = function() {

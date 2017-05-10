@@ -182,6 +182,15 @@ angular.module('app.routes', [])
       }
     }
   })
+  .state('tabsController.care_team_show', {
+    url: '/care_team/:member',
+    views: {
+      'timeline-tab': {
+        templateUrl: 'templates/care_team/show.html',
+        controller: 'careTeamCtrl'
+      }
+    }
+  })
 
 
   .state('tabsController.notes', {

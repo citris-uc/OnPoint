@@ -48,6 +48,12 @@ angular.module('app.controllers')
   $scope.displaySchedule = function(med){
     $scope.resetPillbox()
 
+    // Allows for a de-select option.
+    if ($scope.selectedMed == med) {
+      $scope.selectedMed = null
+      return
+    }
+
     $scope.selectedMedications.push(med);
     $scope.selectedMed = med //set the selected med
 

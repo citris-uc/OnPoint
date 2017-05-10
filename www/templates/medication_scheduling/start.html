@@ -13,52 +13,26 @@
         <i class="icon ion-ios-gear-outline" ui-sref="medication_scheduling.edit({id: dateSchedule.$id})"></i>
       </ion-item>
 
-      <div class="advancedDemo row">
-        <div class="dropzone box box-yellow">
+      <ion-list>
 
-          <ul class="itemlist" dnd-list="medicationsArrayForSchedule(dateSchedule)" dnd-allowed-types="['med']" dnd-inserted="inserted(index, item, external, type, dateSchedule)" dnd-drop="dropped(index, item, external, type, dateSchedule)">
-
-            <li ng-repeat="(medication_id, med) in dateSchedule.medications track by $index"
-              dnd-draggable="med"
-              dnd-type="'med'"
-              dnd-effect-allowed="move"
-              dnd-moved="removeMedicationFromSchedule(medication_id, dateSchedule)">
-              <div class="container-element box box-blue">
-                {{med.nickname || med.name}}
-                <br>
-                <img ng-src="img/shapes/{{med.shape}}.svg" style="height:50px; width:50px; text-align: center;" ng-if="med.shape"></img>
-              </div>
-
-            </li>
-          </ul>
-        </div>
-      </div>
-
+        <ion-item class="item-avatar" ng-repeat="(med_id, med) in dateSchedule.medications track by $index" ng-click="removeMedFromSlot(dateSchedule, med)">
+          <img ng-src="img/shapes/{{med.shape}}.svg" style="height:50px; width:50px; text-align: center; border-radius: 0px;" ng-if="med.shape"></img>
+          {{med.nickname || med.name}}
+        </ion-item>
+      </ion-list>
     </div>
 
     <ion-item class="item item-icon-right" style="background-color: #f5f5f5;">
       <b>Your medications</b>
-
     </ion-item>
 
-    <div class="advancedDemo row">
-      <div class="dropzone box box-yellow">
-        <ul dnd-list="medications" dnd-allowed-types="['med']" dnd-drop="droppedToMedications(index, item, external, type)" class="itemlist">
-          <li ng-repeat="med in medications track by $index"
-            dnd-draggable="med"
-            dnd-type="'med'"
-            dnd-effect-allowed="move"
-            dnd-moved="medications.splice($index, 1)">
+    <ion-list>
+      <ion-item ng-repeat="med in medications track by $index" ng-click="addSlotModal(med)">
+        <img ng-src="img/shapes/{{med.shape}}.svg" style="height:50px; width:50px; text-align: center; border-radius: 0px;" ng-if="med.shape"></img>
+        {{med.nickname || med.name}}
+      </ion-item>
+    </ion-list>
 
-            <div class="container-element box box-blue">
-              {{med.nickname || med.name}}
-              <br>
-              <img ng-src="img/shapes/{{med.shape}}.svg" style="height:50px; width:50px; text-align: center;" ng-if="med.shape"></img>
-            </div>
-          </li>
-        </ul>
-      </div>
-    </div>
 
   </ion-content>
 

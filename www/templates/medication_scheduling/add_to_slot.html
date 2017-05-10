@@ -1,0 +1,15 @@
+<ion-modal-view class="login-modal">
+  <ion-header-bar class="bar bar-header bar-stable">
+    <h1 class="title">Add to a slot</h1>
+    <button class="button button-clear button-positive" ng-click="closeModal()">Cancel</button>
+  </ion-header-bar>
+  <ion-content has-bouncing="false" class="login-view" scroll="false">
+    <ion-list>
+      <ion-item ng-repeat="dateSchedule in schedule" ng-click="addMedToSlot(dateSchedule, medication)">
+        {{dateSchedule.name}} ({{dateSchedule.time | formatTime}})
+      </ion-item>
+
+    </ion-list>
+  </ion-content>
+
+</ion-modal-view>

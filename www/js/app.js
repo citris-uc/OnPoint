@@ -157,8 +157,8 @@ angular.module('app', ['ionic', 'firebase', 'app.controllers', 'app.routes', 'ap
 
   $rootScope.$on(onpoint.error, function(event, response) {
     // PouchDB errors.
-    // console.log(JSON.stringify(response))
-    // navigator.notification.alert(JSON.stringify(response), null)
+    console.log(JSON.stringify(response))
+    navigator.notification.alert(JSON.stringify(response), null)
     // return
 
     if (response.status == 404 && response.reason == "deleted") {
