@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg width="82px" height="100px" viewBox="0 0 82 100" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg width="126px" height="101px" viewBox="0 0 126 101" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <!-- Generator: Sketch 43.2 (39069) - http://www.bohemiancoding.com/sketch -->
-    <title>diamond</title>
+    <title>triangle</title>
     <desc>Created with Sketch.</desc>
     <defs></defs>
     <g id="SVG" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <polygon id="diamond" stroke="#000000" points="41.4347826 0 81 50 41.4347826 100 1 50"></polygon>
+        <polygon id="triangle" stroke="#000000" points="63 0 125 100 1 100"></polygon>
     </g>
 </svg>

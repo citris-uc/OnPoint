@@ -18,8 +18,9 @@
       </ion-item>
 
       <ion-item class="item-icon-right" ng-click="showModal(survey)" ng-repeat="survey in surveys">
-        <h2>{{survey.name}}</h2>
-        <i class="icon ion-ios-arrow-right"></i>
+        <h2 ng-class="{'muted': survey.completed_at}">{{survey.name}}</h2>
+        <i class="icon ion-ios-arrow-right" ng-if="!survey.completed_at"></i>
+        <i class="icon ion-ios-checkmark-outline muted" ng-if="survey.completed_at"></i>
         <!-- <p ng-if="survey.completed_at">You completed this survey on {{survey.completed_at | date:'MMM dd, yyyy'}}</p>
         <p ng-if="!survey.completed_at">You haven't completed this survey yet</p> -->
       </ion-item>

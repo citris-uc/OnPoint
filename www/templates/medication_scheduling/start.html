@@ -16,8 +16,8 @@
       <ion-list>
 
         <ion-item class="item-avatar" ng-repeat="med in dateSchedule.medications track by $index" ng-click="removeMedFromSlot(dateSchedule, med)">
-          <img ng-src="img/shapes/{{med.shape}}.svg" style="height:50px; width:50px; text-align: center; border-radius: 0px;" ng-if="med.shape"></img>
-          <div style="display: inline-block; width: 20px; height: 20px; border: 1px solid black; background-color: {{med.color}}" ng-if="med.color"></div>
+          <div class="svgobject" ng-style="{'color': med.color}"></div>
+          <img ng-src="img/shapes/{{med.shape}}.svg" svg-color ng-if="med.shape"></img>
           {{med.nickname || med.name}}
         </ion-item>
       </ion-list>
@@ -28,9 +28,9 @@
     </ion-item>
 
     <ion-list>
-      <ion-item ng-repeat="med in medications track by $index" ng-click="addSlotModal(med)">
-        <img ng-src="img/shapes/{{med.shape}}.svg" style="height:50px; width:50px; text-align: center; border-radius: 0px;" ng-if="med.shape"></img>
-        <div style="display: inline-block; width: 20px; height: 20px; border: 1px solid black; background-color: {{med.color}}" ng-if="med.color"></div>
+      <ion-item class="item-avatar" ng-repeat="med in medications track by $index" ng-click="addSlotModal(med)">
+        <div class="svgobject" ng-style="{'color': med.color}"></div>
+        <img ng-src="img/shapes/{{med.shape}}.svg" svg-color ng-if="med.shape"></img>
         {{med.nickname || med.name}}
       </ion-item>
     </ion-list>
