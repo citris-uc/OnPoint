@@ -8,18 +8,16 @@
       <irk-scale-question-step id="q1" title="How worried are you about your fever?" min="0" max="10" step="1" value="5" min-text="Not worried" max-text="Extremely worried" />
     </irk-task>
 
-     <irk-task>
-       <irk-text-choice-question-step id="q2" title="Do you have an oral temperature greater than 100.4 degrees Fahrenheit (38 degrees Celsius)?"
-        true-text="Yes" false-text="No" />
-    </irk-task>
-
-        <irk-task>
-      <irk-text-choice-question-step id="q3" title="Have you taken any acetaminophen (Tylenol) or ibuprofen (Advil)?"
-        true-text="Yes" false-text="No" />
+    <irk-task>
+      <irk-boolean-question-step id="q2" title="Do you have an oral temperature greater than 100.4 degrees Fahrenheit (38 degrees Celsius)?" true-text="Yes" false-text="No" />
     </irk-task>
 
     <irk-task>
-       <rk-text-choice-question-step id="q4" title="What is your last known neutrophil count?">
+      <irk-boolean-question-step id="q3" title="Have you taken any acetaminophen (Tylenol) or ibuprofen (Advil)?" true-text="Yes" false-text="No" />
+    </irk-task>
+
+    <irk-task>
+       <irk-text-choice-question-step id="q4" title="What is your last known neutrophil count?">
          <irk-text-choice text="Greater than 1,000 cells/mm3" value="1"></irk-text-choice>
          <irk-text-choice text="501-1000 cells/mm3" value="2"></irk-text-choice>
          <irk-text-choice text="500 or fewer cells/mm3 " value="3"></irk-text-choice>

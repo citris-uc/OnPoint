@@ -8,48 +8,47 @@
       <irk-scale-question-step id="q1" title="Select a number that best describes your skin reaction?" min="0" max="10" step="1" value="5" min-text="No skin reaction" max-text="Worst possible reaction" />
     </irk-task>
 
-        <irk-task>
+    <irk-task>
       <irk-scale-question-step id="q2" title="How worried are you about your skin reaction?" min="0" max="10" step="1" value="5" min-text="Not worried" max-text="Extremely worried" />
     </irk-task>
 
-     <irk-task>
-       <irk-text-choice-question-step id="q3" title="Is your skin red?">
-         <irk-text-choice text="None" value="1"></irk-text-choice>
-         <irk-text-choice text="Faint/dull" value="2"></irk-text-choice>
-         <irk-text-choice text="Tender/bright, necrotic" value="3"></irk-text-choice>
-       </irk-text-choice-question-step>
-    </irk-task>
-
-     <irk-task>
-       <irk-text-choice-question-step id="q4" title="Is your skin peeling?">
-         <irk-text-choice text="No, or just dry" value="1"></irk-text-choice>
-         <irk-text-choice text="Yes, patchy, moist" value="2"></irk-text-choice>
-         <irk-text-choice text="Yes, generalized, moist" value="3"></irk-text-choice>
-       </irk-text-choice-question-step>
-    </irk-task>
-
-     <irk-task>
-       <irk-text-choice-question-step id="q5" title="Do you have any swelling around the skin reaction area?">
-         <irk-text-choice text="No/Mild" value="1"></irk-text-choice>
-         <irk-text-choice text="Yes, some" value="2"></irk-text-choice>
-         <irk-text-choice text="Yes, pitting edema" value="3"></irk-text-choice>
-       </irk-text-choice-question-step>
-    </irk-task>
-
-     <irk-task>
-       <irk-text-choice-question-step id="q6" title="Do you have pain at the skin reaction area?">
-         <irk-text-choice text="No/Mild" value="1"></irk-text-choice>
-         <irk-text-choice text="Moderate" value="2"></irk-text-choice>
-         <irk-text-choice text="Severe" value="3"></irk-text-choice>
-       </irk-text-choice-question-step>
+    <irk-task>
+      <irk-text-choice-question-step id="q3" title="Is your skin red?">
+        <irk-text-choice text="None" value="1"></irk-text-choice>
+        <irk-text-choice text="Faint/dull" value="2"></irk-text-choice>
+        <irk-text-choice text="Tender/bright, necrotic" value="3"></irk-text-choice>
+      </irk-text-choice-question-step>
     </irk-task>
 
     <irk-task>
-      <irk-text-choice-question-step id="q7" title="Do you have any open, draining wounds?"
-        true-text="Yes" false-text="No" />
+      <irk-text-choice-question-step id="q4" title="Is your skin peeling?">
+        <irk-text-choice text="No, or just dry" value="1"></irk-text-choice>
+        <irk-text-choice text="Yes, patchy, moist" value="2"></irk-text-choice>
+        <irk-text-choice text="Yes, generalized, moist" value="3"></irk-text-choice>
+      </irk-text-choice-question-step>
     </irk-task>
 
-        <irk-task>
+    <irk-task>
+      <irk-text-choice-question-step id="q5" title="Do you have any swelling around the skin reaction area?">
+        <irk-text-choice text="No/Mild" value="1"></irk-text-choice>
+        <irk-text-choice text="Yes, some" value="2"></irk-text-choice>
+        <irk-text-choice text="Yes, pitting edema" value="3"></irk-text-choice>
+      </irk-text-choice-question-step>
+    </irk-task>
+
+    <irk-task>
+      <irk-text-choice-question-step id="q6" title="Do you have pain at the skin reaction area?">
+         <irk-text-choice text="No/Mild" value="1"></irk-text-choice>
+         <irk-text-choice text="Moderate" value="2"></irk-text-choice>
+         <irk-text-choice text="Severe" value="3"></irk-text-choice>
+      </irk-text-choice-question-step>
+    </irk-task>
+
+    <irk-task>
+      <irk-boolean-question-step id="q7" title="Do you have any open, draining wounds?" true-text="Yes" false-text="No" />
+    </irk-task>
+
+    <irk-task>
        <irk-text-choice-question-step id="q8" title="Do you have any bleeding?">
          <irk-text-choice text="No" value="1"></irk-text-choice>
          <irk-text-choice text="Yes, some" value="2"></irk-text-choice>
@@ -58,13 +57,12 @@
     </irk-task>
 
     <irk-task>
-      <irk-text-choice-question-step id="q9" title="Do you have a fever above 100.4 degrees Fahrenheit (above 38 degrees Celsius)?"
+      <irk-boolean-question-step id="q9" title="Do you have a fever above 100.4 degrees Fahrenheit (above 38 degrees Celsius)?"
         true-text="Yes, with skin reaction" false-text="No" />
     </irk-task>
 
     <irk-task>
-      <irk-text-choice-question-step id="q10" title="Have you started a new medication?"
-        true-text="Yes" false-text="No" />
+      <irk-boolean-question-step id="q10" title="Have you started a new medication?" true-text="Yes" false-text="No" />
     </irk-task>
 
     <irk-task>

@@ -9,8 +9,6 @@ angular.module('app.controllers')
     $ionicLoading.show({template: "<ion-spinner></ion-spinner><br>Loading...", hideOnStateChange: true})
 
     Measurement.getAll().then(function(doc) {
-      console.log(doc)
-      console.log("Measurement#getAll()")
       $scope.measurements = doc
       $scope.$broadcast('scroll.refreshComplete');
     }).then(function() {

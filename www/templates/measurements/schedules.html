@@ -10,7 +10,7 @@
     </li>
 
     <ion-list>
-      <ion-item ng-repeat="r in reminders | orderBy:r.time" ng-click="showModal(r)">
+      <ion-item class="item-text-wrap" ng-repeat="r in reminders | orderBy:r.time" ng-click="showModal(r)">
         <h3 style="font-weight: bold; font-size: 16px;">{{r.time | formatTime}} ({{r.days | formatDaySchedule}})</h3>
         <p>
           Reminder to track

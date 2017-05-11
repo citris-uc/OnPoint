@@ -1,13 +1,13 @@
 <ion-modal-view class="login-modal">
   <ion-header-bar class="bar bar-header bar-stable">
-    <h1 class="title">Schedule measurement reminders</h1>
+    <h1 class="title">Schedule</h1>
     <button class="button button-clear button-positive" ng-click="closeModal()">Cancel</button>
   </ion-header-bar>
 
   <form ng-submit="saveSchedule()">
     <ion-content class="has-footer">
       <ion-list>
-        <ion-item>
+        <ion-item class="item-text-wrap">
           A card will appear on the timeline on the days you choose below.
         </ion-item>
         <ion-item>
@@ -22,8 +22,8 @@
           </ion-list>
 
 
-        <label class="item item-input">
-          <span class="input-label">What time do you want to be reminded?</span>
+        <label class="item item-input item-stacked-label">
+          <span class="input-label">When do you want to be reminded?</span>
           <input type="time" ng-model="slot.time"></input>
         </label>
 
