@@ -2,29 +2,29 @@ angular.module('app.controllers')
 .controller('medicationSchedulingCtrl', function($scope, $state, $ionicHistory, $ionicModal, Patient, Medication, MedicationSchedule, MedicationHistory, Card, Onboarding, $ionicLoading) {
   $scope.medication = {};
 
-  $scope.removeMedFromSlot = function(dateSchedule, medication) {
-    MedicationSchedule.removeMedication(dateSchedule.$id, medication.id)
-    $scope.medications.push(medication)
-  }
-
-  $scope.addMedToSlot = function(dateSchedule, medication) {
-    dateSchedule.medications = _.values(dateSchedule.medications)
-    console.log("addMedToSlot")
-    console.log(dateSchedule.medications)
-    console.log("---")
-    index = _.findIndex(dateSchedule.medications, function(m) { console.log("m.id=" + m.id + " medication.$id=" + medication.$id); return m.id == medication.$id })
-    if (index == -1) {
-      MedicationSchedule.addMedication(dateSchedule.$id, medication)
-
-
-
-      index = _.findIndex($scope.medications, function(m) { return (m.$id == medication.$id) })
-      console.log("dateSchedule.medications = " + JSON.stringify(dateSchedule.medications))
-      dateSchedule.medications.push(medication)
-      $scope.medications.splice(index, 1)
-    }
-    $scope.modal.hide()
-  }
+  // $scope.removeMedFromSlot = function(dateSchedule, medication) {
+  //   MedicationSchedule.removeMedication(dateSchedule.$id, medication.id)
+  //   $scope.medications.push(medication)
+  // }
+  //
+  // $scope.addMedToSlot = function(dateSchedule, medication) {
+  //   dateSchedule.medications = _.values(dateSchedule.medications)
+  //   console.log("addMedToSlot")
+  //   console.log(dateSchedule.medications)
+  //   console.log("---")
+  //   index = _.findIndex(dateSchedule.medications, function(m) { console.log("m.id=" + m.id + " medication.$id=" + medication.$id); return m.id == medication.$id })
+  //   if (index == -1) {
+  //     MedicationSchedule.addMedication(dateSchedule.$id, medication)
+  //
+  //
+  //
+  //     index = _.findIndex($scope.medications, function(m) { return (m.$id == medication.$id) })
+  //     console.log("dateSchedule.medications = " + JSON.stringify(dateSchedule.medications))
+  //     dateSchedule.medications.push(medication)
+  //     $scope.medications.splice(index, 1)
+  //   }
+  //   $scope.modal.hide()
+  // }
 
   $scope.dropped = function(index, medication, external, type, dateSchedule) {
     window.alert("dropped: " + JSON.stringify(medication))

@@ -18,7 +18,7 @@ angular.module('app.controllers').directive("svgColor",  ["$timeout", function($
           $svg = $svg.removeAttr('xmlns:a');
 
           $img.css("display", "none")
-          $svg.css("display", "block")
+          $svg.css("display", "inline")
 
           // Replace image with new SVG
           // $img.replaceWith($svg);
