@@ -26,7 +26,10 @@
     <ion-list>
       <ion-item class="item-divider">Your medications</ion-item>
       <a class="item item-avatar item-icon-right" ng-class="{'item-calm': currentlyOn(med)}" ng-repeat="med in medications track by $index" ng-click="displaySchedule(med)">
-        <img src="img/shapes/{{med.shape}}.svg" style="height:50px; width:50px; border-radius: 0px;" ng-if="med.shape">
+        <div class="svgobject" ng-style="{'color': med.color}"></div>
+        <img ng-src="img/shapes/{{med.shape}}.svg" svg-color ng-if="med.shape"></img>
+
+
         <h2>{{med.nickname || med.name}}</h2>
         <p>{{med.dosage}} {{med.units}}</p>
         <i class="icon ion-ios-circle-outline"    ng-if="!hasSelected(med)"></i>

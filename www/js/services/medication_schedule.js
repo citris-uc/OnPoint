@@ -52,7 +52,6 @@ angular.module('app.services')
   ]
 
   return {
-
     removeMedicationFromSchedule: function(medication) {
       return Patient.get().then(function(p) {
         return $http({

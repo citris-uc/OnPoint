@@ -1,6 +1,8 @@
 angular.module('app.controllers')
-.controller('medicationSchedulingCtrl', function($scope, $state, $ionicHistory, $ionicModal, Patient, Medication, MedicationSchedule, MedicationHistory, Card, Onboarding, $ionicLoading) {
+.controller('medicationSchedulingCtrl', function($scope, $state, $ionicHistory, $ionicModal, Patient, Medication, MedicationSchedule, MedicationHistory, Card, Onboarding, $ionicLoading, $firebaseArray) {
   $scope.medication = {};
+  // $scope.schedule = $firebaseArray( new Firebase("https://vivid-inferno-5187.firebaseio.com/patients/dde68176-a20c-46b5-add0-e08815ee812f/medication_schedules/default") );
+
 
   // $scope.removeMedFromSlot = function(dateSchedule, medication) {
   //   MedicationSchedule.removeMedication(dateSchedule.$id, medication.id)
@@ -26,54 +28,62 @@ angular.module('app.controllers')
   //   $scope.modal.hide()
   // }
 
-  $scope.dropped = function(index, medication, external, type, dateSchedule) {
-    window.alert("dropped: " + JSON.stringify(medication))
-    medication_id = medication.$id || medication.id
-    console.log(dateSchedule.medications)
-    if (_.find(dateSchedule.medications, function(m) { return m.id == medication_id }) )
+  $scope.dropToSlotCallback = function(event, index, item, external, type, allowedType, dateSchedule, listnull) {
+    // Check if medications list exists.  If not, create it.
+    if (listnull) {
+      dateSchedule.medications = [];
+    }
+    // Check if med exists in medications array - if exists, prevent drop
+
+    index = _.findIndex(dateSchedule.medications, function(m) { return m.id == item.id})
+
+    console.log("dateSchedule.medications = " + JSON.stringify(dateSchedule.medications))
+    console.log("item = " + JSON.stringify(item))
+    console.log(index)
+
+
+    if (index >= 0)
       return false
-    else
-      return medication
+    else {
+      MedicationSchedule.addMedication(dateSchedule.$id, item)
+      return item;
+    }
+  };
 
-    // if (_.find(dateSchedule.medications, function(m) { return (m.id == medication.$id || m.id == medication.id) }))
-    //   return false
-    // else
-    //   return medication
+  $scope.removeFromSchedule = function(dateSchedule, index) {
+    console.log(JSON.stringify(dateSchedule.medications))
+    med = dateSchedule.medications[index]
+
+    // if (_.isObject(dateSchedule.medications))
+
+    MedicationSchedule.removeMedication(dateSchedule.$id, med.id)
+    dateSchedule.medications.splice(index, 1)
   }
 
-  // $scope.onDrop = function(srcList, srcIndex, targetList, targetIndex) {
-  //   if (srcList == targetList)
-  //     return false
-  //   // Copy the item from source to target.
-  //   targetList.splice(targetIndex, 0, srcList[srcIndex]);
-  //   // Remove the item from the source, possibly correcting the index first.
-  //   // We must do this immediately, otherwise ng-repeat complains about duplicates.
-  //   if (srcList == targetList && targetIndex <= srcIndex) srcIndex++;
-  //   srcList.splice(srcIndex, 1);
-  //   // By returning true from dnd-drop we signalize we already inserted the item.
-  //   return true;
-  // };
-
-  $scope.inserted = function(index, medication, external, type, dateSchedule) {
-    window.alert("inserted: " + JSON.stringify(medication))
-    MedicationSchedule.addMedication(dateSchedule.$id, medication)
+  $scope.removeFromMedications = function(index) {
+    $scope.medications.splice(index, 1)
   }
 
-  $scope.removeMedicationFromSchedule = function(medication_id, dateSchedule) {
-    ind = _.findIndex(dateSchedule.medications, function(m) { return m.id == medication_id})
-    dateSchedule.medications.splice(ind, 1)
-    MedicationSchedule.removeMedication(dateSchedule.$id, medication_id)
-  }
+  $scope.dropCallback = function(event, index, item, external, type, allowedType, list, listnull) {
+    // console.log("Drop callback called!")
+    // MedicationSchedule.removeMedication(dateSchedule.$id, medication_id)
+    // $scope.medications.push(item)
+    return item;
 
-  $scope.droppedToMedications = function(index, medication, external, type) {
-    window.alert("droppedToMedications: " + JSON.stringify(medication))
-    $scope.medications.push(medication)
-    return true
-  }
-
-  $scope.medicationsArrayForSchedule = function(schedule) {
-    return _.values(schedule.medications)
-  }
+    // Check if medications list exists.  If not, create it.
+    // if (listnull) {
+    //   list.medications = [];
+    // }
+    // Check if med exists in medications array - if exists, prevent drop
+    // for (var i = 0; i < list.medications.length; i++) {
+    //   if (list.medications[i] == item) return false;
+    // }
+    // if (external) {
+    //     if (allowedType === 'itemType' && !item.label) return false;
+    //     if (allowedType === 'containerType' && !angular.isArray(item)) return false;
+    // }
+    // return item;
+  };
 
 
   $scope.$on("$ionicView.loaded", function() {
@@ -83,6 +93,8 @@ angular.module('app.controllers')
 
       $scope.medications = []
       _.each(meds, function(med) {
+        med.id = med.$id
+
         count = Medication.frequencies_to_i[med.frequency]
         if (count)
           _(count).times(function(index) { $scope.medications.push(med)})
@@ -94,9 +106,9 @@ angular.module('app.controllers')
     }).then(function() {
       return MedicationSchedule.get()
     }).then(function(medscheds) {
-      $scope.schedule = medscheds
+      schedules = angular.copy(medscheds)
 
-      _.each($scope.schedule, function(s) {
+      _.each(schedules, function(s) {
         meds_for_schedule = _.values(s.medications)
 
 
@@ -109,6 +121,7 @@ angular.module('app.controllers')
         s.medications = meds_for_schedule
       })
 
+      $scope.schedule = schedules
 
     }).finally(function() {
       $ionicLoading.hide()
@@ -172,4 +185,37 @@ angular.module('app.controllers')
       $ionicLoading.hide();
     })
   }
+
+
+
+  // $scope.dropped = function(index, medication, external, type, dateSchedule) {
+  //   window.alert("dropped: " + JSON.stringify(medication))
+  //   medication_id = medication.$id || medication.id
+  //   console.log(dateSchedule.medications)
+  //   if (_.find(dateSchedule.medications, function(m) { return m.id == medication_id }) )
+  //     return false
+  //   else
+  //     return medication
+  // }
+
+  // $scope.inserted = function(index, medication, external, type, dateSchedule) {
+  //   window.alert("inserted: " + JSON.stringify(medication))
+  //   MedicationSchedule.addMedication(dateSchedule.$id, medication)
+  // }
+  //
+  // $scope.removeMedicationFromSchedule = function(medication_id, dateSchedule) {
+  //   ind = _.findIndex(dateSchedule.medications, function(m) { return m.id == medication_id})
+  //   dateSchedule.medications.splice(ind, 1)
+  //   MedicationSchedule.removeMedication(dateSchedule.$id, medication_id)
+  // }
+  //
+  // $scope.droppedToMedications = function(index, medication, external, type) {
+  //   window.alert("droppedToMedications: " + JSON.stringify(medication))
+  //   $scope.medications.push(medication)
+  //   return true
+  // }
+  //
+  // $scope.medicationsArrayForSchedule = function(schedule) {
+  //   return _.values(schedule.medications)
+  // }
 })
