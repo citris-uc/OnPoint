@@ -1,8 +1,9 @@
 angular.module('app.controllers')
 
-.controller('historyCtrl', function($scope, $state, $ionicLoading, Card, moment) {
+.controller('historyCtrl', function($scope, $state, $ionicLoading, Card) {
   $scope.dates = []
   $scope.end_date_string = moment().format("YYYY-MM-DD")
+  console.log(moment().format("YYYY-MM-DD"))
 
   $scope.refresh = function() {
     $scope.end_date_string = moment().format("YYYY-MM-DD")
@@ -16,12 +17,9 @@ angular.module('app.controllers')
     $ionicLoading.show({template: "<ion-spinner></ion-spinner><br>Loading cards...", hideOnStateChange: true});
 
     Card.history(end_date_string).then(function(response) {
-      console.log(response.data.dates)
       for (var i=0;i < response.data.dates.length; i++) {
         $scope.dates.push(response.data.dates[i])
       }
-
-      console.log($scope.dates)
 
       $scope.end_date_string = response.data.end_date_string
     }).catch(function(res) {

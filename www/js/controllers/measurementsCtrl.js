@@ -30,7 +30,7 @@ angular.module('app.controllers')
   $scope.save = function(){
     $ionicLoading.show({template: "<ion-spinner></ion-spinner><br>Saving...", hideOnStateChange: true})
 
-    if (!$scope.measurement.glucose && !$scope.measurement.weight && !$scope.measurement.heart_rate && !$scope.measurement.systolic && !$scope.measurement.diastolic) {
+    if (!$scope.measurement.glucose && !$scope.measurement.weight && !$scope.measurement.heart_rate && !$scope.measurement.temperature && !$scope.measurement.systolic && !$scope.measurement.diastolic) {
       navigator.notification.alert("You need to enter at least one measurement", null)
       $ionicLoading.hide()
       return
@@ -134,7 +134,7 @@ angular.module('app.controllers')
       return
     }
 
-    if (!$scope.slot.blood_pressure && !$scope.slot.weight && !$scope.slot.heart_rate && !$scope.slot.glucose) {
+    if (!$scope.slot.blood_pressure && !$scope.slot.weight && !$scope.slot.heart_rate && !$scope.slot.temperature && !$scope.slot.glucose) {
       navigator.notification.alert("You need to choose at least one metric", null)
       $ionicLoading.hide()
       return
