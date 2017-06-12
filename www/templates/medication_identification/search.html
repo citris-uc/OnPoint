@@ -22,7 +22,7 @@
 
 
             <div class="item text-center" ng-click="loadCamera()" ng-if="medication.photo">
-              <img src="{{medication.photo}}" style="width:100px;height:100px;"></img>
+              <img ng-src="{{medication.photo}}" style="width:150px;height:150px;"></img>
               <!-- <p>Click the image to retake</p> -->
             </div>
             <div class="row" style="padding-left:0px;padding-right:0px;" ng-if="medication.photo">
