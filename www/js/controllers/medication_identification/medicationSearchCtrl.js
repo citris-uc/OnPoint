@@ -56,16 +56,17 @@ angular.module('app.controllers')
       // }, "Camera", ["View", "Dismiss"])
 
       $cordovaCamera.getPicture({
-        saveToPhotoAlbum: false,
+        saveToPhotoAlbum: true,
         quality: 50,
-        allowEdit: false,
+        allowEdit: true,
         correctOrientation: true,
         targetWidth: 750,
         targetHeight: 750,
-        destinationType: Camera.DestinationType.DATA_URL,
+        // destinationType: Camera.DestinationType.DATA_URL,
+        destinationType: 1,
         sourceType: Camera.PictureSourceType.CAMERA
       }).then(function(base64) {
-        $scope.medication.photo = "data:image/jpeg;base64," + base64
+        $scope.medication.photo = "data:image/png;base64," + base64
       }).catch(function(res) {
         navigator.notification.alert(JSON.stringify(res), null)
         $scope.$emit(clovi.env.error, res)
