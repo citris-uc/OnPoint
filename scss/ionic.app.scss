@@ -270,8 +270,6 @@ input[type="number"]:disabled {
 }
 
 
-
-
 @media (min-width: 680px) {
   .login-modal {
     top: 0%;
@@ -282,9 +280,6 @@ input[type="number"]:disabled {
     width: 100%;
   }
 }
-
-
-
 
 .login-view {
   // a {
@@ -544,5 +539,58 @@ td {
    border-top-right-radius: 4px;
    border-top-left-radius: 4px;
    display: block;
+}
 
+
+
+// iPad customizations
+.platform-ipad {
+  .bar-header {
+    .title {
+      font-size: 24px;
+    }
+
+    .button {
+      font-size: 22px !important;
+    }
+
+    .button:before {
+      font-size: 44px !important;
+      line-height: 30px;
+    }
+  }
+
+  .bar-footer {
+    height: 60px;
+    .button {
+      font-size: 24px;
+      line-height: 50px;
+    }
+  }
+}
+
+// Android customizations
+.platform-android {
+  .bar-header {
+    .title {
+      font-size: 24px;
+    }
+
+    .button {
+      font-size: 22px !important;
+    }
+
+    .button:before {
+      font-size: 44px !important;
+      line-height: 30px;
+    }
+  }
+
+  .bar-footer {
+    height: 60px;
+    .button {
+      font-size: 24px;
+      line-height: 50px;
+    }
+  }
 }
