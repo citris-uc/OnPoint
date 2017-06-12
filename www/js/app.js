@@ -79,11 +79,13 @@ angular.module('app', ['ionic', 'firebase', 'app.controllers', 'app.routes', 'ap
 
 
 .run(function($ionicPlatform, $rootScope, Patient, $state, $ionicHistory, $ionicModal, Onboarding, $ionicSideMenuDelegate, $cordovaInAppBrowser) {
+  // We need this since $rootScope.modal is async.f
+  $rootScope.isLoginModalActive = false;
+
   // Patient.getFromFirebase().then(function(patient) {
   //   $rootScope.patient = patient
   //   console.log(patient)
   // })
-
 
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -133,8 +135,9 @@ angular.module('app', ['ionic', 'firebase', 'app.controllers', 'app.routes', 'ap
   //----------------------------------------------------------------------------\
 
   loadLoginModal = function() {
-    // Create the login modal that we will use later
-    if (!$rootScope.modal) {
+    $rootScope.isLoginModalActive = true
+
+    if (!$rootScope.modal || !$rootScope.modal.isShown()) {
       return $ionicModal.fromTemplateUrl('templates/login.html', {
         scope: $rootScope,
         animation: 'slide-in-up',
@@ -143,19 +146,17 @@ angular.module('app', ['ionic', 'firebase', 'app.controllers', 'app.routes', 'ap
         hardwareBackButtonClose: false
       }).then(function(modal) {
         $rootScope.modal = modal;
+        return $rootScope.modal.show();
       });
     }
   }
 
   $rootScope.logout = function() {
-    Patient.logout().then(function() {
-      $ionicHistory.clearCache().then(function(response) {
-        $rootScope.$emit(onpoint.env.auth.failure, {})
-      })
-    })
+    $rootScope.$emit(onpoint.env.auth.failure, {})
   };
 
   $rootScope.$on(onpoint.error, function(event, response) {
+    // navigator.notification.alert("RECEIVED ERROR IN onpoint.error", null, "Login failed", "OK")
     if (response.status == 404 && response.reason == "deleted") {
       $rootScope.$emit(onpoint.env.auth.failure, response)
       return
@@ -183,12 +184,8 @@ angular.module('app', ['ionic', 'firebase', 'app.controllers', 'app.routes', 'ap
     }
 
     if (response.error && (response.error.status == 401 || response.error.status == 403) ) {
-      if ( !$rootScope.modal || ($rootScope.modal && !$rootScope.modal.isShown()) ) {
-        loadLoginModal().then(function() {
-          $rootScope.state.error = "Your session has expired"
-          $rootScope.modal.show();
-        })
-      }
+      $rootScope.$emit(onpoint.env.auth.failure, response)
+      return
     } else {
       console.log(response)
 
@@ -210,22 +207,22 @@ angular.module('app', ['ionic', 'firebase', 'app.controllers', 'app.routes', 'ap
     }
   })
 
-
   $rootScope.$on(onpoint.env.auth.success, function(event, response) {
-    $ionicHistory.clearCache().then(function() {
+    // $ionicHistory.clearCache().then(function() {
       if ($rootScope.modal)
-        $rootScope.modal.remove().then(function() {
-          $rootScope.$broadcast(onpoint.env.data.refresh);
+        $rootScope.modal.hide().then(function() {
+          $rootScope.isLoginModalActive = false;
+          $state.go("tabsController.timeline", {}, {reload: true})
         })
-    })
+    // })
   })
 
   $rootScope.$on(onpoint.env.auth.failure, function(event, data) {
+    // navigator.notification.alert("RECEIVED onpoint.env.auth.failre ", null, "Login failed", "OK")
     Patient.logout().catch(console.log.bind(console)).finally(function() {
       if ( !$rootScope.modal || ($rootScope.modal && !$rootScope.modal.isShown()) ) {
         loadLoginModal().then(function() {
           $rootScope.state.error = data.message
-          $rootScope.modal.show();
         })
       }
     })
@@ -241,8 +238,6 @@ angular.module('app', ['ionic', 'firebase', 'app.controllers', 'app.routes', 'ap
       })
     }
   })
-
-
 
   $rootScope.openLink = function(url) {
     var options = {
