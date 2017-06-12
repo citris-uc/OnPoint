@@ -9441,3 +9441,35 @@ td {
   border-top-right-radius: 4px;
   border-top-left-radius: 4px;
   display: block; }
+
+.platform-ipad .bar-header .title {
+  font-size: 24px; }
+
+.platform-ipad .bar-header .button {
+  font-size: 22px !important; }
+
+.platform-ipad .bar-header .button:before {
+  font-size: 44px !important;
+  line-height: 30px; }
+
+.platform-ipad .bar-footer {
+  height: 60px; }
+  .platform-ipad .bar-footer .button {
+    font-size: 24px;
+    line-height: 50px; }
+
+.platform-android .bar-header .title {
+  font-size: 24px; }
+
+.platform-android .bar-header .button {
+  font-size: 22px !important; }
+
+.platform-android .bar-header .button:before {
+  font-size: 44px !important;
+  line-height: 30px; }
+
+.platform-android .bar-footer {
+  height: 60px; }
+  .platform-android .bar-footer .button {
+    font-size: 24px;
+    line-height: 50px; }
