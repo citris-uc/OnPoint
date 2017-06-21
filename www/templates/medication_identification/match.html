@@ -36,6 +36,11 @@
         <input type="text" ng-model="drug.purpose">
       </label>
 
+      <label class="item item-input item-stacked-label item-text-wrap" ng-if="drug.image">
+        <span class="input-label">Pill image</span>
+        <img ng-src="{{drug.image}}">
+      </label>
+
       <label class="item item-input item-stacked-label" ng-click="shapeModal()">
         <span class="input-label">Shape</span>
         <p style="width: 100%; text-align: center;">

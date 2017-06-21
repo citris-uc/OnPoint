@@ -67,7 +67,9 @@
             <div class="item text-center item-text-wrap" ng-show="!!params.noDrugMatch">
               No results found. Try to refine your search query.
             </div>
-            <ion-item class="item-icon-right item-text-wrap" ng-repeat="drug in drugs" ng-click="navigateToMatch(drug)">
+            <ion-item class="item-avatar item-icon-right item-text-wrap" ng-repeat="drug in drugs" ng-click="navigateToMatch(drug)">
+
+              <img ng-src="{{drug.image}}" ng-if="drug.image">
               <h2>{{drug.name}}</h2>
               <i class="icon ion-ios-arrow-right"></i>
             </ion-item>
