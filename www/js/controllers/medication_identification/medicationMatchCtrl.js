@@ -23,12 +23,16 @@ angular.module('app.controllers')
 
       if ($scope.ocr) {
         $scope.drug.amount    = $scope.ocr.amount
-        $scope.drug.delivery  = $scope.ocr.delivery
-        $scope.drug.frequency = $scope.ocr.frequency
-        // $scope.drug.purpose   = $scope.ocr.raw_text
 
-        if ($scope.drug.amount && $scope.drug.delivery)
-          $scope.drug.administration = $scope.drug.amount + " " + $scope.drug.delivery
+        if ($scope.ocr.units)
+          $scope.drug.units = $scope.ocr.units
+
+        if ($scope.ocr.frequency && _.contains($scope.frequencies, $scope.ocr.frequency))
+          $scope.drug.frequency = $scope.ocr.frequency
+
+        if ($scope.ocr.delivery && _.contains($scope.administrations, $scope.ocr.delivery))
+          $scope.drug.administration  = $scope.ocr.delivery
+
       }
     }).finally(function(res) {
       $ionicLoading.hide()
