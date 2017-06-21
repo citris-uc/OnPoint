@@ -91,7 +91,7 @@ angular.module('app.controllers')
     }
 
     $scope.navigateToMatch = function(drug) {
-      $state.go("medication_identification.match", {rxcui: drug.rxcui, ocr: JSON.stringify($scope.ocr_results), search: $scope.params.search}, {reload: true})
+      $state.go("medication_identification.match", {rxcui: drug.rxcui, ocr: JSON.stringify($scope.ocr_results), image: drug.image, search: $scope.params.search}, {reload: true})
     }
 
     $scope.search = function() {

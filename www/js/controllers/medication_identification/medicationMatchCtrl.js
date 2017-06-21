@@ -18,6 +18,9 @@ angular.module('app.controllers')
       $scope.drug = response.data
       $scope.drug.units = "tablets"
 
+      if ($state.params.image)
+        $scope.drug.image = $state.params.image
+
       if (!$scope.drug.nickname)
         $scope.drug.nickname = $state.params.search
 
