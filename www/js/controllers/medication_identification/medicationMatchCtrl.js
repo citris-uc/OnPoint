@@ -22,7 +22,7 @@ angular.module('app.controllers')
         $scope.drug.nickname = $state.params.search
 
       if ($scope.ocr) {
-        $scope.drug.amount    = $scope.ocr.amount
+        $scope.drug.dosage = $scope.ocr.amount
 
         if ($scope.ocr.units)
           $scope.drug.units = $scope.ocr.units
