@@ -91,7 +91,6 @@ angular.module('app.controllers')
     }
 
     $scope.navigateToMatch = function(drug) {
-      // ui-sref="medication_identification.match({rxcui: drug.rxcui})"
       $state.go("medication_identification.match", {rxcui: drug.rxcui, ocr: JSON.stringify($scope.ocr_results), search: $scope.params.search}, {reload: true})
     }
 
