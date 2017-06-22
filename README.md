@@ -32,6 +32,64 @@ Then run GenyMotion device, and then `ionic run android` in console.
 ## Installing npm
 Clear the cache for npm: https://stackoverflow.com/questions/37914824/cordova-not-updating-to-latest-version
 
+
+## Certificates for Push Notifications
+1. Super simple using Android and Firebase
+2. iOS is more complicated. Make sure to follow: https://docs.ionic.io/services/profiles/#ios-push-certificate
+
+
+## Binary deploys to App Store and Play Store
+Binary Update: When your app is updated through the app store. Binary Updates are still necessary for binary changes such as changing your Cordova platform version or adding a Cordova plugin or native library.
+
+See for more: https://docs.ionic.io/services/deploy/
+
+
+## Uploading to Play Store
+To generate a new .jks key:
+```
+keytool -genkey -v -keystore /Users/dmitri/.android/google-play-app-signing.jks -alias GooglePlayAppSigningKey -keyalg RSA -keysize 2048 -validity 10000
+```
+See: https://docs.ionic.io/services/profiles/#android-app-keystore
+
+or if you're using Android Studio: https://developer.android.com/studio/publish/app-signing.html
+
+
+### Releasing a single APK
+Make sure to release a single APK: http://stackoverflow.com/questions/32535551/building-combined-armv7-x86-apk-after-crosswalk-integration-in-an-ionic-project
+
+### Setting version codes in config.xml
+For Android:
+```
+versionCode = MAJOR * 10000 + MINOR * 100 + PATCH
+```
+(https://cordova.apache.org/docs/en/latest/guide/platforms/android/index.html#setting-the-version-code)
+
+For iOS: major.minor.patch
+(https://developer.apple.com/library/content/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html#//apple_ref/doc/uid/20001431-102364)
+
+Then cordova build --release android
+
+
+### Deep instructions
+Instructions: http://ionicframework.com/docs/guide/publishing.html
+
+cordova plugin rm cordova-plugin-console
+
+cordova build --release android
+
+jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore /Users/dmitri/.android/release.jks platforms/android/build/outputs/apk/android-release-unsigned.apk DSAndroidKey
+
+
+/Applications/adt-bundle-mac-x86_64-20140702/sdk/build-tools/25.0.0/zipalign -v 4 platforms/android/build/outputs/apk/android-release-unsigned.apk OnPoint.apk
+
+
+## Logging in android
+Run ./logandroid.sh
+
+
+
+
+
 ## Authors
 Angela Hsueh ([angela.hsueh@berkeley.edu](mailto:angela.hsueh@berkeley.edu))  
 Bill Kim ([bkim54@berkeley.edu](mailto:bkim54@berkeley.edu))    
