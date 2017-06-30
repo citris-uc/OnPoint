@@ -19,14 +19,21 @@
     </ion-header-bar> -->
     <ion-content padding="false" style="top:0px !important;" class="side-menu-left side-menu-gradient">
       <div class="spacer" style="width: 268px; height: 32px;"></div>
-      <div class="profile-image" menu-close ui-sref="tabsController.profile" style="text-align:center; font-size: 64px;">
-        <i class="icon ion-person"></i>
-        <!-- <img ng-if="!patient.profileImageURL" src="img/profile.png" style="display: block; width: 40%; height: auto; margin-left: auto; margin-right: auto;">
-        <img ng-if="!!patient.profileImageURL" src="{{patient.profileImageURL}}" style="display: block; width: 40%; height: auto; margin-left: auto; margin-right: auto;"> -->
+      <div class="profile-image" menu-close ui-sref="tabsController.profile">
+        <div style="text-align:center; font-size: 64px;">
+          <i class="icon ion-person"></i>
+        </div>
+
+        <h3 style="text-align:center; margin-top: 10px;">
+          {{patient.first_name}}
+          <i class="icon ion-edit"></i>
+        </h3>
+        <p style="text-align:center;">{{patient.email}}</p>
+
+        <div class="spacer" style="width: 100%; border-top: 1px solid #b2b2b2;"></div>
       </div>
-      <h3 style="text-align:center; margin-top: 10px;">{{patient.first_name}}</h3>
-      <p style="text-align:center;">{{patient.email}}</p>
-      <div class="spacer" style="width: 100%; border-top: 1px solid white;"></div>
+
+
       <ion-list>
         <ion-item menu-close ui-sref="tabsController.timeline" class="icon item-icon-left side-menu-item" active-page-highlight="">
           <i class="icon ion-ios-home-outline"></i>

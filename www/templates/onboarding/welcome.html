@@ -1,4 +1,4 @@
-<ion-view class="onboarding-welcome" view-title="Intro">
+<ion-view class="onboarding-welcome">
   <ion-nav-buttons side="left">
     <!-- <button class="button button-positive button-clear no-animation"
             ng-click="startApp()" ng-show="!slideIndex">
@@ -22,73 +22,116 @@
     </button>
   </ion-nav-buttons>
   <ion-slide-box on-slide-changed="slideChanged(index)" pager-click="transitionToPageIndex(index)">
-    <ion-slide class="padding">
-      <h3>Welcome to OnPoint!</h3>
-      <div id="logo">
-        <img src="img/onPoint_logo.png">
-      </div>
-      <p>
-        OnPoint helps you manage your medication schedule with an organized
-        timeline, clever alerts, and real-time communication with your care team.
-      </p>
-      <h4>
-        Swipe left to continue.
-      </h4>
-    </ion-slide>
-    <ion-slide class="padding">
-      <h3>Setting up OnPoint</h3>
+    <ion-slide>
+      <div class="card">
+        <div class="item item-divider">
+          Welcome to OnPoint!
+        </div>
 
-      <div id="list">
-        <h5>
-          We'll help you get setup with OnPoint in just three steps:
-        </h5>
-        <ol>
-          <li>Identify your medications,</li>
-          <li>Create a schedule from your medications,</li>
-          <li>Use the Timeline to manage your schedule and appointments.</li>
-        </ol>
+        <div class="item item-text-wrap">
+          <div id="logo" style="text-align:center;">
+            <img src="img/onPoint_logo.png" style="max-height:100px;">
+          </div>
+
+
+            OnPoint helps you manage your medication schedule with an organized
+            timeline, clever alerts, and real-time communication with your care team.
+
+        </div>
+
+        <div class="item item-divider">
+          Swipe left to continue
+        </div>
+
       </div>
     </ion-slide>
-    <ion-slide class="padding">
-      <h3>Identifying medications</h3>
-      <p>
-        The first step in the app will be to add medications. We offer multiple ways
-        to identify your medication, including searching by name or searching by barcode.
-      </p>
+    <ion-slide>
+      <div class="card">
+        <div class="item item-divider">
+          3 easy steps
+        </div>
+
+        <div class="item item-text-wrap">
+          Getting started with OnPoint takes only 3 simple steps:
+
+          <br>
+          <br>
+          1. Identify your medications
+          <br>
+          <br>
+          2. Schedule your medications
+          <br>
+          <br>
+          3. Use the Timeline to manage your medications
+        </div>
+      </div>
+    </ion-slide>
+    <ion-slide>
+      <div class="card">
+        <div class="item item-divider">
+          Identify your medications
+        </div>
+
+        <div class="item item-text-wrap">
+          The first step in the app will be to add medications. You can add
+          medications by taking a photo or searching by name.
+        </div>
+      </div>
+
     </ion-slide>
 
-    <ion-slide class="padding">
-      <h3>Scheduling medications</h3>
-      <p>
-        After you've identified all your medication, we will help you schedule the medications
-        so that you can receive timely notifications.
-      </p>
+    <ion-slide>
+      <div class="card">
+        <div class="item item-divider">
+          Scheduling your medications
+        </div>
+
+        <div class="item item-text-wrap">
+          After you've identified all your medication, we will help you schedule the medications
+          so that you can receive timely notifications.
+        </div>
+      </div>
     </ion-slide>
 
-    <ion-slide class="padding">
-      <h3>Using the timeline</h3>
-      <p>
-        Once you have a medication schedule setup, your main interaction with the app
-        will be through the timeline. The timeline is a central place for you to view
-        your medication schedule, be notified of what medications you have taken, and be
-        aware of medication you have yet to take. The timeline keeps you on track, on point.
-      </p>
+    <ion-slide>
+      <div class="card">
+        <div class="item item-divider">
+          Using the timeline
+        </div>
+
+        <div class="item item-text-wrap">
+          Once you have a medication schedule setup, your main interaction with the app
+          will be through the timeline. The timeline is a central place for you to view
+          your medication schedule, be notified of what medications you have taken, and be
+          aware of medication you have yet to take. The timeline keeps you on track, on point.
+        </div>
+      </div>
     </ion-slide>
 
-    <ion-slide class="padding">
-      <h3>That's it!</h3>
-      <p>
-        Congratulations on completing the introductory part of Onboarding.
-        Let's now move on to identifying your medications.
-      </p>
+    <ion-slide>
+      <div class="card">
+        <div class="item item-divider">
+          That's it!
+        </div>
 
-      <p>
-        Tap Start on top right to begin.
-      </p>
+        <div class="item item-text-wrap">
+          Congratulations on completing the introductory part of Onboarding.
+          Let's now move on to identifying your medications.
 
-      <button class="button button-balanced" ng-click="completeOnboarding()">
-        Start
-      </button>
+          <br>
+          <br>
+
+          <button class="button button-balanced button-block button-small" ng-click="completeOnboarding()">
+            Start
+          </button>
+
+        </div>
+
+        <div class="item item-divider">
+          Tap Start to begin
+        </div>
+      </div>
+
     </ion-slide>
   </ion-slide-box>
 </ion-view>
