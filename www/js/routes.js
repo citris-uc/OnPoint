@@ -223,48 +223,6 @@ angular.module('app.routes', [])
     }
   })
 
-
-  // .state('tabsController.measurements', {
-  //   url: '/measurements',
-  //   views: {
-  //     'measurements-tab': {
-  //       templateUrl: 'templates/measurements/measurements.html',
-  //       controller: 'measurementsCtrl'
-  //     }
-  //   }
-  // })
-  //
-  // .state('tabsController.viewMeasurementSchedule', {
-  //   url: 'measurements/schedule/:measurement_schedule_id',
-  //   views: {
-  //     'measurements-tab': {
-  //       templateUrl: 'templates/measurements/view_measurement_schedule.html',
-  //       controller: 'measurementViewCtrl'
-  //     }
-  //   }
-  // })
-
-  // DEPRECIATED: Making measurements tab a segmenetd control
-  // .state('tabsController.measurementAdd', {
-  //   url: '/measurement-add/:schedule_id',
-  //   views: {
-  //     'measurements-tab': {
-  //       templateUrl: 'templates/measurements/measurements-add.html',
-  //       controller: 'addMeasurementsCtrl'
-  //     }
-  //   }
-  // })
-  //
-  // .state('tabsController.measurementTips', {
-  //   url: '/measurement-tips',
-  //   views: {
-  //     'measurements-tab': {
-  //       templateUrl: 'templates/measurements/measurementTips.html',
-  //       controller: 'measurementTipsCtrl'
-  //     }
-  //   }
-  // })
-
   // .state('tabsController.goals', {
   //   url: '/goals',
   //   views: {

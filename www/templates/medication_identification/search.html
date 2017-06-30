@@ -11,82 +11,70 @@
   </div>
 
   <ion-content class="has-subheader has-footer" has-bouncing="false">
-      <ion-slide-box on-slide-changed="changeSlide($index)" does-continue="false" show-pager="false">
-        <ion-slide>
-          <div class="list">
-            <div class="item text-center item-text-wrap" ng-click="loadCamera()" ng-if="!medication.photo">
-              <img src="img/photo.png" style="width:50px;height:50px;"></img>
-              <p>Click here to take a picture of your medication.</p>
-              <p>When taking a picture, position the pill bottle in the center and capture as much text as possible. One image is sufficient.</p>
-            </div>
-
-
-            <div class="item text-center" ng-click="loadCamera()" ng-if="medication.photo">
-              <img ng-src="{{medication.photo}}" style="width:150px;height:150px;"></img>
-              <!-- <p>Click the image to retake</p> -->
-            </div>
-            <div class="row" style="padding-left:0px;padding-right:0px;" ng-if="medication.photo">
-              <div class="col-50">
-                <button class="button button-block button-energized" ng-click="loadCamera()">Retake</button>
-              </div>
-              <div class="col-50">
-                <button class="button button-block button-balanced" ng-click="sendToOCR()">Submit</button>
-              </div>
-            </div>
-
-            <div class="item item-divider" ng-if="ocr_results.raw_text">
-              Parsed text
-            </div>
-            <div class="item text-center item-text-wrap" ng-if="ocr_results.raw_text">
-              <p>{{ocr_results.raw_text}}</p>
-            </div>
-            <!-- <div class="item text-center item-text-wrap" ng-if="ocr_results.raw_text">
-              <p>If this text looks acceptable to you, we will extract the drug name, dosage and frequency from it.</p>
-            </div>
-            <button class="button button-block button-energized" ng-click="navigateToOcrMatch()" ng-if="ocr_results.raw_text">Accept</button> -->
+    <ion-slide-box on-slide-changed="changeSlide($index)" does-continue="false" show-pager="false">
+      <ion-slide>
+        <div class="list">
+          <div class="item text-center item-text-wrap" ng-click="loadCamera()" ng-if="!medication.photo">
+            <img src="img/photo.png" style="width:50px;height:50px;"></img>
+            <p>Click here to take a picture of your medication.</p>
+            <p>When taking a picture, position the pill bottle in the center and capture as much text as possible. One image is sufficient.</p>
           </div>
-        </ion-slide>
 
 
-        <ion-slide>
-          <form ng-submit="search()" name="searchForm">
-            <div class="list">
-              <div class="item item-input-inset">
-                <label class="item-input-wrapper">
-                  <i class="icon ion-ios-search placeholder-icon"></i>
-                  <input type="text" ng-model="params.search" placeholder="Enter a brand name...">
-                </label>
-                <button type="submit" class="button button-small button-balanced" ng-disabled="params.search.length == 0">
-                  Search
-                </button>
-              </div>
+          <div class="item text-center" ng-click="loadCamera()" ng-if="medication.photo">
+            <img ng-src="{{medication.photo}}" style="width:150px;height:150px;"></img>
+            <!-- <p>Click the image to retake</p> -->
+          </div>
+          <div class="row" style="padding-left:0px;padding-right:0px;" ng-if="medication.photo">
+            <div class="col-50">
+              <button class="button button-block button-energized" ng-click="loadCamera()">Retake</button>
             </div>
-          </form>
-
-          <ion-list>
-            <div class="item text-center item-text-wrap" ng-show="!!params.noDrugMatch">
-              No results found. Try to refine your search query.
+            <div class="col-50">
+              <button class="button button-block button-balanced" ng-click="sendToOCR()">Submit</button>
             </div>
-            <ion-item class="item-avatar item-icon-right item-text-wrap" ng-repeat="drug in drugs" ng-click="navigateToMatch(drug)">
+          </div>
 
-              <img ng-src="{{drug.image}}" ng-if="drug.image">
-              <h2>{{drug.name}}</h2>
-              <i class="icon ion-ios-arrow-right"></i>
-            </ion-item>
-          </ion-list>
+          <div class="item item-divider" ng-if="ocr_results.raw_text">
+            Parsed text
+          </div>
+          <div class="item text-center item-text-wrap" ng-if="ocr_results.raw_text">
+            <p>{{ocr_results.raw_text}}</p>
+          </div>
+          <!-- <div class="item text-center item-text-wrap" ng-if="ocr_results.raw_text">
+            <p>If this text looks acceptable to you, we will extract the drug name, dosage and frequency from it.</p>
+          </div>
+          <button class="button button-block button-energized" ng-click="navigateToOcrMatch()" ng-if="ocr_results.raw_text">Accept</button> -->
+        </div>
+      </ion-slide>
 
-        </ion-slide>
 
-      </ion-slide-box>
+      <ion-slide>
+        <form ng-submit="search()" name="searchForm">
+          <div class="list">
+            <div class="item item-input-inset">
+              <label class="item-input-wrapper">
+                <i class="icon ion-ios-search placeholder-icon"></i>
+                <input type="text" ng-model="params.search" placeholder="Enter a brand name...">
+              </label>
+              <button type="submit" class="button button-small button-balanced" ng-disabled="params.search.length == 0">
+                Search
+              </button>
+            </div>
+          </div>
+        </form>
 
+        <ion-list>
+          <div class="item text-center item-text-wrap" ng-show="!!params.noDrugMatch">
+            No results found. Try to refine your search query.
+          </div>
+          <ion-item class="item-avatar item-icon-right item-text-wrap" ng-repeat="drug in drugs" ng-click="navigateToMatch(drug)">
 
-
+            <img ng-src="{{drug.image}}" ng-if="drug.image">
+            <h2>{{drug.name}}</h2>
+            <i class="icon ion-ios-arrow-right"></i>
+          </ion-item>
+        </ion-list>
+      </ion-slide>
+    </ion-slide-box>
   </ion-content>
-
-
-  <!-- <div class="bar bar-footer bar-balanced" ng-if="medication.photo">
-    <div class="buttons full-width">
-      <button class="button button-clear" ng-click="sendToOCR()">Upload</div>
-    </div>
-  </div> -->
 </ion-view>

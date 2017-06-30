@@ -181,77 +181,6 @@ angular.module('app.controllers')
 
 
 // angular.module('app.controllers')
-//
-// //TODO: Clean this up...very ugly use ng repeat in the new_measurement_schedule.html
-// .controller('measurementScheduleCtrl', function($scope, $ionicPopup, $state,Patient, MeasurementSchedule, Card, _) {
-//   $scope.measurement_schedule = MeasurementSchedule.get();
-//   $scope.newShedule = {
-//     name: "weekday schedule",
-//     time: new Date("2016-01-01 08:00"),
-//     days: [false, false, false, false, false, false, false]
-//   };
-//
-//   var displayAlert = function(message) {
-//     var myPopup = $ionicPopup.show({
-//       title: "Measurements missing",
-//       subTitle: message,
-//       scope: $scope,
-//       buttons: [{text: 'OK'}]
-//     });
-//   }
-//
-//   $scope.save = function(){
-//     if (!$scope.newShedule.name)
-//       displayAlert("Please enter a measurement name");
-//     else if( !$scope.newShedule.weight && !$scope.newShedule.blood_pressure && !$scope.newShedule.heart_rate ){
-//       displayAlert("Please choose a measurement");
-//     } else if( $scope.newShedule.days[0] == false && $scope.newShedule.days[1] == false && $scope.newShedule.days[2] == false
-//               && $scope.newShedule.days[3] == false && $scope.newShedule.days[4] == false
-//               && $scope.newShedule.days[5] == false && $scope.newShedule.days[6] == false) {
-//         displayAlert("Please select a reminder day");
-//     } else{
-//        var schedule = {};
-//        schedule.name   = $scope.newShedule.name;
-//        schedule.hour   = $scope.newShedule.time.getHours();
-//        schedule.minute = $scope.newShedule.time.getMinutes();
-//        schedule.days = $scope.newShedule.days;
-//        schedule.measurements = [];
-//        if($scope.newShedule.weight == true){
-//          schedule.measurements.push({'name':'weight','unit':'lbs'});
-//        }
-//        if($scope.newShedule.blood_pressure == true){
-//          schedule.measurements.push({'name':'systolic blood pressure','unit':'mmHg'});
-//          schedule.measurements.push({'name':'diastolic blood pressure','unit':'mmHg'});
-//        }
-//        if($scope.newShedule.heart_rate == true){
-//          schedule.measurements.push({'name':'heart rate','unit':'bpm'});
-//        }
-//        var req = MeasurementSchedule.add(schedule);
-//
-//        // Create a new Card for the new time slot
-//        req.then(function(snapshot) {
-//          var today = new Date();
-//          var tomorrow = new Date();
-//          tomorrow.setDate(tomorrow.getDate() + 1);
-//        })
-//
-//        $state.go('carePlan.measurementSchedules');
-//     }
-//   }
-//
-//   $scope.scheduledMeasurements = function() {
-//     if($scope.measurement_schedule.length > 0){
-//       return true;
-//     }
-//     return false
-//   }
-//
-//   //Done onboarding!
-//   var ref = Patient.ref();
-//   var req = ref.child('onboarding').update({'completed':true,'state':$state.current.name})
-//
-// })
-//
 // .controller('measurementsCtrl', function($scope, $ionicSlideBoxDelegate, $ionicPopup, Measurement, MeasurementSchedule) {
 //   $scope.measurementTab = {pageIndex: 0}
 //   $scope.history = Measurement.get();
@@ -394,11 +323,6 @@ angular.module('app.controllers')
 //     ]
 //   });
 //   };
-// })
-//
-// .controller('measurementTipsCtrl', function($scope, TIPS) {
-//   // We inject the Measurement Tips factory so that we view tips
-//   $scope.measurementsTips = TIPS;
 // })
 //
 // .controller('measurementViewCtrl', function($scope, $stateParams, MeasurementSchedule, $ionicHistory, Card) {
