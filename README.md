@@ -1,5 +1,15 @@
-# OnPoint
-This is a capstone project of Master of Engineering program at UCBerkeley. We are aiming to build an ios application that can help patients keep in track of their health condition and more effeciently communicate with their care-giving team. There are five main modules of this application : Medications, Measurements, Appointments, Symptoms and Goals.
+## Introduction
+This is a capstone project of Master of Engineering program at UCBerkeley. We are aiming to build an ios application that can help patients keep in track of their health condition and more effeciently communicate with their care-giving team. There are multiple main modules of this application:
+
+* Timeline - presents the timeline of things to do
+* History - presents a history
+* My Care Team
+* Medications
+* Measurements
+* Symptoms
+* Resources
+* Appointments
+* Help
 
 ## Resources feature
 The Resources tab uses the Dropbox API to programmatically load all folders and files located in a Dropbox folder, shared with Dmitri and Sarah. NOTE: The
@@ -7,9 +17,11 @@ resources/index.html displays only folders. Clicking on a folder will take you t
 
 Keep this structure in mind when you're adding/modifying files in this directory.
 
+## Editing Symptoms Feature
+
 ## Technology stack
 * Ruby on Rails web app -
-* Mobile app - 
+* Mobile app -
 * Firebase - available at . Ask dmitriskj@gmail.com for username/password if you don't know.
 
 ## Running iOS simulator
