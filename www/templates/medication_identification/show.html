@@ -60,16 +60,9 @@
           <span class="input-label">Color</span>
           <p style="width: 100%; text-align: center;">
             <span ng-if="!drug.color">Click to choose</span>
-            <button class="button button-dark" ng-style="{'background-color': drug.color}" ng-if="drug.color"></button>
+            <a class="button button-dark" ng-style="{'background-color': drug.color}" ng-if="drug.color"></a>
           </p>
         </label>
-
-
-
-        <!-- <div class="item item-body">
-          <img class="full-image" src="{{drug.pill_images[0].imageUrl}}" ng-if="drug.pill_images.length > 0">
-          <p class="text-center" ng-if="!drug.pill_images || drug.pill_images.length == 0">No pill image found</p>
-        </div> -->
       </div>
     </ion-content>
 

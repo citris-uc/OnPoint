@@ -110,7 +110,7 @@ angular.module('app.controllers')
 
 
    $scope.closeModal = function() {
-     $scope.modal.hide()
+     $scope.modal.remove()
    }
 
    $scope.shapeModal = function(med) {
@@ -123,7 +123,7 @@ angular.module('app.controllers')
        hardwareBackButtonClose: false
      }).then(function(modal) {
        $scope.modal = modal;
-       return modal.show()
+       return $scope.modal.show()
      })
    }
 
@@ -137,7 +137,7 @@ angular.module('app.controllers')
        hardwareBackButtonClose: false
      }).then(function(modal) {
        $scope.modal = modal;
-       return modal.show()
+       return $scope.modal.show()
      })
    }
 
