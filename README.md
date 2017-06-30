@@ -7,6 +7,11 @@ resources/index.html displays only folders. Clicking on a folder will take you t
 
 Keep this structure in mind when you're adding/modifying files in this directory.
 
+## Technology stack
+* Ruby on Rails web app -
+* Mobile app - 
+* Firebase - available at . Ask dmitriskj@gmail.com for username/password if you don't know.
+
 ## Running iOS simulator
 You can run the app in an iOS simulator. First, figure out your available options by running `ios-sim showdevicetypes` and then running `ionic run ios --target="iPad-Air" -l -c`
 
@@ -42,6 +47,15 @@ Clear the cache for npm: https://stackoverflow.com/questions/37914824/cordova-no
 Binary Update: When your app is updated through the app store. Binary Updates are still necessary for binary changes such as changing your Cordova platform version or adding a Cordova plugin or native library.
 
 See for more: https://docs.ionic.io/services/deploy/
+
+## Testing the app
+
+1. Click this link: https://play.google.com/apps/testing/com.onpoint.onpoint
+2. (sign in with personal credentials if necessary)
+3. Click "BECOME A TESTER"
+4. You will be presented with instructions. Click the link to go to app in Play Store.
+
+Use Ionic View for iOS.
 
 
 ## Uploading to Play Store
