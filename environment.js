@@ -8,7 +8,7 @@ onpoint.env = {
   data: {
     refresh: "data.refresh"
   },
-  dropbox_access_token: "-TDhFgf10WYAAAAAAABFQMq243FBRFu4CeMmELFZL1WVWh57_pFwyHlPD2QdEdCJ",
+  dropbox_access_token: "I4Lb1LdY9yAAAAAAAAAACHw-nSH_V-t1_dEViqlzNBYjJXBKpfpWa7OVYolgb3Yc",
 
   // @if ENV == 'ANDROID'
   baseURL: "http://10.0.3.2:5000/api/v0/",

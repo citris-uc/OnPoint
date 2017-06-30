@@ -3,7 +3,7 @@ angular.module('app.services')
   return {
     getAll: function() {
       var dbx = new Dropbox({ accessToken: onpoint.env.dropbox_access_token});
-      return $q.when(dbx.filesListFolder({path: ''}))
+      return $q.when(dbx.filesListFolder({path: '/resources_within_mobile_app_do_not_delete'}))
     },
 
     get: function(path) {
