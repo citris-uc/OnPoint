@@ -1,20 +1,21 @@
-<ion-view title="Fill My Pillbox" >
+<ion-view>
   <ion-content overflow-scroll="true">
     <div class="list card">
+      <div class="item item-divider">
+        Filling your pillbox
+      </div>
+
       <div class="item item-text-wrap">
-        Great job on completing the Medication Scheduling. You can optionally go through
-        the process of "filling your pillbox" to connect it to the real world.
+        Great job on scheduling your medications! You can now optionally go through
+        the process of "filling your pillbox" or skip it to finish onboarding.
       </div>
 
       <div class="row">
         <div class="col text-center">
-          <!-- <a class="item assertive" href="#" ng-click="completeMedicationScheduling()">
-             Skip
-           </a> -->
-           <a class="item" ui-sref="onboarding.complete">Skip</a>
+           <a class="button button-block button-stable button-small" ui-sref="onboarding.complete">Skip</a>
         </div>
         <div class="col text-center">
-          <a class="item item-balanced" ui-sref="medication_scheduling.fill_pillbox">
+          <a class="button button-block button-balanced button-small" ui-sref="medication_scheduling.fill_pillbox">
             Fill pillbox
           </a>
         </div>

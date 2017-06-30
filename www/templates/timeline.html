@@ -5,11 +5,11 @@
   <ion-content>
     <ion-refresher pulling-text="Pull to refresh" on-refresh="loadCards()" pulling-icon="ion-ios-refresh-empty"></ion-refresher>
 
-    <div class="list text-center" ng-show="today.cards.length === 0">
+    <!-- <div class="list text-center" ng-show="today.cards.length === 0">
       <div class="item item-body">
         No cards found. Try pulling down to refresh.
       </div>
-    </div>
+    </div> -->
 
     <div class="list">
       <div ng-repeat="date in dates track by $index">
@@ -18,6 +18,13 @@
           <h4 class="text-center" ng-if="$index == 0">Today ({{date.date | date:'EEE MMM dd, yyyy'}})</h4>
           <h4 class="text-center" ng-if="$index == 1">Tomorrow ({{date.date | date:'EEE MMM dd, yyyy'}})</h4>
         </div>
+
+        <div class="list text-center" ng-show="date.cards.length === 0">
+          <div class="item item-body">
+            No cards found. Try pulling down to refresh.
+          </div>
+        </div>
+
 
         <div class="card" ng-repeat="card in date.cards">
           <a class="item item-avatar item-icon-left item-icon-right item-text-wrap" ng-click="openPage(card, card.object_type, date.date)" ng-if="card.object_type == 'medication_schedule'">

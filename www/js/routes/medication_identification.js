@@ -12,14 +12,6 @@ angular.module('app.routes')
     controller: "onboardingCtrl",
     abstract: true
   })
-  .state('medication_identification.welcome', {
-    url: '/welcome',
-    views: {
-      'onboarding': {
-        templateUrl: 'templates/medication_identification/welcome.html',
-      }
-    }
-  })
   .state('medication_identification.start', {
     url: '/start',
     views: {

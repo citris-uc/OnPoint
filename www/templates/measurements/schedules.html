@@ -1,4 +1,4 @@
-<ion-view title="Measurements Schedule">
+<ion-view title="Schedule">
   <ion-nav-buttons side="right">
     <button class="button button-clear button-icon ion-ios-plus-empty" ng-click="showModal()"></button>
   </ion-nav-buttons>
@@ -6,7 +6,7 @@
   <ion-content class="has-footer">
     <ion-refresher pulling-text="Pull to refresh..." on-refresh="refresh()"></ion-refresher>
     <li class="item text-center item-text-wrap" ng-show="reminders.length == 0">
-      No measurement reminders found
+      You haven't added any measurement reminders yet
     </li>
 
     <ion-list>

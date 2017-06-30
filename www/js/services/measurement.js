@@ -23,7 +23,6 @@ angular.module('app.services')
       delete copied_schedule.$id
       delete copied_schedule.$priority
 
-
       return Patient.get().then(function(p) {
         if (schedule.$id)
           return Patient.ref(p.uid).child("measurement_schedule").child(schedule.$id).update(copied_schedule)
@@ -35,7 +34,7 @@ angular.module('app.services')
 
     add: function(m) {
       if (!m.measured_at)
-        m.measured_at = moment().format("YYYY-MM-DD")
+        m.measured_at = moment().format("HH:mm YYYY-MM-DD")
 
       return Patient.get().then(function(p) {
         return Patient.ref(p.uid).child("measurements").push(m)

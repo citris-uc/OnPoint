@@ -6,18 +6,21 @@
   <ion-content overflow-scroll="true" class="has-footer">
     <ul class="list">
       <li class="item text-center item-text-wrap" ng-show="medications.length == 0">
-        You haven't added any medications! Use the + icon in the navigation bar
-        to add a medication.
+        You haven't added any medications yet.
         <br>
         <br>
-        <a class="button button-balanced" role="button" ui-sref="medication_identification.search">Add a medication</a>
+        <a class="button button-balanced button-small" role="button" ui-sref="medication_identification.search">Add a medication</a>
       </li>
       <!-- <li ng-click="generateDefaultMeds()" class="item text-center item-text-wrap" ng-show="medications.length == 0">
         For now (dev mode): click here to generate a generic schedule of default meds
       </li> -->
 
-      <li class="item item-icon-right"  ng-repeat="med in medications" ui-sref="medication_identification.medication({id: med.$id})">
-        <h2>{{med.nickname || med.name}}</h2>
+      <li class="item-avatar item item-icon-right"  ng-repeat="med in medications" ui-sref="medication_identification.medication({id: med.$id})">
+        <img ng-src="{{med.image}}" ng-if="med.image">
+        <h2>
+          {{med.name}}
+          <span ng-if="med.nickname">({{med.nickname}})</span>
+        </h2>
         <p>{{med.dosage}} {{med.units}}</p>
         <p>{{med.frequency}} ({{med.administration}})</p>
         <i class="icon ion-ios-arrow-right"></i>
