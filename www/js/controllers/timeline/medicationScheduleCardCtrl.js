@@ -130,24 +130,6 @@ angular.module('app.controllers')
       return false
   }
 
-
-  // $scope.didTakeMed = function(med) {
-  //   medication = _.find($scope.history, function(hist) { return hist.medication_id == med.id })
-  //   if (medication)
-  //     return !!medication.taken_at
-  //   else
-  //     return false
-  // }
-
-  // $scope.didSkipMed = function(med) {
-  //   medication = _.find($scope.history, function(h) { return h.medication_id == med.id })
-  //   if (medication)
-  //     return !!medication.skipped_at
-  //   else
-  //     return false
-  // }
-
-
   $scope.updateNote = function() {
     $ionicLoading.show({hideOnStateChange: true})
     $scope.card.$save().then(function() {

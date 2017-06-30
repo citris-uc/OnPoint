@@ -15,7 +15,6 @@ angular.module('app.controllers')
 
     Medication.getById($state.params.id).then(function(med) {
       $scope.drug = med
-      console.log(med)
     }).finally(function() {
       $ionicLoading.hide();
     })

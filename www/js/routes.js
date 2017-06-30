@@ -14,7 +14,6 @@ angular.module('app.routes', [])
     controller: "appCtrl",
     abstract:true
   })
-
   .state('tabsController.profile', {
     url: '/profile',
     views: {
@@ -24,7 +23,6 @@ angular.module('app.routes', [])
       }
     }
   })
-
   .state('tabsController.history', {
     url: '/history',
     views: {
@@ -34,7 +32,6 @@ angular.module('app.routes', [])
       }
     }
   })
-
   .state('tabsController.measurements', {
     url: '/measurements',
     views: {
@@ -44,7 +41,6 @@ angular.module('app.routes', [])
       }
     }
   })
-
   .state('tabsController.measurement_reminders', {
     url: '/measurements/reminders',
     views: {
@@ -54,7 +50,6 @@ angular.module('app.routes', [])
       }
     }
   })
-
   .state('tabsController.surveys', {
     url: '/surveys',
     views: {
@@ -64,7 +59,6 @@ angular.module('app.routes', [])
       }
     }
   })
-
   .state('tabsController.resources', {
     url: '/resources',
     views: {
@@ -92,7 +86,6 @@ angular.module('app.routes', [])
       }
     }
   })
-
   .state('tabsController.appointments', {
     url: '/appointments',
     views: {
@@ -102,7 +95,6 @@ angular.module('app.routes', [])
       }
     }
   })
-
   .state('tabsController.appointments.show', {
     url: '/:id',
     views: {
@@ -112,7 +104,6 @@ angular.module('app.routes', [])
       }
     }
   })
-
   .state('tabsController.appointments.new', {
     url: '/appointments/new',
     views: {
@@ -122,7 +113,6 @@ angular.module('app.routes', [])
       }
     }
   })
-
   .state('tabsController.appointments.edit', {
     url: '/:id/edit',
     views: {
@@ -132,7 +122,6 @@ angular.module('app.routes', [])
       }
     }
   })
-
   .state('tabsController.timeline', {
     url: '/timeline',
     views: {
@@ -142,7 +131,6 @@ angular.module('app.routes', [])
       }
     }
   })
-
   .state('tabsController.medication_reminder_history_card', {
     url: '/history/medication_schedule/:schedule_id?:card_id&:date',
     views: {
@@ -152,7 +140,6 @@ angular.module('app.routes', [])
       }
     }
   })
-
   .state('tabsController.medication_schedule', {
     url: '/timeline/medication_schedule/:schedule_id?:card_id&:date',
     views: {
@@ -162,7 +149,6 @@ angular.module('app.routes', [])
       }
     }
   })
-
   .state('tabsController.medication_schedule.medication', {
     url: '/medication/:medication_id',
     views: {
@@ -172,7 +158,6 @@ angular.module('app.routes', [])
       }
     }
   })
-
   .state('tabsController.care_team', {
     url: '/care_team',
     views: {
@@ -191,8 +176,6 @@ angular.module('app.routes', [])
       }
     }
   })
-
-
   .state('tabsController.notes', {
     url: '/settings/notes',
     views: {
@@ -202,7 +185,6 @@ angular.module('app.routes', [])
       }
     }
   })
-
   .state('tabsController.medicationsSchedule', {
     url: '/medications/:schedule_id',
     views: {
@@ -212,7 +194,6 @@ angular.module('app.routes', [])
       }
     }
   })
-
   .state('tabsController.comments', {
     url: '/cards/:card_id/comments/:comment_id',
     views: {
@@ -223,6 +204,8 @@ angular.module('app.routes', [])
     }
   })
 
+  // TODO: Goals may be implemented in the future. This is meant to ask the user
+  // for their personal goals.
   // .state('tabsController.goals', {
   //   url: '/goals',
   //   views: {
@@ -232,7 +215,6 @@ angular.module('app.routes', [])
   //     }
   //   }
   // })
-  //
   // .state('tabsController.addGoal', {
   //   url: '/add-goal',
   //   views: {
@@ -242,7 +224,6 @@ angular.module('app.routes', [])
   //     }
   //   }
   // })
-  //
   // .state('tabsController.editGoal', {
   //   url: '/goal/:goal_id',
   //   views: {
@@ -252,22 +233,4 @@ angular.module('app.routes', [])
   //     }
   //   }
   // })
-
-  .state('symptomsSlider', {
-    url: '/tabs4',
-    templateUrl: 'templates/symptomsSlider.html',
-    controller: 'symptomsSliderCtrl'
-  })
-
-  .state('symptomsList', {
-    url: '/symptoms-list',
-    templateUrl: 'templates/symptomsList.html',
-    controller: 'symptomsListCtrl'
-  })
-
-  .state('symptomsListMultiple', {
-    url: '/symptoms-list-multiple',
-    templateUrl: 'templates/symptomsListMultiple.html',
-    controller: 'symptomsListMultipleCtrl'
-  })
 });

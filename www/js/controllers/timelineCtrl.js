@@ -11,9 +11,6 @@ angular.module('app.controllers')
     $ionicLoading.show({template: "<ion-spinner></ion-spinner><br>Loading cards...", hideOnStateChange: true});
 
     Card.today().then(function(response) {
-      console.log("RESPONSE:")
-      console.log(response)
-      console.log('------')
       $scope.dates = response.data.dates;
     }).catch(function(response) {
       $scope.$emit(onpoint.error, response)
@@ -24,7 +21,6 @@ angular.module('app.controllers')
   }
 
   $scope.isTomorrow = function(date) {
-    console.log(moment(date).diff(moment(new Date())) > 0)
     return moment(date).diff(moment(new Date())) > 0
   }
 

@@ -21,8 +21,6 @@ angular.module('app.controllers')
 
 .controller('resourceCtrl', function($scope, EducationalResource, $stateParams, $ionicLoading) {
   $scope.resources = []
-
-  console.log($stateParams)
   $scope.params = $stateParams
 
   $scope.$on('$ionicView.loaded', function(){

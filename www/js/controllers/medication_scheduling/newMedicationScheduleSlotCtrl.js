@@ -14,16 +14,10 @@ angular.module('app.controllers')
     })
   })
 
-
-
-
   // Show popup when user clicks on + Add Time Slow
   // Allow user to input new name for timeslot
   // TODO -- allow user to pick days of the week for schedule
   $scope.addTimeSlot = function() {
-
-
-
     if ($scope.slot.name && $scope.slot.time) {
 
       MedicationSchedule.add($scope.slot).then(function(res) {
